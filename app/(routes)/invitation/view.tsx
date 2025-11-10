@@ -1,7 +1,11 @@
+import Form from "./components/form/Form";
+import Preview from "./components/preview/Preview";
+
 export default function InvitationView() {
   return (
-    <div className="max-w-[1200px] mx-auto">
-      <h1 className="text-2xl font-bold">커스텀 페이지</h1>
+    <div className="max-w-[1200px] py-27 flex mx-auto justify-between">
+      <Preview />
+      <Form />
     </div>
   );
 }
