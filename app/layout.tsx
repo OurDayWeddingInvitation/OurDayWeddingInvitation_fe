@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import SaveTemporaryIcon from "./assets/images/save-temporary.png";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,18 +16,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#F9F6F4]">
-        <header className="bg-[#FFFFFF] py-4 ">
+        <header className="bg-[#FFFFFF] py-4 fixed w-full">
           <div className="max-w-[1200px] flex justify-between items-center m-auto px-[10px]">
-            {/* 로고 */}
-            <div className="font-bold text-3xl">OurDay</div>
+            <div className="flex gap-3 items-center">
+              {/* 로고 */}
+              <div className="font-black text-3xl">OurDay</div>
+              <Image src={SaveTemporaryIcon} alt="임시저장아이콘" className="h-full" />
+              <div className="text-[#CACACA]">임시저장 완료</div>
+            </div>
+
             {/* 청첩장 제목 */}
-            <div className="font-bold text-2xl">나영의 청첩장</div>
+            <div className="font-medium text-xl">나영의 청첩장</div>
             {/* 버튼 */}
             <div className="flex gap-3">
-              <button className="text-xl font-semibold text-[#FFFFFF] bg-[#D4C6B7] rounded-lg py-3 px-5 cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
+              <button className="font-semibold text-[#FFFFFF] bg-[#D4C6B7] rounded-lg py-2 px-5 cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
                 적용 하기
               </button>
-              <button className="text-xl font-semibold border-[#D4C6B7] border rounded-lg py-3 px-5 cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
+              <button className="font-semibold border-[#D4C6B7] border rounded-lg py-2 px-5 cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
                 링크 보기
               </button>
             </div>
