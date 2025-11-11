@@ -8,9 +8,9 @@ import Mockup from "../../../../assets/images/mockup.png";
 const Preview = () => {
   const { title, description } = useCounterStore();
   return (
-    <div className="flex items-center">
-      <div className=" h-auto py-8">
-        <Image src={Mockup} alt="미리보기목업" className="w-full h-auto object-contain" />
+    <div className="h-full flex relative">
+      <Image src={Mockup} alt="미리보기목업" className="w-full object-contain" />
+      <div className="absolute top-50 left-20">
         <p>{title}</p>
         <p>{description}</p>
       </div>
