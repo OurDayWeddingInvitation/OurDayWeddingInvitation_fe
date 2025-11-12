@@ -5,7 +5,7 @@ export interface InvitationMenuItem {
 }
 
 export const invitationMenu: InvitationMenuItem[] = [
-  { id: "main", label: "메인", movable: false },
+  { id: "main", label: "메인 사진", movable: false },
   { id: "basicInfo", label: "예식 기본 정보", movable: false },
   { id: "parentsInfo", label: "양가 혼주 정보", movable: false },
   { id: "shareScreen", label: "카톡 공유 화면", movable: true },
