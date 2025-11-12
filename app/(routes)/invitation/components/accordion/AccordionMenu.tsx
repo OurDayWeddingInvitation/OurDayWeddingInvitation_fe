@@ -5,7 +5,8 @@ import { Accordion } from "@radix-ui/react-accordion";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import AccordionMenuItem from "./AccordionMenuItem";
-import { invitationMenu, InvitationMenuItem } from "@/app/lib/constants/InvitationMenu";
+// import { invitationMenu, InvitationMenuItem } from "@/app/lib/constants/invitation-menu";
+import { invitationMenu, InvitationMenuItem } from "@/app/lib/constants";
 
 type DragEndEvent = {
   active: { id: string | number };
