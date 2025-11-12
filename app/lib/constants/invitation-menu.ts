@@ -16,7 +16,7 @@ export const invitationMenu: InvitationMenuItem[] = [
   { id: "brideGroomIntro", label: "신랑 & 신부 소개", movable: true, toggle: false },
   { id: "parentsIntro", label: "부모님 소개", movable: true, toggle: false },
   { id: "gallery", label: "갤러리", movable: true, toggle: false },
-  { id: "plipImage", label: "플립북 이미지", movable: true, toggle: false },
+  { id: "flipImage", label: "플립북 이미지", movable: true, toggle: false },
   { id: "accountInfo", label: "계좌번호", movable: true, toggle: false },
   { id: "directions", label: "오시는 길", movable: true, toggle: false }
 ];
