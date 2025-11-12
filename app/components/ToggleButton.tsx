@@ -2,15 +2,17 @@
 
 import React, { useState } from "react";
 
-const ToggleButton = () => {
-  const [checked, setChecked] = useState(false);
+const ToggleButton = ({ toggle }) => {
+  const [checked, setChecked] = useState(toggle);
+
+  const handleToggleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setChecked((prev: boolean) => (toggle ? true : !prev));
+  };
 
   return (
     <button
-      onClick={(e) => {
-        e.stopPropagation();
-        setChecked(!checked);
-      }}
+      onClick={handleToggleClick}
       className={`relative w-12 h-6 rounded-full transition-colors duration-200 cursor-pointer shadow-[0px_5px_4px_rgba(0,0,0,0.08)]
         ${checked ? "bg-[#D4C6B7]" : "bg-[#CACACA]"}`}
     >

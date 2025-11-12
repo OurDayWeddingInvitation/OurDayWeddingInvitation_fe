@@ -34,7 +34,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
                   ⠿
                 </div>
               )}
-              <ToggleButton />
+              <ToggleButton toggle={menu.toggle} />
               <h3 className="font-bold">{menu.label}</h3>
             </div>
             <Image src={DownArrowIcon} alt="열기아이콘" className="transition-transform duration-300 group-data-[state=open]:-rotate-180" />
