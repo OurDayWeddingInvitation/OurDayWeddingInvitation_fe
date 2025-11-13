@@ -1,12 +1,14 @@
 "use client";
 import React from "react";
-import { useCounterStore } from "@/app/store/sectionFirstStore";
+// import { useCounterStore } from "@/app/store/sectionFirstStore";
+import AccordionMenu from "../accordion/AccordionMenu";
 
 const Form = () => {
-  const { title, description, updateTitle, updateDescription } = useCounterStore();
+  // const { title, description, updateTitle, updateDescription } = useCounterStore();
+
   return (
     <div className="flex-1 p-4">
-      <div className="flex flex-col gap-1">
+      {/* <div className="flex flex-col gap-1">
         <label className="text-sm font-semibold text-gray-700">제목</label>
         <input
           type="text"
@@ -15,10 +17,10 @@ const Form = () => {
           placeholder="제목을 입력하세요"
           className="border border-gray-300 rounded px-3 py-2"
         />
-      </div>
+      </div> */}
 
       {/* 설명 입력 */}
-      <div className="flex flex-col gap-1">
+      {/* <div className="flex flex-col gap-1">
         <label className="text-sm font-semibold text-gray-700">설명</label>
         <textarea
           value={description}
@@ -27,7 +29,8 @@ const Form = () => {
           rows={4}
           className="border border-gray-300 rounded px-3 py-2 "
         />
-      </div>
+      </div> */}
+      <AccordionMenu />
     </div>
   );
 };
