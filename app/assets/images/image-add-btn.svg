@@ -1,0 +1,7 @@
+<svg width="124" height="124" viewBox="0 0 124 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="123" height="123" fill="white"/>
+<rect x="0.5" y="0.5" width="123" height="123" stroke="#CACACA" stroke-dasharray="2 2"/>
+<path d="M62.5032 72.5855C68.0709 72.5855 72.5845 68.0719 72.5845 62.5042C72.5845 56.9364 68.0709 52.4229 62.5032 52.4229C56.9354 52.4229 52.4219 56.9364 52.4219 62.5042C52.4219 68.0719 56.9354 72.5855 62.5032 72.5855Z" stroke="#CACACA" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M62.5039 58.4717V66.5367" stroke="#CACACA" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M58.4707 62.5039H66.5357" stroke="#CACACA" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

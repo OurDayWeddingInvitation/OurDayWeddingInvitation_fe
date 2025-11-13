@@ -7,10 +7,11 @@ import ToggleButton from "@/app/components/ToggleButton";
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
 import DownArrowIcon from "@/app/assets/images/arrow-down.png";
+import { sectionComponents } from "@/app/lib/constants/index";
 
 const AccordionMenuItem = ({ idx, menu }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: menu.id });
-
+  const Component = sectionComponents[menu.id];
   const style = menu.movable
     ? {
         transform: CSS.Transform.toString(transform),
@@ -43,7 +44,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
           </div>
         </AccordionTrigger>
       </AccordionHeader>
-      <AccordionContent className="my-3 text-balance w-full bg-white">테스트 입니당</AccordionContent>
+      <AccordionContent className="my-3 text-balance w-full bg-white">{Component && <Component />}</AccordionContent>
     </AccordionItem>
   );
 };
