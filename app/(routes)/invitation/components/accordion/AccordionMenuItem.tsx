@@ -11,12 +11,10 @@ import DownArrowIcon from "@/app/assets/images/arrow-down.png";
 const AccordionMenuItem = ({ idx, menu }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: menu.id });
 
-  const style = menu.movable
-    ? {
-        transform: CSS.Transform.toString(transform),
-        transition
-      }
-    : {};
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition
+  };
 
   return (
     <AccordionItem
