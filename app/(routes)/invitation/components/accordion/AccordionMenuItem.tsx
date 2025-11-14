@@ -31,11 +31,13 @@ const AccordionMenuItem = ({ idx, menu }) => {
         <AccordionTrigger asChild className="group">
           <div className="flex justify-between cursor-pointer">
             <div className="flex gap-3 cursor-pointer">
-              {menu.movable && (
-                <div {...attributes} {...listeners} className="text-gray-400 select-none cursor-grab">
-                  ⠿
-                </div>
-              )}
+              <div
+                {...attributes}
+                {...listeners}
+                className={`${menu.movable ? "text-gray-400 select-none cursor-grab" : "opacity-0 cursor-default"}`}
+              >
+                ⠿
+              </div>
               <ToggleButton toggle={menu.toggle} />
               <h3 className="font-bold">{menu.label}</h3>
             </div>

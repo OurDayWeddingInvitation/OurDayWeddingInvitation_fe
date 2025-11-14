@@ -1,6 +1,7 @@
 import React from "react";
 import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
 import Image from "next/image";
+import CheckButton from "@/app/components/CheckButton";
 
 const MainImageSection = () => {
   const handleImageUpload = () => {};
@@ -16,10 +17,18 @@ const MainImageSection = () => {
 
       <h3 className="text-[15px] py-4">대문 스타일</h3>
       <div className="flex gap-[18px]">
-        <div className="bg-[#EEEEEE] h-60 flex-1 cursor-pointer"></div>
-        <div className="bg-[#EEEEEE] h-60 flex-1 cursor-pointer"></div>
-        <div className="bg-[#EEEEEE] h-60 flex-1 cursor-pointer"></div>
-        <div className="bg-[#EEEEEE] h-60 flex-1 cursor-pointer"></div>
+        <div className="bg-[#EEEEEE] h-60 flex-1 cursor-pointer">
+          <CheckButton />
+        </div>
+        <div className="bg-[#EEEEEE] h-60 flex-1 cursor-pointer">
+          <CheckButton />
+        </div>
+        <div className="bg-[#EEEEEE] h-60 flex-1 cursor-pointer">
+          <CheckButton />
+        </div>
+        <div className="bg-[#EEEEEE] h-60 flex-1 cursor-pointer">
+          <CheckButton />
+        </div>
       </div>
     </div>
   );
