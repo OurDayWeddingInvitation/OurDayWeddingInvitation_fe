@@ -21,7 +21,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
   return (
     <AccordionItem
       value={`item-${idx}`}
-      className="flex flex-col w-full bg-white p-4 rounded-lg shadow-[0px_5px_4px_rgba(0,0,0,0.08)]"
+      className="flex flex-col w-full bg-white p-5  rounded-lg shadow-[0px_5px_4px_rgba(0,0,0,0.08)]"
       ref={setNodeRef}
       key={idx}
       style={style}
