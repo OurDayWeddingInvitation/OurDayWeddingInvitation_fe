@@ -1,44 +1,41 @@
-/* eslint-disable react-hooks/static-components */
 import React from "react";
 
 const WeddingInfoSection = () => {
-  const inputClass = "outline-0 border-[#E0E0E0] border py-2.5 placeholder:text-center rounded-sm";
-  const checkboxClass = "w-4 h-4 ";
+  const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border px-2 py-1 placeholder:text-center rounded-sm text-sm";
+  const fieldStyle = "flex flex-wrap items-center py-1";
+  const labelStyle = "w-1/6 min-w-[50px]";
 
-  const PersonInput = ({ label, selectOptions }: { label: string; selectOptions: string[] }) => (
-    <div className="flex items-center py-[5px] gap-4">
-      <div>{label}</div>
-      <div className="flex gap-2.5 items-center">
-        <input type="text" placeholder="성" className={`${inputClass} w-1/6`} />
-        <input type="text" placeholder="이름" className={`${inputClass} w-3/6`} />
-        <select className={`${inputClass} w-2/6`}>
-          {selectOptions.map((opt) => (
-            <option key={opt}>{opt}</option>
-          ))}
-        </select>
-      </div>
-    </div>
-  );
-  const ParentInput = ({ label }: { label: string }) => (
-    <div className="flex items-center gap-4">
-      <div>{label}</div>
-      <div className="flex gap-2.5 items-center w-8/9">
-        <input type="text" placeholder="성함" className={`${inputClass}  border`} />
-        <input type="checkbox" className={checkboxClass} />
-        <label>故</label>
-      </div>
-    </div>
-  );
+  const parents = ["아버지", "어머니"];
+  const label = ["신랑", "신부"];
 
   return (
-    <div className="flex flex-col gap-3">
-      <PersonInput label="신랑" selectOptions={["아들"]} />
-      <ParentInput label="아버지" />
-      <ParentInput label="어머니" />
-      <div className="border-t border-[#E0E0E0] "></div>
-      <PersonInput label="신부" selectOptions={["딸"]} />
-      <ParentInput label="아버지" />
-      <ParentInput label="어머니" />
+    <div className="flex flex-col gap-9 w-full pt-4">
+      {label.map((role, idx) => (
+        <div className="flex flex-col gap-2.5 w-full" key={idx}>
+          <div className={fieldStyle}>
+            <div className={labelStyle}>{role}</div>
+            <div className="flex flex-1 gap-2.5 items-center flex-wrap">
+              <input type="text" placeholder="성" className={`${inputStyle} min-w-[50px] max-w-[70px]`} />
+              <input type="text" placeholder="이름" className={`${inputStyle} min-w-20 max-w-[150px]`} />
+              <select className={`${inputStyle} min-w-[60px] max-w-[100px]`}>
+                <option>아들</option>
+              </select>
+            </div>
+          </div>
+
+          {parents.map((name, idx) => (
+            <div className={fieldStyle} key={idx}>
+              <div className={labelStyle}>{name}</div>
+              <div className="flex flex-1 gap-2.5 items-center flex-wrap">
+                <input type="text" placeholder="성함" className={`${inputStyle} min-w-20 max-w-[230px]`} />
+                <input type="checkbox" className="w-4 h-4 shrink-0" />
+                <label>故</label>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+      <div className="border-t border-[#E0E0E0]"></div>
     </div>
   );
 };
