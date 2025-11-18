@@ -13,7 +13,6 @@ const MainImageSection = () => {
 
   const handleClick = (idx: number) => {
     setSelectedIdx((prev) => (prev === idx ? null : idx));
-    console.log(idx, selectedIdx);
   };
 
   const handleImageUpload = (e) => {
