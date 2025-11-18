@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Check } from "lucide-react";
 
-const CheckButton = () => {
-  const [click, setClick] = useState(false);
-
-  const handleClick = () => {
-    setClick((prev) => !prev);
-  };
+const CheckButton = ({ isChecked, onClick }) => {
   return (
-    <div className="relative  p-2">
-      <div onClick={handleClick} className={`${click ? "bg-[#433F3B]" : "bg-[#FFFFFF]"} absolute rounded-full p-0.5`}>
-        <Check color={click ? "#FFFFFF" : "#433F3B"} />
+    <div className="absolute left-2 top-2" onClick={onClick}>
+      <div className={`${isChecked ? "bg-[#433F3B]" : "bg-[#FFFFFF]"} rounded-full p-0.5`}>
+        <Check color={isChecked ? "#FFFFFF" : "#433F3B"} size={18} />
       </div>
     </div>
   );
