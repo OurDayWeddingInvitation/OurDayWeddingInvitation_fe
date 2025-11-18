@@ -39,7 +39,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
                 ⠿
               </div>
               <ToggleButton toggle={menu.toggle} />
-              <h3 className="font-bold">{menu.label}</h3>
+              <h3 className="font-medium">{menu.label}</h3>
             </div>
             <ChevronDown className="transition-transform duration-300 group-data-[state=open]:-rotate-180" />
           </div>
