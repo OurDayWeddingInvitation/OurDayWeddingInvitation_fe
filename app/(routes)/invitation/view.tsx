@@ -1,6 +1,6 @@
 import Header from "@/app/components/Header";
 import Form from "./components/form/Form";
-import Preview from "./components/preview/preview";
+import Preview from "./components/preview/Preview";
 
 export default function InvitationView() {
   return (
