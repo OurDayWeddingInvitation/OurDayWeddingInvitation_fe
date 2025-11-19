@@ -9,9 +9,9 @@ export default function InvitationView() {
       <div className="max-w-[1200px] py-27 flex mx-auto items-start">
         <div className="max-w-[389px] ">
           <Preview />
-          <div className="py-[26px] text-[#817E7C] text-[14px]">
+          <ul className="py-[26px] text-[#817E7C] text-[14px]">
             <li>미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러 저장 후 확인해주세요.</li>
-          </div>
+          </ul>
         </div>
         <div className="flex-1 max-w-[736px]">
           <div className="text-[#817E7C] text-[14px] px-4">
