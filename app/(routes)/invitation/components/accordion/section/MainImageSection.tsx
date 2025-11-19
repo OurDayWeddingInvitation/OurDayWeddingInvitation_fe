@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
 import Image from "next/image";
-import TestImg from "@/app/assets/images/preview-image-transparents.png";
+import TestImg from "@/app/assets/images/preview-image-transparent.png";
 import CheckButton from "@/app/components/CheckButton";
 import { DotLoader } from "react-spinners";
 import { Pencil, X } from "lucide-react";
