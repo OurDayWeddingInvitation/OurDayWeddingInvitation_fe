@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { Check } from "lucide-react";
+import { familyOptionsMale, familyOptionsFemale } from "@/app/lib/constants";
+import SelectBox from "@/app/components/SelectBox";
 
 const WeddingInfoSection = () => {
   const [clickIdx, setClickIdx] = useState(0);
@@ -15,45 +17,43 @@ const WeddingInfoSection = () => {
   return (
     <div className="flex flex-col gap-9 w-full pt-4">
       {/* 신랑 / 신부 예식 기본 정보 */}
-      {label.map((role, roleIdx) => (
-        <div className={fieldGroup} key={roleIdx}>
-          <div className={fieldStyle}>
-            <div className={labelStyle}>{role}</div>
-            <div className="flex flex-1 gap-2.5 items-center flex-wrap">
-              <input type="text" placeholder="성" className={`${inputStyle} min-w-[50px] max-w-[70px]`} />
-              <input type="text" placeholder="이름" className={`${inputStyle} min-w-20 max-w-[150px]`} />
-              <label className={`${inputStyle} min-w-[60px] max-w-[100px] flex justify-evenly`}>
-                {role === "신랑" ? "아들" : "딸"}
-                <ChevronDown color="#9C9C9C" size={19} />
-              </label>
-              <select className="hidden">
-                <option>아들</option>
-              </select>
-            </div>
-          </div>
-
-          {parents.map((name, parentIdx) => {
-            const checkId = `check-${roleIdx}-${parentIdx}`;
-
-            return (
-              <div className={fieldStyle} key={parentIdx}>
-                <div className={labelStyle}>{name}</div>
-                <div className="flex flex-1 gap-2.5 items-center flex-wrap">
-                  <input type="text" placeholder="성함" className={`${inputStyle} min-w-20 max-w-[230px]`} />
-                  <input type="checkbox" id={checkId} className="peer absolute opacity-0 w-5 h-5" />
-                  <label
-                    htmlFor={checkId}
-                    className="w-5 h-5 border border-[#E0E0E0] rounded-sm flex items-center justify-center peer-checked:bg-[#433F3B] cursor-pointer"
-                  >
-                    <Check className="peer-checked:block text-white" />
-                  </label>
-                  <span>故</span>
-                </div>
+      {label.map((role, roleIdx) => {
+        const selectFamilyOption = roleIdx === 0 ? familyOptionsMale : familyOptionsFemale;
+        const roleKind = roleIdx === 0 ? "아들" : "딸";
+        return (
+          <div className={fieldGroup} key={roleIdx}>
+            <div className={fieldStyle}>
+              <div className={labelStyle}>{role}</div>
+              <div className="flex flex-1 gap-2.5 items-center flex-wrap">
+                <input type="text" placeholder="성" className={`${inputStyle} min-w-[50px] max-w-[70px]`} id="lastName" />
+                <input type="text" placeholder="이름" className={`${inputStyle} min-w-20 max-w-[150px]`} id="firstName" />
+                <SelectBox style={`${inputStyle} relative flex justify-around cursor-pointer`} selectOption={selectFamilyOption} title={roleKind} />
               </div>
-            );
-          })}
-        </div>
-      ))}
+            </div>
+
+            {parents.map((name, parentIdx) => {
+              const checkId = `check-${roleIdx}-${parentIdx}`;
+
+              return (
+                <div className={fieldStyle} key={parentIdx}>
+                  <div className={labelStyle}>{name}</div>
+                  <div className="flex flex-1 gap-2.5 items-center flex-wrap">
+                    <input type="text" placeholder="성함" className={`${inputStyle} min-w-20 max-w-[230px]`} />
+                    <input type="checkbox" id={checkId} className="peer absolute opacity-0 w-5 h-5" />
+                    <label
+                      htmlFor={checkId}
+                      className="w-5 h-5 border border-[#E0E0E0] rounded-sm flex items-center justify-center peer-checked:bg-[#433F3B] cursor-pointer"
+                    >
+                      <Check className="peer-checked:block text-white" />
+                    </label>
+                    <span>故</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
       <div className="border-t border-[#E0E0E0]"></div>
       {/* 순서 */}
       <div className={fieldStyle}>
@@ -82,8 +82,13 @@ const WeddingInfoSection = () => {
       <div className={fieldGroup}>
         <div className={fieldStyle}>
           <div className={labelStyle}>예식 일자</div>
+          <SelectBox style={`${inputStyle} relative flex justify-around cursor-pointer`} selectOption={[]} title={"2025"} />
         </div>
-        <div className={labelStyle}>예식 시간</div>
+        <div className={fieldStyle}>
+          <div className={labelStyle}>예식 시간</div>
+          <SelectBox style={`${inputStyle} relative flex justify-around cursor-pointer`} selectOption={[]} title={"오전(AM)"} />
+        </div>
+
         {/* 예식장 명 / 층과 홀*/}
       </div>
       <div className="border-t border-[#E0E0E0]"></div>

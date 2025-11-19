@@ -6,7 +6,6 @@ import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import AccordionMenuItem from "./AccordionMenuItem";
-// import { invitationMenu, InvitationMenuItem } from "@/app/lib/constants/invitation-menu";
 import { invitationMenu, InvitationMenuItem } from "@/app/lib/constants";
 
 type DragEndEvent = {
