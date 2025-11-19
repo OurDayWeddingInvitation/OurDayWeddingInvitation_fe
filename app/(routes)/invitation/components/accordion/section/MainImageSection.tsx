@@ -1,15 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
 import Image from "next/image";
+import TestImg from "@/app/assets/images/preview-image-transparents.png";
 import CheckButton from "@/app/components/CheckButton";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { DotLoader } from "react-spinners";
+import { Pencil, X } from "lucide-react";
 import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const MainImageSection = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedIdx, setSelectedIdx] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [opacity, setOpacity] = useState(0);
+  const fileInputRef = useRef(null);
 
   const handleClick = (idx: number) => {
     setSelectedIdx((prev) => (prev === idx ? null : idx));
@@ -17,11 +23,26 @@ const MainImageSection = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
+    const imageUrl = URL.createObjectURL(file);
 
     if (!file) return;
 
-    const imageUrl = URL.createObjectURL(file);
     setPreviewImage(imageUrl);
+    setLoading(true);
+    setOpacity(0.5);
+
+    setTimeout(() => {
+      setLoading(false);
+      setOpacity(1);
+    }, 2000);
+  };
+
+  const handleImageRemove = () => {
+    setPreviewImage(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const mainStyle = [1, 2, 3];
@@ -30,14 +51,40 @@ const MainImageSection = () => {
     <div>
       <h3 className="text-[15px] py-3.5">대문 사진</h3>
       <div className="flex gap-2.5">
-        <input type="file" id="openingImage" accept="image/*" onChange={handleImageUpload} className="hidden" />
-        <label htmlFor="openingImage">
-          <Image src={ImageAddBtnIcon} alt="이미지추가버튼" className="cursor-pointer" />
-        </label>
-        {previewImage && (
-          <div className="w-[124px] h-[124px] overflow-hidden">
-            <img src={previewImage} alt="대문사진" className="w-full h-full object-cover" />
+        <input type="file" id="openImg" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
+
+        {previewImage ? (
+          <div className="relative">
+            <div className="w-[124px] h-[124px] overflow-hidden relative">
+              <img src={previewImage} alt="대문사진" className="w-full h-full object-cover" style={{ opacity: opacity }} />
+
+              {loading && <Image src={TestImg} alt="이미지추가버튼" className="cursor-pointer absolute left-0 top-0" />}
+              {!loading && (
+                <div className="absolute left-0 bottom-0 flex justify-between w-full p-3">
+                  <label htmlFor="openImg" className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer">
+                    <Pencil color="#FFFFFF" size={22} />
+                  </label>
+                  <label htmlFor="openImg" onClick={handleImageRemove} className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer">
+                    <X color="#FFFFFF" size={22} />
+                  </label>
+                </div>
+              )}
+            </div>
+            {loading && (
+              <DotLoader
+                color={"#D4C6B7"}
+                loading={loading}
+                size={32}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+                className="absolute! top-[50%] left-[50%] -translate-[50%] "
+              />
+            )}
           </div>
+        ) : (
+          <label htmlFor="openImg">
+            <Image src={ImageAddBtnIcon} alt="이미지추가버튼" className="cursor-pointer" />
+          </label>
         )}
       </div>
 
