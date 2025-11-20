@@ -1,18 +1,32 @@
 import React, { useState } from "react";
 import { Check } from "lucide-react";
-import { familyOptionsMale, familyOptionsFemale } from "@/app/lib/constants";
+import { familyOptionsMale, familyOptionsFemale, hoursOptions, minutesOptions, monthOptions, timeOfDayOptions } from "@/app/lib/constants";
 import SelectBox from "@/app/components/SelectBox";
+import { getCurrentYear, getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
 
 const WeddingInfoSection = () => {
   const [clickIdx, setClickIdx] = useState(0);
+  const [date, setDate] = useState({
+    year: getCurrentYear(),
+    month: "1",
+    day: "1"
+  });
+  const [time, setTime] = useState({
+    timeOfDay: "오전(AM)",
+    hour: "1시",
+    min: "00분"
+  });
 
   const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
+  const selectStyle = `${inputStyle} relative flex justify-around cursor-pointer`;
 
   const parents = ["아버지", "어머니"];
   const label = ["신랑", "신부"];
+
+  const endDay = getEndDay(date.year, Number(date.month)); //월 끝 날짜
 
   return (
     <div className="flex flex-col gap-9 w-full pt-4">
@@ -27,13 +41,17 @@ const WeddingInfoSection = () => {
               <div className="flex flex-1 gap-2.5 items-center flex-wrap">
                 <input type="text" placeholder="성" className={`${inputStyle} min-w-[50px] max-w-[70px]`} id="lastName" />
                 <input type="text" placeholder="이름" className={`${inputStyle} min-w-20 max-w-[150px]`} id="firstName" />
-                <SelectBox style={`${inputStyle} relative flex justify-around cursor-pointer`} selectOption={selectFamilyOption} title={roleKind} />
+                <SelectBox
+                  style={`${inputStyle} relative flex justify-around cursor-pointer`}
+                  selectOption={selectFamilyOption}
+                  intialValue={roleKind}
+                  onChange={""}
+                />
               </div>
             </div>
 
             {parents.map((name, parentIdx) => {
               const checkId = `check-${roleIdx}-${parentIdx}`;
-
               return (
                 <div className={fieldStyle} key={parentIdx}>
                   <div className={labelStyle}>{name}</div>
@@ -82,11 +100,49 @@ const WeddingInfoSection = () => {
       <div className={fieldGroup}>
         <div className={fieldStyle}>
           <div className={labelStyle}>예식 일자</div>
-          <SelectBox style={`${inputStyle} relative flex justify-around cursor-pointer`} selectOption={[]} title={"2025"} />
+          <div className="flex flex-1 gap-2.5 items-center flex-wrap">
+            <SelectBox
+              style={selectStyle}
+              selectOption={getFourYears()}
+              intialValue={date.year}
+              onChange={(val: number) => setDate((prev) => ({ ...prev, year: val }))}
+            />
+            <SelectBox
+              style={selectStyle}
+              selectOption={monthOptions}
+              intialValue={date.month}
+              onChange={(val: string) => setDate((prev) => ({ ...prev, month: val }))}
+            />
+            <SelectBox
+              style={selectStyle}
+              selectOption={getDaysOption(endDay)}
+              intialValue={date.day}
+              onChange={(val: string) => setDate((prev) => ({ ...prev, day: val }))}
+            />
+          </div>
         </div>
         <div className={fieldStyle}>
           <div className={labelStyle}>예식 시간</div>
-          <SelectBox style={`${inputStyle} relative flex justify-around cursor-pointer`} selectOption={[]} title={"오전(AM)"} />
+          <div className="flex flex-1 gap-2.5 items-center flex-wrap">
+            <SelectBox
+              style={selectStyle}
+              selectOption={timeOfDayOptions}
+              intialValue={time.timeOfDay}
+              onChange={(val: string) => setTime((prev) => ({ ...prev, timeOfDay: val }))}
+            />
+            <SelectBox
+              style={selectStyle}
+              selectOption={hoursOptions}
+              intialValue={time.hour}
+              onChange={(val: string) => setTime((prev) => ({ ...prev, hour: val }))}
+            />
+            <SelectBox
+              style={selectStyle}
+              selectOption={minutesOptions}
+              intialValue={time.min}
+              onChange={(val: string) => setTime((prev) => ({ ...prev, min: val }))}
+            />
+          </div>
         </div>
 
         {/* 예식장 명 / 층과 홀*/}
