@@ -26,7 +26,7 @@ export default function Card({ content }: Props) {
               className="w-16.5 h-auto object-contain pt-34 pb-[3.688rem]"
             />
 
-            <p className="text-sm font-medium text-center text-[#817E7C] pb-5">
+            <p className="text-xs font-medium text-center text-[#817E7C] pb-5">
               아직 비어있는 우리의 청첩장을
               <br />
               간편하게 완성시켜보세요
@@ -42,7 +42,7 @@ export default function Card({ content }: Props) {
         )}
 
         <button
-          className="flex items-center justify-center w-49 h-10 bg-[#D4C6B7] rounded-sm font-semibold text-base text-[#433F3B] active:scale-95 cursor-pointer focus:outline-none z-999"
+          className="flex items-center justify-center w-49 h-10 bg-[#D4C6B7] rounded-sm font-semibold text-sm text-[#433F3B] active:scale-95 cursor-pointer focus:outline-none z-999"
           onClick={() => router.push("/invitation")}
         >
           청첩장 꾸미기
