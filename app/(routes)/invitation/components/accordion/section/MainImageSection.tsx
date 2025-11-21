@@ -7,8 +7,8 @@ import TestImg from "@/app/assets/images/preview-image-transparent.png";
 import CheckButton from "@/app/components/CheckButton";
 import { DotLoader } from "react-spinners";
 import { Pencil, X } from "lucide-react";
-import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 const MainImageSection = () => {
   const [previewImage, setPreviewImage] = useState(null);
