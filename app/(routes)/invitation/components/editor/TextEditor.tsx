@@ -1,16 +1,22 @@
 "use client";
 
-import { TextStyle, Color } from "@tiptap/extension-text-style";
+import { DEFAULT_INVITATION_TEXT } from "@/app/lib/constants/invitation-info";
+import { useMessageStore } from "@/app/store/invitationMessageStore";
+import TextAlign from "@tiptap/extension-text-align";
+import { Color, TextStyle } from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import TextAlign from "@tiptap/extension-text-align";
 import Toolbar from "./ToolBar";
 
 const TextEditor = () => {
+  const { updateMessage } = useMessageStore();
+
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        underline: false,
+      }),
       Underline,
       TextStyle,
       Color,
@@ -26,9 +32,19 @@ const TextEditor = () => {
           "prose prose-sm max-w-none p-4 min-h-50 focus:outline-none text-black",
       },
     },
-    content: `<p style="text-align: center">Hello World! 🌎️</p>`,
+    content: DEFAULT_INVITATION_TEXT,
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
+
+    // 초기 문구 저장
+    onCreate({ editor }) {
+      updateMessage(editor.getHTML());
+    },
+
+    // 문구 수정되는 경우 저장
+    onUpdate({ editor }) {
+      updateMessage(editor.getHTML());
+    },
   });
 
   if (!editor) return null;
