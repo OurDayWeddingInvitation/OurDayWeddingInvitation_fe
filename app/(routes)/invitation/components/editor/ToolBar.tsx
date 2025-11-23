@@ -2,7 +2,8 @@
 
 import { Editor, useEditorState } from "@tiptap/react";
 import { Bold, Italic, Underline } from "lucide-react";
-import TextColorMenu from "./TextColorMenu";
+import TextAlignMenu from "./menu/TextAlignMenu";
+import TextColorMenu from "./menu/TextColorMenu";
 
 type ToolbarProps = {
   editor: Editor;
@@ -78,6 +79,7 @@ const Toolbar = ({ editor }: ToolbarProps) => {
         </button>
 
         <TextColorMenu editor={editor} />
+        <TextAlignMenu editor={editor} />
       </div>
     </div>
   );

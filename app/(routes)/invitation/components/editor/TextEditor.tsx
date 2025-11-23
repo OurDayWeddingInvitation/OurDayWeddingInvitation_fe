@@ -4,18 +4,29 @@ import { TextStyle, Color } from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import TextAlign from "@tiptap/extension-text-align";
 import Toolbar from "./ToolBar";
 
 const TextEditor = () => {
   const editor = useEditor({
-    extensions: [StarterKit, Underline, TextStyle, Color],
+    extensions: [
+      StarterKit,
+      Underline,
+      TextStyle,
+      Color,
+      TextAlign.configure({
+        types: ["paragraph"],
+        alignments: ["left", "center", "right"],
+        defaultAlignment: "center",
+      }),
+    ],
     editorProps: {
       attributes: {
         class:
           "prose prose-sm max-w-none p-4 min-h-50 focus:outline-none text-black",
       },
     },
-    content: "<p>Hello World! 🌎️</p>",
+    content: `<p style="text-align: center">Hello World! 🌎️</p>`,
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
   });
