@@ -7,7 +7,7 @@ import { Color, TextStyle } from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Toolbar from "./ToolBar";
+import Toolbar from "./toolbar/Toolbar";
 
 const TextEditor = () => {
   const { updateMessage } = useMessageStore();
