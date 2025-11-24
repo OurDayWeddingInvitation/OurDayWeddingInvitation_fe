@@ -34,12 +34,12 @@ export const TOOLBAR_CONFIG = [
     type: "dropdown",
     items: [
       {
-        name: "align",
-        component: "TextAlignMenu",
-      },
-      {
         name: "color",
         component: "TextColorMenu",
+      },
+      {
+        name: "align",
+        component: "TextAlignMenu",
       },
     ],
   },

@@ -42,44 +42,46 @@ const Toolbar = ({ editor }: Props) => {
 
   return (
     <div className="sticky top-0 z-10 flex flex-wrap gap-3 p-2 bg-white rounded-t-sm border-b border-[#E0E0E0]">
-      {TOOLBAR_CONFIG.map((group, index) => {
-        if (group.type === "button") {
-          return (
-            <ToolbarGroup key={`${group}-${index}`}>
-              {group.items.map((item) => {
-                const Icon = item.icon;
-                const state = toolbarState[item.name];
+      <ToolbarGroup>
+        {TOOLBAR_CONFIG.map((group, index) => {
+          if (group.type === "button") {
+            return (
+              <>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  const state = toolbarState[item.name];
 
-                return (
-                  <ToolbarButton
-                    key={`${group}-${item.name}}`}
-                    title={item.title}
-                    active={state.isActive}
-                    disabled={state.isDisabled}
-                    onClick={() => item.command(editor)}
-                  >
-                    <Icon className="w-4 h-4" strokeWidth={2.5} />
-                  </ToolbarButton>
-                );
-              })}
-            </ToolbarGroup>
-          );
-        }
+                  return (
+                    <ToolbarButton
+                      key={`${group}-${item.name}}`}
+                      title={item.title}
+                      active={state.isActive}
+                      disabled={state.isDisabled}
+                      onClick={() => item.command(editor)}
+                    >
+                      <Icon className="w-4 h-4" strokeWidth={2.5} />
+                    </ToolbarButton>
+                  );
+                })}
+              </>
+            );
+          }
 
-        if (group.type === "dropdown") {
-          return (
-            <ToolbarGroup key={`${group}-${index}`}>
-              {group.items.map((item) => {
-                const Component = MENU_COMPONENTS[item.component];
+          if (group.type === "dropdown") {
+            return (
+              <>
+                {group.items.map((item) => {
+                  const Component = MENU_COMPONENTS[item.component];
 
-                return (
-                  <Component key={`${group}-${item.name}`} editor={editor} />
-                );
-              })}
-            </ToolbarGroup>
-          );
-        }
-      })}
+                  return (
+                    <Component key={`${group}-${item.name}`} editor={editor} />
+                  );
+                })}
+              </>
+            );
+          }
+        })}
+      </ToolbarGroup>
     </div>
   );
 };
