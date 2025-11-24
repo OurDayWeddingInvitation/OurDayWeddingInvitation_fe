@@ -1,9 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
+import { SelectOption } from "../lib/constants";
 
-const SelectBox = ({ style, selectOption, intialValue, onChange }) => {
+interface SelectBoxProps {
+  style: string;
+  selectOption: SelectOption[];
+  initialValue: string | number;
+  onChange: (val: string | number) => void;
+}
+
+const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(intialValue);
+  const [value, setValue] = useState(initialValue);
   const selectBoxRef = useRef(null);
 
   useEffect(() => {
@@ -29,21 +37,25 @@ const SelectBox = ({ style, selectOption, intialValue, onChange }) => {
 
       {open && (
         <ul className="absolute top-full left-0 w-full bg-[#E3E3E1] rounded mt-1  scrollbar-hide z-50 h-40 overflow-y-scroll">
-          {selectOption.map((opt: string, idx: number) => (
-            <li
-              key={idx}
-              className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-1"
-              value={opt}
-              onClick={() => {
-                setValue(opt);
-                onChange(opt);
-                setOpen(false);
-              }}
-            >
-              <Check size={16} className={value === opt ? "opacity-100" : "opacity-0"} />
-              <span>{opt}</span>
-            </li>
-          ))}
+          {selectOption.map((opt, idx) => {
+            const label = opt.label;
+            const selectValue = opt.value;
+            return (
+              <li
+                key={idx}
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-1"
+                value={selectValue}
+                onClick={() => {
+                  setValue(label);
+                  onChange(selectValue);
+                  setOpen(false);
+                }}
+              >
+                <Check size={16} className={value === selectValue ? "opacity-100" : "opacity-0"} />
+                <span>{label}</span>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
