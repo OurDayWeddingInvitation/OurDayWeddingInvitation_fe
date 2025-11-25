@@ -44,8 +44,8 @@ const WeddingInfoSection = () => {
                 <SelectBox
                   style={`${inputStyle} relative flex justify-around cursor-pointer`}
                   selectOption={selectFamilyOption}
-                  intialValue={roleKind}
-                  onChange={""}
+                  initialValue={roleKind}
+                  onChange={() => {}}
                 />
               </div>
             </div>
@@ -104,19 +104,19 @@ const WeddingInfoSection = () => {
             <SelectBox
               style={selectStyle}
               selectOption={getFourYears()}
-              intialValue={date.year}
+              initialValue={date.year}
               onChange={(val: number) => setDate((prev) => ({ ...prev, year: val }))}
             />
             <SelectBox
               style={selectStyle}
               selectOption={monthOptions}
-              intialValue={date.month}
+              initialValue={date.month}
               onChange={(val: string) => setDate((prev) => ({ ...prev, month: val }))}
             />
             <SelectBox
               style={selectStyle}
               selectOption={getDaysOption(endDay)}
-              intialValue={date.day}
+              initialValue={date.day}
               onChange={(val: string) => setDate((prev) => ({ ...prev, day: val }))}
             />
           </div>
@@ -127,19 +127,19 @@ const WeddingInfoSection = () => {
             <SelectBox
               style={selectStyle}
               selectOption={timeOfDayOptions}
-              intialValue={time.timeOfDay}
+              initialValue={time.timeOfDay}
               onChange={(val: string) => setTime((prev) => ({ ...prev, timeOfDay: val }))}
             />
             <SelectBox
               style={selectStyle}
               selectOption={hoursOptions}
-              intialValue={time.hour}
+              initialValue={time.hour}
               onChange={(val: string) => setTime((prev) => ({ ...prev, hour: val }))}
             />
             <SelectBox
               style={selectStyle}
               selectOption={minutesOptions}
-              intialValue={time.min}
+              initialValue={time.min}
               onChange={(val: string) => setTime((prev) => ({ ...prev, min: val }))}
             />
           </div>
