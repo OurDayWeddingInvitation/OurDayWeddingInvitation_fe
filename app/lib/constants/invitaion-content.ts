@@ -7,5 +7,5 @@ export const sectionComponents: Record<string, React.FC> = {
   mainImage: MainImageSection,
   weddingInfo: WeddingInfoSection,
   shareThumbnail: ShareThumbnailSection,
-  ColorFontSection: ColorFontSection
+  colorFont: ColorFontSection
 };
