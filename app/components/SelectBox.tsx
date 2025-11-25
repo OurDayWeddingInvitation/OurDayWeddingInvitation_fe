@@ -10,13 +10,13 @@ interface SelectBoxProps {
 }
 
 const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxProps) => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(initialValue);
-  const selectBoxRef = useRef(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string | number>(initialValue);
+  const selectBoxRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (selectBoxRef.current && !selectBoxRef.current.contains(e.target)) {
+      if (selectBoxRef.current && !selectBoxRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
     };

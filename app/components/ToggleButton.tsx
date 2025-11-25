@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 const ToggleButton = ({ toggle }) => {
-  const [checked, setChecked] = useState(toggle);
+  const [checked, setChecked] = useState<boolean>(toggle);
 
   const handleToggleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();

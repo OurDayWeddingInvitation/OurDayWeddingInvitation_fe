@@ -4,14 +4,25 @@ import { familyOptionsMale, familyOptionsFemale, hoursOptions, minutesOptions, m
 import SelectBox from "@/app/components/SelectBox";
 import { getCurrentYear, getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
 
+type dateType = {
+  year: number;
+  month: string;
+  day: string;
+};
+type timeType = {
+  timeOfDay: string;
+  hour: string;
+  min: string;
+};
+
 const WeddingInfoSection = () => {
-  const [clickIdx, setClickIdx] = useState(0);
-  const [date, setDate] = useState({
+  const [clickIdx, setClickIdx] = useState<number>(0);
+  const [date, setDate] = useState<dateType>({
     year: getCurrentYear(),
     month: "1",
     day: "1"
   });
-  const [time, setTime] = useState({
+  const [time, setTime] = useState<timeType>({
     timeOfDay: "오전(AM)",
     hour: "1시",
     min: "00분"
