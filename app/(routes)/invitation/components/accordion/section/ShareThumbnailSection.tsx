@@ -46,8 +46,8 @@ const ShareThumbnailSection = () => {
   return (
     <div>
       {shareThumbnailInfo.map((share, idx) => (
-        <>
-          <div key={idx} className="pt-8">
+        <div key={idx}>
+          <div className="pt-8">
             <div className="flex gap-2 items-center">
               <div className="text-[15px]">{share.title}</div>
               <button
@@ -78,7 +78,7 @@ const ShareThumbnailSection = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

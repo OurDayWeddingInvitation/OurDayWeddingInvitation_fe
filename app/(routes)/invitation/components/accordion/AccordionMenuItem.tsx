@@ -45,7 +45,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
           </div>
         </AccordionTrigger>
       </AccordionHeader>
-      <AccordionContent className="my-3 text-balance w-full bg-white">{Component && <Component />}</AccordionContent>
+      <AccordionContent className="py-6 text-balance w-full bg-white">{Component && <Component />}</AccordionContent>
     </AccordionItem>
   );
 };

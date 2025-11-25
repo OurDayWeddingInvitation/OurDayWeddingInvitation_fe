@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Check } from "lucide-react";
 import { familyOptionsMale, familyOptionsFemale, hoursOptions, minutesOptions, monthOptions, timeOfDayOptions } from "@/app/lib/constants";
 import SelectBox from "@/app/components/SelectBox";
 import { getCurrentYear, getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
 import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import { useSectionDefaultButtonStore } from "@/app/store/useSectionDefaultButtonStore";
+import CheckBox from "@/app/components/CheckBox";
 
 type dateType = {
   year: number;
@@ -70,14 +70,8 @@ const WeddingInfoSection = () => {
                   <div className={labelStyle}>{name}</div>
                   <div className="flex flex-1 gap-2.5 items-center flex-wrap">
                     <input type="text" placeholder="성함" className={`${inputStyle} min-w-20 max-w-[230px]`} />
-                    <input type="checkbox" id={checkId} className="peer absolute opacity-0 w-5 h-5" />
-                    <label
-                      htmlFor={checkId}
-                      className="w-5 h-5 border border-[#E0E0E0] rounded-sm flex items-center justify-center peer-checked:bg-[#433F3B] cursor-pointer"
-                    >
-                      <Check className="peer-checked:block text-white" />
-                    </label>
-                    <span>故</span>
+                    <CheckBox id={checkId} />
+                    <span className="font-medium">故</span>
                   </div>
                 </div>
               );
