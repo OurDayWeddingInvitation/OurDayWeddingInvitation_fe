@@ -1,6 +1,5 @@
 "use client";
 
-import { DEFAULT_INVITATION_TEXT } from "@/app/lib/constants/invitation-info";
 import { useMessageStore } from "@/app/store/invitationMessageStore";
 import TextAlign from "@tiptap/extension-text-align";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
@@ -8,6 +7,7 @@ import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./toolbar/Toolbar";
+import { DEFAULT_INVITATION_TEXT } from "./toolbar/toolbarConfig";
 
 const TextEditor = () => {
   const { updateMessage } = useMessageStore();

@@ -1,12 +1,12 @@
-import { TEXT_ALIGN_VALUES } from "@/app/lib/constants/invitation-info";
 import { getAlignIcon } from "@/app/lib/utils/functions";
 import { Editor } from "@tiptap/react";
-import { AlignCenter, AlignLeft, AlignRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { TEXT_ALIGN_VALUES } from "./toolbarConfig";
 
 const TextAlignMenu = ({ editor }: { editor: Editor }) => {
   const alignRef = useRef<HTMLDivElement>(null);
-  const [showAlign, setShowAlign] = useState(false);
+  const [showAlign, setShowAlign] = useState<boolean>(false);
 
   // 현재 정렬 상태
   const currentAlign = editor.getAttributes("paragraph")?.textAlign ?? "left";
