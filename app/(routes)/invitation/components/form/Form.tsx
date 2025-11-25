@@ -7,7 +7,7 @@ const Form = () => {
   // const { title, description, updateTitle, updateDescription } = useCounterStore();
 
   return (
-    <div className="flex-1 p-4">
+    <div className="flex-1">
       {/* <div className="flex flex-col gap-1">
         <label className="text-sm font-semibold text-gray-700">제목</label>
         <input
