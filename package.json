@@ -13,6 +13,7 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
     "@radix-ui/react-accordion": "^1.2.12",
+    "browser-image-compression": "^2.0.2",
     "lucide-react": "^0.553.0",
     "next": "14.2.32",
     "react": "18.3.1",

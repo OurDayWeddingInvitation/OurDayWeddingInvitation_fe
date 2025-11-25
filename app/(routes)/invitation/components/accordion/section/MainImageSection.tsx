@@ -1,16 +1,19 @@
 "use client";
 
-import React, { useRef, useState } from "react";
 import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
-import Image from "next/image";
 import TestImg from "@/app/assets/images/preview-image-transparent.png";
 import CheckButton from "@/app/components/CheckButton";
-import { DotLoader } from "react-spinners";
+import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { Pencil, X } from "lucide-react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "next/image";
+import { useRef, useState } from "react";
+import { DotLoader } from "react-spinners";
 import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const MainImageSection = () => {
+  const { getFileToUpload } = useCompressImageUpload();
+
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedIdx, setSelectedIdx] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,9 +24,15 @@ const MainImageSection = () => {
     setSelectedIdx((prev) => (prev === idx ? null : idx));
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
-    const imageUrl = URL.createObjectURL(file);
+    const compressedFile = await getFileToUpload(file);
+
+    // TODO: 파일 크기 비교용 (제거 예정)
+    console.log("원본 파일 크기:", file.size / 1024 / 1024, "MB");
+    console.log("압축 파일 크기:", compressedFile.size / 1024 / 1024, "MB");
+
+    const imageUrl = URL.createObjectURL(compressedFile);
 
     if (!file) return;
 
@@ -51,20 +60,45 @@ const MainImageSection = () => {
     <div>
       <h3 className="text-[15px] py-3.5">대문 사진</h3>
       <div className="flex gap-2.5">
-        <input type="file" id="openImg" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
+        <input
+          type="file"
+          id="openImg"
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="hidden"
+          ref={fileInputRef}
+        />
 
         {previewImage ? (
           <div className="relative">
             <div className="w-[124px] h-[124px] overflow-hidden relative">
-              <img src={previewImage} alt="대문사진" className="w-full h-full object-cover" style={{ opacity: opacity }} />
+              <img
+                src={previewImage}
+                alt="대문사진"
+                className="w-full h-full object-cover"
+                style={{ opacity: opacity }}
+              />
 
-              {loading && <Image src={TestImg} alt="이미지추가버튼" className="cursor-pointer absolute left-0 top-0" />}
+              {loading && (
+                <Image
+                  src={TestImg}
+                  alt="이미지추가버튼"
+                  className="cursor-pointer absolute left-0 top-0"
+                />
+              )}
               {!loading && (
                 <div className="absolute left-0 bottom-0 flex justify-between w-full p-3">
-                  <label htmlFor="openImg" className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer">
+                  <label
+                    htmlFor="openImg"
+                    className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer"
+                  >
                     <Pencil color="#FFFFFF" size={22} />
                   </label>
-                  <label htmlFor="openImg" onClick={handleImageRemove} className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer">
+                  <label
+                    htmlFor="openImg"
+                    onClick={handleImageRemove}
+                    className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer"
+                  >
                     <X color="#FFFFFF" size={22} />
                   </label>
                 </div>
@@ -83,7 +117,11 @@ const MainImageSection = () => {
           </div>
         ) : (
           <label htmlFor="openImg">
-            <Image src={ImageAddBtnIcon} alt="이미지추가버튼" className="cursor-pointer" />
+            <Image
+              src={ImageAddBtnIcon}
+              alt="이미지추가버튼"
+              className="cursor-pointer"
+            />
           </label>
         )}
       </div>
@@ -99,7 +137,13 @@ const MainImageSection = () => {
             }}
             key={idx}
           >
-            {previewImage && <img src={previewImage} alt="대문사진" className="w-full h-full object-cover" />}
+            {previewImage && (
+              <img
+                src={previewImage}
+                alt="대문사진"
+                className="w-full h-full object-cover"
+              />
+            )}
             <CheckButton
               isChecked={selectedIdx === idx}
               onClick={(e) => {
