@@ -3,6 +3,8 @@ import { Check } from "lucide-react";
 import { familyOptionsMale, familyOptionsFemale, hoursOptions, minutesOptions, monthOptions, timeOfDayOptions } from "@/app/lib/constants";
 import SelectBox from "@/app/components/SelectBox";
 import { getCurrentYear, getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
+import SectionDefaultButton from "@/app/components/SectionDefaultButton";
+import { useSectionDefaultButtonStore } from "@/app/store/useSectionDefaultButtonStore";
 
 type dateType = {
   year: number;
@@ -16,7 +18,6 @@ type timeType = {
 };
 
 const WeddingInfoSection = () => {
-  const [clickIdx, setClickIdx] = useState<number>(0);
   const [date, setDate] = useState<dateType>({
     year: getCurrentYear(),
     month: "1",
@@ -27,6 +28,7 @@ const WeddingInfoSection = () => {
     hour: "1시",
     min: "00분"
   });
+  const { nameOrder, setNameOrder } = useSectionDefaultButtonStore();
 
   const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
   const fieldGroup = "flex flex-col gap-2.5 w-full";
@@ -89,18 +91,16 @@ const WeddingInfoSection = () => {
         <div className={labelStyle}>순서</div>
         <div className="font-light">
           <div className="flex gap-2.5 items-baseline py-[5px]">
-            {label.map((role, roleIdx) => (
-              <button
-                key={roleIdx}
-                className={`${clickIdx === roleIdx ? "bg-[#D2BEA9]" : "bg-[#FFFFFF]"} ${clickIdx === roleIdx ? "text-[#FFFFFF]" : "text-[#9C9C9C]"} ${
-                  clickIdx === roleIdx ? "border-[#D2BEA9]" : "border-[#E0E0E0]"
-                } border px-4.5 py-1.5 max-w-[150px] rounded-sm cursor-pointer w-[150px]`}
-                onClick={() => {
-                  setClickIdx(roleIdx);
-                }}
-              >
-                {role} 이름 먼저
-              </button>
+            {label.map((role, idx) => (
+              <SectionDefaultButton
+                key={idx}
+                title={`${role} 이름 먼저`}
+                size={"text-[16px]"}
+                clickIdx={nameOrder}
+                idx={idx}
+                onClick={() => setNameOrder(idx)}
+                kind="nameOrder"
+              />
             ))}
           </div>
           <p className="text-[#CACACA] text-[12px] leading-[26px]">청첩장 전체에 신랑 측 정보가 먼저 표기됩니다.</p>
