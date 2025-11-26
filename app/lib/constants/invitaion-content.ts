@@ -9,5 +9,5 @@ export const sectionComponents: Record<string, React.FC> = {
   weddingInfo: WeddingInfoSection,
   invitationText: InvitationMessage,
   shareThumbnail: ShareThumbnailSection,
-  ColorFontSection: ColorFontSection,
+  colorFont: ColorFontSection
 };

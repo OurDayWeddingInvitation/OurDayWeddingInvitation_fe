@@ -11,9 +11,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 const MainImageSection = () => {
-  const [previewImage, setPreviewImage] = useState(null);
-  const [selectedIdx, setSelectedIdx] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [opacity, setOpacity] = useState(0);
   const fileInputRef = useRef(null);
 
