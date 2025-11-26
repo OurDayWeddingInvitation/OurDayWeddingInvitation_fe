@@ -134,7 +134,7 @@ const ColorFontSection = () => {
                 key={idx}
                 onClick={() => setPointColorIdx(idx)}
               >
-                {pickerOpen && idx === themeColorArr.length - 1 && (
+                {/* {pickerOpen && idx === themeColorArr.length - 1 && (
                   <div className="absolute">
                     <SketchPicker
                       color={color}
@@ -144,7 +144,7 @@ const ColorFontSection = () => {
                       }}
                     />
                   </div>
-                )}
+                )} */}
               </button>
             ))}
           </div>
