@@ -36,7 +36,10 @@ const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxPro
       </div>
 
       {open && (
-        <ul className="absolute top-full left-0 w-full bg-[#E3E3E1] rounded mt-1  scrollbar-hide z-50 h-40 overflow-y-scroll">
+        <ul
+          className="absolute top-full left-0 w-full bg-[#E3E3E1] rounded mt-1  scrollbar-hide z-50 h-40  overflow-scroll [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           {selectOption.map((opt, idx) => {
             const label = opt.label;
             const selectValue = opt.value;
