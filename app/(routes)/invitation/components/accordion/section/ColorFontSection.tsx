@@ -4,6 +4,7 @@ import { useSectionDefaultButtonStore } from "@/app/store/useSectionDefaultButto
 import CheckBox from "@/app/components/CheckBox";
 import { useColorFontStore } from "@/app/store/useColorFontStore";
 import ColorSelectButton from "@/app/components/ColorSelectButton";
+import { fontList } from "@/app/lib/constants";
 
 const ColorFontSection = () => {
   const [themeColorIdx, setThemeColorIdx] = useState<number>(0);
@@ -12,17 +13,17 @@ const ColorFontSection = () => {
   const [pickerPointOpen, setPickerPointOpen] = useState<boolean>(false);
   const pickerRef = useRef<HTMLButtonElement | null>(null);
   const pickerPointRef = useRef<HTMLButtonElement | null>(null);
-  const { fontIdx, fontSize, setFontIdx, setFontSize } = useSectionDefaultButtonStore();
-  const { themeColor, pointColor, setThemeColor, setPointColor } = useColorFontStore();
+  const { fontIdx, fontSize, setFontIdx, setFontSizeIdx } = useSectionDefaultButtonStore();
+  const { themeColor, pointColor, setFontSize, setFontStyle, setThemeColor, setPointColor } = useColorFontStore();
 
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
   const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
   const fontStyleArr = [
-    { title: "작게", size: "text-[14px]" },
-    { title: "보통", size: "text-[16px]" },
-    { title: "크게", size: "text-[18px]" }
+    { title: "작게", size: 14 },
+    { title: "보통", size: 16 },
+    { title: "크게", size: 18 }
   ];
 
   const themeColorArr = ["#FFF6FB", "#ECECDE", "#DBE4E9", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
@@ -75,16 +76,18 @@ const ColorFontSection = () => {
         <div className={fieldStyle}>
           <div className={labelStyle}>글꼴</div>
           <div className="grid grid-cols-3 gap-x-[30px] gap-y-2.5">
-            {Array.from({ length: 9 }).map((_, idx) => (
+            {fontList.map((item, idx) => (
               <SectionDefaultButton
                 title={"저희 결혼합니다"}
                 key={idx}
-                size={"text-[14px]"}
+                size={14}
                 clickIdx={fontIdx}
                 idx={idx}
                 kind={"style"}
+                font={item}
                 onClick={() => {
                   setFontIdx(idx);
+                  setFontStyle(item);
                 }}
               />
             ))}
@@ -105,7 +108,8 @@ const ColorFontSection = () => {
                 idx={idx}
                 kind={"size"}
                 onClick={() => {
-                  setFontSize(idx);
+                  setFontSizeIdx(idx);
+                  setFontSize(item.size);
                 }}
               />
             ))}
