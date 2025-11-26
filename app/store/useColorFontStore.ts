@@ -8,8 +8,8 @@ type ColorFontProp = {
 };
 
 export const useColorFontStore = create<ColorFontProp>((set) => ({
-  themeColor: "#f9f6f4",
-  pointColor: "#d2bea9",
+  themeColor: "#fff6fb",
+  pointColor: "#d28bb3",
   setThemeColor: (color) => {
     set({ themeColor: color });
   },
