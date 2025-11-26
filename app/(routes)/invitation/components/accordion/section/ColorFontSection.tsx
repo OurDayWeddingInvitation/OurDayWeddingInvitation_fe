@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import { useSectionDefaultButtonStore } from "@/app/store/useSectionDefaultButtonStore";
 import CheckBox from "@/app/components/CheckBox";
+import { SketchPicker } from "react-color";
+import { useColorFontStore } from "@/app/store/useColorFontStore";
 
 const ColorFontSection = () => {
-  const [themeColorIdx, setthemeColorIdx] = useState<number>(0);
-  const [pointColorIdx, setpointColorIdx] = useState<number>(0);
+  const [themeColorIdx, setThemeColorIdx] = useState<number>(0);
+  const [pointColorIdx, setPointColorIdx] = useState<number>(0);
+  const [pickerOpen, setPickerOpen] = useState<boolean>(false);
+  const [color, setColor] = useState<string>("#0000");
+  const pickerRef = useRef<HTMLButtonElement | null>(null);
 
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
@@ -18,10 +23,30 @@ const ColorFontSection = () => {
     { title: "크게", size: "text-[18px]" }
   ];
 
-  const themeColorArr = ["#d2bea9", "#fbd3d3", "#fbd3d3", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
-  const pointColorArr = ["#d2bea9", "#fbd3d3", "#fbd3d3", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
+  const themeColorArr = ["#FFF6FB", "#ECECDE", "#DBE4E9", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
+  const pointColorArr = ["#D28BB3", "#C0C08B", "#7AA3B8", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
 
   const { fontIdx, fontSize, setFontIdx, setFontSize } = useSectionDefaultButtonStore();
+  const { themeColor, pointColor, setThemeColor } = useColorFontStore();
+
+  const clickColorPicker = (item: string, idx: number) => {
+    setThemeColorIdx(idx);
+    if (idx === themeColorArr.length - 1) {
+      setPickerOpen(true);
+    } else {
+      setThemeColor(item);
+    }
+  };
+
+  useEffect(() => {
+    const clickOutside = (e: MouseEvent) => {
+      if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
+        setPickerOpen(false);
+      }
+    };
+    document.addEventListener("click", clickOutside);
+    return () => document.removeEventListener("click", clickOutside);
+  }, []);
 
   return (
     <div className="flex flex-col gap-5">
@@ -74,8 +99,24 @@ const ColorFontSection = () => {
           <div className={labelStyle}>테마 색상</div>
           <div className={contentStyle}>
             {themeColorArr.map((item, idx) => (
-              <button className={`w-8 h-8 rounded-full cursor-pointer`} style={{ background: item }} key={idx} onClick={() => setthemeColorIdx(idx)}>
-                {themeColorIdx === idx && <div className="w-6 h-6 border-3 border-[#FFFFFF] rounded-full m-auto" style={{ background: item }}></div>}
+              <button
+                className={`w-8 h-8 rounded-full cursor-pointer ${themeColorIdx === idx && "border-[#CACACA] border"}`}
+                style={{ background: item }}
+                key={idx}
+                ref={pickerRef}
+                onClick={() => clickColorPicker(item, idx)}
+              >
+                {pickerOpen && idx === themeColorArr.length - 1 && (
+                  <div className="absolute">
+                    <SketchPicker
+                      color={themeColor}
+                      onChange={(c) => setThemeColor(c.hex)}
+                      onChangeComplete={(c) => {
+                        setThemeColor(c.hex);
+                      }}
+                    />
+                  </div>
+                )}
               </button>
             ))}
           </div>
@@ -87,8 +128,23 @@ const ColorFontSection = () => {
           <div className={labelStyle}>포인트 색상</div>
           <div className={contentStyle}>
             {pointColorArr.map((item, idx) => (
-              <button className={`w-8 h-8 rounded-full cursor-pointer`} style={{ background: item }} key={idx} onClick={() => setpointColorIdx(idx)}>
-                {pointColorIdx === idx && <div className="w-6 h-6 border-3 border-[#FFFFFF] rounded-full m-auto" style={{ background: item }}></div>}
+              <button
+                className={`w-8 h-8 rounded-full cursor-pointer ${pointColorIdx === idx && "border-[#CACACA] border"}`}
+                style={{ background: item }}
+                key={idx}
+                onClick={() => setPointColorIdx(idx)}
+              >
+                {pickerOpen && idx === themeColorArr.length - 1 && (
+                  <div className="absolute">
+                    <SketchPicker
+                      color={color}
+                      onChange={(c) => setColor(c.hex)}
+                      onChangeComplete={(c) => {
+                        setColor(c.hex);
+                      }}
+                    />
+                  </div>
+                )}
               </button>
             ))}
           </div>
