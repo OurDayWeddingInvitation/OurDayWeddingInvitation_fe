@@ -11,7 +11,6 @@ export const useColorFontStore = create<ColorFontProp>((set) => ({
   themeColor: "#f9f6f4",
   pointColor: "#d2bea9",
   setThemeColor: (color) => {
-    document.body.style.background = color;
     set({ themeColor: color });
   },
   setPointColor: (color) => {

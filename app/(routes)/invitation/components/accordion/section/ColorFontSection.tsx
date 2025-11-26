@@ -2,21 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import { useSectionDefaultButtonStore } from "@/app/store/useSectionDefaultButtonStore";
 import CheckBox from "@/app/components/CheckBox";
-import { SketchPicker } from "react-color";
 import { useColorFontStore } from "@/app/store/useColorFontStore";
+import ColorSelectButton from "@/app/components/ColorSelectButton";
 
 const ColorFontSection = () => {
   const [themeColorIdx, setThemeColorIdx] = useState<number>(0);
   const [pointColorIdx, setPointColorIdx] = useState<number>(0);
   const [pickerOpen, setPickerOpen] = useState<boolean>(false);
-  const [color, setColor] = useState<string>("#0000");
+  const [pickerPointOpen, setPickerPointOpen] = useState<boolean>(false);
   const pickerRef = useRef<HTMLButtonElement | null>(null);
+  const pickerPointRef = useRef<HTMLButtonElement | null>(null);
+  const { fontIdx, fontSize, setFontIdx, setFontSize } = useSectionDefaultButtonStore();
+  const { themeColor, pointColor, setThemeColor, setPointColor } = useColorFontStore();
 
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
   const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
-
   const fontStyleArr = [
     { title: "작게", size: "text-[14px]" },
     { title: "보통", size: "text-[16px]" },
@@ -26,15 +28,30 @@ const ColorFontSection = () => {
   const themeColorArr = ["#FFF6FB", "#ECECDE", "#DBE4E9", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
   const pointColorArr = ["#D28BB3", "#C0C08B", "#7AA3B8", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
 
-  const { fontIdx, fontSize, setFontIdx, setFontSize } = useSectionDefaultButtonStore();
-  const { themeColor, pointColor, setThemeColor } = useColorFontStore();
+  const pickerState = {
+    theme: {
+      colorArr: themeColorArr,
+      setColorIdx: setThemeColorIdx,
+      setColor: setThemeColor,
+      setPickerOpen: setPickerOpen
+    },
+    point: {
+      colorArr: pointColorArr,
+      setColorIdx: setPointColorIdx,
+      setColor: setPointColor,
+      setPickerOpen: setPickerPointOpen
+    }
+  };
 
-  const clickColorPicker = (item: string, idx: number) => {
-    setThemeColorIdx(idx);
+  const clickColorPicker = (item: string, idx: number, kind: string) => {
+    const state = pickerState[kind];
+    state.setColorIdx(idx);
+
     if (idx === themeColorArr.length - 1) {
-      setPickerOpen(true);
+      state.setPickerOpen(true);
     } else {
-      setThemeColor(item);
+      state.setColor(item);
+      state.setPickerOpen(false);
     }
   };
 
@@ -42,6 +59,9 @@ const ColorFontSection = () => {
     const clickOutside = (e: MouseEvent) => {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
         setPickerOpen(false);
+      }
+      if (pickerPointRef.current && !pickerPointRef.current.contains(e.target as Node)) {
+        setPickerPointOpen(false);
       }
     };
     document.addEventListener("click", clickOutside);
@@ -98,27 +118,17 @@ const ColorFontSection = () => {
         <div className={fieldStyle}>
           <div className={labelStyle}>테마 색상</div>
           <div className={contentStyle}>
-            {themeColorArr.map((item, idx) => (
-              <button
-                className={`w-8 h-8 rounded-full cursor-pointer ${themeColorIdx === idx && "border-[#CACACA] border"}`}
-                style={{ background: item }}
-                key={idx}
-                ref={pickerRef}
-                onClick={() => clickColorPicker(item, idx)}
-              >
-                {pickerOpen && idx === themeColorArr.length - 1 && (
-                  <div className="absolute">
-                    <SketchPicker
-                      color={themeColor}
-                      onChange={(c) => setThemeColor(c.hex)}
-                      onChangeComplete={(c) => {
-                        setThemeColor(c.hex);
-                      }}
-                    />
-                  </div>
-                )}
-              </button>
-            ))}
+            <ColorSelectButton
+              buttonRef={pickerRef}
+              colorArr={themeColorArr}
+              selectedIdx={themeColorIdx}
+              isPickerOpen={pickerOpen}
+              setPickerOpen={setPickerOpen}
+              currentColor={themeColor}
+              setCurrentColor={setThemeColor}
+              onSelect={clickColorPicker}
+              kind={"theme"}
+            />
           </div>
         </div>
       </div>
@@ -127,26 +137,17 @@ const ColorFontSection = () => {
         <div className={fieldStyle}>
           <div className={labelStyle}>포인트 색상</div>
           <div className={contentStyle}>
-            {pointColorArr.map((item, idx) => (
-              <button
-                className={`w-8 h-8 rounded-full cursor-pointer ${pointColorIdx === idx && "border-[#CACACA] border"}`}
-                style={{ background: item }}
-                key={idx}
-                onClick={() => setPointColorIdx(idx)}
-              >
-                {/* {pickerOpen && idx === themeColorArr.length - 1 && (
-                  <div className="absolute">
-                    <SketchPicker
-                      color={color}
-                      onChange={(c) => setColor(c.hex)}
-                      onChangeComplete={(c) => {
-                        setColor(c.hex);
-                      }}
-                    />
-                  </div>
-                )} */}
-              </button>
-            ))}
+            <ColorSelectButton
+              buttonRef={pickerPointRef}
+              colorArr={pointColorArr}
+              selectedIdx={pointColorIdx}
+              isPickerOpen={pickerPointOpen}
+              setPickerOpen={setPickerPointOpen}
+              currentColor={pointColor}
+              setCurrentColor={setPointColor}
+              onSelect={clickColorPicker}
+              kind={"point"}
+            />
           </div>
         </div>
       </div>
