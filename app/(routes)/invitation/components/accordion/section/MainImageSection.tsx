@@ -14,9 +14,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 const MainImageSection = () => {
   const { getFileToUpload } = useCompressImageUpload();
 
-  const [previewImage, setPreviewImage] = useState(null);
-  const [selectedIdx, setSelectedIdx] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [opacity, setOpacity] = useState(0);
   const fileInputRef = useRef(null);
 
@@ -68,7 +68,6 @@ const MainImageSection = () => {
           className="hidden"
           ref={fileInputRef}
         />
-
         {previewImage ? (
           <div className="relative">
             <div className="w-[124px] h-[124px] overflow-hidden relative">

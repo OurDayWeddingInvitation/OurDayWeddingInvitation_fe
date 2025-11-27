@@ -29,7 +29,7 @@ const AccordionMenu = () => {
   };
 
   return (
-    <Accordion type="single" collapsible className="w-full flex flex-col gap-3" defaultValue="item-0">
+    <Accordion type="single" collapsible className="w-full flex flex-col gap-3 pt-4" defaultValue="item-0">
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
         <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
           {items.map((item, idx) => (

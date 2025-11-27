@@ -1,6 +1,6 @@
 import Header from "@/app/components/Header";
 import Form from "./components/form/Form";
-import Preview from "./components/preview/Preview";
+import Preview from "./components/preview/preview";
 import Image from "next/image";
 import ToggleImg from "@/app/assets/images/toggle-icon.svg";
 
@@ -18,7 +18,8 @@ export default function InvitationView() {
         <div className="flex-1 max-w-[736px]">
           <ul className="text-[#817E7C] text-[14px] px-4 list-disc list-inside w-full">
             <li>
-              <span className="bg-[#FFFFFF] rounded-[5px] p-0.5">⠿</span>&nbsp;모양이 있는 메뉴는 드래그하여 순서를 변경할 수 있습니다.
+              <span className="bg-[#FFFFFF] rounded-[5px] p-0.5">⠿</span>
+              &nbsp;모양이 있는 메뉴는 드래그하여 순서를 변경할 수 있습니다.
             </li>
             <li>
               <Image src={ToggleImg} alt="토글버튼 아이콘" className="inline-block align-middle" />

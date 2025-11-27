@@ -1,21 +1,34 @@
 import React, { useState } from "react";
-import { Check } from "lucide-react";
 import { familyOptionsMale, familyOptionsFemale, hoursOptions, minutesOptions, monthOptions, timeOfDayOptions } from "@/app/lib/constants";
 import SelectBox from "@/app/components/SelectBox";
 import { getCurrentYear, getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
+import SectionDefaultButton from "@/app/components/SectionDefaultButton";
+import { useSectionDefaultButtonStore } from "@/app/store/useSectionDefaultButtonStore";
+import CheckBox from "@/app/components/CheckBox";
+
+type dateType = {
+  year: number;
+  month: string;
+  day: string;
+};
+type timeType = {
+  timeOfDay: string;
+  hour: string;
+  min: string;
+};
 
 const WeddingInfoSection = () => {
-  const [clickIdx, setClickIdx] = useState(0);
-  const [date, setDate] = useState({
+  const [date, setDate] = useState<dateType>({
     year: getCurrentYear(),
     month: "1",
     day: "1"
   });
-  const [time, setTime] = useState({
+  const [time, setTime] = useState<timeType>({
     timeOfDay: "오전(AM)",
     hour: "1시",
     min: "00분"
   });
+  const { nameOrder, setNameOrder } = useSectionDefaultButtonStore();
 
   const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
   const fieldGroup = "flex flex-col gap-2.5 w-full";
@@ -57,14 +70,8 @@ const WeddingInfoSection = () => {
                   <div className={labelStyle}>{name}</div>
                   <div className="flex flex-1 gap-2.5 items-center flex-wrap">
                     <input type="text" placeholder="성함" className={`${inputStyle} min-w-20 max-w-[230px]`} />
-                    <input type="checkbox" id={checkId} className="peer absolute opacity-0 w-5 h-5" />
-                    <label
-                      htmlFor={checkId}
-                      className="w-5 h-5 border border-[#E0E0E0] rounded-sm flex items-center justify-center peer-checked:bg-[#433F3B] cursor-pointer"
-                    >
-                      <Check className="peer-checked:block text-white" />
-                    </label>
-                    <span>故</span>
+                    <CheckBox id={checkId} />
+                    <span className="font-medium">故</span>
                   </div>
                 </div>
               );
@@ -78,18 +85,16 @@ const WeddingInfoSection = () => {
         <div className={labelStyle}>순서</div>
         <div className="font-light">
           <div className="flex gap-2.5 items-baseline py-[5px]">
-            {label.map((role, roleIdx) => (
-              <button
-                key={roleIdx}
-                className={`${clickIdx === roleIdx ? "bg-[#D2BEA9]" : "bg-[#FFFFFF]"} ${clickIdx === roleIdx ? "text-[#FFFFFF]" : "text-[#9C9C9C]"} ${
-                  clickIdx === roleIdx ? "border-[#D2BEA9]" : "border-[#E0E0E0]"
-                } border px-4.5 py-1.5 max-w-[150px] rounded-sm cursor-pointer w-[150px]`}
-                onClick={() => {
-                  setClickIdx(roleIdx);
-                }}
-              >
-                {role} 이름 먼저
-              </button>
+            {label.map((role, idx) => (
+              <SectionDefaultButton
+                key={idx}
+                title={`${role} 이름 먼저`}
+                size={16}
+                clickIdx={nameOrder}
+                idx={idx}
+                onClick={() => setNameOrder(idx)}
+                kind="nameOrder"
+              />
             ))}
           </div>
           <p className="text-[#CACACA] text-[12px] leading-[26px]">청첩장 전체에 신랑 측 정보가 먼저 표기됩니다.</p>

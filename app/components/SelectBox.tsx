@@ -10,13 +10,13 @@ interface SelectBoxProps {
 }
 
 const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxProps) => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(initialValue);
-  const selectBoxRef = useRef(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string | number>(initialValue);
+  const selectBoxRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (selectBoxRef.current && !selectBoxRef.current.contains(e.target)) {
+      if (selectBoxRef.current && !selectBoxRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
     };
@@ -36,7 +36,10 @@ const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxPro
       </div>
 
       {open && (
-        <ul className="absolute top-full left-0 w-full bg-[#E3E3E1] rounded mt-1  scrollbar-hide z-50 h-40 overflow-y-scroll">
+        <ul
+          className="absolute top-full left-0 w-full bg-[#E3E3E1] rounded mt-1  scrollbar-hide z-50 h-40  overflow-scroll [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           {selectOption.map((opt, idx) => {
             const label = opt.label;
             const selectValue = opt.value;
