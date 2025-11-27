@@ -6,10 +6,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
 import ImageAddButton from "@/app/components/ImageAddButton";
+// import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 
 const MainImageSection = () => {
   const thumbnail = useImageUpload();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  // const { getFileToUpload } = useCompressImageUpload();
 
   const handleClick = (idx: number) => {
     setSelectedIdx((prev) => (prev === idx ? null : idx));
