@@ -8,8 +8,8 @@ import CheckBox from "@/app/components/CheckBox";
 
 type dateType = {
   year: number;
-  month: string;
-  day: string;
+  month: number;
+  day: number;
 };
 type timeType = {
   timeOfDay: string;
@@ -20,8 +20,8 @@ type timeType = {
 const WeddingInfoSection = () => {
   const [date, setDate] = useState<dateType>({
     year: getCurrentYear(),
-    month: "1",
-    day: "1"
+    month: 1,
+    day: 1
   });
   const [time, setTime] = useState<timeType>({
     timeOfDay: "오전(AM)",
@@ -116,13 +116,13 @@ const WeddingInfoSection = () => {
               style={selectStyle}
               selectOption={monthOptions}
               initialValue={date.month}
-              onChange={(val: string) => setDate((prev) => ({ ...prev, month: val }))}
+              onChange={(val: number) => setDate((prev) => ({ ...prev, month: val }))}
             />
             <SelectBox
               style={selectStyle}
               selectOption={getDaysOption(endDay)}
               initialValue={date.day}
-              onChange={(val: string) => setDate((prev) => ({ ...prev, day: val }))}
+              onChange={(val: number) => setDate((prev) => ({ ...prev, day: val }))}
             />
           </div>
         </div>

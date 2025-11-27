@@ -37,7 +37,7 @@ const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxPro
 
       {open && (
         <ul
-          className="absolute top-full left-0 w-full bg-[#E3E3E1] rounded mt-1  scrollbar-hide z-50 h-40  overflow-scroll [&::-webkit-scrollbar]:hidden"
+          className="absolute top-full left-0 w-full bg-[#FFFFFF] rounded mt-1 border-[#E0E0E0] border scrollbar-hide z-50 h-40  overflow-scroll [&::-webkit-scrollbar]:hidden"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {selectOption.map((opt, idx) => {
@@ -46,10 +46,10 @@ const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxPro
             return (
               <li
                 key={idx}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-1"
+                className="px-3 py-2 hover:bg-[#D4C6B7] hover:text-[#FFFFFF] cursor-pointer flex items-center gap-1"
                 value={selectValue}
                 onClick={() => {
-                  setValue(label);
+                  setValue(selectValue);
                   onChange(selectValue);
                   setOpen(false);
                 }}

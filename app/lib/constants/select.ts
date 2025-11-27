@@ -33,3 +33,22 @@ export const familyOptionsFemale: SelectOption[] = [
   { label: "자매", value: "자매" },
   { label: "동생", value: "동생" }
 ];
+
+export const hoursOptions: SelectOption[] = Array.from({ length: 12 }, (_, i) => ({
+  label: `${i + 1}시`,
+  value: `${i + 1}시`
+}));
+export const minutesOptions: SelectOption[] = Array.from({ length: 12 }, (_, i) => ({
+  label: `${String(i * 5).padStart(2, "0")}분`,
+  value: `${String(i * 5).padStart(2, "0")}분`
+}));
+export const monthOptions: SelectOption[] = Array.from({ length: 12 }, (_, i) => ({
+  label: `${i + 1}`,
+  value: i + 1
+}));
+export const timeOfDayOptions: SelectOption[] = [
+  { label: "오전(AM)", value: "오전(AM)" },
+  { label: "오후(PM)", value: "오후(PM)" },
+  { label: "낮(PM)", value: "낮(PM)" },
+  { label: "저녁(PM)", value: "저녁(PM)" }
+];
