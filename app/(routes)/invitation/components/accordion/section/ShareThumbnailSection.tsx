@@ -1,11 +1,9 @@
 import React from "react";
 import ImageAddButton from "@/app/components/ImageAddButton";
-import Image from "next/image";
-import KaKaoPreview from "@/app/assets/images/thumbnail.svg";
-import LinkPreview from "@/app/assets/images/thumbnail.svg";
 import { CircleX } from "lucide-react";
 import { usePreviewModalStore } from "@/app/store/usePreviewModalStore";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
+import PreviewThumbnail from "@/app/components/PreviewThumbnail";
 
 const ShareThumbnailSection = () => {
   const kakao = useImageUpload();
@@ -13,8 +11,8 @@ const ShareThumbnailSection = () => {
   const { openIndex, openModal, closeModal } = usePreviewModalStore();
 
   const shareThumbnailInfo = [
-    { title: "카카오톡 공유 썸네일", info: "카카오톡으로 공유 시 보이는 대표 사진입니다. (세로 사이즈 권장)", previewImage: KaKaoPreview },
-    { title: "링크 공유 썸네일", info: "URL 주소로 공유 시 보이는 대표 사진입니다. (가로 사이즈 권장)", previewImage: LinkPreview }
+    { title: "카카오톡 공유 썸네일", info: "카카오톡으로 공유 시 보이는 대표 사진입니다. (세로 사이즈 권장)" },
+    { title: "링크 공유 썸네일", info: "URL 주소로 공유 시 보이는 대표 사진입니다. (가로 사이즈 권장)" }
   ];
 
   return (
@@ -55,10 +53,9 @@ const ShareThumbnailSection = () => {
 
             <div className={`${idx === openIndex ? "block" : "hidden"} fixed h-full left-0 top-0 bg-[#433f3b80] z-9999 w-full`}>
               <div className="z-99999 absolute left-[50%] top-[50%] translate-[-50%]">
-                <CircleX className="float-right mb-1.5 cursor-pointer" color="#5F5F5F" size={28} onClick={closeModal} />
-                <div>
-                  <Image src={KaKaoPreview} alt="미리보기" className="w-full" />
-                </div>
+                <CircleX className="float-right mb-1.5 cursor-pointer absolute right-0 -top-8" color="#5F5F5F" size={28} onClick={closeModal} />
+                {/* 미리보기 창 */}
+                <PreviewThumbnail thumbnail={thumbnail.preview} />
               </div>
             </div>
           </div>
