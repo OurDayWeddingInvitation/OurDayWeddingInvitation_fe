@@ -3,16 +3,18 @@ import { Check, ChevronDown } from "lucide-react";
 import { SelectOption } from "../lib/constants";
 
 interface SelectBoxProps {
-  style: string;
   selectOption: SelectOption[];
   initialValue: string | number;
   onChange: (val: string | number) => void;
 }
 
-const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxProps) => {
+const SelectBox = ({ selectOption, initialValue, onChange }: SelectBoxProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string | number>(initialValue);
   const selectBoxRef = useRef<HTMLDivElement | null>(null);
+
+  const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+  const selectStyle = `${inputStyle} relative flex justify-around cursor-pointer`;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -30,7 +32,7 @@ const SelectBox = ({ style, selectOption, initialValue, onChange }: SelectBoxPro
 
   return (
     <div className="relative min-w-[100px] max-w-[100px]" ref={selectBoxRef}>
-      <div className={style} onClick={() => setOpen(!open)}>
+      <div className={selectStyle} onClick={() => setOpen(!open)}>
         {value}
         <ChevronDown size={18} color="#9C9C9C" />
       </div>
