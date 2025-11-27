@@ -2,14 +2,15 @@ import React from "react";
 
 interface SectionDefaultButtonProps {
   title: string;
-  size: string;
+  size: number;
   clickIdx: number;
   idx: number;
   onClick: () => void;
   kind: string;
+  font?: string;
 }
 
-const SectionDefaultButton = ({ title, size, clickIdx, idx, onClick, kind }: SectionDefaultButtonProps) => {
+const SectionDefaultButton = ({ title, size, clickIdx, idx, onClick, kind, font }: SectionDefaultButtonProps) => {
   const isActive = clickIdx === idx;
   const baseStyle = "cursor-pointer border rounded-sm h-[34px] px-[20px] w-full";
   const activeStyle = "border-[#D2BEA9] bg-[#D2BEA9] text-white";
@@ -17,7 +18,11 @@ const SectionDefaultButton = ({ title, size, clickIdx, idx, onClick, kind }: Sec
   const kindWidth = kind === "size" ? "min-w-[120px] max-w-[180px]" : "min-w-[90px] max-w-[150px]";
 
   return (
-    <button className={`${baseStyle} ${kindWidth} ${size} ${isActive ? activeStyle : inactiveStyle}`} onClick={onClick}>
+    <button
+      className={`${baseStyle} ${kindWidth} ${isActive ? activeStyle : inactiveStyle}`}
+      style={{ fontSize: size, fontFamily: font }}
+      onClick={onClick}
+    >
       {title}
     </button>
   );

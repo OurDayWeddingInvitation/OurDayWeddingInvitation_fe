@@ -52,7 +52,6 @@ const MainImageSection = () => {
       <h3 className="text-[15px] py-3.5">대문 사진</h3>
       <div className="flex gap-2.5">
         <input type="file" id="openImg" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
-
         {previewImage ? (
           <div className="relative">
             <div className="w-[124px] h-[124px] overflow-hidden relative">

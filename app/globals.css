@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import url("//fonts.googleapis.com/earlyaccess/nanummyeongjo.css");
+@import url("//cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css");
+@import url("//fonts.googleapis.com/earlyaccess/notosanskr.css");
 
 html,
 body {
@@ -23,7 +26,7 @@ body {
     --foreground: #ededed;
   }
 }
-
+/* 전체 글꼴  */
 @font-face {
   font-family: "Escoredream";
   src: url("/fonts/SCDream1.woff") format("woff");
@@ -76,5 +79,50 @@ body {
   font-family: "Escoredream";
   src: url("/fonts/SCDream9.woff") format("woff");
   font-weight: 900;
+  font-display: swap;
+}
+
+/* 청첩장 폰트 설정 글꼴 */
+
+@font-face {
+  font-family: "Eulyoo1945";
+  src: url("/fonts/Eulyoo1945-Regular.woff") format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ridibatang";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff") format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "KoPubWorlddotum";
+  src: url("/fonts/KoPubWorld-Dotum-Medium.woff") format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Iropkebatang";
+  src: url("/fonts/IropkeBatangM.woff") format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SejongGeulggot";
+  src: url("/fonts/SejongGeulggot.woff") format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SchoolSafetyPictureDiary";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimGeurimilgiTTF-R.woff2") format("woff2");
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GabiaGosranche";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2409-2@1.0/GabiaGosran-Regular.woff2") format("woff2");
+  font-weight: normal;
   font-display: swap;
 }

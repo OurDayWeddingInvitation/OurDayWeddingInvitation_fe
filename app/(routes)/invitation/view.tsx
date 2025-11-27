@@ -12,10 +12,7 @@ export default function InvitationView() {
         <div className="max-w-[389px]">
           <Preview />
           <ul className="py-[26px] text-[#817E7C] text-[14px]  list-disc ">
-            <li>
-              미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러
-              저장 후 확인해주세요.
-            </li>
+            <li>미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러 저장 후 확인해주세요.</li>
           </ul>
         </div>
         <div className="flex-1 max-w-[736px]">
@@ -25,14 +22,8 @@ export default function InvitationView() {
               &nbsp;모양이 있는 메뉴는 드래그하여 순서를 변경할 수 있습니다.
             </li>
             <li>
-              <Image
-                src={ToggleImg}
-                alt="토글버튼 아이콘"
-                className="inline-block align-middle"
-              />
-              <span className="align-middle">
-                &nbsp;버튼으로 각 메뉴의 사용 여부를 설정할 수 있습니다.
-              </span>
+              <Image src={ToggleImg} alt="토글버튼 아이콘" className="inline-block align-middle" />
+              <span className="align-middle">&nbsp;버튼으로 각 메뉴의 사용 여부를 설정할 수 있습니다.</span>
             </li>
           </ul>
           <Form />

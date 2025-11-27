@@ -89,7 +89,7 @@ const WeddingInfoSection = () => {
               <SectionDefaultButton
                 key={idx}
                 title={`${role} 이름 먼저`}
-                size={"text-[16px]"}
+                size={16}
                 clickIdx={nameOrder}
                 idx={idx}
                 onClick={() => setNameOrder(idx)}

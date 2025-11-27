@@ -11,7 +11,7 @@ const ToggleButton = ({ toggle }) => {
 
     setTimeout(() => {
       setToolVisible(false);
-    }, 3000);
+    }, 1200);
   };
 
   return (
