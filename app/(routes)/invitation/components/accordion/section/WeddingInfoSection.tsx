@@ -8,8 +8,8 @@ import CheckBox from "@/app/components/CheckBox";
 
 type dateType = {
   year: number;
-  month: string;
-  day: string;
+  month: number;
+  day: number;
 };
 type timeType = {
   timeOfDay: string;
@@ -20,8 +20,8 @@ type timeType = {
 const WeddingInfoSection = () => {
   const [date, setDate] = useState<dateType>({
     year: getCurrentYear(),
-    month: "1",
-    day: "1"
+    month: 1,
+    day: 1
   });
   const [time, setTime] = useState<timeType>({
     timeOfDay: "오전(AM)",
@@ -34,7 +34,6 @@ const WeddingInfoSection = () => {
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
-  const selectStyle = `${inputStyle} relative flex justify-around cursor-pointer`;
 
   const parents = ["아버지", "어머니"];
   const label = ["신랑", "신부"];
@@ -54,12 +53,7 @@ const WeddingInfoSection = () => {
               <div className="flex flex-1 gap-2.5 items-center flex-wrap">
                 <input type="text" placeholder="성" className={`${inputStyle} min-w-[50px] max-w-[70px]`} id="lastName" />
                 <input type="text" placeholder="이름" className={`${inputStyle} min-w-20 max-w-[150px]`} id="firstName" />
-                <SelectBox
-                  style={`${inputStyle} relative flex justify-around cursor-pointer`}
-                  selectOption={selectFamilyOption}
-                  initialValue={roleKind}
-                  onChange={() => {}}
-                />
+                <SelectBox selectOption={selectFamilyOption} initialValue={roleKind} onChange={() => {}} />
               </div>
             </div>
 
@@ -107,22 +101,19 @@ const WeddingInfoSection = () => {
           <div className={labelStyle}>예식 일자</div>
           <div className="flex flex-1 gap-2.5 items-center flex-wrap">
             <SelectBox
-              style={selectStyle}
               selectOption={getFourYears()}
               initialValue={date.year}
               onChange={(val: number) => setDate((prev) => ({ ...prev, year: val }))}
             />
             <SelectBox
-              style={selectStyle}
               selectOption={monthOptions}
               initialValue={date.month}
-              onChange={(val: string) => setDate((prev) => ({ ...prev, month: val }))}
+              onChange={(val: number) => setDate((prev) => ({ ...prev, month: val }))}
             />
             <SelectBox
-              style={selectStyle}
               selectOption={getDaysOption(endDay)}
               initialValue={date.day}
-              onChange={(val: string) => setDate((prev) => ({ ...prev, day: val }))}
+              onChange={(val: number) => setDate((prev) => ({ ...prev, day: val }))}
             />
           </div>
         </div>
@@ -130,23 +121,12 @@ const WeddingInfoSection = () => {
           <div className={labelStyle}>예식 시간</div>
           <div className="flex flex-1 gap-2.5 items-center flex-wrap">
             <SelectBox
-              style={selectStyle}
               selectOption={timeOfDayOptions}
               initialValue={time.timeOfDay}
               onChange={(val: string) => setTime((prev) => ({ ...prev, timeOfDay: val }))}
             />
-            <SelectBox
-              style={selectStyle}
-              selectOption={hoursOptions}
-              initialValue={time.hour}
-              onChange={(val: string) => setTime((prev) => ({ ...prev, hour: val }))}
-            />
-            <SelectBox
-              style={selectStyle}
-              selectOption={minutesOptions}
-              initialValue={time.min}
-              onChange={(val: string) => setTime((prev) => ({ ...prev, min: val }))}
-            />
+            <SelectBox selectOption={hoursOptions} initialValue={time.hour} onChange={(val: string) => setTime((prev) => ({ ...prev, hour: val }))} />
+            <SelectBox selectOption={minutesOptions} initialValue={time.min} onChange={(val: string) => setTime((prev) => ({ ...prev, min: val }))} />
           </div>
         </div>
 
