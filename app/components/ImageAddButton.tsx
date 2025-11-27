@@ -11,7 +11,7 @@ const ImageAddButton = ({ previewImage, loading, opacity, handleImageRemove, id 
       {previewImage ? (
         <div className="w-[124px] h-[124px] overflow-hidden relative">
           <div className="w-full h-full ">
-            <img src={previewImage} alt="대문사진" className="w-full h-full object-cover" style={{ opacity: opacity }} />
+            <img src={previewImage} alt="이미지미리보기" className="w-full h-full object-cover" style={{ opacity: opacity }} />
 
             {loading && <Image src={TestImg} alt="이미지추가버튼" className="cursor-pointer absolute left-0 top-0" />}
             {!loading && (
