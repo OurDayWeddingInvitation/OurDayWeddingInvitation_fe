@@ -1,10 +1,10 @@
+import { LoginInfo } from "@/app/lib/fetches/user/type";
+import { encrypt } from "@/crypto";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
   const state = req.nextUrl.searchParams.get("state");
-
-  console.log(`code --> ${code} + state --> ${state}`);
 
   if (!code || !state) {
     return NextResponse.json(
@@ -12,10 +12,46 @@ export async function GET(req: NextRequest) {
       { status: 400 }
     );
   }
-  //api call해서 code state 넘김 후 access token get
-  //받은 access token cookie에 저장
 
-  const response = NextResponse.redirect(new URL("/dashboard", req.url));
+  try {
+    const backendRes = await fetch(
+      "http://api.ourday.kr/v1/auth/social/naver",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: code,
+          state: state,
+        }),
+        cache: "no-store",
+      }
+    );
 
-  return response;
+    const result = await backendRes.json();
+
+    const res = NextResponse.redirect(new URL("/dashboard", req.url));
+    const encrypted = await encrypt(
+      result.data,
+      process.env.ENCRYPT_SECRET_KEY!
+    );
+
+    res.cookies.set("token", encrypted, {
+      httpOnly: true,
+      secure: false,
+      path: "/",
+      sameSite: "lax",
+      maxAge: 60 * 60,
+    });
+
+    return res;
+  } catch (error) {
+    console.error("API POST Error:", error);
+
+    return NextResponse.json(
+      { success: false, message: error.toString() },
+      { status: 500 }
+    );
+  }
 }
