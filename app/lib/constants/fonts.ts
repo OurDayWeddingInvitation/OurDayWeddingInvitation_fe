@@ -1,5 +1,5 @@
 export const fontList = [
-  "Nanum Myeongjo",
+  "NanumMyeongjo",
   "Eulyoo1945",
   "Ridibatang",
   "KoPubWorlddotum",
