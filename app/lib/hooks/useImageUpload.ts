@@ -1,15 +1,20 @@
+import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useState, useRef } from "react";
 
-export const useImageUpload = () => {
+export const useImageUpload = (kind: string) => {
   const [preview, setPreview] = useState<string | null>();
   const [loading, setLoading] = useState<boolean>(false);
   const [opacity, setOpacity] = useState<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { setMainImage } = useMainImageStore();
 
   const handleImageUpload = (file: File | null) => {
     if (!file) return;
 
     const url = URL.createObjectURL(file);
+    if (kind === "main") {
+      setMainImage(url);
+    }
     setPreview(url);
     setLoading(true);
     setOpacity(0.5);
@@ -21,6 +26,9 @@ export const useImageUpload = () => {
   };
 
   const handleImageRemove = () => {
+    if (kind === "main") {
+      setMainImage("");
+    }
     setPreview(null);
 
     if (inputRef.current) {
