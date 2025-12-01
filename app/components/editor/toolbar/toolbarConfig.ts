@@ -1,4 +1,4 @@
-import { Bold, Italic, Underline } from "lucide-react";
+import { Bold, Italic, Minus, Underline } from "lucide-react";
 
 export const TOOLBAR_CONFIG = [
   {
@@ -28,6 +28,14 @@ export const TOOLBAR_CONFIG = [
         isDisabled: (editor) => !editor.can().chain().toggleUnderline().run(),
         title: "밑줄",
       },
+      {
+        name: "horizontalRule",
+        icon: Minus,
+        command: (editor) => editor.chain().focus().setHorizontalRule().run(),
+        isActive: () => false,
+        isDisabled: () => false,
+        title: "구분선",
+      },
     ],
   },
   {
@@ -36,6 +44,10 @@ export const TOOLBAR_CONFIG = [
       {
         name: "color",
         component: "TextColorMenu",
+      },
+      {
+        name: "highlight",
+        component: "TextHighlightMenu",
       },
       {
         name: "align",

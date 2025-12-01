@@ -60,6 +60,17 @@ const TextColorMenu = ({ editor }: { editor: Editor }) => {
               />
             ))}
           </div>
+
+          <button
+            type="button"
+            className="w-full mt-2 text-xs flex items-center justify-center rounded-sm bg-gray-100 hover:bg-gray-200 transition-colors py-1.5"
+            onClick={() => {
+              editor.chain().focus().setColor(null).run();
+              setShowPalette(false);
+            }}
+          >
+            색상 제거하기
+          </button>
         </div>
       )}
     </div>

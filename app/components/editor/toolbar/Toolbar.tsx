@@ -3,6 +3,7 @@
 import { Editor, useEditorState } from "@tiptap/react";
 import TextAlignMenu from "./TextAlignMenu";
 import TextColorMenu from "./TextColorMenu";
+import TextHighlightMenu from "./TextHighlightMenu";
 import ToolbarButton from "./ToolbarButton";
 import ToolbarGroup from "./ToolbarGroup";
 import { TOOLBAR_CONFIG } from "./toolbarConfig";
@@ -14,6 +15,7 @@ type Props = {
 const MENU_COMPONENTS = {
   TextAlignMenu,
   TextColorMenu,
+  TextHighlightMenu,
 };
 
 const Toolbar = ({ editor }: Props) => {
@@ -41,7 +43,7 @@ const Toolbar = ({ editor }: Props) => {
   if (!editor) return null;
 
   return (
-    <div className="sticky top-0 z-10 flex flex-wrap gap-1 p-2 bg-white rounded-t-sm border-b border-[#E0E0E0]">
+    <div className="sticky top-0 z-10 flex flex-wrap gap-1 p-2 bg-[#eee] rounded-t-sm border-b border-[#E0E0E0]">
       {TOOLBAR_CONFIG.map((group, index) => (
         <ToolbarGroup key={`${group}-${index}`}>
           {group.type === "button" &&

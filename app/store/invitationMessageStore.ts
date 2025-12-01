@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { DEFAULT_INVITATION_TEXT } from "../(routes)/invitation/components/editor/toolbar/toolbarConfig";
+import { DEFAULT_INVITATION_TEXT } from "../components/editor/toolbar/toolbarConfig";
 
 type messageProp = {
   title: string;
