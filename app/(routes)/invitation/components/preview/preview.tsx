@@ -5,6 +5,7 @@ import { useCounterStore } from "@/app/store/sectionFirstStore";
 import Mockup from "../../../../assets/images/mockup.png";
 import { useColorFontStore } from "@/app/store/useColorFontStore";
 import MainImage from "./mainImage/MainImage";
+import Gallery from "./Gallery";
 
 const Preview = () => {
   const { title, description } = useCounterStore();
@@ -20,6 +21,7 @@ const Preview = () => {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none", backgroundColor: themeColor, fontSize: fontSize, fontFamily: fontStyle }}
         >
           <MainImage />
+          <Gallery />
           <div dangerouslySetInnerHTML={{ __html: message }}></div>
         </div>
       </div>
