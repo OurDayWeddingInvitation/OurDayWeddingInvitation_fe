@@ -1,17 +1,34 @@
 import React from "react";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 
-const Mainstyle2 = () => {
+const Mainstyle2 = ({ wedding }) => {
   const { mainImage } = useMainImageStore();
+  const { date, time, groom, bride, hallName, hallDetail } = wedding;
+  const year = date.year;
+  const month = date.month;
+  const day = date.day;
+  const groomName = groom.lastName + groom.firstName;
+  const brideName = bride.lastName + bride.firstName;
+  const timeOfDay = time.timeOfDay;
+  const hour = time.hour;
+  const min = time.min;
+
   return (
     <div className="bg-[#FFFFFF] pt-[46px] text-[#5E5852]" style={{ fontFamily: "NanumMyeongjo" }}>
       <div className="text-center text-[20px]">
-        <span className="font-extrabold">김관휘 ♥ 유나영</span>
+        <span className="font-extrabold">
+          {groomName} ♥ {brideName}
+        </span>
         <div className="text-center text-[14px] pt-[30px]">
-          <p>2025년 12월 27일 토요일 오전 11시 20분</p>
-          <p>더베뉴지서울 1층, 네이처홀</p>
+          <p>
+            {year}년 {month}월 {day}일 토요일 {timeOfDay} {hour} {min}
+          </p>
+          <p>
+            {hallDetail}, {hallName}
+          </p>
         </div>
         {mainImage !== "" && (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={mainImage}
             alt="메인 이미지"
