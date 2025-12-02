@@ -1,9 +1,10 @@
 "use client";
-import { useColorFontStore } from "@/app/store/useColorFontStore";
+
 import { useMessageStore } from "@/app/store/invitationMessageStore";
 import { useCounterStore } from "@/app/store/sectionFirstStore";
-import Image from "next/image";
 import Mockup from "../../../../assets/images/mockup.png";
+import { useColorFontStore } from "@/app/store/useColorFontStore";
+import MainImage from "./mainImage/MainImage";
 
 const Preview = () => {
   const { title, description } = useCounterStore();
@@ -11,14 +12,16 @@ const Preview = () => {
   const { themeColor, fontSize, fontStyle } = useColorFontStore();
 
   return (
-    <div className="h-full flex relative">
-      <Image src={Mockup} alt="미리보기목업" className="w-full object-contain rounded-[75px] overflow-hidden " style={{ background: themeColor }} />
-
-      <div className="absolute inset-0 flex items-center justify-center">
-        <p>{title}</p>
-        <p>{description}</p>
-
-        <div dangerouslySetInnerHTML={{ __html: message }} style={{ fontSize: fontSize, fontFamily: fontStyle }} />
+    <div>
+      <div className="relative h-[760px]">
+        {/* <Image src={Mockup} alt="미리보기목업" className="absolute left-0 top-0 w-full overflow-hidden border" /> */}
+        <div
+          className="overflow-scroll [&::-webkit-scrollbar]:hidden w-[90%] m-auto h-full z-99"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none", backgroundColor: themeColor, fontSize: fontSize, fontFamily: fontStyle }}
+        >
+          <MainImage />
+          <div dangerouslySetInnerHTML={{ __html: message }}></div>
+        </div>
       </div>
     </div>
   );
