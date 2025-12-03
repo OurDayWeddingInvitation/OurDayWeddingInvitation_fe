@@ -1,6 +1,6 @@
 "use client";
 
-import { useMessageStore } from "@/app/store/invitationMessageStore";
+import { useMessageStore } from "@/app/store/useInvitaionMessageStore";
 import TextAlign from "@tiptap/extension-text-align";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
@@ -10,7 +10,7 @@ import Toolbar from "./toolbar/Toolbar";
 import { DEFAULT_INVITATION_TEXT } from "./toolbar/toolbarConfig";
 
 const TextEditor = () => {
-  const { updateMessage } = useMessageStore();
+  const { setInvitationMessage } = useMessageStore();
 
   const editor = useEditor({
     extensions: [
@@ -38,12 +38,12 @@ const TextEditor = () => {
 
     // 초기 문구 저장
     onCreate({ editor }) {
-      updateMessage(editor.getHTML());
+      setInvitationMessage(editor.getHTML());
     },
 
     // 문구 수정되는 경우 저장
     onUpdate({ editor }) {
-      updateMessage(editor.getHTML());
+      setInvitationMessage(editor.getHTML());
     },
   });
 
