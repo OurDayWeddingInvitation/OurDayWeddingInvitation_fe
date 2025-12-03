@@ -13,7 +13,7 @@ type ColorFontProp = {
 
 export const useColorFontStore = create<ColorFontProp>((set) => ({
   fontSize: 14,
-  fontStyle: "Nanum Myeongjo",
+  fontStyle: "NanumMyeongjo",
   themeColor: "#fff6fb",
   pointColor: "#d28bb3",
   setFontSize: (size) => {
