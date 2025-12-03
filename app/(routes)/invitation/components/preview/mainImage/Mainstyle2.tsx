@@ -27,7 +27,7 @@ const Mainstyle2 = ({ wedding }) => {
             {hallDetail}, {hallName}
           </p>
         </div>
-        {mainImage !== "" && (
+        {mainImage !== "" ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={mainImage}
@@ -56,6 +56,8 @@ const Mainstyle2 = ({ wedding }) => {
               WebkitMaskSize: "cover"
             }}
           />
+        ) : (
+          <div className="bg-[#D9D9D9] h-[760px]"></div>
         )}
       </div>
     </div>
