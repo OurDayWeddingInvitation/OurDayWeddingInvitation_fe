@@ -26,7 +26,7 @@ const TextEditor = () => {
       Color,
       Highlight.configure({ multicolor: true }),
       TextAlign.configure({
-        types: ["paragraph"],
+        types: ["paragraph", "bulletList", "orderedList", "listItem"],
         alignments: ["left", "center", "right"],
         defaultAlignment: "center",
       }),
