@@ -6,8 +6,8 @@ import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
 import PreviewThumbnail from "@/app/components/PreviewThumbnail";
 
 const ShareThumbnailSection = () => {
-  const kakao = useImageUpload();
-  const link = useImageUpload();
+  const kakao = useImageUpload("kakao");
+  const link = useImageUpload("link");
   const { openIndex, openModal, closeModal } = usePreviewModalStore();
 
   const shareThumbnailInfo = [
@@ -55,7 +55,7 @@ const ShareThumbnailSection = () => {
               <div className="z-99999 absolute left-[50%] top-[50%] translate-[-50%]">
                 <CircleX className="float-right mb-1.5 cursor-pointer absolute right-0 -top-8" color="#5F5F5F" size={28} onClick={closeModal} />
                 {/* 미리보기 창 */}
-                <PreviewThumbnail thumbnail={thumbnail.preview} />
+                <PreviewThumbnail thumbnail={thumbnail.preview} kindIdx={idx} />
               </div>
             </div>
           </div>
