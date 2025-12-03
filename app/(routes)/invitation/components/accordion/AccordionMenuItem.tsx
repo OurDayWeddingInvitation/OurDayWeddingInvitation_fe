@@ -7,6 +7,7 @@ import ToggleButton from "@/app/components/ToggleButton";
 import { CSS } from "@dnd-kit/utilities";
 import { sectionComponents } from "@/app/lib/constants/index";
 import { ChevronDown } from "lucide-react";
+import "./Accordion.style.css";
 
 const AccordionMenuItem = ({ idx, menu }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: menu.id });
@@ -45,7 +46,13 @@ const AccordionMenuItem = ({ idx, menu }) => {
           </div>
         </AccordionTrigger>
       </AccordionHeader>
-      <AccordionContent className="py-6 text-balance w-full bg-white">{Component && <Component />}</AccordionContent>
+      <AccordionContent
+        className="py-6 text-balance w-full bg-white overflow-hidden accordion-content
+             data-[state=open]:animate-slideDown
+             data-[state=closed]:animate-slideUp"
+      >
+        {Component && <Component />}
+      </AccordionContent>
     </AccordionItem>
   );
 };
