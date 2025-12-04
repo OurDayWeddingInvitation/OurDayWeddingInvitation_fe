@@ -6,6 +6,7 @@ import WeddingInfoSection from "@/app/(routes)/invitation/components/accordion/s
 import CoupleIntroSection from "@/app/(routes)/invitation/components/accordion/section/CoupleIntroSection";
 import GallerySection from "@/app/(routes)/invitation/components/accordion/section/GallerySection";
 import AccountInfoSection from "@/app/(routes)/invitation/components/accordion/section/AccountInfoSection";
+import LocationInfoSection from "@/app/(routes)/invitation/components/accordion/section/LocationInfoSection";
 
 export const sectionComponents: Record<string, React.FC> = {
   mainImage: MainImageSection,
@@ -15,5 +16,6 @@ export const sectionComponents: Record<string, React.FC> = {
   colorFont: ColorFontSection,
   coupleIntro: CoupleIntroSection,
   gallery: GallerySection,
-  accountInfo: AccountInfoSection
+  accountInfo: AccountInfoSection,
+  locationInfo: LocationInfoSection
 };
