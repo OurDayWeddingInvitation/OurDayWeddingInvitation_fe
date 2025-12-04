@@ -7,6 +7,7 @@ import { useColorFontStore } from "@/app/store/useColorFontStore";
 import MainImage from "./mainImage/MainImage";
 import Gallery from "./Gallery";
 import AccountInfo from "./AccountInfo";
+import LocationInfo from "./LocationInfo";
 
 const Preview = () => {
   const { title, description } = useCounterStore();
@@ -22,9 +23,10 @@ const Preview = () => {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none", backgroundColor: themeColor, fontSize: fontSize, fontFamily: fontStyle }}
         >
           <MainImage />
+          <div dangerouslySetInnerHTML={{ __html: message }}></div>
           <Gallery />
           <AccountInfo />
-          <div dangerouslySetInnerHTML={{ __html: message }}></div>
+          <LocationInfo />
         </div>
       </div>
     </div>
