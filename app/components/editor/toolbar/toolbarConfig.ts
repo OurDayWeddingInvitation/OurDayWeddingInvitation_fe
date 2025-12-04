@@ -1,4 +1,11 @@
-import { Bold, Italic, Underline } from "lucide-react";
+import {
+  Bold,
+  Italic,
+  List,
+  ListOrdered,
+  Minus,
+  Underline,
+} from "lucide-react";
 
 export const TOOLBAR_CONFIG = [
   {
@@ -28,6 +35,30 @@ export const TOOLBAR_CONFIG = [
         isDisabled: (editor) => !editor.can().chain().toggleUnderline().run(),
         title: "밑줄",
       },
+      {
+        name: "horizontalRule",
+        icon: Minus,
+        command: (editor) => editor.chain().focus().setHorizontalRule().run(),
+        isActive: () => false,
+        isDisabled: () => false,
+        title: "구분선",
+      },
+      // {
+      //   name: "bulletList",
+      //   icon: List,
+      //   command: (editor) => editor.chain().focus().toggleBulletList().run(),
+      //   isActive: (editor) => editor.isActive("bulletList"),
+      //   isDisabled: () => false,
+      //   title: "글머리 기호",
+      // },
+      // {
+      //   name: "orderedList",
+      //   icon: ListOrdered,
+      //   command: (editor) => editor.chain().focus().toggleOrderedList().run(),
+      //   isActive: (editor) => editor.isActive("orderedList"),
+      //   isDisabled: () => false,
+      //   title: "번호 목록",
+      // },
     ],
   },
   {
@@ -36,6 +67,10 @@ export const TOOLBAR_CONFIG = [
       {
         name: "color",
         component: "TextColorMenu",
+      },
+      {
+        name: "highlight",
+        component: "TextHighlightMenu",
       },
       {
         name: "align",
