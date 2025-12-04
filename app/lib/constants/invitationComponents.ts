@@ -5,6 +5,8 @@ import ShareThumbnailSection from "@/app/(routes)/invitation/components/accordio
 import WeddingInfoSection from "@/app/(routes)/invitation/components/accordion/section/WeddingInfoSection";
 import CoupleIntroSection from "@/app/(routes)/invitation/components/accordion/section/CoupleIntroSection";
 import GallerySection from "@/app/(routes)/invitation/components/accordion/section/GallerySection";
+import AccountInfoSection from "@/app/(routes)/invitation/components/accordion/section/AccountInfoSection";
+import LocationInfoSection from "@/app/(routes)/invitation/components/accordion/section/LocationInfoSection";
 
 export const sectionComponents: Record<string, React.FC> = {
   mainImage: MainImageSection,
@@ -13,5 +15,7 @@ export const sectionComponents: Record<string, React.FC> = {
   shareThumbnail: ShareThumbnailSection,
   colorFont: ColorFontSection,
   coupleIntro: CoupleIntroSection,
-  gallery: GallerySection
+  gallery: GallerySection,
+  accountInfo: AccountInfoSection,
+  locationInfo: LocationInfoSection
 };

@@ -1,5 +1,5 @@
 import { useMessageStore } from "@/app/store/useInvitaionMessageStore";
-import TextEditor from "../../editor/TextEditor";
+import TextEditor from "../../../../../components/editor/TextEditor";
 
 const InvitationMessage = () => {
   const { invitationTitle, setInvitatinoTitle } = useMessageStore();

@@ -5,7 +5,9 @@ import { useCounterStore } from "@/app/store/sectionFirstStore";
 import Mockup from "../../../../assets/images/mockup.png";
 import { useColorFontStore } from "@/app/store/useColorFontStore";
 import MainImage from "./mainImage/MainImage";
-import Image from "next/image";
+import Gallery from "./Gallery";
+import AccountInfo from "./AccountInfo";
+import LocationInfo from "./LocationInfo";
 
 const Preview = () => {
   const { title, description } = useCounterStore();
@@ -28,6 +30,9 @@ const Preview = () => {
         >
           <MainImage />
 
+          <Gallery />
+          <AccountInfo />
+          <LocationInfo />
           {/* 초대 문구 section */}
           {/* TODO: 초대 메세지 영역 퍼블리싱 필요 */}
           <div className="flex flex-col items-center px-5 py-7.5">

@@ -7,6 +7,7 @@ import ToggleButton from "@/app/components/ToggleButton";
 import { CSS } from "@dnd-kit/utilities";
 import { sectionComponents } from "@/app/lib/constants/index";
 import { ChevronDown } from "lucide-react";
+import "./Accordion.style.css";
 
 const AccordionMenuItem = ({ idx, menu }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: menu.id });
@@ -29,7 +30,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
       <AccordionHeader>
         {/* 드래그/메뉴/토글/ */}
         <AccordionTrigger asChild className="group">
-          <div className="flex justify-between cursor-pointer">
+          <div className="flex justify-between cursor-pointer items-center">
             <div className="flex gap-3 cursor-pointer">
               <div
                 {...attributes}
@@ -38,14 +39,20 @@ const AccordionMenuItem = ({ idx, menu }) => {
               >
                 ⠿
               </div>
-              <ToggleButton toggle={menu.toggle} />
+              <ToggleButton toggle={menu.toggle} isVisble={menu.isVisible} />
               <h3 className="font-medium">{menu.label}</h3>
             </div>
             <ChevronDown className="transition-transform duration-300 group-data-[state=open]:-rotate-180" />
           </div>
         </AccordionTrigger>
       </AccordionHeader>
-      <AccordionContent className="py-6 text-balance w-full bg-white">{Component && <Component />}</AccordionContent>
+      <AccordionContent
+        className="py-6 text-balance w-full bg-white overflow-hidden accordion-content
+             data-[state=open]:animate-slideDown
+             data-[state=closed]:animate-slideUp"
+      >
+        {Component && <Component />}
+      </AccordionContent>
     </AccordionItem>
   );
 };
