@@ -1,4 +1,4 @@
-import TextEditor from "../../editor/TextEditor";
+import TextEditor from "../../../../../components/editor/TextEditor";
 
 const InvitationMessage = () => {
   return (

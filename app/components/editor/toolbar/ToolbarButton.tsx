@@ -16,7 +16,7 @@ const ToolbarButton = ({
   return (
     <button
       className={`w-8 h-8 flex items-center justify-center rounded text-sm hover:bg-gray-100 disabled:opacity-30 disabled:pointer-events-none ${
-        active ? "bg-gray-200" : "bg-white"
+        active ? "bg-white" : "bg-[#eee]"
       }`}
       onClick={onClick}
       disabled={disabled}
