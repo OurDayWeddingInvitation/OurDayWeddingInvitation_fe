@@ -23,9 +23,14 @@ const AccountInfo = () => {
   const text = "국민은행 12345678910";
 
   const handleCopy = (value: string) => {
-    navigator.clipboard.writeText(value).then(() => {
-      alert("복사되었습니다");
-    });
+    navigator.clipboard
+      .writeText(value)
+      .then(() => {
+        alert("계좌번호가 복사되었습니다.😉");
+      })
+      .catch(() => {
+        alert("계좌번호 복사에 실패했습니다.🥲");
+      });
   };
 
   return (
