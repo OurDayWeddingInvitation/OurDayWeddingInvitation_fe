@@ -10,11 +10,22 @@ const AccountInfo = () => {
   const groomName = wedding.groom.lastName + wedding.groom.firstName;
   const brideName = wedding.bride.lastName + wedding.bride.firstName;
 
-  const couple = ["신랑", "신부"];
+  const accountKind = [
+    {
+      group: "신랑",
+      members: ["신랑", "혼주", "혼주"]
+    },
+    {
+      group: "신부",
+      members: ["신부", "혼주", "혼주"]
+    }
+  ];
   const text = "국민은행 12345678910";
 
   const handleCopy = (value: string) => {
-    navigator.clipboard.writeText(value);
+    navigator.clipboard.writeText(value).then(() => {
+      alert("복사되었습니다");
+    });
   };
 
   return (
@@ -31,28 +42,44 @@ const AccountInfo = () => {
 
       <div className="px-[23px]">
         <Accordion type="multiple" className="flex flex-col gap-2">
-          {couple.map((item, idx) => {
-            const isGroom = idx === 0;
+          {accountKind.map((groupItem, groupIdx) => {
+            const isGroom = groupIdx === 0;
             const border = isGroom ? "#D2DAE4" : "#D7AEB9";
             const color = isGroom ? "#7F8EA0" : "#C98898";
+            const fontColor = isGroom ? "#405A78" : "#A14D62";
             return (
-              <AccordionItem value={`item-${idx}`} key={idx} className="bg-[#FFFFFF] border rounded-[10px] py-3 px-5" style={{ borderColor: border }}>
-                <AccordionTrigger className="cursor-pointer flex justify-between w-full">
-                  <div>{item}측</div>
+              <AccordionItem
+                value={`item-${groupIdx}`}
+                key={groupIdx}
+                className="bg-[#FFFFFF] border rounded-[10px] py-3 px-5"
+                style={{ borderColor: border }}
+              >
+                <AccordionTrigger className="cursor-pointer flex justify-between w-full group" key={groupIdx}>
+                  <div className="font-bold" style={{ color: fontColor }}>
+                    {groupItem.group}측
+                  </div>
                   <ChevronDown className="transition-transform duration-300 group-data-[state=open]:-rotate-180" color={color} />
                 </AccordionTrigger>
-                <AccordionContent className="py-4 flex flex-col gap-2">
-                  <div className="flex gap-1">
-                    <h3>{item}</h3>
-                    <span>{isGroom ? groomName : brideName}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <p>{text}</p>
-                    <span className=" p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer">
-                      <Copy color="#CACACA" size={16} />
-                    </span>
-                  </div>
-                </AccordionContent>
+                {groupItem.members.map((item, idx) => (
+                  <>
+                    <AccordionContent className="py-4 flex flex-col gap-2" key={idx}>
+                      <div className="flex gap-1">
+                        <h3>{item}</h3>
+                        <span>{isGroom ? groomName : brideName}</span>
+                      </div>
+                      <div
+                        className="flex justify-between items-center accordion-content
+             data-[state=open]:animate-slideDown
+             data-[state=closed]:animate-slideUp"
+                      >
+                        <p>{text}</p>
+                        <span className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer" onClick={() => handleCopy(text)}>
+                          <Copy color="#CACACA" size={16} />
+                        </span>
+                      </div>
+                    </AccordionContent>
+                  </>
+                ))}
               </AccordionItem>
             );
           })}
