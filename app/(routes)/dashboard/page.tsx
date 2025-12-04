@@ -1,6 +1,13 @@
+import { fetchApi, Method } from "@/app/lib/fetches/server";
 import DashboardView from "./view";
 
-export default function DashboardPage() {
-  // data fetch 후 파라미터로 넘겨서 DashboardView쪽에서 세팅
+export default async function DashboardPage() {
+  const response = await fetchApi({
+    endPoint: "/weddings",
+    method: Method.GET,
+  });
+
+  console.log(response);
+
   return <DashboardView />;
 }
