@@ -16,11 +16,8 @@ const MainImage = () => {
       {mainStyleKind === "mainStyle2" && <Mainstyle2 wedding={wedding} />}
       {mainStyleKind === "mainStyle3" && <Mainstyle3 wedding={wedding} />}
 
-      {!mainStyleKind && mainImage && (
-        <div className="bg-[#D9D9D9] h-[760px]">
-          <img src={mainImage} alt="메인 이미지" className="w-full h-full object-cover" />
-        </div>
-      )}
+      {!mainStyleKind && mainImage && <img src={mainImage} alt="메인 이미지" className="w-full object-cover h-[760px]" />}
+      {!mainImage && !mainStyleKind && <div className="bg-[#D9D9D9] h-[760px]"></div>}
     </div>
   );
 };
