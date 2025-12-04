@@ -13,27 +13,26 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  const apiDomain = process.env.API_DOMAIN;
+
   try {
-    const backendRes = await fetch(
-      "http://api.ourday.kr/v1/auth/social/naver",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          code: code,
-          state: state,
-        }),
-        cache: "no-store",
-      }
-    );
+    const backendRes = await fetch(`${apiDomain}/auth/social/naver`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        code: code,
+        state: state,
+      }),
+      cache: "no-store",
+    });
 
     const result = await backendRes.json();
 
     const res = NextResponse.redirect(new URL("/dashboard", req.url));
     const encrypted = await encrypt(
-      result.data,
+      { ...result.data, issuedTime: new Date().toISOString() } as LoginInfo,
       process.env.ENCRYPT_SECRET_KEY!
     );
 

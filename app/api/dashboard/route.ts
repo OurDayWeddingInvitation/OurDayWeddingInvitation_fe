@@ -3,9 +3,8 @@ import { decrypt } from "@/crypto";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const encrypted = req.headers.get("x-auth-token");
-
-  console.log(encrypted);
+  const apiDomain = process.env.API_DOMAIN;
+  const encrypted = req.cookies.get("token")?.value;
 
   const data: LoginInfo = await decrypt(
     encrypted,
@@ -15,7 +14,9 @@ export async function GET(req: NextRequest) {
   req.headers.set("Authorization", `Bearer ${data.accessToken}`);
 
   try {
-    const data = await fetch("http://api.ourday.kr/v1/wedding", {
+    console.log(apiDomain);
+
+    const data = await fetch(`${apiDomain}/wedding`, {
       method: "GET",
       headers: {
         ...req.headers,
