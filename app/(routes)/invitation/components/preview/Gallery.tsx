@@ -4,7 +4,7 @@ import { useColorFontStore } from "@/app/store/useColorFontStore";
 const Gallery = () => {
   const { pointColor } = useColorFontStore();
   return (
-    <div className="text-center h-[691px] bg-[#FFFFFF]">
+    <div className="text-center bg-[#FFFFFF]">
       <div className="tracking-[4px] text-[12px] pb-3 pt-[120px]" style={{ color: pointColor }}>
         GALLERY
       </div>

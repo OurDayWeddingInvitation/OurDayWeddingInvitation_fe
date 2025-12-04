@@ -67,11 +67,7 @@ const AccountInfo = () => {
                         <h3>{item}</h3>
                         <span>{isGroom ? groomName : brideName}</span>
                       </div>
-                      <div
-                        className="flex justify-between items-center accordion-content
-             data-[state=open]:animate-slideDown
-             data-[state=closed]:animate-slideUp"
-                      >
+                      <div className="flex justify-between items-center">
                         <p>{text}</p>
                         <span className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer" onClick={() => handleCopy(text)}>
                           <Copy color="#CACACA" size={16} />
