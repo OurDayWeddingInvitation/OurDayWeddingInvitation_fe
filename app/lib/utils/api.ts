@@ -18,7 +18,7 @@ export const uploadImages = async (
   form.append("imageType", imageType);
   form.append("displayOrder", String(displayOrder));
 
-  const res = await fetch("/api/invitation/image/upload", {
+  const res = await fetch("/api/media/upload", {
     method: "POST",
     body: form,
   });
