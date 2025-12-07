@@ -53,7 +53,12 @@ const MainImageSection = () => {
     thumbnail.handleImageUpload(file);
 
     // 2) 실제 업로드 호출 (서버 전송)
-    const res = await uploadImages(1, compressedFile, "mainImage", 1);
+    const res = await uploadImages({
+      weddingId: 1,
+      file: compressedFile,
+      imageType: "mainImage",
+      displayOrder: 1,
+    });
     console.log("서버 업로드 결과:", res);
   };
 
