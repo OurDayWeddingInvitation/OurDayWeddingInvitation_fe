@@ -14,11 +14,11 @@ import imageCompression from "browser-image-compression";
  * @param formEl - HTMLFormElement (input 포함한 form)
  *
  * 반환값:
- * - FormData 또는 HTMLFormElement (업로드에 바로 사용 가능)
+ * - 압축된 이미지
  * - 실패 시 null 반환
  */
 export const useCompressImageUpload = () => {
-  const getFileToUpload = useCallback(async (imgTarget: File) => {
+  const getCompressedImage = useCallback(async (imgTarget: File) => {
     try {
       const compressedFile = await imageCompression(imgTarget, {
         maxSizeMB: 2,
@@ -26,11 +26,6 @@ export const useCompressImageUpload = () => {
         useWebWorker: true,
       });
 
-      // TODO: 서버 업로드 추가 시 사용 예정
-      // const formData = new FormData();
-      // formData.set("upfile", compressedFile, compressedFile.name);
-
-      // return formData;
       return compressedFile;
     } catch (error) {
       console.log("[getFileToUpload] 이미지 업로드 처리 중 오류 발생: ", error);
@@ -39,5 +34,5 @@ export const useCompressImageUpload = () => {
     }
   }, []);
 
-  return { getFileToUpload };
+  return { getCompressedImage };
 };
