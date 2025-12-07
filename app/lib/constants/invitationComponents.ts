@@ -7,6 +7,9 @@ import CoupleIntroSection from "@/app/(routes)/invitation/components/accordion/s
 import GallerySection from "@/app/(routes)/invitation/components/accordion/section/GallerySection";
 import AccountInfoSection from "@/app/(routes)/invitation/components/accordion/section/AccountInfoSection";
 import LocationInfoSection from "@/app/(routes)/invitation/components/accordion/section/LocationInfoSection";
+import ParentsIntroSection from "@/app/(routes)/invitation/components/accordion/section/ParentsIntroSection";
+import LoadingScreenSection from "@/app/(routes)/invitation/components/accordion/section/LoadingScreenSection";
+import FlipImageSection from "@/app/(routes)/invitation/components/accordion/section/FlipImageSection";
 
 export const sectionComponents: Record<string, React.FC> = {
   mainImage: MainImageSection,
@@ -17,5 +20,8 @@ export const sectionComponents: Record<string, React.FC> = {
   coupleIntro: CoupleIntroSection,
   gallery: GallerySection,
   accountInfo: AccountInfoSection,
-  locationInfo: LocationInfoSection
+  locationInfo: LocationInfoSection,
+  parentsIntro: ParentsIntroSection,
+  loadingScreen: LoadingScreenSection,
+  flipImage: FlipImageSection
 };

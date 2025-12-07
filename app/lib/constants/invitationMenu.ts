@@ -9,7 +9,7 @@ export interface InvitationMenuItem {
 export const invitationMenu: InvitationMenuItem[] = [
   { id: "colorFont", label: "컬러 & 폰트", movable: false, toggle: true, isVisible: true },
   { id: "weddingInfo", label: "예식 기본 정보", movable: false, toggle: true, isVisible: true },
-  { id: "loading", label: "로딩화면", movable: false, toggle: false, isVisible: true },
+  { id: "loadingScreen", label: "로딩화면", movable: false, toggle: false, isVisible: true },
   { id: "mainImage", label: "메인 사진", movable: false, toggle: false, isVisible: true },
   { id: "invitationText", label: "초대 문구", movable: true, toggle: false, isVisible: true },
   { id: "coupleIntro", label: "신랑 & 신부 소개", movable: true, toggle: false, isVisible: true },

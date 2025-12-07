@@ -12,9 +12,11 @@ export const useImageUpload = (kind: string) => {
     if (!file) return;
 
     const url = URL.createObjectURL(file);
+
     if (kind === "main") {
       setMainImage(url);
     }
+
     setPreview(url);
     setLoading(true);
     setOpacity(0.5);
