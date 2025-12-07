@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "./crypto";
+import { decrypt, encrypt } from "./crypto";
 import { LoginInfo } from "./app/lib/fetches/user/type";
 import { refreshTokenIfNeeded } from "./app/lib/auth/token";
 
@@ -45,7 +45,33 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    return NextResponse.next();
+    let newEncrypted;
+    try {
+      newEncrypted = await encrypt(
+        updatedData,
+        process.env.ENCRYPT_SECRET_KEY!
+      );
+    } catch {
+      return null;
+    }
+
+    const res = NextResponse.next();
+
+    try {
+      res.cookies.set({
+        name: "token",
+        value: newEncrypted,
+        path: "/",
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 60 * 60,
+      });
+    } catch {
+      return null;
+    }
+
+    return res;
   } catch (err) {
     console.error("decrypt or refresh error:", err);
     return NextResponse.redirect(new URL("/login", req.url));

@@ -1,8 +1,8 @@
 import { decrypt } from "@/crypto";
-import { cookies } from "next/headers";
 import { LoginInfo } from "./user/type";
-import { refreshTokenIfNeeded } from "../auth/token";
+import { cookies } from "next/headers";
 
+//서버 컴포넌트에서만 사용
 export async function fetchApi({
   endPoint,
   method,
@@ -22,18 +22,13 @@ export async function fetchApi({
       process.env.ENCRYPT_SECRET_KEY!
     );
 
-    const updatedData = await refreshTokenIfNeeded(data);
-    console.log(updatedData);
-
-    if (!updatedData) {
-      return null;
-    }
+    // console.log(data.accessToken); swagger로 토큰 확인 하고싶을때 주석풀고 터미널에 나오는 토큰 사용
 
     const response = await fetch(`${apiDomain}${endPoint}`, {
       method,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${updatedData.accessToken}`,
+        Authorization: `Bearer ${data.accessToken}`,
       },
       body: body ? JSON.stringify(body) : undefined,
       cache: "no-store",
@@ -49,11 +44,4 @@ export async function fetchApi({
     console.log(e);
     throw e;
   }
-}
-
-export enum Method {
-  GET = "GET",
-  POST = "POST",
-  PUT = "PUT",
-  DELETE = "DELETE",
 }
