@@ -2,12 +2,7 @@
 
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionHeader,
-} from "@radix-ui/react-accordion";
+import { AccordionContent, AccordionItem, AccordionTrigger, AccordionHeader } from "@radix-ui/react-accordion";
 import ToggleButton from "@/app/components/ToggleButton";
 import { CSS } from "@dnd-kit/utilities";
 import { sectionComponents } from "@/app/lib/constants/index";
@@ -15,13 +10,12 @@ import { ChevronDown } from "lucide-react";
 import "./Accordion.style.css";
 
 const AccordionMenuItem = ({ idx, menu }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: menu.id });
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: menu.id });
   const Component = sectionComponents[menu.id];
   const style = menu.movable
     ? {
         transform: CSS.Transform.toString(transform),
-        transition,
+        transition
       }
     : {};
 
@@ -41,11 +35,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
               <div
                 {...attributes}
                 {...listeners}
-                className={`${
-                  menu.movable
-                    ? "text-gray-400 select-none cursor-grab"
-                    : "opacity-0 cursor-default"
-                }`}
+                className={`${menu.movable ? "text-gray-400 select-none cursor-grab" : "opacity-0 cursor-default"}`}
               >
                 ⠿
               </div>
