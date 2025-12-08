@@ -14,8 +14,6 @@ export async function GET(req: NextRequest) {
   req.headers.set("Authorization", `Bearer ${data.accessToken}`);
 
   try {
-    console.log(apiDomain);
-
     const data = await fetch(`${apiDomain}/wedding`, {
       method: "GET",
       headers: {
@@ -24,9 +22,10 @@ export async function GET(req: NextRequest) {
       cache: "no-store",
     });
 
+    console.log(data);
+
     return NextResponse.json(data, { status: 200 });
   } catch (e) {
-    console.log("????");
     const message = e instanceof Error ? e.message : String(e);
     console.error(message);
 

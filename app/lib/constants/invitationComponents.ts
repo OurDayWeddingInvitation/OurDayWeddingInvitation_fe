@@ -23,5 +23,5 @@ export const sectionComponents: Record<string, React.FC> = {
   locationInfo: LocationInfoSection,
   parentsIntro: ParentsIntroSection,
   loadingScreen: LoadingScreenSection,
-  flipImage: FlipImageSection
+  flipImage: FlipImageSection,
 };

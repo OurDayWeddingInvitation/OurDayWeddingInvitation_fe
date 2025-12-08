@@ -1,6 +1,6 @@
-import { cookies } from "next/headers";
-import { encrypt } from "@/crypto";
 import { LoginInfo } from "@/app/lib/fetches/user/type";
+import { decrypt } from "@/crypto";
+import { NextRequest } from "next/server";
 
 export async function refreshTokenIfNeeded(data: LoginInfo | null) {
   try {
@@ -18,7 +18,7 @@ export async function refreshTokenIfNeeded(data: LoginInfo | null) {
     const nowMs = Date.now();
     const diff = nowMs - issuedMs;
 
-    const LIMIT = 55 * 60 * 1000;
+    const LIMIT = 57 * 60 * 1000;
 
     if (diff < LIMIT) return data;
 
@@ -48,32 +48,19 @@ export async function refreshTokenIfNeeded(data: LoginInfo | null) {
       issuedTime: new Date().toISOString(),
     };
 
-    let newEncrypted;
-    try {
-      newEncrypted = await encrypt(
-        updatedData,
-        process.env.ENCRYPT_SECRET_KEY!
-      );
-    } catch {
-      return null;
-    }
-
-    try {
-      cookies().set({
-        name: "token",
-        value: newEncrypted,
-        path: "/",
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax",
-        maxAge: 60 * 60,
-      });
-    } catch {
-      return null;
-    }
-
     return updatedData;
   } catch {
     return null;
   }
+}
+
+export async function getToken(req: NextRequest) {
+  const encrypted = req.cookies.get("token")?.value;
+
+  const data: LoginInfo = await decrypt(
+    encrypted,
+    process.env.ENCRYPT_SECRET_KEY!
+  );
+
+  return data.accessToken;
 }
