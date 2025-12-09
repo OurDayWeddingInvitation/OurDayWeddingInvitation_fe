@@ -1,8 +1,8 @@
-import { ImageUploadParams } from "@/app/types/media";
+import { ImageUploadType } from "../fetches/invitation/type";
 
 /**
  * 이미지 업로드
- * @param {number} weddingId
+ * @param {string} weddingId
  * @param {File} file
  * @param {string} imageType
  * @param {number} displayOrder
@@ -13,10 +13,10 @@ export const uploadImages = async ({
   file,
   imageType,
   displayOrder,
-}: ImageUploadParams) => {
+}: ImageUploadType) => {
   const form = new FormData();
 
-  form.append("weddingId", String(weddingId));
+  form.append("weddingId", weddingId);
   form.append("file", file, file.name);
   form.append("imageType", imageType);
   form.append("displayOrder", String(displayOrder));

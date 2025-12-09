@@ -1,7 +1,10 @@
+import {
+  ImageDetail,
+  InvitationDetail,
+} from "@/app/lib/fetches/invitation/type";
 import { fetchApi } from "@/app/lib/fetches/server";
-import InvitationView from "./view";
 import { ApiResponseType } from "@/app/lib/fetches/type";
-import { InvitationDetail } from "@/app/lib/fetches/invitation/type";
+import InvitationView from "./view";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const response: ApiResponseType<InvitationDetail> = await fetchApi({
@@ -9,5 +12,15 @@ export default async function Page({ params }: { params: { id: string } }) {
     method: "GET",
   });
 
-  return <InvitationView invitationDetail={response?.data} />;
+  const mediaResponse: ApiResponseType<ImageDetail> = await fetchApi({
+    endPoint: `/weddings/${params.id}/media/edit`,
+    method: "GET",
+  });
+
+  return (
+    <InvitationView
+      invitationDetail={response?.data}
+      imageDetail={mediaResponse?.data}
+    />
+  );
 }

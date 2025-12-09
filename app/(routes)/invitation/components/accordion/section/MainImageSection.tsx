@@ -8,7 +8,8 @@ import ImageAddButton from "@/app/components/ImageAddButton";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
 import { uploadImages } from "@/app/lib/utils/api";
-import { useMainStyleStore } from "@/app/store/useMainStyleStore";
+import { getImagePath } from "@/app/lib/utils/functions";
+import { useMainImageStore } from "@/app/store/useMainImageStore";
 import Image from "next/image";
 import React, { useState } from "react";
 import "swiper/css";
@@ -23,24 +24,19 @@ const MainImageSection = () => {
   const thumbnail = useImageUpload("main");
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const { getCompressedImage } = useCompressImageUpload();
+  const { mainImage, setMainStyleKind } = useMainImageStore();
 
   const mainStyleArr = [
     { title: "mainStyle1", url: MainStyle1 },
     { title: "mainStyle2", url: MainStyle2 },
     { title: "mainStyle3", url: MainStyle3 },
   ];
-  const { setMainStyleKind } = useMainStyleStore();
 
   const handleClick = (item: mainStyleItem, idx: number) => {
-    setSelectedIdx((prev) => {
-      if (prev === idx) {
-        setMainStyleKind(null);
-        return null;
-      } else {
-        setMainStyleKind(item.title);
-        return idx;
-      }
-    });
+    const nextIdx = selectedIdx === idx ? null : idx;
+
+    setSelectedIdx(nextIdx);
+    setMainStyleKind(nextIdx === null ? "" : item.title);
   };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,13 +49,12 @@ const MainImageSection = () => {
     thumbnail.handleImageUpload(file);
 
     // 2) 실제 업로드 호출 (서버 전송)
-    const res = await uploadImages({
-      weddingId: 1,
+    await uploadImages({
+      weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
       file: compressedFile,
       imageType: "mainImage",
       displayOrder: 1,
     });
-    console.log("서버 업로드 결과:", res);
   };
 
   return (
@@ -74,7 +69,7 @@ const MainImageSection = () => {
           className="hidden"
         />
         <ImageAddButton
-          previewImage={thumbnail.preview}
+          previewImage={mainImage ? getImagePath(mainImage) : thumbnail.preview}
           loading={thumbnail.loading}
           opacity={thumbnail.opacity}
           handleImageRemove={thumbnail.handleImageRemove}

@@ -1,10 +1,10 @@
 import { useMainImageStore } from "@/app/store/useMainImageStore";
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 
 export const useImageUpload = (kind: string) => {
   const [preview, setPreview] = useState<string | null>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [opacity, setOpacity] = useState<number>(0);
+  const [opacity, setOpacity] = useState<number>(0.5);
   const inputRef = useRef<HTMLInputElement>(null);
   const { setMainImage } = useMainImageStore();
 
@@ -44,6 +44,6 @@ export const useImageUpload = (kind: string) => {
     opacity,
     inputRef,
     handleImageUpload,
-    handleImageRemove
+    handleImageRemove,
   };
 };

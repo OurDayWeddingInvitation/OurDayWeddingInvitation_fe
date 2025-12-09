@@ -1,4 +1,4 @@
-import React from "react";
+import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 
 const Mainstyle2 = ({ wedding }) => {
@@ -14,7 +14,10 @@ const Mainstyle2 = ({ wedding }) => {
   const min = time.min;
 
   return (
-    <div className="bg-[#FFFFFF] pt-[46px] text-[#5E5852]" style={{ fontFamily: "NanumMyeongjo" }}>
+    <div
+      className="bg-[#FFFFFF] pt-[46px] text-[#5E5852]"
+      style={{ fontFamily: "NanumMyeongjo" }}
+    >
       <div className="text-center text-[20px]">
         <span className="font-extrabold">
           {groomName} ♥ {brideName}
@@ -30,7 +33,7 @@ const Mainstyle2 = ({ wedding }) => {
         {mainImage !== "" ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={mainImage}
+            src={getImagePath(mainImage)}
             alt="메인 이미지"
             className="h-[760px] object-cover"
             style={{
@@ -53,7 +56,7 @@ const Mainstyle2 = ({ wedding }) => {
       transparent 100%
     )`,
               WebkitMaskRepeat: "no-repeat",
-              WebkitMaskSize: "cover"
+              WebkitMaskSize: "cover",
             }}
           />
         ) : (

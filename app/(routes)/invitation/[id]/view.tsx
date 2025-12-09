@@ -1,26 +1,50 @@
 "use client";
 
-import Header from "@/app/components/Header";
-import Image from "next/image";
 import ToggleImg from "@/app/assets/images/toggle-icon.svg";
-import Preview from "../components/preview/preview";
-import Form from "../components/form/Form";
-import { InvitationDetail } from "@/app/lib/fetches/invitation/type";
+import Header from "@/app/components/Header";
+import {
+  ImageDetail,
+  InvitationDetail,
+} from "@/app/lib/fetches/invitation/type";
+import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
+import Image from "next/image";
 import { useEffect } from "react";
+import Form from "../components/form/Form";
+import Preview from "../components/preview/preview";
 
 export default function InvitationView({
   invitationDetail,
+  imageDetail,
 }: {
   invitationDetail: InvitationDetail;
+  imageDetail: ImageDetail;
 }) {
   const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
+  const setMainImage = useMainImageStore((s) => s.setMainImage);
+  const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
 
   useEffect(() => {
     if (invitationDetail?.sections?.weddingInfo) {
       setWeddingInfo(invitationDetail?.sections?.weddingInfo);
     }
-  }, [invitationDetail]);
+
+    if (invitationDetail?.sections?.main) {
+      setMainStyleKind(invitationDetail?.sections?.main.posterStyle);
+    }
+
+    // imageType 별로 필요한 값 저장
+    if (imageDetail?.length) {
+      const mainImage = imageDetail
+        .filter((img) => img.imageType === "mainImage")
+        .at(-1);
+
+      // 메인 이미지
+      if (mainImage) {
+        setMainImage(mainImage?.originalUrl);
+      }
+    }
+  }, [invitationDetail, imageDetail]);
 
   return (
     <>

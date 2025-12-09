@@ -148,3 +148,26 @@ export interface SectionSettingItem {
   isVisible?: boolean;
   displayOrder?: number;
 }
+
+// image
+export interface ImageDetailItem {
+  weddingId: string;
+  mediaId: number;
+  imageType: string;
+  displayOrder: number;
+  originalUrl: string;
+  editedUrl: string;
+  fileExtension: string;
+  fileSize: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type ImageDetail = ImageDetailItem[];
+
+export interface ImageUploadType {
+  weddingId: string;
+  file: File;
+  imageType: string;
+  displayOrder: number;
+}

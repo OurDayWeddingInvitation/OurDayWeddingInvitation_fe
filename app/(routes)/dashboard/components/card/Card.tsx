@@ -42,7 +42,14 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
         <button
           className="flex items-center justify-center w-49 h-10 bg-[#D4C6B7] rounded-sm font-semibold text-sm text-[#433F3B] active:scale-95 cursor-pointer focus:outline-none z-999"
           onClick={async () => {
-            router.push(`/invitation/${invitation.weddingId}`);
+            if (invitation) {
+              router.push(`/invitation/${invitation.weddingId}`);
+            } else {
+              await clientFetchApi({
+                endPoint: "/weddings",
+                method: "POST",
+              });
+            }
           }}
         >
           청첩장 꾸미기
