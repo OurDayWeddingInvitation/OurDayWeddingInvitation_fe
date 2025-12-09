@@ -15,6 +15,7 @@ type DragEndEvent = {
 
 const AccordionMenu = () => {
   const [items, setItems] = useState<InvitationMenuItem[]>(invitationMenu);
+  const [openItem, setOpenItem] = useState<string>("item-0");
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -32,6 +33,10 @@ const AccordionMenu = () => {
     setItems((items) => arrayMove(items, activeIndex, newIndex));
   };
 
+  const handleOpen = (value: string) => {
+    setOpenItem(value);
+  };
+
   const customCollision = useCallback(
     (args) => {
       return closestCenter({
@@ -46,12 +51,19 @@ const AccordionMenu = () => {
   );
 
   return (
-    <Accordion type="single" collapsible className="w-full flex flex-col gap-3 pt-4" defaultValue="item-0">
+    <Accordion
+      type="single"
+      collapsible
+      className="w-full flex flex-col gap-3 pt-4"
+      defaultValue="item-0"
+      value={openItem}
+      onValueChange={handleOpen}
+    >
       <DndContext collisionDetection={customCollision} onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
         <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-          {items.map((item, idx) => (
-            <AccordionMenuItem key={item.id} menu={item} idx={idx} />
-          ))}
+          {items.map((item, idx) => {
+            return <AccordionMenuItem key={item.id} menu={item} idx={idx} isOpen={openItem === `item-${idx}`} />;
+          })}
         </SortableContext>
       </DndContext>
     </Accordion>
