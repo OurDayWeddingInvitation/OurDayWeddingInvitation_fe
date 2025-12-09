@@ -6,9 +6,10 @@ interface SelectBoxProps {
   selectOption: SelectOption[];
   initialValue: string | number;
   onChange: (val: string | number) => void;
+  kind?: string;
 }
 
-const SelectBox = ({ selectOption, initialValue, onChange }: SelectBoxProps) => {
+const SelectBox = ({ selectOption, initialValue, onChange, kind }: SelectBoxProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string | number>(initialValue);
   const selectBoxRef = useRef<HTMLDivElement | null>(null);
@@ -39,8 +40,8 @@ const SelectBox = ({ selectOption, initialValue, onChange }: SelectBoxProps) => 
 
       {open && (
         <ul
-          className="absolute top-full left-0 w-full bg-[#FFFFFF] rounded mt-1 border-[#E0E0E0] border scrollbar-hide z-50 h-40  overflow-scroll [&::-webkit-scrollbar]:hidden"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          className="absolute top-full left-0 w-full bg-[#FFFFFF] rounded mt-1 border-[#E0E0E0] border scrollbar-hide z-50  overflow-scroll [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none", height: kind === "traffic" ? 90 : 160 }}
         >
           {selectOption.map((opt, idx) => {
             const label = opt.label;
