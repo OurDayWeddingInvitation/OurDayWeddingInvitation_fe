@@ -52,3 +52,7 @@ export const timeOfDayOptions: SelectOption[] = [
   { label: "낮(PM)", value: "낮(PM)" },
   { label: "저녁(PM)", value: "저녁(PM)" }
 ];
+export const trafficOption: SelectOption[] = [
+  { label: "지하철", value: "지하철" },
+  { label: "버스", value: "버스" }
+];
