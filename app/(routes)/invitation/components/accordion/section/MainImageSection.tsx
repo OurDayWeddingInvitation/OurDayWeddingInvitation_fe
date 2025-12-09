@@ -5,13 +5,14 @@ import MainStyle2 from "@/app/assets/images/main-style-2.svg";
 import MainStyle3 from "@/app/assets/images/main-style-3.svg";
 import CheckButton from "@/app/components/CheckButton";
 import ImageAddButton from "@/app/components/ImageAddButton";
+import { clientFetchApi } from "@/app/lib/fetches/client";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
-import { uploadImages } from "@/app/lib/utils/api";
+import { deleteImage, uploadImage } from "@/app/lib/utils/api";
 import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -22,9 +23,11 @@ type mainStyleItem = {
 
 const MainImageSection = () => {
   const thumbnail = useImageUpload("main");
-  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const { getCompressedImage } = useCompressImageUpload();
-  const { mainImage, setMainStyleKind } = useMainImageStore();
+  const { mainImageInfo, mainStyleKind, setMainStyleKind } =
+    useMainImageStore();
+
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
 
   const mainStyleArr = [
     { title: "mainStyle1", url: MainStyle1 },
@@ -32,11 +35,21 @@ const MainImageSection = () => {
     { title: "mainStyle3", url: MainStyle3 },
   ];
 
-  const handleClick = (item: mainStyleItem, idx: number) => {
+  const handleClick = async (item: mainStyleItem, idx: number) => {
     const nextIdx = selectedIdx === idx ? null : idx;
 
     setSelectedIdx(nextIdx);
     setMainStyleKind(nextIdx === null ? "" : item.title);
+
+    await clientFetchApi({
+      endPoint: `/weddings/update`,
+      method: "PATCH",
+      body: {
+        weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
+        sectionId: "main",
+        updated: { posterStyle: item.title },
+      },
+    });
   };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,13 +62,38 @@ const MainImageSection = () => {
     thumbnail.handleImageUpload(file);
 
     // 2) 실제 업로드 호출 (서버 전송)
-    await uploadImages({
+    await uploadImage({
       weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
       file: compressedFile,
       imageType: "mainImage",
       displayOrder: 1,
     });
   };
+
+  const handleImageRemove = async () => {
+    thumbnail.handleImageRemove();
+
+    await deleteImage({
+      weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
+      mediaId: mainImageInfo.mediaId,
+    });
+  };
+
+  // 초기 selectedIdx 세팅
+  useEffect(() => {
+    if (!mainStyleKind) {
+      setSelectedIdx(null);
+      return;
+    }
+
+    const foundIndex = mainStyleArr.findIndex(
+      (item) => item.title === mainStyleKind
+    );
+
+    if (foundIndex !== -1) {
+      setSelectedIdx(foundIndex);
+    }
+  }, [mainStyleKind]);
 
   return (
     <div>
@@ -69,10 +107,14 @@ const MainImageSection = () => {
           className="hidden"
         />
         <ImageAddButton
-          previewImage={mainImage ? getImagePath(mainImage) : thumbnail.preview}
+          previewImage={
+            mainImageInfo
+              ? getImagePath(mainImageInfo.originalUrl)
+              : thumbnail.preview
+          }
           loading={thumbnail.loading}
           opacity={thumbnail.opacity}
-          handleImageRemove={thumbnail.handleImageRemove}
+          handleImageRemove={handleImageRemove}
           id="openImg"
         />
       </div>

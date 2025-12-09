@@ -6,7 +6,7 @@ import Mainstyle2 from "./Mainstyle2";
 import Mainstyle3 from "./Mainstyle3";
 
 const MainImage = () => {
-  const { mainImage, mainStyleKind } = useMainImageStore();
+  const { mainImageInfo, mainStyleKind } = useMainImageStore();
   const { wedding } = useWeddingInfoStore();
 
   return (
@@ -15,14 +15,14 @@ const MainImage = () => {
       {mainStyleKind === "mainStyle2" && <Mainstyle2 wedding={wedding} />}
       {mainStyleKind === "mainStyle3" && <Mainstyle3 wedding={wedding} />}
 
-      {!mainStyleKind && mainImage && (
+      {!mainStyleKind && mainImageInfo && (
         <img
-          src={getImagePath(mainImage)}
+          src={getImagePath(mainImageInfo.originalUrl)}
           alt="메인 이미지"
           className="w-full object-cover h-[760px]"
         />
       )}
-      {!mainImage && !mainStyleKind && (
+      {!mainImageInfo && !mainStyleKind && (
         <div className="bg-[#D9D9D9] h-[760px]"></div>
       )}
     </div>

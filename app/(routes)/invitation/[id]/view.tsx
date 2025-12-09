@@ -23,7 +23,7 @@ export default function InvitationView({
   imageDetail: ImageDetail;
 }) {
   const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
-  const setMainImage = useMainImageStore((s) => s.setMainImage);
+  const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
@@ -43,7 +43,9 @@ export default function InvitationView({
     if (invitationDetail?.sections?.accountInfo) {
       setAccountInfo(invitationDetail?.sections?.accountInfo);
     }
+  }, [invitationDetail]);
 
+  useEffect(() => {
     // imageType 별로 필요한 값 저장
     if (imageDetail?.length) {
       const mainImage = imageDetail
@@ -52,10 +54,10 @@ export default function InvitationView({
 
       // 메인 이미지
       if (mainImage) {
-        setMainImage(mainImage?.originalUrl);
+        setMainImageInfo(mainImage);
       }
     }
-  }, [invitationDetail, imageDetail]);
+  }, [imageDetail]);
 
   return (
     <>

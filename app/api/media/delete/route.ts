@@ -7,23 +7,27 @@ export async function POST(req: NextRequest) {
 
   req.headers.set("Authorization", `Bearer ${token}`);
 
-  try {
-    const formData = await req.formData();
-    const files = formData.get("file") as File;
-    const weddingId = formData.get("weddingId") as string;
+  const body = await req.json();
+  const { weddingId, mediaId } = body;
 
-    if (!files) {
-      console.error("File not found or invalid");
+  try {
+    if (!weddingId || !mediaId) {
+      console.error("Missing Data");
       return;
     }
 
-    const res = await fetch(`${apiDomain}/weddings/${weddingId}/media`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const res = await fetch(
+      `${apiDomain}/weddings/${weddingId}/media/${mediaId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+        cache: "no-store",
+      }
+    );
 
     const result = await res.json();
 

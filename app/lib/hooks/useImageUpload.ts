@@ -6,7 +6,7 @@ export const useImageUpload = (kind: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [opacity, setOpacity] = useState<number>(0.5);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { setMainImage } = useMainImageStore();
+  const { updateMainImageInfo, resetMainImageInfo } = useMainImageStore();
 
   const handleImageUpload = (file: File | null) => {
     if (!file) return;
@@ -14,7 +14,9 @@ export const useImageUpload = (kind: string) => {
     const url = URL.createObjectURL(file);
 
     if (kind === "main") {
-      setMainImage(url);
+      updateMainImageInfo({
+        originalUrl: url,
+      });
     }
 
     setPreview(url);
@@ -29,7 +31,7 @@ export const useImageUpload = (kind: string) => {
 
   const handleImageRemove = () => {
     if (kind === "main") {
-      setMainImage("");
+      resetMainImageInfo();
     }
     setPreview(null);
 

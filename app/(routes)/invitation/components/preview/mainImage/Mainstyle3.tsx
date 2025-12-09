@@ -2,7 +2,7 @@ import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 
 const Mainstyle3 = ({ wedding }) => {
-  const { mainImage } = useMainImageStore();
+  const { mainImageInfo } = useMainImageStore();
   const { date, groom, bride } = wedding;
   const year = date.year;
   const month = date.month;
@@ -16,9 +16,9 @@ const Mainstyle3 = ({ wedding }) => {
         className="text-center text-[14px] relative"
         style={{ fontFamily: "GreatVibes" }}
       >
-        {mainImage !== "" ? (
+        {mainImageInfo ? (
           <img
-            src={getImagePath(mainImage)}
+            src={getImagePath(mainImageInfo.originalUrl)}
             alt="메인 이미지"
             className="h-[760px] object-cover"
           />

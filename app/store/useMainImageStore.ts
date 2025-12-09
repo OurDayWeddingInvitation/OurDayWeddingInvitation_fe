@@ -1,21 +1,36 @@
 import { create } from "zustand";
+import { ImageDetailItem } from "../lib/fetches/invitation/type";
 
 type MainImageProp = {
-  mainImage: string;
+  mainImageInfo: ImageDetailItem | null;
   mainStyleKind: string;
 
-  setMainImage: (src: string) => void;
+  setMainImageInfo: (data: ImageDetailItem) => void;
   setMainStyleKind: (kind: string) => void;
+
+  updateMainImageInfo: (data: ImageDetailItem) => void;
+
+  resetMainImageInfo: () => void;
 };
 
 export const useMainImageStore = create<MainImageProp>((set) => ({
-  mainImage: "",
+  mainImageInfo: null,
   mainStyleKind: "",
 
-  setMainImage: (src) => {
-    set({ mainImage: src });
+  setMainImageInfo: (data) => {
+    set({ mainImageInfo: data });
   },
+
   setMainStyleKind: (kind) => {
     set({ mainStyleKind: kind });
   },
+
+  updateMainImageInfo: (data) =>
+    set((state) => ({
+      mainImageInfo: state.mainImageInfo
+        ? { ...state.mainImageInfo, ...data }
+        : { ...data },
+    })),
+
+  resetMainImageInfo: () => set({ mainImageInfo: null }),
 }));

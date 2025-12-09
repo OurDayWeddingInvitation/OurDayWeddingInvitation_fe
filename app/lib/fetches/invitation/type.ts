@@ -151,23 +151,28 @@ export interface SectionSettingItem {
 
 // image
 export interface ImageDetailItem {
-  weddingId: string;
-  mediaId: number;
-  imageType: string;
-  displayOrder: number;
-  originalUrl: string;
-  editedUrl: string;
-  fileExtension: string;
-  fileSize: number;
-  createdAt: string;
-  updatedAt: string;
+  weddingId?: string;
+  mediaId?: number;
+  imageType?: string;
+  displayOrder?: number;
+  originalUrl?: string;
+  editedUrl?: string;
+  fileExtension?: string;
+  fileSize?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type ImageDetail = ImageDetailItem[];
 
 export interface ImageUploadType {
-  weddingId: string;
-  file: File;
-  imageType: string;
-  displayOrder: number;
+  weddingId?: string;
+  file?: File;
+  imageType?: string;
+  displayOrder?: number;
+}
+
+export interface ImageDeleteType {
+  weddingId?: string;
+  mediaId?: number;
 }

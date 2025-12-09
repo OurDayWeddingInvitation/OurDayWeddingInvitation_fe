@@ -1,4 +1,5 @@
-import { ImageUploadType } from "../fetches/invitation/type";
+import { clientFetchApi } from "../fetches/client";
+import { ImageDeleteType, ImageUploadType } from "../fetches/invitation/type";
 
 /**
  * 이미지 업로드
@@ -8,7 +9,7 @@ import { ImageUploadType } from "../fetches/invitation/type";
  * @param {number} displayOrder
  * @returns
  */
-export const uploadImages = async ({
+export const uploadImage = async ({
   weddingId,
   file,
   imageType,
@@ -24,6 +25,25 @@ export const uploadImages = async ({
   const res = await fetch("/api/media/upload", {
     method: "POST",
     body: form,
+  });
+
+  return res.json();
+};
+
+/**
+ * 이미지 삭제
+ * @param {string} weddingId
+ * @param {number} mediaId
+ * @returns
+ */
+export const deleteImage = async ({ weddingId, mediaId }: ImageDeleteType) => {
+  const res = await clientFetchApi({
+    endPoint: "/media/delete",
+    method: "DELETE",
+    body: {
+      weddingId,
+      mediaId,
+    },
   });
 
   return res.json();

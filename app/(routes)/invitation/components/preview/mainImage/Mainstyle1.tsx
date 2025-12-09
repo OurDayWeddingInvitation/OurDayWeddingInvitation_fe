@@ -2,7 +2,7 @@ import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 
 const Mainstyle1 = ({ wedding }) => {
-  const { mainImage } = useMainImageStore();
+  const { mainImageInfo } = useMainImageStore();
 
   const year = wedding.date.year;
   const month = wedding.date.month;
@@ -25,9 +25,9 @@ const Mainstyle1 = ({ wedding }) => {
           {year} / {month} / {day}
         </span>
         <div className="text-[14px] font-bold tracking-[2.8px]">SATURDAY</div>
-        {mainImage !== "" ? (
+        {mainImageInfo ? (
           <img
-            src={getImagePath(mainImage)}
+            src={getImagePath(mainImageInfo.originalUrl)}
             alt="메인 이미지2"
             className="py-[22px] h-[760px] object-cover"
           />
