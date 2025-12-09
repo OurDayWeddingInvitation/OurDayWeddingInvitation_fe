@@ -9,7 +9,7 @@ import InvitationView from "./view";
 export default async function Page({ params }: { params: { id: string } }) {
   const response: ApiResponseType<InvitationDetail> = await fetchApi({
     endPoint: `/weddings/${params.id}/edit`,
-    method: "GET",
+    method: "GET"
   });
 
   const mediaResponse: ApiResponseType<ImageDetail> = await fetchApi({

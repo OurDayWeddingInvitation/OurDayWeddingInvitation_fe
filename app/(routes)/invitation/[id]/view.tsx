@@ -6,6 +6,8 @@ import {
   ImageDetail,
   InvitationDetail,
 } from "@/app/lib/fetches/invitation/type";
+import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
+import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
 import Image from "next/image";
@@ -23,6 +25,8 @@ export default function InvitationView({
   const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
   const setMainImage = useMainImageStore((s) => s.setMainImage);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
+  const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
+  const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
 
   useEffect(() => {
     if (invitationDetail?.sections?.weddingInfo) {
@@ -31,6 +35,13 @@ export default function InvitationView({
 
     if (invitationDetail?.sections?.main) {
       setMainStyleKind(invitationDetail?.sections?.main.posterStyle);
+    }
+
+    if (invitationDetail?.sections?.familyInfo) {
+      setFamilyInfo(invitationDetail?.sections?.familyInfo);
+    }
+    if (invitationDetail?.sections?.accountInfo) {
+      setAccountInfo(invitationDetail?.sections?.accountInfo);
     }
 
     // imageType 별로 필요한 값 저장

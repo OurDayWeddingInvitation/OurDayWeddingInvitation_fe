@@ -2,26 +2,37 @@
 
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionHeader,
-} from "@radix-ui/react-accordion";
+import { AccordionContent, AccordionItem, AccordionTrigger, AccordionHeader } from "@radix-ui/react-accordion";
 import ToggleButton from "@/app/components/ToggleButton";
 import { CSS } from "@dnd-kit/utilities";
-import { sectionComponents } from "@/app/lib/constants/index";
+import { sectionComponents, SectionProps } from "@/app/lib/constants/index";
 import { ChevronDown } from "lucide-react";
 import "./Accordion.style.css";
 
-const AccordionMenuItem = ({ idx, menu }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: menu.id });
+const AccordionMenuItem = ({ idx, menu, isOpen }) => {
+  //props
+  const sectionPropsMap: SectionProps = {
+    // mainImage: {},
+    // weddingInfo: {},
+    // invitationText: {},
+    // shareThumbnail: {},
+    // colorFont: {},
+    // coupleIntro: {},
+    // gallery: {},
+    // accountInfo: {},
+    locationInfo: { isOpen: isOpen }
+    // parentsIntro: {},
+    // loadingScreen: {},
+    // flipImage: {}
+  };
+
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: menu.id });
   const Component = sectionComponents[menu.id];
+  const props = sectionPropsMap[menu.id];
   const style = menu.movable
     ? {
         transform: CSS.Transform.toString(transform),
-        transition,
+        transition
       }
     : {};
 
@@ -41,11 +52,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
               <div
                 {...attributes}
                 {...listeners}
-                className={`${
-                  menu.movable
-                    ? "text-gray-400 select-none cursor-grab"
-                    : "opacity-0 cursor-default"
-                }`}
+                className={`${menu.movable ? "text-gray-400 select-none cursor-grab" : "opacity-0 cursor-default"}`}
               >
                 ⠿
               </div>
@@ -61,7 +68,7 @@ const AccordionMenuItem = ({ idx, menu }) => {
              data-[state=open]:animate-slideDown
              data-[state=closed]:animate-slideUp"
       >
-        {Component && <Component />}
+        {Component && <Component {...(props ?? {})} />}
       </AccordionContent>
     </AccordionItem>
   );
