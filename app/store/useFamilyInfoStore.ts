@@ -1,4 +1,3 @@
-// store/weddingInfoStore.ts
 import { create } from "zustand";
 import { FamilyInfoSectionType } from "../lib/fetches/invitation/type";
 
