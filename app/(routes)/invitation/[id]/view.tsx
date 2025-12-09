@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
 
-export default function InvitationView({ invitationDetail, weddingId }: { invitationDetail: InvitationDetail; weddingId: string }) {
+export default function InvitationView({ invitationDetail }: { invitationDetail: InvitationDetail }) {
   const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
@@ -23,7 +23,7 @@ export default function InvitationView({ invitationDetail, weddingId }: { invita
     if (invitationDetail?.sections?.familyInfo) {
       setFamilyInfo(invitationDetail?.sections?.familyInfo);
     }
-    if (invitationDetail?.sections?.familyInfo) {
+    if (invitationDetail?.sections?.accountInfo) {
       setAccountInfo(invitationDetail?.sections?.accountInfo);
     }
   }, [invitationDetail]);

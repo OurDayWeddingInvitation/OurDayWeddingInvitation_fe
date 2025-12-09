@@ -6,7 +6,7 @@ import { InvitationDetail } from "@/app/lib/fetches/invitation/type";
 export default async function Page({ params }: { params: { id: string } }) {
   const response: ApiResponseType<InvitationDetail> = await fetchApi({
     endPoint: `/weddings/${params.id}/edit`,
-    method: "GET",
+    method: "GET"
   });
 
   return <InvitationView invitationDetail={response?.data} />;
