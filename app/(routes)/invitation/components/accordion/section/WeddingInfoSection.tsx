@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { familyOptionsMale, familyOptionsFemale, hoursOptions, minutesOptions, monthOptions, timeOfDayOptions } from "@/app/lib/constants";
 import SelectBox from "@/app/components/SelectBox";
 import { getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
 import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import CheckBox from "@/app/components/CheckBox";
-import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
-import { useDebounce } from "@/app/lib/hooks/use-debounce";
-import { clientFetchApi } from "@/app/lib/fetches/client";
 import { WeddingInfoSectionType } from "@/app/lib/fetches/invitation/type";
+import { FamilyInfoSectionType } from "@/app/lib/fetches/invitation/type";
+import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
+import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
 
 const WeddingInfoSection = () => {
-  const { wedding, setGroom, setBride, setGroomParent, setBrideParent } = useWeddingInfoStore();
   const [selectNameIdx, setSelectNameIdx] = useState(0);
 
   const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
@@ -22,48 +21,31 @@ const WeddingInfoSection = () => {
   const parents = ["아버지", "어머니"];
   const label = ["신랑", "신부"];
 
-  const endDay = getEndDay(wedding.date.year, Number(wedding.date.month)); //월 끝 날짜
-
   const weddingInfo = useWeddingInfoStoreTest((s) => s.weddingInfo);
   const updateField = useWeddingInfoStoreTest((s) => s.updateWeddingInfoField);
+  const familyInfo = useFamilyInfoStore((s) => s.familyInfo);
+  const updateFamilyField = useFamilyInfoStore((s) => s.updateFamilyInfoField);
 
   const [localInfo, setLocalInfo] = useState<WeddingInfoSectionType>(() => weddingInfo);
+  const [localFamilyInfo, setLocalFamilyInfo] = useState<FamilyInfoSectionType>(() => familyInfo);
 
-  const debouncedInfo = useDebounce(localInfo, 500);
+  const endDay = getEndDay(Number(localInfo.weddingYear), Number(localInfo.weddingMonth)); //월 끝 날짜
 
-  useEffect(() => {
-    if (!weddingInfo) return;
-    if (!debouncedInfo) return;
+  useWeddingUpdate({
+    localState: localInfo,
+    storeState: weddingInfo,
+    updateStoreField: updateField,
+    sectionId: "weddingInfo",
+    weddingId: "8c00934e-f7e6-4f33-a91b-40adce0c9acf"
+  });
 
-    const updated: Partial<typeof debouncedInfo> = {};
-
-    for (const key in debouncedInfo) {
-      if (debouncedInfo[key] !== weddingInfo[key]) {
-        updated[key] = debouncedInfo[key];
-      }
-    }
-
-    if (Object.keys(updated).length === 0) return;
-
-    for (const key in updated) {
-      updateField(key as keyof typeof updated, updated[key]);
-    }
-
-    // API 호출
-    async function updateApi() {
-      await clientFetchApi({
-        endPoint: `/weddings/update`,
-        method: "PATCH",
-        body: {
-          weddingId: 2,
-          sectionId: "weddingInfo",
-          updated: updated
-        }
-      });
-    }
-
-    updateApi();
-  }, [debouncedInfo]);
+  useWeddingUpdate({
+    localState: localFamilyInfo,
+    storeState: familyInfo,
+    updateStoreField: updateFamilyField,
+    sectionId: "familyInfo",
+    weddingId: "8c00934e-f7e6-4f33-a91b-40adce0c9acf"
+  });
 
   return (
     <div className="flex flex-col gap-9 w-full pt-4">
@@ -71,8 +53,6 @@ const WeddingInfoSection = () => {
       {label.map((role, roleIdx) => {
         const isGroom = roleIdx === 0;
         const selectFamilyOption = isGroom ? familyOptionsMale : familyOptionsFemale;
-        const setPerson = isGroom ? setGroom : setBride;
-        const person = isGroom ? wedding.groom : wedding.bride;
 
         return (
           <div className={fieldGroup} key={roleIdx}>
@@ -109,9 +89,13 @@ const WeddingInfoSection = () => {
                 />
                 <SelectBox
                   selectOption={selectFamilyOption}
-                  initialValue={person.rank}
+                  initialValue={isGroom ? localFamilyInfo.groomRankName : localFamilyInfo.brideRankName}
                   onChange={(val: string) => {
-                    setPerson({ rank: val });
+                    const key = isGroom ? "groomRankName" : "brideRankName";
+                    setLocalFamilyInfo((prev) => ({
+                      ...prev,
+                      [key]: val
+                    }));
                   }}
                 />
               </div>
@@ -120,8 +104,11 @@ const WeddingInfoSection = () => {
             {/* 부모님 입력 필드 */}
             {parents.map((name, parentIdx) => {
               const checkId = `check-${roleIdx}-${parentIdx}`;
-              const setParentsInfo = isGroom ? setGroomParent : setBrideParent;
-              const parentsKey = parentIdx === 0 ? "father" : "mother";
+              const roles = ["groom", "bride"];
+              const parentsMap = ["Father", "Mother"];
+              const parentsKey = `${roles[roleIdx]}${parentsMap[parentIdx]}Name`;
+              const isDeceasedKey = `${roles[roleIdx]}${parentsMap[parentIdx]}Deceased`;
+
               return (
                 <div className={fieldStyle} key={parentIdx}>
                   <div className={labelStyle}>{name}</div>
@@ -130,9 +117,24 @@ const WeddingInfoSection = () => {
                       type="text"
                       placeholder="성함"
                       className={`${inputStyle} min-w-20 max-w-[230px]`}
-                      onChange={(e) => setParentsInfo(parentsKey, { name: e.target.value })}
+                      value={isGroom ? localFamilyInfo[parentsKey] : localFamilyInfo[parentsKey]}
+                      onChange={(e) => {
+                        setLocalFamilyInfo((prev) => ({
+                          ...prev,
+                          [parentsKey]: e.target.value
+                        }));
+                      }}
                     />
-                    <CheckBox id={checkId} />
+                    <CheckBox
+                      id={checkId}
+                      defaultChecked={localFamilyInfo[isDeceasedKey] ?? false}
+                      onChange={(checked) => {
+                        setLocalFamilyInfo((prev) => ({
+                          ...prev,
+                          [isDeceasedKey]: checked
+                        }));
+                      }}
+                    />
                     <span className="font-medium">故</span>
                   </div>
                 </div>
