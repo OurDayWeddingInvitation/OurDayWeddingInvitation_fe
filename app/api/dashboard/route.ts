@@ -22,8 +22,6 @@ export async function GET(req: NextRequest) {
       cache: "no-store",
     });
 
-    console.log(data);
-
     return NextResponse.json(data, { status: 200 });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);

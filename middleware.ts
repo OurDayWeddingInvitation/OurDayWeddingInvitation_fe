@@ -57,13 +57,15 @@ export async function middleware(req: NextRequest) {
 
     const res = NextResponse.next();
 
+    console.log(req.nextUrl.basePath);
+
     try {
       res.cookies.set({
         name: "token",
         value: newEncrypted,
         path: "/",
         httpOnly: true,
-        secure: false,
+        secure: req.url.startsWith("https"),
         sameSite: "lax",
         maxAge: 60 * 60,
       });

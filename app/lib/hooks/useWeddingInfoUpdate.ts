@@ -30,7 +30,7 @@ export function useWeddingUpdate({ localState, storeState, updateStoreField, sec
         method: "PATCH",
         body: {
           weddingId,
-          sectionId, // weddingInfo 또는 familyInfo
+          sectionId,
           updated
         }
       });

@@ -13,8 +13,16 @@ const ColorFontSection = () => {
   const [pickerPointOpen, setPickerPointOpen] = useState<boolean>(false);
   const pickerRef = useRef<HTMLButtonElement | null>(null);
   const pickerPointRef = useRef<HTMLButtonElement | null>(null);
-  const { fontIdx, fontSize, setFontIdx, setFontSizeIdx } = useSectionDefaultButtonStore();
-  const { themeColor, pointColor, setFontSize, setFontStyle, setThemeColor, setPointColor } = useColorFontStore();
+  const { fontIdx, fontSize, setFontIdx, setFontSizeIdx } =
+    useSectionDefaultButtonStore();
+  const {
+    themeColor,
+    pointColor,
+    setFontSize,
+    setFontStyle,
+    setThemeColor,
+    setPointColor,
+  } = useColorFontStore();
 
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
@@ -23,25 +31,35 @@ const ColorFontSection = () => {
   const fontStyleArr = [
     { title: "작게", size: 14 },
     { title: "보통", size: 16 },
-    { title: "크게", size: 18 }
+    { title: "크게", size: 18 },
   ];
 
-  const themeColorArr = ["#FFF6FB", "#ECECDE", "#DBE4E9", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
-  const pointColorArr = ["#D28BB3", "#C0C08B", "#7AA3B8", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
+  const themeColorArr = [
+    "#FFF6FB",
+    "#ECECDE",
+    "#DBE4E9",
+    "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)",
+  ];
+  const pointColorArr = [
+    "#D28BB3",
+    "#C0C08B",
+    "#7AA3B8",
+    "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)",
+  ];
 
   const pickerState = {
     theme: {
       colorArr: themeColorArr,
       setColorIdx: setThemeColorIdx,
       setColor: setThemeColor,
-      setPickerOpen: setPickerOpen
+      setPickerOpen: setPickerOpen,
     },
     point: {
       colorArr: pointColorArr,
       setColorIdx: setPointColorIdx,
       setColor: setPointColor,
-      setPickerOpen: setPickerPointOpen
-    }
+      setPickerOpen: setPickerPointOpen,
+    },
   };
 
   const clickColorPicker = (item: string, idx: number, kind: string) => {
@@ -61,7 +79,10 @@ const ColorFontSection = () => {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
         setPickerOpen(false);
       }
-      if (pickerPointRef.current && !pickerPointRef.current.contains(e.target as Node)) {
+      if (
+        pickerPointRef.current &&
+        !pickerPointRef.current.contains(e.target as Node)
+      ) {
         setPickerPointOpen(false);
       }
     };
@@ -161,10 +182,12 @@ const ColorFontSection = () => {
           <div className={labelStyle}>확대 방지</div>
           <div className="flex flex-col">
             <div className={contentStyle}>
-              <CheckBox id={"disableZoom"} />
+              {/* <CheckBox id={"disableZoom"} /> */}
               <p className="font-medium">청첩장 확대 방지</p>
             </div>
-            <p className="text-[#CACACA] text-[12px] font-light">사진 확대가 부담스러우신 분은 선택해보세요.</p>
+            <p className="text-[#CACACA] text-[12px] font-light">
+              사진 확대가 부담스러우신 분은 선택해보세요.
+            </p>
           </div>
         </div>
       </div>

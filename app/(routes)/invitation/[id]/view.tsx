@@ -10,6 +10,7 @@ import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
+import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
 import Image from "next/image";
 import { useEffect } from "react";
 import Form from "../components/form/Form";
@@ -27,6 +28,9 @@ export default function InvitationView({
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
+  const setInvitationMessage = useInvitationMessageStoreTest(
+    (s) => s.setInvitationMessage
+  );
 
   useEffect(() => {
     if (invitationDetail?.sections?.weddingInfo) {
@@ -42,6 +46,9 @@ export default function InvitationView({
     }
     if (invitationDetail?.sections?.accountInfo) {
       setAccountInfo(invitationDetail?.sections?.accountInfo);
+    }
+    if (invitationDetail?.sections?.invitationMessage) {
+      setInvitationMessage(invitationDetail?.sections?.invitationMessage);
     }
   }, [invitationDetail]);
 
