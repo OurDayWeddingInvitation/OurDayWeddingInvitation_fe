@@ -1,7 +1,7 @@
 import { getToken } from "@/app/lib/auth/token";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function DELETE(req: NextRequest) {
   const apiDomain = process.env.API_DOMAIN;
   const token = await getToken(req);
 
@@ -12,14 +12,13 @@ export async function POST(req: NextRequest) {
 
   try {
     if (!weddingId || !mediaId) {
-      console.error("Missing Data");
-      return;
+      return NextResponse.json({ error: "Missing Data" }, { status: 400 });
     }
 
     const res = await fetch(
       `${apiDomain}/weddings/${weddingId}/media/${mediaId}`,
       {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

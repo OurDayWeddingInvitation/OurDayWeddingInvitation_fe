@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     }
 
     const res = await fetch(`${apiDomain}/weddings/${weddingId}/media`, {
-      method: "DELETE",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -1,5 +1,6 @@
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useRef, useState } from "react";
+import { ImageDetailItem } from "../fetches/invitation/type";
 
 export const useImageUpload = (kind: string) => {
   const [preview, setPreview] = useState<string | null>();
@@ -8,15 +9,16 @@ export const useImageUpload = (kind: string) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { updateMainImageInfo, resetMainImageInfo } = useMainImageStore();
 
-  const handleImageUpload = (file: File | null) => {
+  const handleImageUpload = (
+    file: File | null,
+    data?: ImageDetailItem | null
+  ) => {
     if (!file) return;
 
     const url = URL.createObjectURL(file);
 
     if (kind === "main") {
-      updateMainImageInfo({
-        originalUrl: url,
-      });
+      updateMainImageInfo(data);
     }
 
     setPreview(url);

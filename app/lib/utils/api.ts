@@ -37,13 +37,12 @@ export const uploadImage = async ({
  * @returns
  */
 export const deleteImage = async ({ weddingId, mediaId }: ImageDeleteType) => {
-  const res = await clientFetchApi({
-    endPoint: "/media/delete",
+  const res = await fetch("/api/media/delete", {
     method: "DELETE",
-    body: {
+    body: JSON.stringify({
       weddingId,
       mediaId,
-    },
+    }),
   });
 
   return res.json();

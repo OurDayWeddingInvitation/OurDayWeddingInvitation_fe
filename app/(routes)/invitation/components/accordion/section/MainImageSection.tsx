@@ -58,16 +58,24 @@ const MainImageSection = () => {
 
     if (!compressedFile) return;
 
-    // 1) 미리보기는 훅에서 처리
-    thumbnail.handleImageUpload(file);
+    // 1) 이미지 이미 있는 경우 삭제
+    if (mainImageInfo && mainImageInfo.mediaId) {
+      await deleteImage({
+        weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
+        mediaId: mainImageInfo.mediaId,
+      });
+    }
 
     // 2) 실제 업로드 호출 (서버 전송)
-    await uploadImage({
+    const res = await uploadImage({
       weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
       file: compressedFile,
       imageType: "mainImage",
       displayOrder: 1,
     });
+
+    // 3) 미리보기는 훅에서 처리
+    thumbnail.handleImageUpload(file, res.data);
   };
 
   const handleImageRemove = async () => {
