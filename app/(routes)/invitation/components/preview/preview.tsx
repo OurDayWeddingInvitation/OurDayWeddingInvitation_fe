@@ -8,11 +8,14 @@ import MainImage from "./mainImage/MainImage";
 import Gallery from "./Gallery";
 import AccountInfo from "./AccountInfo";
 import LocationInfo from "./LocationInfo";
+import React from "react";
+import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
 
 const Preview = () => {
   const { title, description } = useCounterStore();
-  const { invitationTitle, invitationMessage } = useMessageStore();
+  // const { invitationTitle, invitationMessage } = useMessageStore();
   const { themeColor, fontSize, fontStyle } = useColorFontStore();
+  const invitationMessage = useInvitationMessageStoreTest((s) => s.invitationMessage);
 
   return (
     <div>
@@ -25,7 +28,7 @@ const Preview = () => {
             msOverflowStyle: "none",
             backgroundColor: themeColor,
             fontSize: fontSize,
-            fontFamily: fontStyle,
+            fontFamily: fontStyle
           }}
         >
           <MainImage />
@@ -36,16 +39,9 @@ const Preview = () => {
           {/* 초대 문구 section */}
           {/* TODO: 초대 메세지 영역 퍼블리싱 필요 */}
           <div className="flex flex-col items-center px-5 py-7.5">
-            <p className="font-[NanumMyeongjo] font-extrabold text-xs leading-[100%] tracking-[0.375rem] text-[#D28BB3] pb-2.5">
-              INVITATION
-            </p>
-            <p className="font-[NanumMyeongjo] font-bold text-base leading-[100%] pb-10 text-center">
-              {invitationTitle}
-            </p>
-            <div
-              className="w-full"
-              dangerouslySetInnerHTML={{ __html: invitationMessage }}
-            ></div>
+            <p className="font-[NanumMyeongjo] font-extrabold text-xs leading-[100%] tracking-[0.375rem] text-[#D28BB3] pb-2.5">INVITATION</p>
+            <p className="font-[NanumMyeongjo] font-bold text-base leading-[100%] pb-10 text-center">{/* {invitationTitle} */}</p>
+            <div className="w-full" dangerouslySetInnerHTML={{ __html: invitationMessage?.message }}></div>
           </div>
         </div>
       </div>

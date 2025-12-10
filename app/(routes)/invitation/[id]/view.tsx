@@ -10,12 +10,15 @@ import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
 import { useEffect } from "react";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
+import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
 
 export default function InvitationView({ invitationDetail }: { invitationDetail: InvitationDetail }) {
   const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
+  const setInvitationMessage = useInvitationMessageStoreTest((s) => s.setInvitationMessage);
 
+  console.log(invitationDetail?.sections?.invitationMessage);
   useEffect(() => {
     if (invitationDetail?.sections?.weddingInfo) {
       setWeddingInfo(invitationDetail?.sections?.weddingInfo);
@@ -25,6 +28,9 @@ export default function InvitationView({ invitationDetail }: { invitationDetail:
     }
     if (invitationDetail?.sections?.accountInfo) {
       setAccountInfo(invitationDetail?.sections?.accountInfo);
+    }
+    if (invitationDetail?.sections?.invitationMessage) {
+      setInvitationMessage(invitationDetail?.sections?.invitationMessage);
     }
   }, [invitationDetail]);
 
