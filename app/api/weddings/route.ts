@@ -43,7 +43,6 @@ export async function POST(req: NextRequest) {
       cache: "no-store",
     });
     const json = await data.json();
-    console.log(json);
 
     return NextResponse.json(data, { status: 200 });
   } catch (e) {

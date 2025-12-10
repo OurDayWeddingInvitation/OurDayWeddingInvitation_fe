@@ -12,7 +12,5 @@ export default async function DashboardPage() {
     method: "GET",
   });
 
-  console.log(response);
-
   return <DashboardView invitations={response?.data ?? []} />;
 }

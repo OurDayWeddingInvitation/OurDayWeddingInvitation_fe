@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
 
     res.cookies.set("token", encrypted, {
       httpOnly: true,
-      secure: false,
+      secure: req.url.startsWith("https"),
       path: "/",
       sameSite: "lax",
       maxAge: 60 * 60,
