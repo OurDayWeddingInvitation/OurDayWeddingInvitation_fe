@@ -10,7 +10,10 @@ const CheckBox = ({ id, onChange, defaultChecked }) => {
         defaultChecked={defaultChecked}
         onChange={(e) => onChange?.(e.target.checked)}
       />
-      <label htmlFor={id} className="w-5 h-5 border border-[#E0E0E0] rounded-sm flex items-center justify-center peer-checked:bg-[#433F3B]">
+      <label
+        htmlFor={id}
+        className="w-5 h-5 border border-[#E0E0E0] rounded-sm flex items-center justify-center peer-checked:bg-[#433F3B]"
+      >
         <Check className="peer-checked:block text-white" />
       </label>
     </div>
