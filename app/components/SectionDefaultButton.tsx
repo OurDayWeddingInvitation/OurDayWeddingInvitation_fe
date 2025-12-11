@@ -6,8 +6,8 @@ interface SectionDefaultButtonProps {
   clickIdx: number;
   idx: number;
   onClick: () => void;
-  kind: string;
-  font?: string;
+  kind?: string;
+  font?: string | { value: string; key: string };
 }
 
 const SectionDefaultButton = ({ title, size, clickIdx, idx, onClick, kind, font }: SectionDefaultButtonProps) => {
@@ -16,11 +16,12 @@ const SectionDefaultButton = ({ title, size, clickIdx, idx, onClick, kind, font 
   const activeStyle = "border-[#D2BEA9] bg-[#D2BEA9] text-white";
   const inactiveStyle = "border-[#E0E0E0] bg-white text-[#9C9C9C] font-light";
   const kindWidth = kind === "size" ? "min-w-[120px] max-w-[180px]" : "min-w-[90px] max-w-[150px]";
+  const fontName = typeof font === "string" ? font : font?.value;
 
   return (
     <button
       className={`${baseStyle} ${kindWidth} ${isActive ? activeStyle : inactiveStyle}`}
-      style={{ fontSize: size, fontFamily: font }}
+      style={{ fontSize: size, fontFamily: fontName }}
       onClick={onClick}
     >
       {title}
