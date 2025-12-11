@@ -13,7 +13,7 @@ interface ColorSelectButtonProps {
   buttonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
-const ColorSelectButton = ({
+const ColorPicerButtonList = ({
   colorArr,
   selectedIdx,
   isPickerOpen,
@@ -42,4 +42,4 @@ const ColorSelectButton = ({
   </div>
 );
 
-export default ColorSelectButton;
+export default ColorPicerButtonList;
