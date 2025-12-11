@@ -1,24 +1,38 @@
 "use client";
 
-import Header from "@/app/components/Header";
-import Image from "next/image";
 import ToggleImg from "@/app/assets/images/toggle-icon.svg";
-import Preview from "../components/preview/preview";
-import Form from "../components/form/Form";
-import { InvitationDetail } from "@/app/lib/fetches/invitation/type";
-import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
-import { useEffect } from "react";
-import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
+import Header from "@/app/components/Header";
+import {
+  ImageDetail,
+  InvitationDetail,
+} from "@/app/lib/fetches/invitation/type";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
-import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
 import { useThemeFontStoreTest } from "@/app/store/useColorFontStoreTest";
+import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
+import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
+import { useMainImageStore } from "@/app/store/useMainImageStore";
+import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
+import Image from "next/image";
+import { useEffect } from "react";
+import Form from "../components/form/Form";
+import Preview from "../components/preview/preview";
 
-export default function InvitationView({ invitationDetail }: { invitationDetail: InvitationDetail }) {
+export default function InvitationView({
+  invitationDetail,
+  imageDetail,
+}: {
+  invitationDetail: InvitationDetail;
+  imageDetail: ImageDetail;
+}) {
   const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
+  const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
+  const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
-  const setInvitationMessage = useInvitationMessageStoreTest((s) => s.setInvitationMessage);
+  const setInvitationMessage = useInvitationMessageStoreTest(
+    (s) => s.setInvitationMessage
+  );
   const setThemeFont = useThemeFontStoreTest((s) => s.setThemeFont);
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
 
@@ -26,6 +40,11 @@ export default function InvitationView({ invitationDetail }: { invitationDetail:
     if (invitationDetail?.sections?.weddingInfo) {
       setWeddingInfo(invitationDetail?.sections?.weddingInfo);
     }
+
+    if (invitationDetail?.sections?.main) {
+      setMainStyleKind(invitationDetail?.sections?.main.posterStyle);
+    }
+
     if (invitationDetail?.sections?.familyInfo) {
       setFamilyInfo(invitationDetail?.sections?.familyInfo);
     }
@@ -43,6 +62,20 @@ export default function InvitationView({ invitationDetail }: { invitationDetail:
     }
   }, [invitationDetail]);
 
+  useEffect(() => {
+    // imageType 별로 필요한 값 저장
+    if (imageDetail?.length) {
+      const mainImage = imageDetail
+        .filter((img) => img.imageType === "mainImage")
+        .at(-1);
+
+      // 메인 이미지
+      if (mainImage) {
+        setMainImageInfo(mainImage);
+      }
+    }
+  }, [imageDetail]);
+
   return (
     <>
       <Header showButton={true} showSaveText={true} showTitle={true} />
@@ -50,7 +83,10 @@ export default function InvitationView({ invitationDetail }: { invitationDetail:
         <div className="max-w-[400px] fixed w-full">
           <Preview />
           <ul className="py-[26px] text-[#817E7C] text-[14px]  list-disc ">
-            <li>미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러 저장 후 확인해주세요.</li>
+            <li>
+              미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러
+              저장 후 확인해주세요.
+            </li>
           </ul>
         </div>
         <div className="flex-1 max-w-[736px] absolute right-0 w-full pb-[50px]">
@@ -60,8 +96,14 @@ export default function InvitationView({ invitationDetail }: { invitationDetail:
               &nbsp;모양이 있는 메뉴는 드래그하여 순서를 변경할 수 있습니다.
             </li>
             <li>
-              <Image src={ToggleImg} alt="토글버튼 아이콘" className="inline-block align-middle" />
-              <span className="align-middle">&nbsp;버튼으로 각 메뉴의 사용 여부를 설정할 수 있습니다.</span>
+              <Image
+                src={ToggleImg}
+                alt="토글버튼 아이콘"
+                className="inline-block align-middle"
+              />
+              <span className="align-middle">
+                &nbsp;버튼으로 각 메뉴의 사용 여부를 설정할 수 있습니다.
+              </span>
             </li>
           </ul>
           <Form />

@@ -1,15 +1,11 @@
-import { LoginInfo } from "@/app/lib/fetches/user/type";
-import { decrypt } from "@/crypto";
+import { getToken } from "@/app/lib/auth/token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const apiDomain = process.env.API_DOMAIN;
-  const encrypted = req.cookies.get("token")?.value;
+  const token = await getToken(req);
 
-  const data: LoginInfo = await decrypt(
-    encrypted,
-    process.env.ENCRYPT_SECRET_KEY!
-  );
+  req.headers.set("Authorization", `Bearer ${token}`);
 
   try {
     const formData = await req.formData();
@@ -24,7 +20,7 @@ export async function POST(req: NextRequest) {
     const res = await fetch(`${apiDomain}/weddings/${weddingId}/media`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${data.accessToken}`,
+        Authorization: `Bearer ${token}`,
       },
       body: formData,
     });
