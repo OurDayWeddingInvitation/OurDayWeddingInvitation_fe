@@ -19,7 +19,7 @@ export default function InvitationView({ invitationDetail }: { invitationDetail:
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
   const setInvitationMessage = useInvitationMessageStoreTest((s) => s.setInvitationMessage);
-  // const setThemeFont = useThemeFontStoreTest((s) => s.setThemeFont);
+  const setThemeFont = useThemeFontStoreTest((s) => s.setThemeFont);
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
 
   useEffect(() => {
@@ -35,9 +35,9 @@ export default function InvitationView({ invitationDetail }: { invitationDetail:
     if (invitationDetail?.sections?.invitationMessage) {
       setInvitationMessage(invitationDetail?.sections?.invitationMessage);
     }
-    // if (invitationDetail?.sections?.themeFont) {
-    //   setThemeFont(invitationDetail?.sections?.themeFont);
-    // }
+    if (invitationDetail?.sections?.themeFont) {
+      setThemeFont(invitationDetail?.sections?.themeFont);
+    }
     if (invitationDetail?.sections?.locationInfo) {
       setLocationInfo(invitationDetail?.sections?.locationInfo);
     }

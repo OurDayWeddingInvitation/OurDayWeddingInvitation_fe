@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import SectionDefaultButton from "@/app/components/SectionDefaultButton";
-import { useSectionDefaultButtonStore } from "@/app/store/useSectionDefaultButtonStore";
 import CheckBox from "@/app/components/CheckBox";
-import { useColorFontStore } from "@/app/store/useColorFontStore";
-import ColorSelectButton from "@/app/components/ColorSelectButton";
-import { fontList } from "@/app/lib/constants";
+import ColorPickerButtonList from "@/app/components/ColorPickerButtonList";
+import { fontList, fontSizeList } from "@/app/lib/constants";
+import { useThemeFontStoreTest } from "@/app/store/useColorFontStoreTest";
+import { ThemeFontSectionType } from "@/app/lib/fetches/invitation/type";
+import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
 
 const ColorFontSection = () => {
   const [themeColorIdx, setThemeColorIdx] = useState<number>(0);
@@ -13,53 +14,31 @@ const ColorFontSection = () => {
   const [pickerPointOpen, setPickerPointOpen] = useState<boolean>(false);
   const pickerRef = useRef<HTMLButtonElement | null>(null);
   const pickerPointRef = useRef<HTMLButtonElement | null>(null);
-  const { fontIdx, fontSize, setFontIdx, setFontSizeIdx } =
-    useSectionDefaultButtonStore();
-  const {
-    themeColor,
-    pointColor,
-    setFontSize,
-    setFontStyle,
-    setThemeColor,
-    setPointColor,
-  } = useColorFontStore();
 
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
   const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
-  const fontStyleArr = [
-    { title: "작게", size: 14 },
-    { title: "보통", size: 16 },
-    { title: "크게", size: 18 },
-  ];
 
-  const themeColorArr = [
-    "#FFF6FB",
-    "#ECECDE",
-    "#DBE4E9",
-    "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)",
-  ];
-  const pointColorArr = [
-    "#D28BB3",
-    "#C0C08B",
-    "#7AA3B8",
-    "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)",
-  ];
+  const themeFont = useThemeFontStoreTest((s) => s.themeFont);
+  const updateField = useThemeFontStoreTest((s) => s.updateThemeFontField);
+
+  const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(() => themeFont);
+
+  const themeColorArr = ["#FFF6FB", "#ECECDE", "#DBE4E9", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
+  const pointColorArr = ["#D28BB3", "#C0C08B", "#7AA3B8", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
 
   const pickerState = {
     theme: {
       colorArr: themeColorArr,
       setColorIdx: setThemeColorIdx,
-      setColor: setThemeColor,
-      setPickerOpen: setPickerOpen,
+      setPickerOpen: setPickerOpen
     },
     point: {
       colorArr: pointColorArr,
       setColorIdx: setPointColorIdx,
-      setColor: setPointColor,
-      setPickerOpen: setPickerPointOpen,
-    },
+      setPickerOpen: setPickerPointOpen
+    }
   };
 
   const clickColorPicker = (item: string, idx: number, kind: string) => {
@@ -69,7 +48,6 @@ const ColorFontSection = () => {
     if (idx === themeColorArr.length - 1) {
       state.setPickerOpen(true);
     } else {
-      state.setColor(item);
       state.setPickerOpen(false);
     }
   };
@@ -79,16 +57,30 @@ const ColorFontSection = () => {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
         setPickerOpen(false);
       }
-      if (
-        pickerPointRef.current &&
-        !pickerPointRef.current.contains(e.target as Node)
-      ) {
+      if (pickerPointRef.current && !pickerPointRef.current.contains(e.target as Node)) {
         setPickerPointOpen(false);
       }
     };
     document.addEventListener("click", clickOutside);
     return () => document.removeEventListener("click", clickOutside);
   }, []);
+
+  useWeddingUpdate({
+    localState: localInfo,
+    storeState: themeFont,
+    updateStoreField: updateField,
+    sectionId: "themeFont",
+    weddingId: "65062394-1ee8-4cab-a269-7b16d3a80081"
+  });
+
+  useEffect(() => {
+    setLocalInfo(themeFont);
+  }, [themeFont]);
+
+  const getThemeColorIndex = (color: string): number => {
+    const idx = themeColorArr.indexOf(color);
+    return idx !== -1 ? idx : themeColorArr.length - 1;
+  };
 
   return (
     <div className="flex flex-col gap-5">
@@ -102,13 +94,15 @@ const ColorFontSection = () => {
                 title={"저희 결혼합니다"}
                 key={idx}
                 size={14}
-                clickIdx={fontIdx}
+                clickIdx={Number(localInfo?.fontName) - 1}
                 idx={idx}
                 kind={"style"}
-                font={item}
+                font={item.value}
                 onClick={() => {
-                  setFontIdx(idx);
-                  setFontStyle(item);
+                  setLocalInfo((prev) => ({
+                    ...prev,
+                    fontName: item.key
+                  }));
                 }}
               />
             ))}
@@ -120,20 +114,27 @@ const ColorFontSection = () => {
         <div className={fieldStyle}>
           <div className={labelStyle}>글자 크기</div>
           <div className={contentStyle}>
-            {fontStyleArr.map((item, idx) => (
-              <SectionDefaultButton
-                title={item.title}
-                key={idx}
-                size={item.size}
-                clickIdx={fontSize}
-                idx={idx}
-                kind={"size"}
-                onClick={() => {
-                  setFontSizeIdx(idx);
-                  setFontSize(item.size);
-                }}
-              />
-            ))}
+            {fontSizeList.map((item, idx) => {
+              const getFontSizeIndex = (size: number): number => {
+                return fontSizeList.findIndex((item) => item.size === size);
+              };
+              return (
+                <SectionDefaultButton
+                  title={item.title}
+                  key={idx}
+                  size={item.size}
+                  clickIdx={getFontSizeIndex(localInfo?.fontSize) ?? 14}
+                  idx={idx}
+                  kind={"size"}
+                  onClick={() => {
+                    setLocalInfo((prev) => ({
+                      ...prev,
+                      fontSize: item.size
+                    }));
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
@@ -143,14 +144,19 @@ const ColorFontSection = () => {
         <div className={fieldStyle}>
           <div className={labelStyle}>테마 색상</div>
           <div className={contentStyle}>
-            <ColorSelectButton
+            <ColorPickerButtonList
               buttonRef={pickerRef}
               colorArr={themeColorArr}
-              selectedIdx={themeColorIdx}
+              selectedIdx={getThemeColorIndex(localInfo?.backgroundColor)}
               isPickerOpen={pickerOpen}
               setPickerOpen={setPickerOpen}
-              currentColor={themeColor}
-              setCurrentColor={setThemeColor}
+              currentColor={localInfo?.backgroundColor ?? "#FFF6FB"}
+              setCurrentColor={(color) =>
+                setLocalInfo((prev) => ({
+                  ...prev,
+                  backgroundColor: color
+                }))
+              }
               onSelect={clickColorPicker}
               kind={"theme"}
             />
@@ -162,14 +168,19 @@ const ColorFontSection = () => {
         <div className={fieldStyle}>
           <div className={labelStyle}>포인트 색상</div>
           <div className={contentStyle}>
-            <ColorSelectButton
+            <ColorPickerButtonList
               buttonRef={pickerPointRef}
               colorArr={pointColorArr}
               selectedIdx={pointColorIdx}
               isPickerOpen={pickerPointOpen}
               setPickerOpen={setPickerPointOpen}
-              currentColor={pointColor}
-              setCurrentColor={setPointColor}
+              currentColor={localInfo?.accentColor}
+              setCurrentColor={(color) =>
+                setLocalInfo((prev) => ({
+                  ...prev,
+                  accentColor: color
+                }))
+              }
               onSelect={clickColorPicker}
               kind={"point"}
             />
@@ -182,12 +193,19 @@ const ColorFontSection = () => {
           <div className={labelStyle}>확대 방지</div>
           <div className="flex flex-col">
             <div className={contentStyle}>
-              {/* <CheckBox id={"disableZoom"} /> */}
+              <CheckBox
+                id={"disableZoom"}
+                defaultChecked={localInfo?.zoomPreventYn ?? true}
+                onChange={(checked: boolean) =>
+                  setLocalInfo((prev) => ({
+                    ...prev,
+                    zoomPreventYn: checked
+                  }))
+                }
+              />
               <p className="font-medium">청첩장 확대 방지</p>
             </div>
-            <p className="text-[#CACACA] text-[12px] font-light">
-              사진 확대가 부담스러우신 분은 선택해보세요.
-            </p>
+            <p className="text-[#CACACA] text-[12px] font-light">사진 확대가 부담스러우신 분은 선택해보세요.</p>
           </div>
         </div>
       </div>
