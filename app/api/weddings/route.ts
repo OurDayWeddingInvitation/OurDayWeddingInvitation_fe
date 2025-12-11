@@ -39,10 +39,14 @@ export async function POST(req: NextRequest) {
   try {
     const data = await fetch(`${apiDomain}/weddings`, {
       method: "POST",
-      headers: req.headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: req.headers.get("authorization") ?? "",
+      },
       cache: "no-store",
     });
-    const json = await data.json();
+
+    console.log(data);
 
     return NextResponse.json(data, { status: 200 });
   } catch (e) {
