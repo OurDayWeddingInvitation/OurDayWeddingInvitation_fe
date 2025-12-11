@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     const url =
       (req.headers.get("x-forwarded-proto") ?? "https") +
       "://" +
-      (req.headers.get("x-forwarded-host") ?? "https://www.ourday.kr");
+      (req.headers.get("x-forwarded-host") ?? "www.ourday.kr");
 
     const res = NextResponse.redirect(new URL("/dashboard", url));
     const encrypted = await encrypt(
