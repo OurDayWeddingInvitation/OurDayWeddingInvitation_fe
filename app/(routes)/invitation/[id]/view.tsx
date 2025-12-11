@@ -7,10 +7,12 @@ import {
   InvitationDetail,
 } from "@/app/lib/fetches/invitation/type";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
+import { useThemeFontStoreTest } from "@/app/store/useColorFontStoreTest";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
+import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
+import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
-import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
 import Image from "next/image";
 import { useEffect } from "react";
 import Form from "../components/form/Form";
@@ -31,6 +33,8 @@ export default function InvitationView({
   const setInvitationMessage = useInvitationMessageStoreTest(
     (s) => s.setInvitationMessage
   );
+  const setThemeFont = useThemeFontStoreTest((s) => s.setThemeFont);
+  const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
 
   useEffect(() => {
     if (invitationDetail?.sections?.weddingInfo) {
@@ -49,6 +53,12 @@ export default function InvitationView({
     }
     if (invitationDetail?.sections?.invitationMessage) {
       setInvitationMessage(invitationDetail?.sections?.invitationMessage);
+    }
+    if (invitationDetail?.sections?.themeFont) {
+      setThemeFont(invitationDetail?.sections?.themeFont);
+    }
+    if (invitationDetail?.sections?.locationInfo) {
+      setLocationInfo(invitationDetail?.sections?.locationInfo);
     }
   }, [invitationDetail]);
 

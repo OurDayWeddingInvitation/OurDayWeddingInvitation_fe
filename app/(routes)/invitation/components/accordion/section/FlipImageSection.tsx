@@ -1,5 +1,5 @@
+import ColorPickerButton from "@/app/components/ColorPickerButton";
 import React, { useEffect, useRef, useState } from "react";
-import { SketchPicker } from "react-color";
 
 const FlipImageSection = () => {
   const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border rounded-sm text-sm py-1.5 px-1 ";
@@ -23,6 +23,14 @@ const FlipImageSection = () => {
     return () => document.removeEventListener("click", clickOutside);
   }, []);
 
+  const clickTitlePicker = () => {
+    setTitlePickerOpen(true);
+  };
+
+  const clickContentPicker = () => {
+    setContentPickerOpen(true);
+  };
+
   return (
     <div>
       <div className="flex flex-col gap-2.5">
@@ -31,14 +39,14 @@ const FlipImageSection = () => {
           <div className="flex gap-2">
             <input type="text" className={`${inputStyle} max-w-[275px]`} defaultValue={"Our Love Moment"} />
             <div>
-              <button
-                className="w-8 h-8 rounded-full"
-                ref={titlePickerRef}
-                style={{ background: "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)" }}
-              ></button>
-              {/* <div className="absolute">
-            <SketchPicker color={titleColor} onChange={(c) => setTitleColor(c.hex)} onChangeComplete={(c) => setTitleColor(c.hex)} />
-          </div> */}
+              <ColorPickerButton
+                color="conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"
+                buttonRef={titlePickerRef}
+                isPickerOpen={titlePickerOpen}
+                currentColor={titleColor}
+                setCurrentColor={setTitleColor}
+                onClick={clickTitlePicker}
+              />
             </div>
           </div>
         </div>
@@ -51,14 +59,14 @@ const FlipImageSection = () => {
               onChange={(e) => {}}
             />
             <div>
-              <button
-                className="w-8 h-8 rounded-full"
-                ref={contentPickerRef}
-                style={{ background: "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)" }}
-              ></button>
-              {/* <div className="absolute">
-              <SketchPicker color={contentColor} onChange={(c) => setContentColor(c.hex)} onChangeComplete={(c) => setContentColor(c.hex)} />
-            </div> */}
+              <ColorPickerButton
+                color="conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"
+                buttonRef={contentPickerRef}
+                isPickerOpen={contentPickerOpen}
+                currentColor={contentColor}
+                setCurrentColor={setContentColor}
+                onClick={clickContentPicker}
+              />
             </div>
           </div>
         </div>
