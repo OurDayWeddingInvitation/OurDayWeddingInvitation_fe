@@ -54,6 +54,7 @@ const MainImageSection = () => {
     });
   };
 
+  // 이미지 업로드
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const compressedFile = await getCompressedImage(file);
@@ -80,6 +81,12 @@ const MainImageSection = () => {
     thumbnail.handleImageUpload(file, res.data);
   };
 
+  // 이미지 수정
+  const handleImageModify = async () => {
+    console.log("수정 버튼 클릭");
+  };
+
+  // 이미지 제거
   const handleImageRemove = async () => {
     thumbnail.handleImageRemove();
 
@@ -124,7 +131,8 @@ const MainImageSection = () => {
           }
           loading={thumbnail.loading}
           opacity={thumbnail.opacity}
-          handleImageRemove={handleImageRemove}
+          onModify={handleImageModify}
+          onRemove={handleImageRemove}
           id="openImg"
         />
       </div>
