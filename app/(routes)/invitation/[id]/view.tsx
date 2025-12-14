@@ -12,6 +12,7 @@ import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -19,12 +20,15 @@ import Form from "../components/form/Form";
 import Preview from "../components/preview/preview";
 
 export default function InvitationView({
+  weddingId,
   invitationDetail,
   imageDetail,
 }: {
+  weddingId: string;
   invitationDetail: InvitationDetail;
   imageDetail: ImageDetail;
 }) {
+  const setWeddingId = useWeddingIdStore((s) => s.setWeddingId);
   const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
   const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
@@ -37,6 +41,10 @@ export default function InvitationView({
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
 
   useEffect(() => {
+    if (weddingId) {
+      setWeddingId(weddingId);
+    }
+
     if (invitationDetail?.sections?.weddingInfo) {
       setWeddingInfo(invitationDetail?.sections?.weddingInfo);
     }

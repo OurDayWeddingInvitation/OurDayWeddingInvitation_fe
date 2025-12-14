@@ -22,6 +22,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <InvitationView
+      weddingId={params.id}
       invitationDetail={response?.data}
       imageDetail={mediaResponse?.data}
     />

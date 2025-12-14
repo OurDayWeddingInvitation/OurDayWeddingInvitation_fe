@@ -11,6 +11,7 @@ import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
 import { deleteImage, uploadImage } from "@/app/lib/utils/api";
 import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import "swiper/css";
@@ -24,6 +25,7 @@ type mainStyleItem = {
 const MainImageSection = () => {
   const thumbnail = useImageUpload("main");
   const { getCompressedImage } = useCompressImageUpload();
+  const { weddingId } = useWeddingIdStore();
   const { mainImageInfo, mainStyleKind, setMainStyleKind } =
     useMainImageStore();
 
@@ -45,7 +47,7 @@ const MainImageSection = () => {
       endPoint: `/weddings/update`,
       method: "PATCH",
       body: {
-        weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
+        weddingId: weddingId,
         sectionId: "main",
         updated: { posterStyle: item.title },
       },
@@ -61,14 +63,14 @@ const MainImageSection = () => {
     // 1) 이미지 이미 있는 경우 삭제
     if (mainImageInfo && mainImageInfo.mediaId) {
       await deleteImage({
-        weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
+        weddingId: weddingId,
         mediaId: mainImageInfo.mediaId,
       });
     }
 
     // 2) 실제 업로드 호출 (서버 전송)
     const res = await uploadImage({
-      weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
+      weddingId: weddingId,
       file: compressedFile,
       imageType: "mainImage",
       displayOrder: 1,
@@ -82,7 +84,7 @@ const MainImageSection = () => {
     thumbnail.handleImageRemove();
 
     await deleteImage({
-      weddingId: "5428e132-a62b-4328-8af8-f51c46c473db",
+      weddingId: weddingId,
       mediaId: mainImageInfo.mediaId,
     });
   };
