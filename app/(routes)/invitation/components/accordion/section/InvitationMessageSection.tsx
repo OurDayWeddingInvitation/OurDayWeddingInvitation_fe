@@ -1,8 +1,31 @@
-import { useMessageStore } from "@/app/store/useInvitaionMessageStore";
+import { InvitationMessageSectionType } from "@/app/lib/fetches/invitation/type";
+import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
+import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
+import { useState } from "react";
 import TextEditor from "../../../../../components/editor/TextEditor";
 
-const InvitationMessage = () => {
-  const { invitationTitle, setInvitatinoTitle } = useMessageStore();
+const InvitationMessageSection = () => {
+  const invitationMessage = useInvitationMessageStore(
+    (s) => s.invitationMessage
+  );
+  const updateField = useInvitationMessageStore(
+    (s) => s.updateInvitationMessage
+  );
+
+  const weddingId = useWeddingIdStore((s) => s.weddingId);
+
+  const [message, setMessage] = useState<InvitationMessageSectionType>(
+    () => invitationMessage
+  );
+
+  useWeddingUpdate({
+    localState: message,
+    storeState: invitationMessage,
+    updateStoreField: updateField,
+    sectionId: "invitationMessage",
+    weddingId: weddingId,
+  });
 
   const groupStyle = "flex flex-col gap-2.5 w-full pt-4";
   const fieldStyle = "flex flex-wrap items-center";
@@ -18,10 +41,10 @@ const InvitationMessage = () => {
           type="text"
           placeholder="초대문구의 제목을 입력해주세요 (최대 50자)"
           className={`${inputStyle} min-w-[50px] max-w-[230px]`}
-          value={invitationTitle}
+          value={message.title}
           maxLength={50}
           onChange={(e) => {
-            setInvitatinoTitle(e.target.value);
+            setMessage((prev) => ({ ...prev, title: e.target.value }));
           }}
         />
       </div>
@@ -42,4 +65,4 @@ const InvitationMessage = () => {
   );
 };
 
-export default InvitationMessage;
+export default InvitationMessageSection;

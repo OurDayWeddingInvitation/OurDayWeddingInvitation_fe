@@ -9,7 +9,7 @@ import {
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
 import { useThemeFontStoreTest } from "@/app/store/useColorFontStoreTest";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
-import { useInvitationMessageStoreTest } from "@/app/store/useInvitationMessageStoreTest";
+import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
@@ -34,7 +34,7 @@ export default function InvitationView({
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
-  const setInvitationMessage = useInvitationMessageStoreTest(
+  const setInvitationMessage = useInvitationMessageStore(
     (s) => s.setInvitationMessage
   );
   const setThemeFont = useThemeFontStoreTest((s) => s.setThemeFont);

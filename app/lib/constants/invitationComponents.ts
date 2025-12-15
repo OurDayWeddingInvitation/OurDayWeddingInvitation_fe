@@ -1,4 +1,4 @@
-import InvitationMessage from "@/app/(routes)/invitation/components/accordion/section/InvitationMessage";
+import InvitationMessageSection from "@/app/(routes)/invitation/components/accordion/section/InvitationMessageSection";
 import ColorFontSection from "@/app/(routes)/invitation/components/accordion/section/ColorFontSection";
 import MainImageSection from "@/app/(routes)/invitation/components/accordion/section/MainImageSection";
 import ShareThumbnailSection from "@/app/(routes)/invitation/components/accordion/section/ShareThumbnailSection";
@@ -14,7 +14,7 @@ import FlipImageSection from "@/app/(routes)/invitation/components/accordion/sec
 export const sectionComponents: Record<string, React.FC> = {
   mainImage: MainImageSection,
   weddingInfo: WeddingInfoSection,
-  invitationText: InvitationMessage,
+  invitationText: InvitationMessageSection,
   shareThumbnail: ShareThumbnailSection,
   colorFont: ColorFontSection,
   coupleIntro: CoupleIntroSection,
