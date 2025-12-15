@@ -60,7 +60,12 @@ const InvitationMessageSection = () => {
         </a>
       </div>
 
-      <TextEditor />
+      <TextEditor
+        message={message.message}
+        onUpdateMessage={(message) => {
+          setMessage((prev) => ({ ...prev, message: message }));
+        }}
+      />
     </div>
   );
 };
