@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import SaveTemporaryIcon from "../assets/images/save-temporary.png";
 import { loadingStore } from "../store/useLoadingStore";
