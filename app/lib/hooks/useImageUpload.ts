@@ -9,17 +9,16 @@ export const useImageUpload = (kind: string) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { updateMainImageInfo, resetMainImageInfo } = useMainImageStore();
 
-  const handleImageUpload = (
-    file: File | null,
-    data?: ImageDetailItem | null
-  ) => {
+  const handleImageUpload = (file: File | null, data?: ImageDetailItem | null) => {
     if (!file) return;
+
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
 
     const url = URL.createObjectURL(file);
 
-    if (kind === "main") {
-      updateMainImageInfo(data);
-    }
+    updateMainImageInfo(data);
 
     setPreview(url);
     setLoading(true);
@@ -32,14 +31,14 @@ export const useImageUpload = (kind: string) => {
   };
 
   const handleImageRemove = () => {
-    if (kind === "main") {
-      resetMainImageInfo();
+    if (preview) {
+      URL.revokeObjectURL(preview);
     }
-    setPreview(null);
-
+    resetMainImageInfo();
     if (inputRef.current) {
       inputRef.current.value = "";
     }
+    setPreview(null);
   };
 
   return {
@@ -48,6 +47,6 @@ export const useImageUpload = (kind: string) => {
     opacity,
     inputRef,
     handleImageUpload,
-    handleImageRemove,
+    handleImageRemove
   };
 };

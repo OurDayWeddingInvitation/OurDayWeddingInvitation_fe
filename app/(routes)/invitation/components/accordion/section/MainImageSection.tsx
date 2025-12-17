@@ -8,12 +8,12 @@ import ImageAddButton from "@/app/components/ImageAddButton";
 import { clientFetchApi } from "@/app/lib/fetches/client";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
-import { deleteImage, uploadImage } from "@/app/lib/utils/api";
+import { deleteImage, uploadCroppedImage, uploadImage } from "@/app/lib/utils/api";
 import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -26,15 +26,14 @@ const MainImageSection = () => {
   const thumbnail = useImageUpload("main");
   const { getCompressedImage } = useCompressImageUpload();
   const { weddingId } = useWeddingIdStore();
-  const { mainImageInfo, mainStyleKind, setMainStyleKind } =
-    useMainImageStore();
-
+  const { mainImageInfo, mainStyleKind, setMainStyleKind } = useMainImageStore();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const mainStyleArr = [
     { title: "mainStyle1", url: MainStyle1 },
     { title: "mainStyle2", url: MainStyle2 },
-    { title: "mainStyle3", url: MainStyle3 },
+    { title: "mainStyle3", url: MainStyle3 }
   ];
 
   const handleClick = async (item: mainStyleItem, idx: number) => {
@@ -49,13 +48,14 @@ const MainImageSection = () => {
       body: {
         weddingId: weddingId,
         sectionId: "main",
-        updated: { posterStyle: item.title },
-      },
+        updated: { posterStyle: item.title }
+      }
     });
   };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log(file);
     const compressedFile = await getCompressedImage(file);
 
     if (!compressedFile) return;
@@ -64,7 +64,7 @@ const MainImageSection = () => {
     if (mainImageInfo && mainImageInfo.mediaId) {
       await deleteImage({
         weddingId: weddingId,
-        mediaId: mainImageInfo.mediaId,
+        mediaId: mainImageInfo.mediaId
       });
     }
 
@@ -73,7 +73,7 @@ const MainImageSection = () => {
       weddingId: weddingId,
       file: compressedFile,
       imageType: "mainImage",
-      displayOrder: 1,
+      displayOrder: 1
     });
 
     // 3) 미리보기는 훅에서 처리
@@ -85,8 +85,13 @@ const MainImageSection = () => {
 
     await deleteImage({
       weddingId: weddingId,
-      mediaId: mainImageInfo.mediaId,
+      mediaId: mainImageInfo.mediaId
     });
+
+    // file Input 초기화
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   // 초기 selectedIdx 세팅
@@ -96,9 +101,7 @@ const MainImageSection = () => {
       return;
     }
 
-    const foundIndex = mainStyleArr.findIndex(
-      (item) => item.title === mainStyleKind
-    );
+    const foundIndex = mainStyleArr.findIndex((item) => item.title === mainStyleKind);
 
     if (foundIndex !== -1) {
       setSelectedIdx(foundIndex);
@@ -109,23 +112,20 @@ const MainImageSection = () => {
     <div>
       <h3 className="text-[15px] py-3.5">대문 사진</h3>
       <div className="flex gap-2.5">
-        <input
-          type="file"
-          id="openImg"
-          accept="image/*"
-          onChange={(e) => handleImageChange(e)}
-          className="hidden"
-        />
+        <input type="file" id="openImg" accept="image/*" onChange={(e) => handleImageChange(e)} className="hidden" ref={fileInputRef} />
         <ImageAddButton
-          previewImage={
-            mainImageInfo
-              ? getImagePath(mainImageInfo.originalUrl)
-              : thumbnail.preview
-          }
+          previewImage={mainImageInfo ? getImagePath(mainImageInfo.originalUrl) : thumbnail.preview}
           loading={thumbnail.loading}
           opacity={thumbnail.opacity}
           handleImageRemove={handleImageRemove}
           id="openImg"
+          onCropConfirm={async (blob) => {
+            const res = await uploadCroppedImage({
+              weddingId,
+              mediaId: mainImageInfo.mediaId,
+              file: blob
+            });
+          }}
         />
       </div>
 
