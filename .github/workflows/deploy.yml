@@ -19,6 +19,9 @@ jobs:
             set -e
             cd ${{ secrets.FRONT_DIR }}
 
+            export NVM_DIR="$HOME/.nvm"
+            source "$NVM_DIR/nvm.sh"
+
             git fetch --all
             git reset --hard origin/main
 
