@@ -54,5 +54,8 @@ export const timeOfDayOptions: SelectOption[] = [
 ];
 export const trafficOption: SelectOption[] = [
   { label: "지하철", value: "지하철" },
-  { label: "버스", value: "버스" }
+  { label: "버스", value: "버스" },
+  { label: "셔틀", value: "셔틀" },
+  { label: "자가용", value: "자가용" },
+  { label: "기타", value: "기타" }
 ];
