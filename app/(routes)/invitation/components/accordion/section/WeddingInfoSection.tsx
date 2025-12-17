@@ -9,6 +9,7 @@ import { WeddingInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { FamilyInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 
 const WeddingInfoSection = () => {
   const [selectNameIdx, setSelectNameIdx] = useState(0);
@@ -25,6 +26,7 @@ const WeddingInfoSection = () => {
   const updateField = useWeddingInfoStoreTest((s) => s.updateWeddingInfoField);
   const familyInfo = useFamilyInfoStore((s) => s.familyInfo);
   const updateFamilyField = useFamilyInfoStore((s) => s.updateFamilyInfoField);
+  const { weddingId } = useWeddingIdStore();
 
   const [localInfo, setLocalInfo] = useState<WeddingInfoSectionType>(() => weddingInfo);
   const [localFamilyInfo, setLocalFamilyInfo] = useState<FamilyInfoSectionType>(() => familyInfo);
@@ -36,7 +38,7 @@ const WeddingInfoSection = () => {
     storeState: weddingInfo,
     updateStoreField: updateField,
     sectionId: "weddingInfo",
-    weddingId: "8c00934e-f7e6-4f33-a91b-40adce0c9acf"
+    weddingId: weddingId
   });
 
   useWeddingUpdate({
@@ -44,7 +46,7 @@ const WeddingInfoSection = () => {
     storeState: familyInfo,
     updateStoreField: updateFamilyField,
     sectionId: "familyInfo",
-    weddingId: "8c00934e-f7e6-4f33-a91b-40adce0c9acf"
+    weddingId: weddingId
   });
 
   return (
