@@ -1,12 +1,11 @@
 import { useMainImageStore } from "@/app/store/useMainImageStore";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ImageDetailItem } from "../fetches/invitation/type";
 
 export const useImageUpload = (kind: string) => {
   const [preview, setPreview] = useState<string | null>();
   const [loading, setLoading] = useState<boolean>(false);
   const [opacity, setOpacity] = useState<number>(0.5);
-  const inputRef = useRef<HTMLInputElement>(null);
   const { updateMainImageInfo, resetMainImageInfo } = useMainImageStore();
 
   const handleImageUpload = (file: File | null, data?: ImageDetailItem | null) => {
@@ -18,7 +17,9 @@ export const useImageUpload = (kind: string) => {
 
     const url = URL.createObjectURL(file);
 
-    updateMainImageInfo(data);
+    if (kind === "main") {
+      updateMainImageInfo(data);
+    }
 
     setPreview(url);
     setLoading(true);
@@ -34,9 +35,8 @@ export const useImageUpload = (kind: string) => {
     if (preview) {
       URL.revokeObjectURL(preview);
     }
-    resetMainImageInfo();
-    if (inputRef.current) {
-      inputRef.current.value = "";
+    if (kind === "main") {
+      resetMainImageInfo();
     }
     setPreview(null);
   };
@@ -45,7 +45,6 @@ export const useImageUpload = (kind: string) => {
     preview,
     loading,
     opacity,
-    inputRef,
     handleImageUpload,
     handleImageRemove
   };

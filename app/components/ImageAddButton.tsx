@@ -14,12 +14,12 @@ interface ImageAddButtonProps {
   previewImage?: string;
   loading: boolean;
   opacity: number;
-  handleImageRemove: () => void;
+  onImageRemove: () => void;
   id: string;
   onCropConfirm?: OnCropConfirm;
 }
 
-const ImageAddButton = ({ previewImage, loading, opacity, handleImageRemove, id, onCropConfirm }: ImageAddButtonProps) => {
+const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onCropConfirm }: ImageAddButtonProps) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState<number>(1.2);
   const [openCrop, setOpenCrop] = useState<boolean>(false);
@@ -44,14 +44,14 @@ const ImageAddButton = ({ previewImage, loading, opacity, handleImageRemove, id,
     }
   };
 
-  const handleImageRemoveInternal = async () => {
+  const onImageRemoveInternal = async () => {
     // 브라우저에 생성된 blob URL 메모리 해제
     if (croppedPreview) {
       URL.revokeObjectURL(croppedPreview);
     }
     // 크롭 미리보기 상태 초기화
     setCroppedPreview(null);
-    handleImageRemove();
+    onImageRemove();
   };
 
   return (
@@ -68,7 +68,7 @@ const ImageAddButton = ({ previewImage, loading, opacity, handleImageRemove, id,
                   <Pencil color="#FFFFFF" size={22} />
                 </div>
 
-                <label htmlFor={id} onClick={handleImageRemoveInternal} className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer">
+                <label htmlFor={id} onClick={onImageRemoveInternal} className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer">
                   <X color="#FFFFFF" size={22} />
                 </label>
               </div>

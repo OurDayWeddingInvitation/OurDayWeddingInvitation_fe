@@ -6,7 +6,6 @@ interface SelectBoxProps {
   selectOption: SelectOption[];
   initialValue: string | number | null;
   onChange: (val: string | number) => void;
-  kind?: string;
 }
 
 const SelectBox = ({ selectOption, initialValue, onChange }: SelectBoxProps) => {

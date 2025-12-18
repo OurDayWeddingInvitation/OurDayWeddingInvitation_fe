@@ -40,13 +40,12 @@ const ShareThumbnailSection = () => {
                 accept="image/*"
                 onChange={(e) => thumbnail.handleImageUpload(e.target.files?.[0] ?? null)}
                 className="hidden"
-                ref={thumbnail.inputRef}
               />
               <ImageAddButton
                 previewImage={thumbnail.preview}
                 loading={thumbnail.loading}
                 opacity={thumbnail.opacity}
-                handleImageRemove={thumbnail.handleImageRemove}
+                onImageRemove={thumbnail.handleImageRemove}
                 id={`openImg${idx}`}
               />
             </div>

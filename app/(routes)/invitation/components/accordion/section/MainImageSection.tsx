@@ -55,7 +55,6 @@ const MainImageSection = () => {
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
     const compressedFile = await getCompressedImage(file);
 
     if (!compressedFile) return;
@@ -117,10 +116,10 @@ const MainImageSection = () => {
           previewImage={mainImageInfo ? getImagePath(mainImageInfo.originalUrl) : thumbnail.preview}
           loading={thumbnail.loading}
           opacity={thumbnail.opacity}
-          handleImageRemove={handleImageRemove}
+          onImageRemove={handleImageRemove}
           id="openImg"
           onCropConfirm={async (blob) => {
-            const res = await uploadCroppedImage({
+            await uploadCroppedImage({
               weddingId,
               mediaId: mainImageInfo.mediaId,
               file: blob

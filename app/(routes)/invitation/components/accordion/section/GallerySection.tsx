@@ -43,7 +43,7 @@ const GallerySection = () => {
               previewImage={thumbnail.preview}
               loading={thumbnail.loading}
               opacity={thumbnail.opacity}
-              handleImageRemove={handleImageRemove}
+              onImageRemove={handleImageRemove}
               id="galleryImg"
               onCropConfirm={async (blob) => {
                 // const res = await uploadCroppedImage({
