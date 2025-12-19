@@ -1,22 +1,22 @@
 "use client";
 
-import { useColorFontStore } from "@/app/store/useColorFontStore";
 import AccountInfo from "./AccountInfo";
 import Gallery from "./Gallery";
 import InvitationMessage from "./InvitationMessage";
 import LocationInfo from "./LocationInfo";
 import React from "react";
 import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
-import { useThemeFontStoreTest } from "@/app/store/useColorFontStoreTest";
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import MainImage from "./mainImage/MainImage";
+import { fontList } from "@/app/lib/constants";
 
 const Preview = () => {
   // const { invitationTitle, invitationMessage } = useMessageStore();
   // constant로 fontname에 맞게 fontfamily 설정 필요
-  const themeFont = useThemeFontStoreTest((s) => s.themeFont);
-  const invitationMessage = useInvitationMessageStore(
-    (s) => s.invitationMessage
-  );
+  const themeFont = useThemeFontStore((s) => s.themeFont);
+  const invitationMessage = useInvitationMessageStore((s) => s.invitationMessage);
+  const fontKey = themeFont?.fontName;
+  const fontFamily = fontList.find((font) => font.key === fontKey)?.value ?? "";
 
   return (
     <div>
@@ -29,28 +29,14 @@ const Preview = () => {
             msOverflowStyle: "none",
             backgroundColor: themeFont?.backgroundColor ?? "",
             fontSize: themeFont?.fontSize ?? 14,
-            fontFamily: themeFont?.fontName ?? "",
+            fontFamily: fontFamily ?? ""
           }}
         >
           <MainImage />
-
+          <InvitationMessage />
           <Gallery />
           <AccountInfo />
           <LocationInfo />
-          {/* 초대 문구 section */}
-          {/* TODO: 초대 메세지 영역 퍼블리싱 필요 */}
-          <div className="flex flex-col items-center px-5 py-7.5">
-            <p className="font-[NanumMyeongjo] font-extrabold text-xs leading-[100%] tracking-[0.375rem] text-[#D28BB3] pb-2.5">
-              INVITATION
-            </p>
-            <p className="font-[NanumMyeongjo] font-bold text-base leading-[100%] pb-10 text-center">
-              {/* {invitationTitle} */}
-            </p>
-            <div
-              className="w-full"
-              dangerouslySetInnerHTML={{ __html: invitationMessage?.message }}
-            ></div>
-          </div>
         </div>
       </div>
     </div>

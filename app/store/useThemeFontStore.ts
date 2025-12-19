@@ -1,4 +1,4 @@
-// store/ColorFontStore.ts
+// store/ThemeFontStore.ts
 import { create } from "zustand";
 import { ThemeFontSectionType } from "../lib/fetches/invitation/type";
 
@@ -9,7 +9,7 @@ interface ThemeFontStore {
   resetThemeFont: () => void;
 }
 
-export const useThemeFontStoreTest = create<ThemeFontStore>((set) => ({
+export const useThemeFontStore = create<ThemeFontStore>((set) => ({
   themeFont: null,
 
   // API 최초 값을 전체로 세팅
