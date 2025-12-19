@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import SaveTemporaryIcon from "../assets/images/save-temporary.png";
+import { loadingStore } from "../store/useLoadingStore";
 
 type Props = {
   showTitle?: boolean;
@@ -7,7 +10,13 @@ type Props = {
   showSaveText?: boolean;
 };
 
-export default function Header({ showTitle = false, showButton = false, showSaveText = false }: Props) {
+export default function Header({
+  showTitle = false,
+  showButton = false,
+  showSaveText = false,
+}: Props) {
+  const loadingState = loadingStore((s) => s.loading);
+
   return (
     <header className="bg-[#FFFFFF] h-17.5 fixed w-full z-9999">
       <div className="max-w-[1200px] flex justify-between items-center m-auto px-2.5 h-full">
@@ -16,8 +25,14 @@ export default function Header({ showTitle = false, showButton = false, showSave
           <div className="font-black text-3xl">OurDay</div>
           {showSaveText && (
             <>
-              <Image src={SaveTemporaryIcon} alt="임시저장아이콘" className="h-full" />
-              <div className="text-[#CACACA]">임시저장 완료</div>
+              <Image
+                src={SaveTemporaryIcon}
+                alt="임시저장아이콘"
+                className="h-full"
+              />
+              <div className="text-[#CACACA]">
+                {loadingState ? "임시저장중" : "임시저장 완료"}
+              </div>
             </>
           )}
         </div>

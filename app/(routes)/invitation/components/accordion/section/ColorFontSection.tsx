@@ -6,6 +6,7 @@ import { fontList, fontSizeList } from "@/app/lib/constants";
 import { useThemeFontStoreTest } from "@/app/store/useColorFontStoreTest";
 import { ThemeFontSectionType } from "@/app/lib/fetches/invitation/type";
 import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 
 const ColorFontSection = () => {
   const [themeColorIdx, setThemeColorIdx] = useState<number>(0);
@@ -20,25 +21,38 @@ const ColorFontSection = () => {
   const labelStyle = "w-1/6 min-w-[50px]";
   const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
 
+  const { weddingId } = useWeddingIdStore();
   const themeFont = useThemeFontStoreTest((s) => s.themeFont);
   const updateField = useThemeFontStoreTest((s) => s.updateThemeFontField);
 
-  const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(() => themeFont);
+  const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(
+    () => themeFont
+  );
 
-  const themeColorArr = ["#FFF6FB", "#ECECDE", "#DBE4E9", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
-  const pointColorArr = ["#D28BB3", "#C0C08B", "#7AA3B8", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
+  const themeColorArr = [
+    "#FFF6FB",
+    "#ECECDE",
+    "#DBE4E9",
+    "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)",
+  ];
+  const pointColorArr = [
+    "#D28BB3",
+    "#C0C08B",
+    "#7AA3B8",
+    "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)",
+  ];
 
   const pickerState = {
     theme: {
       colorArr: themeColorArr,
       setColorIdx: setThemeColorIdx,
-      setPickerOpen: setPickerOpen
+      setPickerOpen: setPickerOpen,
     },
     point: {
       colorArr: pointColorArr,
       setColorIdx: setPointColorIdx,
-      setPickerOpen: setPickerPointOpen
-    }
+      setPickerOpen: setPickerPointOpen,
+    },
   };
 
   const clickColorPicker = (item: string, idx: number, kind: string) => {
@@ -57,7 +71,10 @@ const ColorFontSection = () => {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
         setPickerOpen(false);
       }
-      if (pickerPointRef.current && !pickerPointRef.current.contains(e.target as Node)) {
+      if (
+        pickerPointRef.current &&
+        !pickerPointRef.current.contains(e.target as Node)
+      ) {
         setPickerPointOpen(false);
       }
     };
@@ -70,7 +87,7 @@ const ColorFontSection = () => {
     storeState: themeFont,
     updateStoreField: updateField,
     sectionId: "themeFont",
-    weddingId: "65062394-1ee8-4cab-a269-7b16d3a80081"
+    weddingId: weddingId,
   });
 
   useEffect(() => {
@@ -101,7 +118,7 @@ const ColorFontSection = () => {
                 onClick={() => {
                   setLocalInfo((prev) => ({
                     ...prev,
-                    fontName: item.key
+                    fontName: item.key,
                   }));
                 }}
               />
@@ -129,7 +146,7 @@ const ColorFontSection = () => {
                   onClick={() => {
                     setLocalInfo((prev) => ({
                       ...prev,
-                      fontSize: item.size
+                      fontSize: item.size,
                     }));
                   }}
                 />
@@ -154,7 +171,7 @@ const ColorFontSection = () => {
               setCurrentColor={(color) =>
                 setLocalInfo((prev) => ({
                   ...prev,
-                  backgroundColor: color
+                  backgroundColor: color,
                 }))
               }
               onSelect={clickColorPicker}
@@ -178,7 +195,7 @@ const ColorFontSection = () => {
               setCurrentColor={(color) =>
                 setLocalInfo((prev) => ({
                   ...prev,
-                  accentColor: color
+                  accentColor: color,
                 }))
               }
               onSelect={clickColorPicker}
@@ -199,13 +216,15 @@ const ColorFontSection = () => {
                 onChange={(checked: boolean) =>
                   setLocalInfo((prev) => ({
                     ...prev,
-                    zoomPreventYn: checked
+                    zoomPreventYn: checked,
                   }))
                 }
               />
               <p className="font-medium">청첩장 확대 방지</p>
             </div>
-            <p className="text-[#CACACA] text-[12px] font-light">사진 확대가 부담스러우신 분은 선택해보세요.</p>
+            <p className="text-[#CACACA] text-[12px] font-light">
+              사진 확대가 부담스러우신 분은 선택해보세요.
+            </p>
           </div>
         </div>
       </div>
