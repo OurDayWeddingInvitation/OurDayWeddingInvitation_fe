@@ -19,11 +19,11 @@ const ColorFontSection = () => {
   const labelStyle = "w-1/6 min-w-[50px]";
   const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
 
+  const { weddingId } = useWeddingIdStore();
   const themeFont = useThemeFontStoreTest((s) => s.themeFont);
   const updateField = useThemeFontStoreTest((s) => s.updateThemeFontField);
 
   const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(() => themeFont);
-  const { weddingId } = useWeddingIdStore();
 
   const themeColorArr = ["#FFF6FB", "#ECECDE", "#DBE4E9", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
   const pointColorArr = ["#D28BB3", "#C0C08B", "#7AA3B8", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
