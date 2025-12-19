@@ -50,14 +50,13 @@ const ParentsIntroSection = () => {
                   accept="image/*"
                   onChange={(e) => thumbnail.handleImageUpload(e.target.files?.[0] ?? null)}
                   className="hidden"
-                  ref={thumbnail.inputRef}
                 />
                 <div className={`${idx === 0 && "pb-[38px]"}`}>
                   <ImageAddButton
                     previewImage={thumbnail.preview}
                     loading={thumbnail.loading}
                     opacity={thumbnail.opacity}
-                    handleImageRemove={thumbnail.handleImageRemove}
+                    onImageRemove={thumbnail.handleImageRemove}
                     id={`parentsImg${idx}`}
                   />
                 </div>
