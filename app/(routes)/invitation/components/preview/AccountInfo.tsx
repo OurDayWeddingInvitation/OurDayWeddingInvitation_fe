@@ -1,17 +1,11 @@
 import React from "react";
-import { useColorFontStore } from "@/app/store/useColorFontStore";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@radix-ui/react-accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@radix-ui/react-accordion";
 import { ChevronDown, Copy } from "lucide-react";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
 import { Divider } from "@/app/components/common/Divider";
-
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 const AccountInfo = () => {
-  const { pointColor } = useColorFontStore();
+  const themeFont = useThemeFontStore((s) => s.themeFont);
   const accountInfo = useAccountInfoStoreTest((s) => s.accountInfo);
 
   const handleCopy = (value: string) => {
@@ -28,35 +22,20 @@ const AccountInfo = () => {
   return (
     <div className="bg-[#FFFFFF] py-20">
       <div className="text-center">
-        <div
-          className="tracking-[4px] text-[12px] pb-3"
-          style={{ color: pointColor }}
-        >
+        <div className="tracking-[4px] text-[12px] pb-3" style={{ color: themeFont?.accentColor }}>
           ACCOUNT
         </div>
         <p className="pb-2.5 font-bold">{accountInfo?.title}</p>
-        <p className="text-[14px] leading-loose max-w-[270px] m-auto word-break:keep-all pb-10">
-          {accountInfo?.message}
-        </p>
+        <p className="text-[14px] leading-loose max-w-[270px] m-auto word-break:keep-all pb-10">{accountInfo?.message}</p>
       </div>
-      {/* const isGroom = groupIdx === 0; const border = isGroom ? "#D2DAE4" :
-      "#D7AEB9"; const color = isGroom ? "#7F8EA0" : "#C98898"; const fontColor
-      = isGroom ? "#405A78" : "#A14D62"; */}
       <div className="flex flex-col gap-2 px-5">
         <Accordion type="multiple" className="flex flex-col gap-2">
-          <AccordionItem
-            value="item-0"
-            className="bg-[#FFFFFF] border rounded-[10px] py-3 px-5"
-            style={{ borderColor: "#D2DAE4" }}
-          >
+          <AccordionItem value="item-0" className="bg-[#FFFFFF] border rounded-[10px] py-3 px-5" style={{ borderColor: "#D2DAE4" }}>
             <AccordionTrigger className="cursor-pointer flex justify-between w-full group">
               <div className="font-bold" style={{ color: "#405A78" }}>
                 신랑측
               </div>
-              <ChevronDown
-                className="transition-transform duration-300 group-data-[state=open]:-rotate-180"
-                color="#7F8EA0"
-              />
+              <ChevronDown className="transition-transform duration-300 group-data-[state=open]:-rotate-180" color="#7F8EA0" />
             </AccordionTrigger>
 
             <AccordionContent className="py-4 flex flex-col gap-2">
@@ -65,9 +44,7 @@ const AccountInfo = () => {
                 <span>{accountInfo?.groomHolder}</span>
               </div>
               <div className="flex justify-between items-center">
-                <p>{`${accountInfo?.groomBankName ?? ""} ${
-                  accountInfo?.groomNumber ?? ""
-                }`}</p>
+                <p>{`${accountInfo?.groomBankName ?? ""} ${accountInfo?.groomNumber ?? ""}`}</p>
                 <span
                   className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
                   onClick={() => handleCopy(accountInfo?.groomNumber ?? "")}
@@ -81,14 +58,10 @@ const AccountInfo = () => {
                 <span>{accountInfo?.groomFatherHolder}</span>
               </div>
               <div className="flex justify-between items-center">
-                <p>{`${accountInfo?.groomFatherBankName ?? ""} ${
-                  accountInfo?.groomFatherNumber ?? ""
-                }`}</p>
+                <p>{`${accountInfo?.groomFatherBankName ?? ""} ${accountInfo?.groomFatherNumber ?? ""}`}</p>
                 <span
                   className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
-                  onClick={() =>
-                    handleCopy(accountInfo?.groomFatherNumber ?? "")
-                  }
+                  onClick={() => handleCopy(accountInfo?.groomFatherNumber ?? "")}
                 >
                   <Copy color="#CACACA" size={16} />
                 </span>
@@ -99,14 +72,10 @@ const AccountInfo = () => {
                 <span>{accountInfo?.groomMotherHolder}</span>
               </div>
               <div className="flex justify-between items-center">
-                <p>{`${accountInfo?.groomMotherBankName ?? ""} ${
-                  accountInfo?.groomMotherNumber ?? ""
-                }`}</p>
+                <p>{`${accountInfo?.groomMotherBankName ?? ""} ${accountInfo?.groomMotherNumber ?? ""}`}</p>
                 <span
                   className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
-                  onClick={() =>
-                    handleCopy(accountInfo?.groomMotherNumber ?? "")
-                  }
+                  onClick={() => handleCopy(accountInfo?.groomMotherNumber ?? "")}
                 >
                   <Copy color="#CACACA" size={16} />
                 </span>
@@ -115,19 +84,12 @@ const AccountInfo = () => {
           </AccordionItem>
         </Accordion>
         <Accordion type="multiple" className="flex flex-col gap-2">
-          <AccordionItem
-            value="item-0"
-            className="bg-[#FFFFFF] border rounded-[10px] py-3 px-5"
-            style={{ borderColor: "#D7AEB9" }}
-          >
+          <AccordionItem value="item-0" className="bg-[#FFFFFF] border rounded-[10px] py-3 px-5" style={{ borderColor: "#D7AEB9" }}>
             <AccordionTrigger className="cursor-pointer flex justify-between w-full group">
               <div className="font-bold" style={{ color: "#A14D62" }}>
                 신부측
               </div>
-              <ChevronDown
-                className="transition-transform duration-300 group-data-[state=open]:-rotate-180"
-                color="#C98898"
-              />
+              <ChevronDown className="transition-transform duration-300 group-data-[state=open]:-rotate-180" color="#C98898" />
             </AccordionTrigger>
 
             <AccordionContent className="py-4 flex flex-col gap-2">
@@ -136,9 +98,7 @@ const AccountInfo = () => {
                 <span>{accountInfo?.brideHolder}</span>
               </div>
               <div className="flex justify-between items-center">
-                <p>{`${accountInfo?.groomBankName ?? ""} ${
-                  accountInfo?.groomNumber ?? ""
-                }`}</p>
+                <p>{`${accountInfo?.groomBankName ?? ""} ${accountInfo?.groomNumber ?? ""}`}</p>
                 <span
                   className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
                   onClick={() => handleCopy(accountInfo?.groomNumber ?? "")}
@@ -152,14 +112,10 @@ const AccountInfo = () => {
                 <span>{accountInfo?.groomFatherHolder}</span>
               </div>
               <div className="flex justify-between items-center">
-                <p>{`${accountInfo?.groomFatherBankName ?? ""} ${
-                  accountInfo?.groomFatherNumber ?? ""
-                }`}</p>
+                <p>{`${accountInfo?.groomFatherBankName ?? ""} ${accountInfo?.groomFatherNumber ?? ""}`}</p>
                 <span
                   className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
-                  onClick={() =>
-                    handleCopy(accountInfo?.groomFatherNumber ?? "")
-                  }
+                  onClick={() => handleCopy(accountInfo?.groomFatherNumber ?? "")}
                 >
                   <Copy color="#CACACA" size={16} />
                 </span>
@@ -170,14 +126,10 @@ const AccountInfo = () => {
                 <span>{accountInfo?.groomMotherHolder}</span>
               </div>
               <div className="flex justify-between items-center">
-                <p>{`${accountInfo?.groomMotherBankName ?? ""} ${
-                  accountInfo?.groomMotherNumber ?? ""
-                }`}</p>
+                <p>{`${accountInfo?.groomMotherBankName ?? ""} ${accountInfo?.groomMotherNumber ?? ""}`}</p>
                 <span
                   className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
-                  onClick={() =>
-                    handleCopy(accountInfo?.groomMotherNumber ?? "")
-                  }
+                  onClick={() => handleCopy(accountInfo?.groomMotherNumber ?? "")}
                 >
                   <Copy color="#CACACA" size={16} />
                 </span>

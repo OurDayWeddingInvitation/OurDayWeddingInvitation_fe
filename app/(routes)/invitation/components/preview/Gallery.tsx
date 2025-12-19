@@ -1,11 +1,11 @@
 import React from "react";
-import { useColorFontStore } from "@/app/store/useColorFontStore";
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 
 const Gallery = () => {
-  const { pointColor } = useColorFontStore();
+  const themeFont = useThemeFontStore((s) => s.themeFont);
   return (
     <div className="text-center bg-[#FFFFFF]">
-      <div className="tracking-[4px] text-[12px] pb-3 pt-[120px]" style={{ color: pointColor }}>
+      <div className="tracking-[4px] text-[12px] pb-3 pt-[120px]" style={{ color: themeFont?.accentColor }}>
         GALLERY
       </div>
       <p className="pb-[45px]">우리의 소중한 순간</p>
@@ -16,7 +16,7 @@ const Gallery = () => {
           </div>
         ))}
       </div>
-      <button className="rounded-full px-3 text-[#FFFFFF] my-10 py-1 cursor-pointer" style={{ backgroundColor: pointColor }}>
+      <button className="rounded-full px-3 text-[#FFFFFF] my-10 py-1 cursor-pointer" style={{ backgroundColor: themeFont?.accentColor }}>
         더보기
       </button>
     </div>

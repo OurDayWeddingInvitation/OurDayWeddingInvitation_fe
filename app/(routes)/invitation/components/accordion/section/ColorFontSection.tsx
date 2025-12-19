@@ -3,7 +3,7 @@ import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import CheckBox from "@/app/components/CheckBox";
 import ColorPickerButtonList from "@/app/components/ColorPickerButtonList";
 import { fontList, fontSizeList } from "@/app/lib/constants";
-import { useThemeFontStoreTest } from "@/app/store/useColorFontStoreTest";
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { ThemeFontSectionType } from "@/app/lib/fetches/invitation/type";
 import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
@@ -20,8 +20,8 @@ const ColorFontSection = () => {
   const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
 
   const { weddingId } = useWeddingIdStore();
-  const themeFont = useThemeFontStoreTest((s) => s.themeFont);
-  const updateField = useThemeFontStoreTest((s) => s.updateThemeFontField);
+  const themeFont = useThemeFontStore((s) => s.themeFont);
+  const updateField = useThemeFontStore((s) => s.updateThemeFontField);
 
   const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(() => themeFont);
 
