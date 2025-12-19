@@ -7,8 +7,9 @@ import React, { useState } from "react";
 const AccountInfoSection = () => {
   const accountInfo = useAccountInfoStoreTest((s) => s.accountInfo);
   const updateField = useAccountInfoStoreTest((s) => s.updateAccountInfoField);
-  const [localInfo, setLocalInfo] = useState<AccountInfoSectionType>(() => accountInfo);
   const { weddingId } = useWeddingIdStore();
+  const [localInfo, setLocalInfo] = useState<AccountInfoSectionType>(() => accountInfo);
+
   // const title = "마음 전하실 곳";
   // const content =
   //   "바쁜 일정으로 참석이 어려우신 분들을 위해 소중한 마음을 전달하실 수 있도록 계좌번호를 함께 안내해드립니다.따뜻한 축복에 깊이 감사드립니다.";

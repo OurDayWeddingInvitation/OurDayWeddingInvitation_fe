@@ -1,41 +1,58 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDebounce } from "@/app/lib/hooks/use-debounce";
 import { clientFetchApi } from "@/app/lib/fetches/client";
+import { loadingStore } from "@/app/store/useLoadingStore";
 
-export function useWeddingUpdate({ localState, storeState, updateStoreField, sectionId, weddingId }) {
+export function useWeddingUpdate({
+  localState,
+  storeState,
+  updateStoreField,
+  sectionId,
+  weddingId,
+}) {
   const debounced = useDebounce(localState, 500);
+  const loadingState = loadingStore();
 
   useEffect(() => {
-    if (!storeState || !debounced) return;
+    if (!storeState) return;
+    loadingState.updateLoading(true);
+  }, [localState]);
 
-    const updated = {};
+  useEffect(() => {
+    if (!storeState || !debounced) {
+      loadingState.updateLoading(false);
+      return;
+    }
+
+    const updated: Record<string, any> = {};
+
     for (const key in debounced) {
       if (debounced[key] !== storeState[key]) {
         updated[key] = debounced[key];
       }
     }
 
-    // 변경 없음
-    if (Object.keys(updated).length === 0) return;
+    if (Object.keys(updated).length === 0) {
+      loadingState.updateLoading(false);
+      return;
+    }
 
-    // zustand 업데이트
     for (const key in updated) {
       updateStoreField(key, updated[key]);
     }
 
-    // API 업데이트
-    async function updateApi() {
+    (async () => {
       await clientFetchApi({
         endPoint: `/weddings/update`,
         method: "PATCH",
         body: {
           weddingId,
           sectionId,
-          updated
-        }
+          updated,
+        },
       });
-    }
 
-    updateApi();
+      loadingState.updateLoading(false);
+    })();
   }, [debounced]);
 }

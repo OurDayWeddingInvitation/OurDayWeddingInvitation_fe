@@ -16,6 +16,7 @@ const LocationInfoSection = ({ isOpen }) => {
   const locationInfo = useLocationInfoStore((s) => s.locationInfo);
   const updateField = useLocationInfoStore((s) => s.updateLocationInfoField);
   const [localInfo, setLocalInfo] = useState<LocationInfoSectionType>(() => locationInfo);
+
   const { weddingId } = useWeddingIdStore();
 
   // 주소 검색창 여는 함수
