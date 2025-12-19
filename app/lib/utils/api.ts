@@ -9,12 +9,7 @@ import { ImageDeleteType, ImageUploadType } from "../fetches/invitation/type";
  * @param {number} displayOrder
  * @returns
  */
-export const uploadImage = async ({
-  weddingId,
-  file,
-  imageType,
-  displayOrder,
-}: ImageUploadType) => {
+export const uploadImage = async ({ weddingId, file, imageType, displayOrder }: ImageUploadType) => {
   const form = new FormData();
 
   form.append("weddingId", weddingId);
@@ -24,7 +19,7 @@ export const uploadImage = async ({
 
   const res = await fetch("/api/media/upload", {
     method: "POST",
-    body: form,
+    body: form
   });
 
   return res.json();
@@ -41,8 +36,23 @@ export const deleteImage = async ({ weddingId, mediaId }: ImageDeleteType) => {
     method: "DELETE",
     body: JSON.stringify({
       weddingId,
-      mediaId,
-    }),
+      mediaId
+    })
+  });
+
+  return res.json();
+};
+
+/**
+ * 이미지 크롭 후 업로드
+ */
+export const uploadCroppedImage = async ({ weddingId, mediaId, file }: { weddingId: string; mediaId: number; file: Blob }) => {
+  const form = new FormData();
+  form.append("file", file);
+
+  const res = await fetch(`/api/media/cropped?weddingId=${weddingId}&mediaId=${mediaId}`, {
+    method: "PUT",
+    body: form
   });
 
   return res.json();

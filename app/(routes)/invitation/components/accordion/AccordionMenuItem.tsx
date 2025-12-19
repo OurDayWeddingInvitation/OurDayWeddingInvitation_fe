@@ -39,7 +39,7 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
   return (
     <AccordionItem
       value={`item-${idx}`}
-      className="flex flex-col w-full bg-white p-5  rounded-lg shadow-[0px_5px_4px_rgba(0,0,0,0.08)]"
+      className="flex flex-col w-full bg-white p-5 rounded-lg shadow-[0px_5px_4px_rgba(0,0,0,0.08)]"
       ref={setNodeRef}
       key={idx}
       style={style}
@@ -64,7 +64,7 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
         </AccordionTrigger>
       </AccordionHeader>
       <AccordionContent
-        className="py-6 text-balance w-full bg-white overflow-hidden accordion-content
+        className="pt-4 pb-2 text-balance w-full bg-white overflow-hidden accordion-content
              data-[state=open]:animate-slideDown
              data-[state=closed]:animate-slideUp"
       >
