@@ -1,11 +1,13 @@
 import { AccountInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import React, { useState } from "react";
 
 const AccountInfoSection = () => {
   const accountInfo = useAccountInfoStoreTest((s) => s.accountInfo);
   const updateField = useAccountInfoStoreTest((s) => s.updateAccountInfoField);
+  const { weddingId } = useWeddingIdStore();
   const [localInfo, setLocalInfo] = useState<AccountInfoSectionType>(() => accountInfo);
 
   // const title = "마음 전하실 곳";
@@ -33,7 +35,7 @@ const AccountInfoSection = () => {
     storeState: accountInfo,
     updateStoreField: updateField,
     sectionId: "accountInfo",
-    weddingId: "8c00934e-f7e6-4f33-a91b-40adce0c9acf"
+    weddingId: weddingId
   });
 
   return (

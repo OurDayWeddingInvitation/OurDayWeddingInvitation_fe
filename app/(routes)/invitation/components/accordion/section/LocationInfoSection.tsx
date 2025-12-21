@@ -5,6 +5,7 @@ import { trafficOption } from "@/app/lib/constants/select";
 import { LocationInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import React, { useState, useEffect } from "react";
 
 const LocationInfoSection = ({ isOpen }) => {
@@ -12,11 +13,13 @@ const LocationInfoSection = ({ isOpen }) => {
   const labelStyle = "w-1/7 min-w-[60px]";
   const [lat, setLat] = useState<number>(0);
   const [lon, setLon] = useState<number>(0);
-  const [trafficBlocks, setTrafficBlocks] = useState([0]);
   const locationInfo = useLocationInfoStore((s) => s.locationInfo);
   const updateField = useLocationInfoStore((s) => s.updateLocationInfoField);
   const [localInfo, setLocalInfo] = useState<LocationInfoSectionType>(() => locationInfo);
 
+  const { weddingId } = useWeddingIdStore();
+
+  // 주소 검색창 여는 함수
   const openPost = () => {
     new window.daum.Postcode({
       oncomplete: async (data) => {
@@ -26,6 +29,47 @@ const LocationInfoSection = ({ isOpen }) => {
         }));
       }
     }).open();
+  };
+
+  // localInfo[transportTitle] 값 가져오는 함수
+  const getTrafficCount = (data: LocationInfoSectionType) => {
+    let count = 0;
+
+    for (let i = 1; i <= 5; i++) {
+      if (data[`transport${i}Title`]) {
+        count++;
+      }
+    }
+
+    return count > 0 ? count : 1;
+  };
+
+  const trafficBlocks = Array.from({ length: getTrafficCount(localInfo) }, (_, i) => i);
+
+  // 교통수단 삭제 함수
+  const removeTraffic = (removeIndex: number) => {
+    setLocalInfo((prev) => {
+      const transports = [];
+
+      for (let i = 1; i <= 5; i++) {
+        const value = prev[`transport${i}Title`];
+        if (value) {
+          transports.push(value);
+        }
+      }
+
+      transports.splice(removeIndex, 1);
+
+      const newTransportFields = {};
+      for (let i = 1; i <= 5; i++) {
+        newTransportFields[`transport${i}Title`] = transports[i - 1] ?? null;
+      }
+      console.log(newTransportFields);
+      return {
+        ...prev,
+        ...newTransportFields
+      };
+    });
   };
 
   useEffect(() => {
@@ -50,7 +94,7 @@ const LocationInfoSection = ({ isOpen }) => {
     storeState: locationInfo,
     updateStoreField: updateField,
     sectionId: "locationInfo",
-    weddingId: "8c00934e-f7e6-4f33-a91b-40adce0c9acf"
+    weddingId: weddingId
   });
 
   return (
@@ -82,44 +126,51 @@ const LocationInfoSection = ({ isOpen }) => {
 
       <div className="border-t border-[#E0E0E0]"></div>
 
-      {trafficBlocks.map((item, idx) => {
+      {trafficBlocks.map((_, idx) => {
         const trafficKey = `transport${idx + 1}Title`;
-        const value = localInfo[trafficKey];
+        const trafficMsgKey = `transport${idx + 1}Message`;
         return (
           <div className="py-9" key={idx}>
-            <h3>
+            <div className="flex gap-2 items-center">
               <span className="text-[#D2BEA9]">#{idx + 1}</span> 교통수단
-            </h3>
+              {idx >= 1 && (
+                <button className="border-[#D4C6B7] border text-[10px] py-1.5 px-3 rounded-sm cursor-pointer" onClick={() => removeTraffic(idx)}>
+                  삭제
+                </button>
+              )}
+            </div>
             <div className="flex items-center py-5">
               <div className={labelStyle}>교통수단</div>
               <SelectBox
                 selectOption={trafficOption}
-                initialValue={value}
+                initialValue={localInfo[trafficKey]}
                 onChange={(val: string) => {
-                  const key = `transport${idx + 1}Title`;
                   setLocalInfo((prev) => ({
                     ...prev,
-                    [key]: val
+                    [trafficKey]: val
                   }));
                 }}
-                kind="traffic"
               />
             </div>
             <div className="py-3">내용</div>
-            <TextEditor />
+            <TextEditor
+              message={localInfo[trafficMsgKey]}
+              onUpdateMessage={(message) => {
+                setLocalInfo((prev) => ({ ...prev, [trafficMsgKey]: message }));
+              }}
+            />
           </div>
         );
       })}
 
-      {trafficBlocks.length === 1 && (
+      {trafficBlocks.length < 5 && (
         <div className="block text-center">
           <button
             className="bg-[#D2BEA9] text-[#FFFFFF] font-light px-5 py-2 rounded-sm cursor-pointer"
             onClick={() => {
-              setTrafficBlocks((prev) => [...prev, prev.length]);
               setLocalInfo((prev) => ({
                 ...prev,
-                transport2Title: "지하철"
+                [`transport${trafficBlocks.length + 1}Title`]: "지하철"
               }));
             }}
           >

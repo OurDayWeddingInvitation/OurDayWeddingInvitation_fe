@@ -28,6 +28,6 @@ export async function clientFetchApi({
     return await response.json();
   } catch (e) {
     console.log(e);
-    throw e;
+    throw null;
   }
 }

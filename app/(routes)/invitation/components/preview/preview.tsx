@@ -1,16 +1,22 @@
 "use client";
 
-import { useCounterStore } from "@/app/store/sectionFirstStore";
-import { useColorFontStore } from "@/app/store/useColorFontStore";
 import AccountInfo from "./AccountInfo";
 import Gallery from "./Gallery";
 import InvitationMessage from "./InvitationMessage";
 import LocationInfo from "./LocationInfo";
+import React from "react";
+import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import MainImage from "./mainImage/MainImage";
+import { fontList } from "@/app/lib/constants";
 
 const Preview = () => {
-  const { title, description } = useCounterStore();
-  const { themeColor, fontSize, fontStyle } = useColorFontStore();
+  // const { invitationTitle, invitationMessage } = useMessageStore();
+  // constant로 fontname에 맞게 fontfamily 설정 필요
+  const themeFont = useThemeFontStore((s) => s.themeFont);
+  const invitationMessage = useInvitationMessageStore((s) => s.invitationMessage);
+  const fontKey = themeFont?.fontName;
+  const fontFamily = fontList.find((font) => font.key === fontKey)?.value ?? "";
 
   return (
     <div>
@@ -21,17 +27,16 @@ const Preview = () => {
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
-            backgroundColor: themeColor,
-            fontSize: fontSize,
-            fontFamily: fontStyle,
+            backgroundColor: themeFont?.backgroundColor ?? "",
+            fontSize: themeFont?.fontSize ?? 14,
+            fontFamily: fontFamily ?? ""
           }}
         >
           <MainImage />
-
+          <InvitationMessage />
           <Gallery />
           <AccountInfo />
           <LocationInfo />
-          <InvitationMessage />
         </div>
       </div>
     </div>

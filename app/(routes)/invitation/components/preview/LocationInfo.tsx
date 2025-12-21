@@ -1,27 +1,27 @@
 import React from "react";
-import { useColorFontStore } from "@/app/store/useColorFontStore";
 import { MapPin } from "lucide-react";
 import NaverMap from "@/app/assets/icons/navermap.svg";
 import KakaoMap from "@/app/assets/icons/kakaomap.svg";
 import Tmap from "@/app/assets/icons/tmap.svg";
 import Image from "next/image";
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 
 const LocationInfo = () => {
-  const { pointColor, themeColor } = useColorFontStore();
+  const themeFont = useThemeFontStore((s) => s.themeFont);
   const navigationBtn = [
     { img: NaverMap, name: "네이버지도" },
     { img: Tmap, name: "티맵" },
     { img: KakaoMap, name: "카카오맵" }
   ];
   return (
-    <div className="py-10">
-      <div className="text-center bg-[#FFFFFF]" style={{ backgroundColor: themeColor }}>
-        <div className="tracking-[4px] text-[12px] pb-3 " style={{ color: pointColor }}>
+    <div className="py-10 bg-[#FFFFFF]">
+      <div className="text-center">
+        <div className="tracking-[4px] text-[12px] pb-3 " style={{ color: themeFont?.accentColor }}>
           LOCATION
         </div>
         <span className="font-bold">오시는 길</span>
         <p className="flex justify-center py-5 gap-1">
-          <MapPin color="#D28BB3" />
+          <MapPin style={{ color: themeFont?.accentColor }} />
           <span>서울 강서구 강서로 388</span>
         </p>
         <div className="pb-5">{/* 지도 이미지 */}</div>

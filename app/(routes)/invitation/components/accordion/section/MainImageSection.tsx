@@ -8,12 +8,16 @@ import ImageAddButton from "@/app/components/ImageAddButton";
 import { clientFetchApi } from "@/app/lib/fetches/client";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
-import { deleteImage, uploadImage } from "@/app/lib/utils/api";
+import {
+  deleteImage,
+  uploadCroppedImage,
+  uploadImage,
+} from "@/app/lib/utils/api";
 import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -28,8 +32,8 @@ const MainImageSection = () => {
   const { weddingId } = useWeddingIdStore();
   const { mainImageInfo, mainStyleKind, setMainStyleKind } =
     useMainImageStore();
-
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const mainStyleArr = [
     { title: "mainStyle1", url: MainStyle1 },
@@ -94,6 +98,11 @@ const MainImageSection = () => {
       weddingId: weddingId,
       mediaId: mainImageInfo.mediaId,
     });
+
+    // file Input 초기화
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   // 초기 selectedIdx 세팅
@@ -122,6 +131,7 @@ const MainImageSection = () => {
           accept="image/*"
           onChange={(e) => handleImageChange(e)}
           className="hidden"
+          ref={fileInputRef}
         />
         <ImageAddButton
           previewImage={
@@ -131,9 +141,15 @@ const MainImageSection = () => {
           }
           loading={thumbnail.loading}
           opacity={thumbnail.opacity}
-          onModify={handleImageModify}
-          onRemove={handleImageRemove}
+          onImageRemove={handleImageRemove}
           id="openImg"
+          onCropConfirm={async (blob) => {
+            await uploadCroppedImage({
+              weddingId,
+              mediaId: mainImageInfo.mediaId,
+              file: blob,
+            });
+          }}
         />
       </div>
 

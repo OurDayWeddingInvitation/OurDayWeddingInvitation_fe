@@ -3,13 +3,12 @@ import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import CheckBox from "@/app/components/CheckBox";
 import ColorPickerButtonList from "@/app/components/ColorPickerButtonList";
 import { fontList, fontSizeList } from "@/app/lib/constants";
-import { useThemeFontStoreTest } from "@/app/store/useColorFontStoreTest";
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { ThemeFontSectionType } from "@/app/lib/fetches/invitation/type";
 import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 
 const ColorFontSection = () => {
-  const [themeColorIdx, setThemeColorIdx] = useState<number>(0);
-  const [pointColorIdx, setPointColorIdx] = useState<number>(0);
   const [pickerOpen, setPickerOpen] = useState<boolean>(false);
   const [pickerPointOpen, setPickerPointOpen] = useState<boolean>(false);
   const pickerRef = useRef<HTMLButtonElement | null>(null);
@@ -20,8 +19,9 @@ const ColorFontSection = () => {
   const labelStyle = "w-1/6 min-w-[50px]";
   const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
 
-  const themeFont = useThemeFontStoreTest((s) => s.themeFont);
-  const updateField = useThemeFontStoreTest((s) => s.updateThemeFontField);
+  const { weddingId } = useWeddingIdStore();
+  const themeFont = useThemeFontStore((s) => s.themeFont);
+  const updateField = useThemeFontStore((s) => s.updateThemeFontField);
 
   const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(() => themeFont);
 
@@ -31,19 +31,24 @@ const ColorFontSection = () => {
   const pickerState = {
     theme: {
       colorArr: themeColorArr,
-      setColorIdx: setThemeColorIdx,
-      setPickerOpen: setPickerOpen
+      setPickerOpen: setPickerOpen,
+      key: "backgroundColor"
     },
     point: {
       colorArr: pointColorArr,
-      setColorIdx: setPointColorIdx,
-      setPickerOpen: setPickerPointOpen
+      setPickerOpen: setPickerPointOpen,
+      key: "accentColor"
     }
   };
 
+  // 테마, 포인트 색상 변경 했을 때 실행하는 함수
   const clickColorPicker = (item: string, idx: number, kind: string) => {
     const state = pickerState[kind];
-    state.setColorIdx(idx);
+
+    setLocalInfo((prev) => ({
+      ...prev,
+      [state.key]: item
+    }));
 
     if (idx === themeColorArr.length - 1) {
       state.setPickerOpen(true);
@@ -52,6 +57,15 @@ const ColorFontSection = () => {
     }
   };
 
+  // 컬러 선택 버튼 index 반환 함수
+  const getColorIndex = (colorArr: string[], color?: string): number => {
+    if (!color) return colorArr.length - 1;
+
+    const idx = colorArr.indexOf(color);
+    return idx !== -1 ? idx : colorArr.length - 1;
+  };
+
+  // 컬러 피커 창 외부 클릭 시 닫기
   useEffect(() => {
     const clickOutside = (e: MouseEvent) => {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
@@ -70,17 +84,12 @@ const ColorFontSection = () => {
     storeState: themeFont,
     updateStoreField: updateField,
     sectionId: "themeFont",
-    weddingId: "65062394-1ee8-4cab-a269-7b16d3a80081"
+    weddingId: weddingId
   });
 
   useEffect(() => {
     setLocalInfo(themeFont);
   }, [themeFont]);
-
-  const getThemeColorIndex = (color: string): number => {
-    const idx = themeColorArr.indexOf(color);
-    return idx !== -1 ? idx : themeColorArr.length - 1;
-  };
 
   return (
     <div className="flex flex-col gap-5">
@@ -147,10 +156,10 @@ const ColorFontSection = () => {
             <ColorPickerButtonList
               buttonRef={pickerRef}
               colorArr={themeColorArr}
-              selectedIdx={getThemeColorIndex(localInfo?.backgroundColor)}
+              selectedIdx={getColorIndex(themeColorArr, localInfo?.backgroundColor)}
               isPickerOpen={pickerOpen}
               setPickerOpen={setPickerOpen}
-              currentColor={localInfo?.backgroundColor ?? "#FFF6FB"}
+              currentColor={localInfo?.backgroundColor}
               setCurrentColor={(color) =>
                 setLocalInfo((prev) => ({
                   ...prev,
@@ -171,7 +180,7 @@ const ColorFontSection = () => {
             <ColorPickerButtonList
               buttonRef={pickerPointRef}
               colorArr={pointColorArr}
-              selectedIdx={pointColorIdx}
+              selectedIdx={getColorIndex(pointColorArr, localInfo?.accentColor)}
               isPickerOpen={pickerPointOpen}
               setPickerOpen={setPickerPointOpen}
               currentColor={localInfo?.accentColor}
