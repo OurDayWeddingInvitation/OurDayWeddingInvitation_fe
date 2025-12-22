@@ -156,7 +156,7 @@ const WeddingInfoSection = () => {
                 key={idx}
                 title={`${role} 이름 먼저`}
                 size={16}
-                clickIdx={selectNameIdx}
+                clickIdx={localInfo.nameOrderType === "G" ? 0 : 1}
                 idx={idx}
                 onClick={() => {
                   const value = idx === 0 ? "G" : "B";
