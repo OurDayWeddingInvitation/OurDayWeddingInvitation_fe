@@ -2,8 +2,8 @@ import React from "react";
 import ImageAddButton from "@/app/components/ImageAddButton";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
-import { deleteImage, uploadCroppedImage } from "@/app/lib/utils/api";
-import ImageAddImage from "@/app/assets/images/preview-image-transparent.png";
+import { deleteImage } from "@/app/lib/utils/api";
+import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
 import Image from "next/image";
 
 const GallerySection = () => {
@@ -46,7 +46,7 @@ const GallerySection = () => {
               />
             ))}
             <label htmlFor="galleryInput" className="w-[124px] h-[124px] cursor-pointer">
-              <Image src={ImageAddImage} alt="추가" />
+              <Image src={ImageAddBtnIcon} alt="추가" />
             </label>
             <input
               id="galleryInput"
