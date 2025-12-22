@@ -3,25 +3,18 @@ import { useMainImageStore } from "@/app/store/useMainImageStore";
 
 const Mainstyle3 = ({ wedding }) => {
   const { mainImageInfo } = useMainImageStore();
-  const { date, groom, bride } = wedding;
-  const year = date.year;
-  const month = date.month;
-  const day = date.day;
-  const groomName = groom.lastName + groom.firstName;
-  const brideName = bride.lastName + bride.firstName;
+
+  const year = wedding.weddingYear;
+  const month = wedding.weddingMonth;
+  const day = wedding.weddingDay;
+  const groomName = wedding.groomLastName + wedding.groomFirstName;
+  const brideName = wedding.brideLastName + wedding.brideFirstName;
 
   return (
     <div className="text-[#FFFFFF]">
-      <div
-        className="text-center text-[14px] relative"
-        style={{ fontFamily: "GreatVibes" }}
-      >
+      <div className="text-center text-[14px] relative" style={{ fontFamily: "GreatVibes" }}>
         {mainImageInfo ? (
-          <img
-            src={getImagePath(mainImageInfo.originalUrl)}
-            alt="메인 이미지"
-            className="h-[760px] object-cover"
-          />
+          <img src={getImagePath(mainImageInfo.originalUrl)} alt="메인 이미지" className="h-[760px] object-cover" />
         ) : (
           <div className="bg-[#D9D9D9] h-[760px]"></div>
         )}

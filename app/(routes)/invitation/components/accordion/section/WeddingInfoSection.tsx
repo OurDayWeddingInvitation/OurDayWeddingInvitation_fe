@@ -4,7 +4,7 @@ import SelectBox from "@/app/components/SelectBox";
 import { getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
 import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import CheckBox from "@/app/components/CheckBox";
-import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import { WeddingInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { FamilyInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
@@ -22,8 +22,8 @@ const WeddingInfoSection = () => {
   const parents = ["아버지", "어머니"];
   const label = ["신랑", "신부"];
 
-  const weddingInfo = useWeddingInfoStoreTest((s) => s.weddingInfo);
-  const updateField = useWeddingInfoStoreTest((s) => s.updateWeddingInfoField);
+  const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
+  const updateField = useWeddingInfoStore((s) => s.updateWeddingInfoField);
   const familyInfo = useFamilyInfoStore((s) => s.familyInfo);
   const updateFamilyField = useFamilyInfoStore((s) => s.updateFamilyInfoField);
   const { weddingId } = useWeddingIdStore();

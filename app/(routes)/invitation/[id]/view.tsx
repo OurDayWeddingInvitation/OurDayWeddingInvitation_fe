@@ -10,7 +10,7 @@ import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
-import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import Image from "next/image";
 import { useEffect } from "react";
 import Form from "../components/form/Form";
@@ -26,7 +26,7 @@ export default function InvitationView({
   imageDetail: ImageDetail;
 }) {
   const setWeddingId = useWeddingIdStore((s) => s.setWeddingId);
-  const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
+  const setWeddingInfo = useWeddingInfoStore((s) => s.setWeddingInfo);
   const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);

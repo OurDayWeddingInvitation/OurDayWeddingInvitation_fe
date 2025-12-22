@@ -3,21 +3,20 @@ import { useMainImageStore } from "@/app/store/useMainImageStore";
 
 const Mainstyle2 = ({ wedding }) => {
   const { mainImageInfo } = useMainImageStore();
-  const { date, time, groom, bride, hallName, hallDetail } = wedding;
-  const year = date.year;
-  const month = date.month;
-  const day = date.day;
-  const groomName = groom.lastName + groom.firstName;
-  const brideName = bride.lastName + bride.firstName;
-  const timeOfDay = time.timeOfDay;
-  const hour = time.hour;
-  const min = time.min;
+
+  const year = wedding.weddingYear;
+  const month = wedding.weddingMonth;
+  const day = wedding.weddingDay;
+  const groomName = wedding.groomLastName + wedding.groomFirstName;
+  const brideName = wedding.brideLastName + wedding.brideFirstName;
+  const timeOfDay = wedding.weddingTimePeriod;
+  const hour = wedding.weddingHour;
+  const min = wedding.weddingMinute;
+  const hallDetail = wedding.weddingHallFloor;
+  const hallName = wedding.weddingHallName;
 
   return (
-    <div
-      className="bg-[#FFFFFF] pt-[46px] text-[#5E5852]"
-      style={{ fontFamily: "NanumMyeongjo" }}
-    >
+    <div className="bg-[#FFFFFF] pt-[46px] text-[#5E5852]" style={{ fontFamily: "NanumMyeongjo" }}>
       <div className="text-center text-[20px]">
         <span className="font-extrabold">
           {groomName} ♥ {brideName}
@@ -56,7 +55,7 @@ const Mainstyle2 = ({ wedding }) => {
       transparent 100%
     )`,
               WebkitMaskRepeat: "no-repeat",
-              WebkitMaskSize: "cover",
+              WebkitMaskSize: "cover"
             }}
           />
         ) : (
