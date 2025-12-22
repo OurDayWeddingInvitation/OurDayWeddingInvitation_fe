@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
 import Image from "next/image";
-import TestImg from "@/app/assets/images/preview-image-transparent.png";
+import LoadingImg from "@/app/assets/images/preview-image-transparent.png";
 import { DotLoader } from "react-spinners";
 import { Check, CircleX, Pencil, X } from "lucide-react";
 import Cropper from "react-easy-crop";
@@ -61,7 +61,7 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
           <div className="w-full h-full">
             <img src={croppedPreview ?? previewImage} alt="이미지미리보기" className="w-full h-full object-cover" style={{ opacity: opacity }} />
 
-            {loading && <Image src={TestImg} alt="이미지추가버튼" className="cursor-pointer absolute left-0 top-0" />}
+            {loading && <Image src={LoadingImg} alt="이미지추가버튼" className="cursor-pointer absolute left-0 top-0" />}
             {!loading && (
               <div className="absolute left-0 bottom-0 flex justify-between w-full p-3">
                 <div className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer" onClick={() => setOpenCrop(true)}>
@@ -85,9 +85,6 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
                 onCropComplete={onCropComplete}
                 onZoomChange={setZoom}
                 showGrid={true}
-                // onMediaLoaded={(mediaSize) => {
-                //   console.log(mediaSize);
-                // }}
               />
               <div className="absolute left-[54%] top-[23%] flex">
                 <Check color="#D4C6B7" className="cursor-pointer" size={28} onClick={handleCropConfirm} />

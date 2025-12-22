@@ -3,17 +3,20 @@ import ImageAddButton from "@/app/components/ImageAddButton";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import { deleteImage, uploadCroppedImage } from "@/app/lib/utils/api";
-import TestImg from "@/app/assets/images/preview-image-transparent.png";
+import ImageAddImage from "@/app/assets/images/preview-image-transparent.png";
 import Image from "next/image";
 
 const GallerySection = () => {
   const { weddingId } = useWeddingIdStore();
-  const thumbnail = useImageUpload("");
+  const gallery = useImageUpload({
+    kind: "gallery",
+    maxCount: 50
+  });
 
   const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
 
-  const handleImageRemove = async () => {
-    thumbnail.handleImageRemove();
+  const handleImageRemove = async (idx) => {
+    gallery.handleImageRemove(idx);
 
     await deleteImage({
       weddingId: weddingId
@@ -32,41 +35,30 @@ const GallerySection = () => {
           <div className="w-1/6 min-w-[50px] pb-1.5">갤러리</div>
           <p className="pb-5 text-[#CACACA]">최대 50장까지 업로드 할 수 있습니다.</p>
           <div className="border-[#D9D9D9] border rounded-[10px] w-full p-4 mb-5 grid grid-cols-5 gap-5 min-h-[295px]">
+            {gallery.previews.map((item, idx) => (
+              <ImageAddButton
+                key={item.preview}
+                previewImage={item.preview}
+                loading={item.loading}
+                opacity={item.opacity}
+                id={`gallery-${idx}`}
+                onImageRemove={() => handleImageRemove(idx)}
+              />
+            ))}
+            <label htmlFor="galleryInput" className="w-[124px] h-[124px] cursor-pointer">
+              <Image src={ImageAddImage} alt="추가" />
+            </label>
             <input
+              id="galleryInput"
               type="file"
-              id="openImg"
               accept="image/*"
-              onChange={(e) => thumbnail.handleImageUpload(e.target.files?.[0] ?? null)}
               className="hidden"
-            />
-            <ImageAddButton
-              previewImage={thumbnail.preview}
-              loading={thumbnail.loading}
-              opacity={thumbnail.opacity}
-              onImageRemove={handleImageRemove}
-              id="galleryImg"
-              onCropConfirm={async (blob) => {
-                // const res = await uploadCroppedImage({
-                //   weddingId,
-                //   mediaId: mainImageInfo.mediaId,
-                //   file: blob
-                // });
+              onChange={(e) => {
+                gallery.handleImageUpload(e.target.files?.[0] ?? null);
+                // 같은 파일 선택 가능
+                e.target.value = "";
               }}
             />
-            {thumbnail.preview && (
-              <>
-                <div className="w-[124px] h-[124px]">
-                  <input
-                    type="file"
-                    id="galleryImg"
-                    accept="image/*"
-                    onChange={(e) => thumbnail.handleImageUpload(e.target.files?.[0] ?? null)}
-                    className="hidden"
-                  />
-                  <Image src={TestImg} alt="이미지추가버튼" className="cursor-pointer" />
-                </div>
-              </>
-            )}
           </div>
           <div className="border-[#E0E0E0] border-t w-full"></div>
           <ul className="text-[12px] text-[#CACACA] flex flex-col gap-2 pt-5 list-disc list-inside font-light">
