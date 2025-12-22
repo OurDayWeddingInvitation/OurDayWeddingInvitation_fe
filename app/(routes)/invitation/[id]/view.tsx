@@ -83,7 +83,7 @@ export default function InvitationView({
       <div className="max-w-[1200px] py-27 flex mx-auto items-start gap-[52px] relative">
         <div className="max-w-[400px] fixed w-full">
           <Preview />
-          <ul className="py-[26px] text-[#817E7C] text-[14px]  list-disc ">
+          <ul className="py-[26px] text-[#817E7C] text-[14px] list-disc list-inside">
             <li>미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러 저장 후 확인해주세요.</li>
           </ul>
         </div>
