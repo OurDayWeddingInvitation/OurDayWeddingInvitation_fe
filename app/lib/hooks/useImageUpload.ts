@@ -31,15 +31,8 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
 
     if (kind === "main") {
       updateMainImageInfo(data);
-    } else if (kind === "gallery") {
-      if (previews.length >= maxCount) {
-        alert("최대 50장까지 업로드 할 수 있습니다.");
-      }
-      setPreviews((prev) => [...prev, { file, preview: url, loading: true, opacity: 0.5 }]);
-      setTimeout(() => {
-        setPreviews((prev) => prev.map((item) => (item.preview === url ? { ...item, loading: false, opacity: 1 } : item)));
-      }, 1500);
     }
+
     setPreview(url);
     setLoading(true);
     setOpacity(0.5);
@@ -47,6 +40,36 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
     setTimeout(() => {
       setLoading(false);
       setOpacity(1);
+    }, 1500);
+  };
+
+  const handleMultipleUpload = (files: FileList) => {
+    if (!files) return;
+
+    const fileArray = Array.from(files);
+
+    setPreviews((prev) => {
+      const newItems = fileArray?.map((file) => {
+        const url = URL.createObjectURL(file);
+        return {
+          file,
+          preview: url,
+          loading: true,
+          opacity: 0.5
+        };
+      });
+
+      return [...prev, ...newItems];
+    });
+
+    setTimeout(() => {
+      setPreviews((prev) =>
+        prev.map((item) => ({
+          ...item,
+          loading: false,
+          opacity: 1
+        }))
+      );
     }, 1500);
   };
 
@@ -75,6 +98,7 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
     loading,
     opacity,
     handleImageUpload,
+    handleMultipleUpload,
     handleImageRemove
   };
 };

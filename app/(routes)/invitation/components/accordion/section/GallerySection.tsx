@@ -53,8 +53,9 @@ const GallerySection = () => {
               type="file"
               accept="image/*"
               className="hidden"
+              multiple
               onChange={(e) => {
-                gallery.handleImageUpload(e.target.files?.[0] ?? null);
+                gallery.handleMultipleUpload(e.target.files);
                 // 같은 파일 선택 가능
                 e.target.value = "";
               }}

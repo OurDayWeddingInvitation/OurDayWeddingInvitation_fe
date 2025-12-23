@@ -75,20 +75,26 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
             )}
           </div>
           {openCrop && (
-            <div className="fixed w-full h-full left-0 top-0 z-99 flex">
-              <Cropper
-                image={previewImage}
-                crop={crop}
-                zoom={zoom}
-                aspect={316 / 716}
-                onCropChange={setCrop}
-                onCropComplete={onCropComplete}
-                onZoomChange={setZoom}
-                showGrid={true}
-              />
-              <div className="absolute left-[54%] top-[23%] flex">
-                <Check color="#D4C6B7" className="cursor-pointer" size={28} onClick={handleCropConfirm} />
-                <CircleX className="cursor-pointer" color="#FFFFFF" size={28} onClick={() => setOpenCrop(false)} />
+            <div className="fixed w-[50%] h-[70%] left-[50%] top-[50%] translate-[-50%] z-9999 flex flex-col rounded-t-md overflow-hidden">
+              <div className="absolute inset-0 z-10">
+                <Cropper
+                  image={previewImage}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={316 / 716}
+                  onCropChange={setCrop}
+                  onCropComplete={onCropComplete}
+                  onZoomChange={setZoom}
+                  showGrid={true}
+                />
+              </div>
+              <div className="absolute top-0 left-0 right-0 z-20 h-14 flex items-center justify-end px-3 bg-white rounded-t-sm border-[#dbdbdb] border">
+                <X color="#b3b3b3" className="cursor-pointer" size={28} onClick={() => setOpenCrop(false)} />
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 z-20 h-14 flex items-center justify-end px-4 bg-white rounded-b-sm border-[#dbdbdb] border">
+                <button onClick={handleCropConfirm} className="bg-[#D4C6B7] text-[13px] cursor-pointer py-1 px-2 rounded-sm text-white">
+                  확인
+                </button>
               </div>
             </div>
           )}
@@ -99,7 +105,7 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
               size={32}
               aria-label="Loading Spinner"
               data-testid="loader"
-              className="absolute! top-[50%] left-[50%] -translate-[50%] "
+              className="absolute! top-[50%] left-[50%] -translate-[50%]"
             />
           )}
         </div>
