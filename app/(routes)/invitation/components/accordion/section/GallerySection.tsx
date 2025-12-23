@@ -15,7 +15,7 @@ const GallerySection = () => {
 
   const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
 
-  const handleImageRemove = async (idx) => {
+  const handleImageRemove = async (idx: number) => {
     gallery.handleImageRemove(idx);
 
     await deleteImage({
@@ -33,7 +33,10 @@ const GallerySection = () => {
         </div>
         <div>
           <div className="w-1/6 min-w-[50px] pb-1.5">갤러리</div>
-          <p className="pb-5 text-[#CACACA]">최대 50장까지 업로드 할 수 있습니다.</p>
+          <div className="flex items-center justify-between pb-4">
+            <p className=" text-[#CACACA] text-[12px]">최대 50장까지 업로드 할 수 있습니다.</p>
+            <button className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1">전체 삭제</button>
+          </div>
           <div className="border-[#D9D9D9] border rounded-[10px] w-full p-4 mb-5 grid grid-cols-5 gap-5 min-h-[295px]">
             {gallery.previews.map((item, idx) => (
               <ImageAddButton
