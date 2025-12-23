@@ -1,20 +1,32 @@
 import React, { useState } from "react";
-import { familyOptionsMale, familyOptionsFemale, hoursOptions, minutesOptions, monthOptions, timeOfDayOptions } from "@/app/lib/constants";
+import {
+  familyOptionsMale,
+  familyOptionsFemale,
+  hoursOptions,
+  minutesOptions,
+  monthOptions,
+  timeOfDayOptions,
+} from "@/app/lib/constants";
 import SelectBox from "@/app/components/SelectBox";
-import { getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
+import {
+  getFourYears,
+  getEndDay,
+  getDaysOption,
+} from "@/app/lib/utils/date-format";
 import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import CheckBox from "@/app/components/CheckBox";
-import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
 import { WeddingInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { FamilyInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 
 const WeddingInfoSection = () => {
   const [selectNameIdx, setSelectNameIdx] = useState(0);
 
-  const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+  const inputStyle =
+    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
@@ -22,23 +34,30 @@ const WeddingInfoSection = () => {
   const parents = ["아버지", "어머니"];
   const label = ["신랑", "신부"];
 
-  const weddingInfo = useWeddingInfoStoreTest((s) => s.weddingInfo);
-  const updateField = useWeddingInfoStoreTest((s) => s.updateWeddingInfoField);
+  const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
+  const updateField = useWeddingInfoStore((s) => s.updateWeddingInfoField);
   const familyInfo = useFamilyInfoStore((s) => s.familyInfo);
   const updateFamilyField = useFamilyInfoStore((s) => s.updateFamilyInfoField);
   const { weddingId } = useWeddingIdStore();
 
-  const [localInfo, setLocalInfo] = useState<WeddingInfoSectionType>(() => weddingInfo);
-  const [localFamilyInfo, setLocalFamilyInfo] = useState<FamilyInfoSectionType>(() => familyInfo);
+  const [localInfo, setLocalInfo] = useState<WeddingInfoSectionType>(
+    () => weddingInfo
+  );
+  const [localFamilyInfo, setLocalFamilyInfo] = useState<FamilyInfoSectionType>(
+    () => familyInfo
+  );
 
-  const endDay = getEndDay(Number(localInfo.weddingYear), Number(localInfo.weddingMonth)); //월 끝 날짜
+  const endDay = getEndDay(
+    Number(localInfo.weddingYear),
+    Number(localInfo.weddingMonth)
+  ); //월 끝 날짜
 
   useWeddingUpdate({
     localState: localInfo,
     storeState: weddingInfo,
     updateStoreField: updateField,
     sectionId: "weddingInfo",
-    weddingId: weddingId
+    weddingId: weddingId,
   });
 
   useWeddingUpdate({
@@ -46,7 +65,7 @@ const WeddingInfoSection = () => {
     storeState: familyInfo,
     updateStoreField: updateFamilyField,
     sectionId: "familyInfo",
-    weddingId: weddingId
+    weddingId: weddingId,
   });
 
   return (
@@ -54,7 +73,9 @@ const WeddingInfoSection = () => {
       {/* 신랑 / 신부 예식 기본 정보 */}
       {label.map((role, roleIdx) => {
         const isGroom = roleIdx === 0;
-        const selectFamilyOption = isGroom ? familyOptionsMale : familyOptionsFemale;
+        const selectFamilyOption = isGroom
+          ? familyOptionsMale
+          : familyOptionsFemale;
 
         return (
           <div className={fieldGroup} key={roleIdx}>
@@ -65,13 +86,15 @@ const WeddingInfoSection = () => {
                   type="text"
                   placeholder="성"
                   className={`${inputStyle} min-w-[50px] max-w-[70px]`}
-                  value={isGroom ? localInfo.groomLastName : localInfo.brideLastName}
+                  value={
+                    isGroom ? localInfo.groomLastName : localInfo.brideLastName
+                  }
                   id="lastName"
                   onChange={(e) => {
                     const key = isGroom ? "groomLastName" : "brideLastName";
                     setLocalInfo((prev) => ({
                       ...prev,
-                      [key]: e.target.value
+                      [key]: e.target.value,
                     }));
                   }}
                 />
@@ -79,24 +102,32 @@ const WeddingInfoSection = () => {
                   type="text"
                   placeholder="이름"
                   className={`${inputStyle} min-w-20 max-w-[150px]`}
-                  value={isGroom ? localInfo.groomFirstName : localInfo.brideFirstName}
+                  value={
+                    isGroom
+                      ? localInfo.groomFirstName
+                      : localInfo.brideFirstName
+                  }
                   id="firstName"
                   onChange={(e) => {
                     const key = isGroom ? "groomFirstName" : "brideFirstName";
                     setLocalInfo((prev) => ({
                       ...prev,
-                      [key]: e.target.value
+                      [key]: e.target.value,
                     }));
                   }}
                 />
                 <SelectBox
                   selectOption={selectFamilyOption}
-                  initialValue={isGroom ? localFamilyInfo.groomRankName : localFamilyInfo.brideRankName}
+                  initialValue={
+                    isGroom
+                      ? localFamilyInfo.groomRankName
+                      : localFamilyInfo.brideRankName
+                  }
                   onChange={(val: string) => {
                     const key = isGroom ? "groomRankName" : "brideRankName";
                     setLocalFamilyInfo((prev) => ({
                       ...prev,
-                      [key]: val
+                      [key]: val,
                     }));
                   }}
                 />
@@ -119,11 +150,15 @@ const WeddingInfoSection = () => {
                       type="text"
                       placeholder="성함"
                       className={`${inputStyle} min-w-20 max-w-[230px]`}
-                      value={isGroom ? localFamilyInfo[parentsKey] : localFamilyInfo[parentsKey]}
+                      value={
+                        isGroom
+                          ? localFamilyInfo[parentsKey]
+                          : localFamilyInfo[parentsKey]
+                      }
                       onChange={(e) => {
                         setLocalFamilyInfo((prev) => ({
                           ...prev,
-                          [parentsKey]: e.target.value
+                          [parentsKey]: e.target.value,
                         }));
                       }}
                     />
@@ -133,7 +168,7 @@ const WeddingInfoSection = () => {
                       onChange={(checked) => {
                         setLocalFamilyInfo((prev) => ({
                           ...prev,
-                          [isDeceasedKey]: checked
+                          [isDeceasedKey]: checked,
                         }));
                       }}
                     />
@@ -163,14 +198,16 @@ const WeddingInfoSection = () => {
                   setSelectNameIdx(idx);
                   setLocalInfo((prev) => ({
                     ...prev,
-                    nameOrderType: value
+                    nameOrderType: value,
                   }));
                 }}
                 kind="nameOrder"
               />
             ))}
           </div>
-          <p className="text-[#CACACA] text-[12px] leading-[26px]">청첩장 전체에 신랑 측 정보가 먼저 표기됩니다.</p>
+          <p className="text-[#CACACA] text-[12px] leading-[26px]">
+            청첩장 전체에 신랑 측 정보가 먼저 표기됩니다.
+          </p>
         </div>
       </div>
       <div className="border-t border-[#E0E0E0]"></div>
@@ -185,7 +222,7 @@ const WeddingInfoSection = () => {
               onChange={(val: number) => {
                 setLocalInfo((prev) => ({
                   ...prev,
-                  weddingYear: String(val)
+                  weddingYear: String(val),
                 }));
               }}
             />
@@ -195,7 +232,7 @@ const WeddingInfoSection = () => {
               onChange={(val: number) => {
                 setLocalInfo((prev) => ({
                   ...prev,
-                  weddingMonth: String(val)
+                  weddingMonth: String(val),
                 }));
               }}
             />
@@ -205,7 +242,7 @@ const WeddingInfoSection = () => {
               onChange={(val: number) => {
                 setLocalInfo((prev) => ({
                   ...prev,
-                  weddingDay: String(val)
+                  weddingDay: String(val),
                 }));
               }}
             />
@@ -220,7 +257,7 @@ const WeddingInfoSection = () => {
               onChange={(val: string) =>
                 setLocalInfo((prev) => ({
                   ...prev,
-                  weddingTimePeriod: val
+                  weddingTimePeriod: val,
                 }))
               }
             />
@@ -230,7 +267,7 @@ const WeddingInfoSection = () => {
               onChange={(val: string) =>
                 setLocalInfo((prev) => ({
                   ...prev,
-                  weddingHour: val
+                  weddingHour: val,
                 }))
               }
             />
@@ -240,7 +277,7 @@ const WeddingInfoSection = () => {
               onChange={(val: string) =>
                 setLocalInfo((prev) => ({
                   ...prev,
-                  weddingMinute: val
+                  weddingMinute: val,
                 }))
               }
             />
@@ -261,7 +298,7 @@ const WeddingInfoSection = () => {
             onChange={(e) =>
               setLocalInfo((prev) => ({
                 ...prev,
-                weddingHallName: e.target.value
+                weddingHallName: e.target.value,
               }))
             }
           />
@@ -276,7 +313,7 @@ const WeddingInfoSection = () => {
             onChange={(e) =>
               setLocalInfo((prev) => ({
                 ...prev,
-                weddingHallFloor: e.target.value
+                weddingHallFloor: e.target.value,
               }))
             }
           />
