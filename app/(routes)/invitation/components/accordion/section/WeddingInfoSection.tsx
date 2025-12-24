@@ -4,12 +4,12 @@ import SelectBox from "@/app/components/SelectBox";
 import { getFourYears, getEndDay, getDaysOption } from "@/app/lib/utils/date-format";
 import SectionDefaultButton from "@/app/components/SectionDefaultButton";
 import CheckBox from "@/app/components/CheckBox";
-import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import { WeddingInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { FamilyInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 
 const WeddingInfoSection = () => {
   const [selectNameIdx, setSelectNameIdx] = useState(0);

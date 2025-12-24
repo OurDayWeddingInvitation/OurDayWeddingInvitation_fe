@@ -1,14 +1,11 @@
+"use client";
+
+import { WeddingInfoSectionType } from "@/app/lib/fetches/invitation/type";
 import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 
-const Mainstyle3 = ({ wedding }) => {
+const Mainstyle3 = ({ weddingInfo }: { weddingInfo?: WeddingInfoSectionType }) => {
   const { mainImageInfo } = useMainImageStore();
-
-  const year = wedding.weddingYear;
-  const month = wedding.weddingMonth;
-  const day = wedding.weddingDay;
-  const groomName = wedding.groomLastName + wedding.groomFirstName;
-  const brideName = wedding.brideLastName + wedding.brideFirstName;
 
   return (
     <div className="text-[#FFFFFF]">
@@ -19,9 +16,9 @@ const Mainstyle3 = ({ wedding }) => {
           <div className="bg-[#D9D9D9] h-[760px]"></div>
         )}
         <div className="absolute flex justify-between w-full h-full left-0 top-0 px-3.5 pt-[27px] ">
-          <span>{groomName}</span>
+          <span>{`${weddingInfo?.groomLastName}${weddingInfo?.groomFirstName}`}</span>
           <span>Wedding Day</span>
-          <span>{brideName}</span>
+          <span>{`${weddingInfo?.brideLastName}${weddingInfo?.brideFirstName}`}</span>
         </div>
         <div className="absolute left-0 bottom-[73px] text-center w-full px-2.5 z-9">
           <div className="text-[36px]">The Beginning of Forever</div>
@@ -31,7 +28,7 @@ const Mainstyle3 = ({ wedding }) => {
             <span>AND BEGIN THE NEXT WITH LOVE OF FOREVER.</span>
           </p>
           <span className="text-[20px]">
-            {year} . {month} . {day}
+            {weddingInfo?.weddingYear} . {weddingInfo?.weddingMonth} . {weddingInfo?.weddingDay}
           </span>
         </div>
       </div>

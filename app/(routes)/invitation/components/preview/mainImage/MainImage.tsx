@@ -11,9 +11,9 @@ const MainImage = () => {
 
   return (
     <div className="w-full">
-      {mainStyleKind === "mainStyle1" && <Mainstyle1 wedding={weddingInfo} />}
-      {mainStyleKind === "mainStyle2" && <Mainstyle2 wedding={weddingInfo} />}
-      {mainStyleKind === "mainStyle3" && <Mainstyle3 wedding={weddingInfo} />}
+      {mainStyleKind === "mainStyle1" && <Mainstyle1 weddingInfo={weddingInfo} />}
+      {mainStyleKind === "mainStyle2" && <Mainstyle2 weddingInfo={weddingInfo} />}
+      {mainStyleKind === "mainStyle3" && <Mainstyle3 weddingInfo={weddingInfo} />}
 
       {!mainStyleKind && mainImageInfo && (
         <img src={getImagePath(mainImageInfo.originalUrl)} alt="메인 이미지" className="w-full object-cover h-[760px]" />

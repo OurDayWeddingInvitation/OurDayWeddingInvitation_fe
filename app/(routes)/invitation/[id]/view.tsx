@@ -10,11 +10,11 @@ import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
-import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import Image from "next/image";
 import { useEffect } from "react";
 import Form from "../components/form/Form";
 import Preview from "../components/preview/preview";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 
 export default function InvitationView({
   weddingId,
