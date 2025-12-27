@@ -13,7 +13,7 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
   // 단일
   const [preview, setPreview] = useState<string | null>();
   // 여러장
-  const [previews, setPreviews] = useState<PreviewItem[]>([]);
+  const [gallery, setGallery] = useState<PreviewItem[]>([]);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [opacity, setOpacity] = useState<number>(0.5);
@@ -48,7 +48,7 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
 
     const fileArray = Array.from(files);
 
-    setPreviews((prev) => {
+    setGallery((prev) => {
       const newItems = fileArray?.map((file) => {
         const url = URL.createObjectURL(file);
         return {
@@ -63,7 +63,7 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
     });
 
     setTimeout(() => {
-      setPreviews((prev) =>
+      setGallery((prev) =>
         prev.map((item) => ({
           ...item,
           loading: false,
@@ -80,10 +80,11 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
 
     if (kind === "main") {
       resetMainImageInfo();
+      setPreview(null);
     } else if (kind === "gallery") {
       if (idx === undefined) return;
 
-      setPreviews((prev) => {
+      setGallery((prev) => {
         URL.revokeObjectURL(prev[idx]?.preview);
         return prev.filter((_, i) => i !== idx);
       });
@@ -94,7 +95,7 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
 
   return {
     preview,
-    previews,
+    gallery,
     loading,
     opacity,
     handleImageUpload,

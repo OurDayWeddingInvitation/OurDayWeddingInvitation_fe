@@ -38,7 +38,7 @@ const GallerySection = () => {
             <button className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1">전체 삭제</button>
           </div>
           <div className="border-[#D9D9D9] border rounded-[10px] w-full p-4 mb-5 grid grid-cols-5 gap-5 min-h-[295px]">
-            {gallery.previews.map((item, idx) => (
+            {gallery.gallery.map((item, idx) => (
               <ImageAddButton
                 key={item.preview}
                 previewImage={item.preview}
