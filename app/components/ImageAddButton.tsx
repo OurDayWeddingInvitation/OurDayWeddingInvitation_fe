@@ -8,6 +8,8 @@ import { getCroppedImg } from "../lib/utils/cropImage";
 import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import "./ImageCrop.style.css";
+import { useMainImageStore } from "../store/useMainImageStore";
+import { getImagePath } from "../lib/utils/functions";
 
 type OnCropConfirm = (blob: Blob, previewUrl: string) => Promise<void>;
 
@@ -20,12 +22,20 @@ interface ImageAddButtonProps {
   onCropConfirm?: OnCropConfirm;
 }
 
-const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onCropConfirm }: ImageAddButtonProps) => {
+const ImageAddButton = ({
+  previewImage,
+  loading,
+  opacity,
+  onImageRemove,
+  id,
+  onCropConfirm,
+}: ImageAddButtonProps) => {
   const [crop, setCrop] = useState<Crop>();
   const [openCrop, setOpenCrop] = useState<boolean>(false);
   const [croppedPreview, setCroppedPreview] = useState<string | null>(null);
   const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
 
   const handleCropConfirm = async () => {
     const blob = await getCroppedImg(imgRef.current, completedCrop);
@@ -36,6 +46,18 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
 
     if (onCropConfirm) {
       onCropConfirm(blob, croppedUrl);
+    }
+  };
+
+  const imageSrc = () => {
+    if (croppedPreview) return croppedPreview;
+
+    if (mainImageInfo?.editedUrl) {
+      return getImagePath(mainImageInfo.editedUrl);
+    }
+
+    if (mainImageInfo?.originalUrl) {
+      return getImagePath(mainImageInfo.originalUrl);
     }
   };
 
@@ -64,16 +86,34 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
       {previewImage ? (
         <div className="w-[124px] h-[124px] overflow-hidden relative">
           <div className="w-full h-full">
-            <img src={croppedPreview ?? previewImage} alt="이미지미리보기" className="w-full h-full object-cover" style={{ opacity: opacity }} />
+            <img
+              src={imageSrc()}
+              alt="이미지미리보기"
+              className="w-full h-full object-cover"
+              style={{ opacity: opacity }}
+            />
 
-            {loading && <Image src={LoadingImg} alt="이미지추가버튼" className="cursor-pointer absolute left-0 top-0" />}
+            {loading && (
+              <Image
+                src={LoadingImg}
+                alt="이미지추가버튼"
+                className="cursor-pointer absolute left-0 top-0"
+              />
+            )}
             {!loading && (
               <div className="absolute left-0 bottom-0 flex justify-between w-full p-3">
-                <div className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer" onClick={() => setOpenCrop(true)}>
+                <div
+                  className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer"
+                  onClick={() => setOpenCrop(true)}
+                >
                   <Pencil color="#FFFFFF" size={22} />
                 </div>
 
-                <label htmlFor={id} onClick={onImageRemoveInternal} className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer">
+                <label
+                  htmlFor={id}
+                  onClick={onImageRemoveInternal}
+                  className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer"
+                >
                   <X color="#FFFFFF" size={22} />
                 </label>
               </div>
@@ -83,7 +123,12 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
             <div className="fixed w-[50%] left-[50%] top-[50%] translate-[-50%] z-9999 flex flex-col rounded-t-md overflow-hidden justify-center">
               {/* 헤더 */}
               <div className="z-20 py-3 flex items-center justify-end px-3 bg-white rounded-t-sm border-[#dbdbdb] border">
-                <X color="#b3b3b3" className="cursor-pointer" size={28} onClick={() => setOpenCrop(false)} />
+                <X
+                  color="#b3b3b3"
+                  className="cursor-pointer"
+                  size={28}
+                  onClick={() => setOpenCrop(false)}
+                />
               </div>
               <div className="crop-bg flex overflow-hidden justify-center">
                 <ReactCrop
@@ -113,7 +158,7 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
                         width: cropWidth,
                         height: cropHeight,
                         x: Math.round((rect.width - cropWidth) / 2),
-                        y: Math.round((rect.height - cropHeight) / 2)
+                        y: Math.round((rect.height - cropHeight) / 2),
                       });
                     }}
                   />
@@ -121,7 +166,10 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
               </div>
               {/* 푸터 */}
               <div className="z-20 py-3 flex items-center justify-end px-4 bg-white rounded-b-sm border-[#dbdbdb] border">
-                <button onClick={handleCropConfirm} className="bg-[#D4C6B7] text-[13px] cursor-pointer py-1 px-2 rounded-sm text-white">
+                <button
+                  onClick={handleCropConfirm}
+                  className="bg-[#D4C6B7] text-[13px] cursor-pointer py-1 px-2 rounded-sm text-white"
+                >
                   확인
                 </button>
               </div>
@@ -140,7 +188,11 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
         </div>
       ) : (
         <label htmlFor={id}>
-          <Image src={ImageAddBtnIcon} alt="이미지추가버튼" className="cursor-pointer" />
+          <Image
+            src={ImageAddBtnIcon}
+            alt="이미지추가버튼"
+            className="cursor-pointer"
+          />
         </label>
       )}
     </div>
