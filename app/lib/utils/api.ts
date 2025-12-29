@@ -1,15 +1,24 @@
-import { clientFetchApi } from "../fetches/client";
-import { ImageDeleteType, ImageUploadType } from "../fetches/invitation/type";
+import {
+  CroppedImageUploadType,
+  ImageDeleteType,
+  ImageUploadType,
+  MultipleImageUploadType,
+} from "../fetches/media/type";
 
 /**
- * 이미지 업로드
- * @param {string} weddingId
- * @param {File} file
- * @param {string} imageType
- * @param {number} displayOrder
- * @returns
+ * 단일 이미지 업로드
+ * @param {string} weddingId - wedding id
+ * @param {File} file - 업로드할 단일 이미지 파일
+ * @param {string} imageType - 이미지 타입
+ * @param {number} displayOrder - 이미지 순서
+ * @returns 업로드된 이미지 정보
  */
-export const uploadImage = async ({ weddingId, file, imageType, displayOrder }: ImageUploadType) => {
+export const uploadImage = async ({
+  weddingId,
+  file,
+  imageType,
+  displayOrder,
+}: ImageUploadType) => {
   const form = new FormData();
 
   form.append("weddingId", weddingId);
@@ -19,7 +28,35 @@ export const uploadImage = async ({ weddingId, file, imageType, displayOrder }: 
 
   const res = await fetch("/api/media/upload", {
     method: "POST",
-    body: form
+    body: form,
+  });
+
+  return res.json();
+};
+
+/**
+ * 여러 이미지 업로드
+ * @param {string} weddingId - wedding id
+ * @param {File[]} files - 업로드할 이미지 파일들
+ * @param {string} imageType - 이미지 타입
+ * @returns 업로드된 이미지 정보
+ */
+export const uploadMultipleImages = async ({
+  weddingId,
+  files,
+  imageType,
+}: MultipleImageUploadType) => {
+  const form = new FormData();
+
+  form.append("weddingId", weddingId);
+  files?.forEach((file) => {
+    form.append("files", file, file.name);
+  });
+  form.append("imageType", imageType);
+
+  const res = await fetch("/api/media/upload", {
+    method: "POST",
+    body: form,
   });
 
   return res.json();
@@ -27,17 +64,17 @@ export const uploadImage = async ({ weddingId, file, imageType, displayOrder }: 
 
 /**
  * 이미지 삭제
- * @param {string} weddingId
- * @param {number} mediaId
- * @returns
+ * @param {string} weddingId - wedding id
+ * @param {number} mediaId - 이미지 id
+ * @returns 삭제 결과
  */
 export const deleteImage = async ({ weddingId, mediaId }: ImageDeleteType) => {
   const res = await fetch("/api/media/delete", {
     method: "DELETE",
     body: JSON.stringify({
       weddingId,
-      mediaId
-    })
+      mediaId,
+    }),
   });
 
   return res.json();
@@ -46,14 +83,21 @@ export const deleteImage = async ({ weddingId, mediaId }: ImageDeleteType) => {
 /**
  * 이미지 크롭 후 업로드
  */
-export const uploadCroppedImage = async ({ weddingId, mediaId, file }: { weddingId: string; mediaId: number; file: Blob }) => {
+export const uploadCroppedImage = async ({
+  weddingId,
+  mediaId,
+  file,
+}: CroppedImageUploadType) => {
   const form = new FormData();
   form.append("file", file);
 
-  const res = await fetch(`/api/media/cropped?weddingId=${weddingId}&mediaId=${mediaId}`, {
-    method: "PUT",
-    body: form
-  });
+  const res = await fetch(
+    `/api/media/cropped?weddingId=${weddingId}&mediaId=${mediaId}`,
+    {
+      method: "PUT",
+      body: form,
+    }
+  );
 
   return res.json();
 };

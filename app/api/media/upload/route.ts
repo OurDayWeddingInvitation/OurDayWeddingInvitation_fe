@@ -9,12 +9,19 @@ export async function POST(req: NextRequest) {
 
   try {
     const formData = await req.formData();
-    const files = formData.get("file") as File;
+    const singleFile = formData.get("file") as File;
+    const multipleFiles = formData.getAll("files") as File[];
     const weddingId = formData.get("weddingId") as string;
 
-    if (!files) {
-      console.error("File not found or invalid");
-      return;
+    if (!singleFile && multipleFiles.length === 0) {
+      return NextResponse.json(
+        { error: "File not found or invalid" },
+        { status: 400 }
+      );
+    }
+
+    if (!weddingId) {
+      return NextResponse.json({ error: "Missing weddingId" }, { status: 400 });
     }
 
     const res = await fetch(`${apiDomain}/weddings/${weddingId}/media`, {
