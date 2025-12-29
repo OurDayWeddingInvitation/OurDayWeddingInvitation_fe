@@ -7,17 +7,17 @@ import {
   InvitationDetail,
 } from "@/app/lib/fetches/invitation/type";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
-import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import Image from "next/image";
 import { useEffect } from "react";
 import Form from "../components/form/Form";
 import Preview from "../components/preview/preview";
-import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 
 export default function InvitationView({
   weddingId,
@@ -34,7 +34,7 @@ export default function InvitationView({
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
-  const setInvitationMessage = useInvitationMessageStore(
+  const setInvitationInfo = useInvitationMessageStore(
     (s) => s.setInvitationMessage
   );
   const setThemeFont = useThemeFontStore((s) => s.setThemeFont);
@@ -60,7 +60,7 @@ export default function InvitationView({
       setAccountInfo(invitationDetail?.sections?.accountInfo);
     }
     if (invitationDetail?.sections?.invitationMessage) {
-      setInvitationMessage(invitationDetail?.sections?.invitationMessage);
+      setInvitationInfo(invitationDetail?.sections?.invitationMessage);
     }
     if (invitationDetail?.sections?.themeFont) {
       setThemeFont(invitationDetail?.sections?.themeFont);
