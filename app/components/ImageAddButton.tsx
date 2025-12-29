@@ -4,12 +4,9 @@ import Image from "next/image";
 import LoadingImg from "@/app/assets/images/preview-image-transparent.png";
 import { DotLoader } from "react-spinners";
 import { Pencil, X } from "lucide-react";
-import Cropper from "react-easy-crop";
 import { getCroppedImg } from "../lib/utils/cropImage";
-import { Area } from "react-easy-crop";
 import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { centerCrop, makeAspectCrop } from "react-image-crop";
 import "./ImageCrop.style.css";
 
 type OnCropConfirm = (blob: Blob, previewUrl: string) => Promise<void>;
@@ -83,7 +80,7 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
             )}
           </div>
           {openCrop && (
-            <div className="fixed w-[50%] h-[70vh] left-[50%] top-[50%] translate-[-50%] z-9999 flex flex-col rounded-t-md overflow-hidden justify-center">
+            <div className="fixed w-[50%] left-[50%] top-[50%] translate-[-50%] z-9999 flex flex-col rounded-t-md overflow-hidden justify-center">
               {/* 헤더 */}
               <div className="z-20 py-3 flex items-center justify-end px-3 bg-white rounded-t-sm border-[#dbdbdb] border">
                 <X color="#b3b3b3" className="cursor-pointer" size={28} onClick={() => setOpenCrop(false)} />
@@ -101,7 +98,7 @@ const ImageAddButton = ({ previewImage, loading, opacity, onImageRemove, id, onC
                 >
                   <img
                     src={previewImage}
-                    className="w-full h-full object-contain"
+                    className="w-full object-contain"
                     ref={imgRef}
                     crossOrigin="anonymous"
                     onLoad={(e) => {

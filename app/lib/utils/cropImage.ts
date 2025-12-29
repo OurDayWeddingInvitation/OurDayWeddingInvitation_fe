@@ -1,15 +1,5 @@
 import { PixelCrop } from "react-image-crop";
 
-// const createImage = (url: string): Promise<HTMLImageElement> => {
-//   return new Promise((resolve, reject) => {
-//     const image = new Image();
-//     image.onload = () => resolve(image);
-//     image.onerror = reject;
-//     image.crossOrigin = "anonymous";
-//     image.src = url;
-//   });
-// };
-
 export async function getCroppedImg(image: HTMLImageElement, crop: PixelCrop): Promise<Blob> {
   const canvas = document.createElement("canvas");
   const scaleX = image.naturalWidth / image.width;
