@@ -3,9 +3,7 @@ import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 
 const InvitationMessage = () => {
-  const invitationMessage = useInvitationMessageStore(
-    (s) => s.invitationMessage
-  );
+  const invitationInfo = useInvitationMessageStore((s) => s.invitationMessage);
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const fontKey = themeFont?.fontName;
   const fontFamily = fontList.find((font) => font.key === fontKey)?.value ?? "";
@@ -28,11 +26,11 @@ const InvitationMessage = () => {
           fontFamily: fontFamily ?? "",
         }}
       >
-        {invitationMessage?.title}
+        {invitationInfo?.title}
       </p>
       <div
         className="w-full"
-        dangerouslySetInnerHTML={{ __html: invitationMessage?.message }}
+        dangerouslySetInnerHTML={{ __html: invitationInfo?.message }}
       ></div>
     </div>
   );
