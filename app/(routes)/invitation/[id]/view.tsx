@@ -2,15 +2,18 @@
 
 import ToggleImg from "@/app/assets/images/toggle-icon.svg";
 import Header from "@/app/components/Header";
-import { ImageDetail, InvitationDetail } from "@/app/lib/fetches/invitation/type";
+import {
+  ImageDetail,
+  InvitationDetail,
+} from "@/app/lib/fetches/invitation/type";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
-import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
+import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
-import { useWeddingInfoStoreTest } from "@/app/store/useWeddingInfoStoreTest";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import Image from "next/image";
 import { useEffect } from "react";
 import Form from "../components/form/Form";
@@ -19,19 +22,21 @@ import Preview from "../components/preview/preview";
 export default function InvitationView({
   weddingId,
   invitationDetail,
-  imageDetail
+  imageDetail,
 }: {
   weddingId: string;
   invitationDetail: InvitationDetail;
   imageDetail: ImageDetail;
 }) {
   const setWeddingId = useWeddingIdStore((s) => s.setWeddingId);
-  const setWeddingInfo = useWeddingInfoStoreTest((s) => s.setWeddingInfo);
+  const setWeddingInfo = useWeddingInfoStore((s) => s.setWeddingInfo);
   const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
-  const setInvitationMessage = useInvitationMessageStore((s) => s.setInvitationMessage);
+  const setInvitationInfo = useInvitationMessageStore(
+    (s) => s.setInvitationMessage
+  );
   const setThemeFont = useThemeFontStore((s) => s.setThemeFont);
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
 
@@ -55,7 +60,7 @@ export default function InvitationView({
       setAccountInfo(invitationDetail?.sections?.accountInfo);
     }
     if (invitationDetail?.sections?.invitationMessage) {
-      setInvitationMessage(invitationDetail?.sections?.invitationMessage);
+      setInvitationInfo(invitationDetail?.sections?.invitationMessage);
     }
     if (invitationDetail?.sections?.themeFont) {
       setThemeFont(invitationDetail?.sections?.themeFont);
@@ -68,7 +73,9 @@ export default function InvitationView({
   useEffect(() => {
     // imageType 별로 필요한 값 저장
     if (imageDetail?.length) {
-      const mainImage = imageDetail.filter((img) => img.imageType === "mainImage").at(-1);
+      const mainImage = imageDetail
+        .filter((img) => img.imageType === "mainImage")
+        .at(-1);
 
       // 메인 이미지
       if (mainImage) {
@@ -84,7 +91,10 @@ export default function InvitationView({
         <div className="max-w-[400px] fixed w-full">
           <Preview />
           <ul className="py-[26px] text-[#817E7C] text-[14px]  list-disc ">
-            <li>미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러 저장 후 확인해주세요.</li>
+            <li>
+              미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러
+              저장 후 확인해주세요.
+            </li>
           </ul>
         </div>
         <div className="flex-1 max-w-[736px] absolute right-0 w-full pb-[50px]">
@@ -94,8 +104,14 @@ export default function InvitationView({
               &nbsp;모양이 있는 메뉴는 드래그하여 순서를 변경할 수 있습니다.
             </li>
             <li>
-              <Image src={ToggleImg} alt="토글버튼 아이콘" className="inline-block align-middle" />
-              <span className="align-middle">&nbsp;버튼으로 각 메뉴의 사용 여부를 설정할 수 있습니다.</span>
+              <Image
+                src={ToggleImg}
+                alt="토글버튼 아이콘"
+                className="inline-block align-middle"
+              />
+              <span className="align-middle">
+                &nbsp;버튼으로 각 메뉴의 사용 여부를 설정할 수 있습니다.
+              </span>
             </li>
           </ul>
           <Form />

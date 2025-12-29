@@ -1,19 +1,25 @@
 import { getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
-import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import Mainstyle1 from "./Mainstyle1";
 import Mainstyle2 from "./Mainstyle2";
 import Mainstyle3 from "./Mainstyle3";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 
 const MainImage = () => {
   const { mainImageInfo, mainStyleKind } = useMainImageStore();
-  const { wedding } = useWeddingInfoStore();
+  const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
 
   return (
     <div className="w-full">
-      {mainStyleKind === "mainStyle1" && <Mainstyle1 wedding={wedding} />}
-      {mainStyleKind === "mainStyle2" && <Mainstyle2 wedding={wedding} />}
-      {mainStyleKind === "mainStyle3" && <Mainstyle3 wedding={wedding} />}
+      {mainStyleKind === "mainStyle1" && (
+        <Mainstyle1 weddingInfo={weddingInfo} />
+      )}
+      {mainStyleKind === "mainStyle2" && (
+        <Mainstyle2 weddingInfo={weddingInfo} />
+      )}
+      {mainStyleKind === "mainStyle3" && (
+        <Mainstyle3 weddingInfo={weddingInfo} />
+      )}
 
       {!mainStyleKind && mainImageInfo && (
         <img

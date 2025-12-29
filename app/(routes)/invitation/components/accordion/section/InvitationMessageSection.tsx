@@ -6,22 +6,18 @@ import { useState } from "react";
 import TextEditor from "../../../../../components/editor/TextEditor";
 
 const InvitationMessageSection = () => {
-  const invitationMessage = useInvitationMessageStore(
-    (s) => s.invitationMessage
-  );
+  const invitationInfo = useInvitationMessageStore((s) => s.invitationMessage);
   const updateField = useInvitationMessageStore(
     (s) => s.updateInvitationMessage
   );
-
   const weddingId = useWeddingIdStore((s) => s.weddingId);
 
-  const [message, setMessage] = useState<InvitationMessageSectionType>(
-    () => invitationMessage
-  );
+  const [localInvitationInfo, setLocalInvitationInfo] =
+    useState<InvitationMessageSectionType>(() => invitationInfo);
 
   useWeddingUpdate({
-    localState: message,
-    storeState: invitationMessage,
+    localState: localInvitationInfo,
+    storeState: invitationInfo,
     updateStoreField: updateField,
     sectionId: "invitationMessage",
     weddingId: weddingId,
@@ -41,10 +37,13 @@ const InvitationMessageSection = () => {
           type="text"
           placeholder="초대문구의 제목을 입력해주세요 (최대 50자)"
           className={`${inputStyle} min-w-[50px] max-w-[230px]`}
-          value={message.title}
+          value={localInvitationInfo.title}
           maxLength={50}
           onChange={(e) => {
-            setMessage((prev) => ({ ...prev, title: e.target.value }));
+            setLocalInvitationInfo((prev) => ({
+              ...prev,
+              title: e.target.value,
+            }));
           }}
         />
       </div>
@@ -61,9 +60,9 @@ const InvitationMessageSection = () => {
       </div>
 
       <TextEditor
-        message={message.message}
+        message={localInvitationInfo.message}
         onUpdateMessage={(message) => {
-          setMessage((prev) => ({ ...prev, message: message }));
+          setLocalInvitationInfo((prev) => ({ ...prev, message: message }));
         }}
       />
     </div>
