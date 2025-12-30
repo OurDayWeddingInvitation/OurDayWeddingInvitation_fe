@@ -1,5 +1,7 @@
 import ColorPickerButton from "@/app/components/ColorPickerButton";
 import React, { useEffect, useRef, useState } from "react";
+import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
+import Image from "next/image";
 
 const FlipImageSection = () => {
   const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border rounded-sm text-sm py-1.5 px-1 ";
@@ -79,14 +81,10 @@ const FlipImageSection = () => {
         <p className="text-[12px] text-[#CACACA] pb-[17px] pt-2">영상을 올리면 자동으로 연속 사진으로 변환됩니다.(5초 이하의 짧은 영상만 가능)</p>
 
         <div className="border-[#D9D9D9] border rounded-[10px] w-full h-[291px] p-4 mb-5">
-          <input
-            type="file"
-            id="openImg"
-            accept="image/*"
-            // onChange={(e) => thumbnail.handleImageUpload(e.target.files?.[0] ?? null)}
-            className="hidden"
-          />
-          {/* <ImageAddButton previewImage={thumbnail} /> */}
+          <input id="flipbookInput" type="file" accept="video/*" className="hidden" onChange={(e) => {}} />
+          <label htmlFor="flipbookInput" className="w-[124px] h-[124px] cursor-pointer">
+            <Image src={ImageAddBtnIcon} alt="추가" />
+          </label>
         </div>
         <p className="text-[12px] pb-[30px] text-[#CACACA]">영상이 없을 경우 원하는 연속 사진을 직접 올려 플립북을 만들 수 있어요.</p>
         <div className="border-[#E0E0E0] border-t w-full"></div>

@@ -1,0 +1,15 @@
+.ReactCrop__crop-selection {
+  border: 2px solid #3b82f6; /* blue-500 */
+}
+
+.ReactCrop__drag-handle {
+  background-color: #3b82f6;
+  border-radius: 50%;
+}
+.ReactCrop__crop-selection {
+  background-image: none !important;
+}
+.crop-bg {
+  background-image: url(../assets/images/crop-bg.svg);
+  background-size: 3%;
+}

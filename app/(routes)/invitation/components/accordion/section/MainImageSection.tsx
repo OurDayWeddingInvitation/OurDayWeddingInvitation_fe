@@ -23,7 +23,7 @@ type mainStyleItem = {
 };
 
 const MainImageSection = () => {
-  const thumbnail = useImageUpload("main");
+  const thumbnail = useImageUpload({ kind: "main" });
   const { getCompressedImage } = useCompressImageUpload();
   const { weddingId } = useWeddingIdStore();
   const { mainImageInfo, mainStyleKind, setMainStyleKind } = useMainImageStore();

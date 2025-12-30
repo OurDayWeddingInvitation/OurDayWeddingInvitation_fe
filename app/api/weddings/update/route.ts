@@ -10,6 +10,8 @@ export async function PATCH(req: NextRequest) {
 
   const { weddingId, sectionId, updated } = await req.json();
 
+  console.log(updated);
+
   try {
     const data = await fetch(
       `${apiDomain}/weddings/${weddingId}/sections/${sectionId}`,

@@ -1,30 +1,28 @@
-const createImage = (url: string): Promise<HTMLImageElement> => {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = reject;
-    image.crossOrigin = "anonymous";
-    image.src = url;
-  });
-};
+import { PixelCrop } from "react-image-crop";
 
-export const getCroppedImg = async (imageSrc: string, crop: { x: number; y: number; width: number; height: number }): Promise<Blob> => {
-  const image = await createImage(imageSrc);
-
+export async function getCroppedImg(image: HTMLImageElement, crop: PixelCrop): Promise<Blob> {
   const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  if (!ctx) throw new Error("Canvas context 없음");
-
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
 
-  canvas.width = crop.width * scaleX;
-  canvas.height = crop.height * scaleY;
+  canvas.width = crop.width;
+  canvas.height = crop.height;
 
-  ctx.drawImage(image, crop.x * scaleX, crop.y * scaleY, crop.width * scaleX, crop.height * scaleY, 0, 0, crop.width * scaleX, crop.height * scaleY);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("Canvas context 없음");
+  }
 
-  return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("Blob 생성 실패"))), "image/jpeg", 0.92);
+  ctx.drawImage(image, crop.x * scaleX, crop.y * scaleY, crop.width * scaleX, crop.height * scaleY, 0, 0, crop.width, crop.height);
+  console.log(ctx, "ctx");
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      console.log(blob);
+      if (!blob) {
+        throw new Error("Blob 생성 실패");
+      }
+      resolve(blob);
+    }, "image/jpeg");
   });
-};
+}
