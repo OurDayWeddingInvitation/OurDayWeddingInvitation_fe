@@ -7,8 +7,8 @@ export async function DELETE(req: NextRequest) {
 
   req.headers.set("Authorization", `Bearer ${token}`);
 
-  const body = await req.json();
-  const { weddingId, mediaId } = body;
+  const weddingId = req.nextUrl.searchParams.get("weddingId");
+  const mediaId = req.nextUrl.searchParams.get("mediaId");
 
   try {
     if (!weddingId || !mediaId) {
@@ -23,7 +23,6 @@ export async function DELETE(req: NextRequest) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(body),
         cache: "no-store",
       }
     );

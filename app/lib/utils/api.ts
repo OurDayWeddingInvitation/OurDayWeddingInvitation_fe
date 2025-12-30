@@ -21,12 +21,11 @@ export const uploadImage = async ({
 }: ImageUploadType) => {
   const form = new FormData();
 
-  form.append("weddingId", weddingId);
   form.append("file", file, file.name);
   form.append("imageType", imageType);
   form.append("displayOrder", String(displayOrder));
 
-  const res = await fetch("/api/media/upload", {
+  const res = await fetch(`/api/media/upload?weddingId=${weddingId}`, {
     method: "POST",
     body: form,
   });
@@ -48,13 +47,12 @@ export const uploadMultipleImages = async ({
 }: MultipleImageUploadType) => {
   const form = new FormData();
 
-  form.append("weddingId", weddingId);
   files?.forEach((file) => {
     form.append("files", file, file.name);
   });
   form.append("imageType", imageType);
 
-  const res = await fetch("/api/media/upload", {
+  const res = await fetch(`/api/media/upload?weddingId=${weddingId}`, {
     method: "POST",
     body: form,
   });
@@ -69,13 +67,12 @@ export const uploadMultipleImages = async ({
  * @returns 삭제 결과
  */
 export const deleteImage = async ({ weddingId, mediaId }: ImageDeleteType) => {
-  const res = await fetch("/api/media/delete", {
-    method: "DELETE",
-    body: JSON.stringify({
-      weddingId,
-      mediaId,
-    }),
-  });
+  const res = await fetch(
+    `/api/media/delete?weddingId=${weddingId}&mediaId=${mediaId}`,
+    {
+      method: "DELETE",
+    }
+  );
 
   return res.json();
 };

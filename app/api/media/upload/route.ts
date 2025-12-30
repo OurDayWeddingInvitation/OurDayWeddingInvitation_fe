@@ -8,10 +8,11 @@ export async function POST(req: NextRequest) {
   req.headers.set("Authorization", `Bearer ${token}`);
 
   try {
+    const weddingId = req.nextUrl.searchParams.get("weddingId");
+
     const formData = await req.formData();
     const singleFile = formData.get("file") as File;
     const multipleFiles = formData.getAll("files") as File[];
-    const weddingId = formData.get("weddingId") as string;
 
     if (!singleFile && multipleFiles.length === 0) {
       return NextResponse.json(
