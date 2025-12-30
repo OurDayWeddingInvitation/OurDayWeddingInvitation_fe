@@ -1,5 +1,6 @@
 import {
   CroppedImageUploadType,
+  DeleteImageByTypeParams,
   ImageDeleteType,
   ImageUploadType,
   MultipleImageUploadType,
@@ -95,6 +96,18 @@ export const uploadCroppedImage = async ({
       body: form,
     }
   );
+
+  return res.json();
+};
+
+export const deleteImageByType = async ({
+  weddingId,
+  imageType,
+}: DeleteImageByTypeParams) => {
+  const res = await fetch(`/api/media/delete?weddingId=${weddingId}`, {
+    method: "DELETE",
+    body: JSON.stringify({ imageType }),
+  });
 
   return res.json();
 };

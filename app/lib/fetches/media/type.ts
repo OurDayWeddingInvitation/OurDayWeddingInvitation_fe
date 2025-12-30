@@ -36,3 +36,8 @@ export interface ImageDeleteType {
   weddingId?: string;
   mediaId?: number;
 }
+
+export interface DeleteImageByTypeParams {
+  weddingId?: string;
+  imageType?: string;
+}
