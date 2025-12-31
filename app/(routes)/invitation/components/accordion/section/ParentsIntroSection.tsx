@@ -8,8 +8,8 @@ const ParentsIntroSection = () => {
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
   const couple = ["신랑", "신부"];
-  const groomParents = useImageUpload("");
-  const brideParents = useImageUpload("");
+  const groomParents = useImageUpload({ kind: "parents" });
+  const brideParents = useImageUpload({ kind: "parents" });
 
   return (
     <div>
