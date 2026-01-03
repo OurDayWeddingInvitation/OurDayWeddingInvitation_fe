@@ -13,7 +13,7 @@ import {
   uploadCroppedImage,
   uploadImage,
 } from "@/app/lib/utils/api";
-import { getImagePath } from "@/app/lib/utils/functions";
+import { blobToFile, getImagePath } from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
@@ -65,15 +65,7 @@ const MainImageSection = () => {
 
     if (!compressedFile) return;
 
-    // 1) 이미지 이미 있는 경우 삭제
-    if (mainImageInfo && mainImageInfo.mediaId) {
-      await deleteImage({
-        weddingId: weddingId,
-        mediaId: mainImageInfo.mediaId,
-      });
-    }
-
-    // 2) 실제 업로드 호출 (서버 전송)
+    // 1) 실제 업로드 호출 (서버 전송)
     const res = await uploadImage({
       weddingId: weddingId,
       file: compressedFile,
@@ -81,13 +73,21 @@ const MainImageSection = () => {
       displayOrder: 1,
     });
 
-    // 3) 미리보기는 훅에서 처리
+    // 2) 미리보기는 훅에서 처리
     thumbnail.handleImageUpload(file, res.data);
   };
 
   // 이미지 수정
-  const handleImageModify = async () => {
-    console.log("수정 버튼 클릭");
+  const handleImageModify = async (blob: Blob) => {
+    const file = blobToFile(blob);
+
+    const res = await uploadCroppedImage({
+      weddingId,
+      mediaId: mainImageInfo.mediaId,
+      file: file,
+    });
+
+    thumbnail.handleImageUpload(file, res.data);
   };
 
   // 이미지 제거
@@ -143,13 +143,7 @@ const MainImageSection = () => {
           opacity={thumbnail.opacity}
           onImageRemove={handleImageRemove}
           id="openImg"
-          onCropConfirm={async (blob) => {
-            await uploadCroppedImage({
-              weddingId,
-              mediaId: mainImageInfo.mediaId,
-              file: blob,
-            });
-          }}
+          onCropConfirm={(blob) => handleImageModify(blob)}
         />
       </div>
 

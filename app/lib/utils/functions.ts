@@ -22,3 +22,28 @@ export const getImagePath = (path: string) => {
   if (path.startsWith("blob:")) return path;
   return `${process.env.NEXT_PUBLIC_WEB_URL}${path}`;
 };
+
+/**
+ * Blob 객체를 File 객체로 변환하는 유틸 함수.
+ * @param blob - crop된 Blob 객체
+ * @returns File 객체
+ */
+export function blobToFile(blob: Blob): File {
+  const ext = (() => {
+    switch (blob.type) {
+      case "image/jpeg":
+        return "jpg";
+      case "image/png":
+        return "png";
+      case "image/webp":
+        return "webp";
+      default:
+        return "bin";
+    }
+  })();
+
+  return new File([blob], `crop-image.${ext}`, {
+    type: blob.type,
+    lastModified: Date.now(),
+  });
+}

@@ -1,15 +1,21 @@
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useState } from "react";
-import { ImageDetailItem } from "../fetches/invitation/type";
+import { ImageDetailItem } from "../fetches/media/type";
 
 type PreviewItem = {
-  file: File;
+  file: File | Blob;
   preview: string;
   loading: boolean;
   opacity: number;
 };
 
-export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: number }) => {
+export const useImageUpload = ({
+  kind,
+  maxCount,
+}: {
+  kind: string;
+  maxCount?: number;
+}) => {
   // 단일
   const [preview, setPreview] = useState<string | null>();
   // 여러장
@@ -20,7 +26,10 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
 
   const { updateMainImageInfo, resetMainImageInfo } = useMainImageStore();
 
-  const handleImageUpload = (file: File | null, data?: ImageDetailItem | null) => {
+  const handleImageUpload = (
+    file: File | Blob | null,
+    data?: ImageDetailItem | null
+  ) => {
     if (!file) return;
 
     const url = URL.createObjectURL(file);
@@ -55,7 +64,7 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
           file,
           preview: url,
           loading: true,
-          opacity: 0.5
+          opacity: 0.5,
         };
       });
 
@@ -67,7 +76,7 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
         prev.map((item) => ({
           ...item,
           loading: false,
-          opacity: 1
+          opacity: 1,
         }))
       );
     }, 1500);
@@ -100,6 +109,6 @@ export const useImageUpload = ({ kind, maxCount }: { kind: string; maxCount?: nu
     opacity,
     handleImageUpload,
     handleMultipleUpload,
-    handleImageRemove
+    handleImageRemove,
   };
 };
