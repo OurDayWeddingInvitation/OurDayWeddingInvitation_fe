@@ -59,7 +59,7 @@ const MainImageSection = () => {
   };
 
   // 이미지 업로드
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const compressedFile = await getCompressedImage(file);
 
@@ -129,7 +129,7 @@ const MainImageSection = () => {
           type="file"
           id="openImg"
           accept="image/*"
-          onChange={(e) => handleImageChange(e)}
+          onChange={(e) => handleImageUpload(e)}
           className="hidden"
           ref={fileInputRef}
         />
