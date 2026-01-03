@@ -17,10 +17,10 @@ const Preview = () => {
 
   return (
     <div>
-      <div className="relative h-[760px]">
+      <div className="relative h-[720px]">
         {/* <Image src={Mockup} alt="미리보기목업" className="absolute left-0 top-0 w-full overflow-hidden border" /> */}
         <div
-          className="overflow-scroll [&::-webkit-scrollbar]:hidden w-[90%] m-auto h-full z-99"
+          className="overflow-scroll [&::-webkit-scrollbar]:hidden h-full z-99"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",

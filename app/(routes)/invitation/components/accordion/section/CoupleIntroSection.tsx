@@ -8,8 +8,8 @@ const CoupleIntroSection = () => {
   const inputStyle =
     "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
   const couple = ["신랑", "신부"];
-  const groom = useImageUpload("");
-  const bride = useImageUpload("");
+  const groom = useImageUpload({ kind: "couple" });
+  const bride = useImageUpload({ kind: "couple" });
 
   return (
     <div>

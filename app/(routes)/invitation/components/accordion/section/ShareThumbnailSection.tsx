@@ -5,8 +5,8 @@ import { usePreviewModalStore } from "@/app/store/usePreviewModalStore";
 import { CircleX } from "lucide-react";
 
 const ShareThumbnailSection = () => {
-  const kakao = useImageUpload("kakao");
-  const link = useImageUpload("link");
+  const kakao = useImageUpload({ kind: "share" });
+  const link = useImageUpload({ kind: "share" });
   const { openIndex, openModal, closeModal } = usePreviewModalStore();
 
   const shareThumbnailInfo = [

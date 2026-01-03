@@ -5,10 +5,7 @@ import { WeddingInfoSectionType } from "../lib/fetches/invitation/type";
 interface WeddingInfoStore {
   weddingInfo: WeddingInfoSectionType | null;
   setWeddingInfo: (data: WeddingInfoSectionType) => void;
-  updateWeddingInfoField: <K extends keyof WeddingInfoSectionType>(
-    key: K,
-    value: WeddingInfoSectionType[K]
-  ) => void;
+  updateWeddingInfoField: <K extends keyof WeddingInfoSectionType>(key: K, value: WeddingInfoSectionType[K]) => void;
   resetWeddingInfo: () => void;
 }
 
@@ -24,11 +21,11 @@ export const useWeddingInfoStore = create<WeddingInfoStore>((set) => ({
       weddingInfo: state.weddingInfo
         ? {
             ...state.weddingInfo,
-            [key]: value,
+            [key]: value
           }
-        : state.weddingInfo, // null이면 그대로
+        : state.weddingInfo // null이면 그대로
     })),
 
   // 초기화 (선택)
-  resetWeddingInfo: () => set({ weddingInfo: null }),
+  resetWeddingInfo: () => set({ weddingInfo: null })
 }));
