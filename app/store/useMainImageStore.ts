@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ImageDetailItem } from "../lib/fetches/invitation/type";
+import { ImageDetailItem } from "../lib/fetches/media/type";
 
 type MainImageProp = {
   mainImageInfo: ImageDetailItem | null;
