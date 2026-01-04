@@ -16,6 +16,9 @@ export const useImageUpload = ({
   kind: string;
   maxCount?: number;
 }) => {
+  const updateMainImageInfo = useMainImageStore((s) => s.updateMainImageInfo);
+  const resetMainImageInfo = useMainImageStore((s) => s.resetMainImageInfo);
+
   // 단일
   const [preview, setPreview] = useState<string | null>();
   // 여러장
@@ -23,8 +26,6 @@ export const useImageUpload = ({
 
   const [loading, setLoading] = useState<boolean>(false);
   const [opacity, setOpacity] = useState<number>(0.5);
-
-  const { updateMainImageInfo, resetMainImageInfo } = useMainImageStore();
 
   const handleImageUpload = (
     file: File | Blob | null,
@@ -52,13 +53,11 @@ export const useImageUpload = ({
     }, 1500);
   };
 
-  const handleMultipleUpload = (files: FileList) => {
+  const handleMultipleUpload = (files: File[]) => {
     if (!files) return;
 
-    const fileArray = Array.from(files);
-
     setGallery((prev) => {
-      const newItems = fileArray?.map((file) => {
+      const newItems = files?.map((file) => {
         const url = URL.createObjectURL(file);
         return {
           file,

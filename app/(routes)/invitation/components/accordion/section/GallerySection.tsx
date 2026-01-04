@@ -1,25 +1,57 @@
-import React from "react";
-import ImageAddButton from "@/app/components/ImageAddButton";
-import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
-import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
-import { deleteImage } from "@/app/lib/utils/api";
 import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
+import ImageAddButton from "@/app/components/ImageAddButton";
+import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
+import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
+import { deleteImage, uploadMultipleImages } from "@/app/lib/utils/api";
+import { useGalleryStore } from "@/app/store/useGalleryStore";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
+import React from "react";
 
 const GallerySection = () => {
-  const { weddingId } = useWeddingIdStore();
+  const weddingId = useWeddingIdStore((s) => s.weddingId);
+  const galleryImages = useGalleryStore((s) => s.galleryImages);
+
+  const { getCompressedImage } = useCompressImageUpload();
   const gallery = useImageUpload({
     kind: "gallery",
-    maxCount: 50
+    maxCount: 50,
   });
 
-  const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+  const inputStyle =
+    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
 
+  // 이미지 업로드
+  const handleMultipleImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const fileArray = Array.from(files);
+
+    // 이미지 용량 리사이징
+    const compressedFiles = await Promise.all(
+      fileArray.map(async (file) => getCompressedImage(file))
+    );
+
+    await uploadMultipleImages({
+      weddingId,
+      files: compressedFiles,
+      imageType: "galleryImage",
+    });
+
+    gallery.handleMultipleUpload(compressedFiles);
+    // 같은 파일 선택 가능
+    e.target.value = "";
+  };
+
+  // 이미지 제거
   const handleImageRemove = async (idx: number) => {
     gallery.handleImageRemove(idx);
 
     await deleteImage({
-      weddingId: weddingId
+      weddingId: weddingId,
       // mediaId: mainImageInfo.mediaId
     });
   };
@@ -29,13 +61,22 @@ const GallerySection = () => {
       <div className="flex flex-col gap-2.5 w-full">
         <div className="flex flex-wrap items-center">
           <div className="w-1/6 min-w-[50px]">제목</div>
-          <input type="text" placeholder="우리의 소중한 순간" className={`${inputStyle} min-w-20 max-w-[230px]`} id="galleryTitle" />
+          <input
+            type="text"
+            placeholder="우리의 소중한 순간"
+            className={`${inputStyle} min-w-20 max-w-[230px]`}
+            id="galleryTitle"
+          />
         </div>
         <div>
           <div className="w-1/6 min-w-[50px] pb-1.5">갤러리</div>
           <div className="flex items-center justify-between pb-4">
-            <p className=" text-[#CACACA] text-[12px]">최대 50장까지 업로드 할 수 있습니다.</p>
-            <button className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1">전체 삭제</button>
+            <p className=" text-[#CACACA] text-[12px]">
+              최대 50장까지 업로드 할 수 있습니다.
+            </p>
+            <button className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1">
+              전체 삭제
+            </button>
           </div>
           <div className="border-[#D9D9D9] border rounded-[10px] w-full p-4 mb-5 grid grid-cols-5 gap-5 min-h-[295px]">
             {gallery.gallery.map((item, idx) => (
@@ -48,7 +89,10 @@ const GallerySection = () => {
                 onImageRemove={() => handleImageRemove(idx)}
               />
             ))}
-            <label htmlFor="galleryInput" className="w-[124px] h-[124px] cursor-pointer">
+            <label
+              htmlFor="galleryInput"
+              className="w-[124px] h-[124px] cursor-pointer"
+            >
               <Image src={ImageAddBtnIcon} alt="추가" />
             </label>
             <input
@@ -57,11 +101,7 @@ const GallerySection = () => {
               accept="image/*"
               className="hidden"
               multiple
-              onChange={(e) => {
-                gallery.handleMultipleUpload(e.target.files);
-                // 같은 파일 선택 가능
-                e.target.value = "";
-              }}
+              onChange={(e) => handleMultipleImageUpload(e)}
             />
           </div>
           <div className="border-[#E0E0E0] border-t w-full"></div>
