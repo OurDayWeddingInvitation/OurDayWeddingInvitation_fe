@@ -27,11 +27,14 @@ type mainStyleItem = {
 };
 
 const MainImageSection = () => {
+  const weddingId = useWeddingIdStore((s) => s.weddingId);
+  const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
+  const mainStyleKind = useMainImageStore((s) => s.mainStyleKind);
+  const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
+
   const thumbnail = useImageUpload({ kind: "main" });
   const { getCompressedImage } = useCompressImageUpload();
-  const { weddingId } = useWeddingIdStore();
-  const { mainImageInfo, mainStyleKind, setMainStyleKind } =
-    useMainImageStore();
+
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
