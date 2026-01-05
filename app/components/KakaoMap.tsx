@@ -1,7 +1,15 @@
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 
-export default function KakaoMap({ lat, lon, isOpen }) {
+export default function KakaoMap({
+  lat,
+  lon,
+  isOpen,
+}: {
+  lat: number;
+  lon: number;
+  isOpen?: boolean;
+}) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef(null);
   const markerInstance = useRef(null);
@@ -17,12 +25,12 @@ export default function KakaoMap({ lat, lon, isOpen }) {
     mapInstance.current = new window.kakao.maps.Map(mapRef.current, {
       center,
       level: 3,
-      draggable: false
+      draggable: false,
     });
 
     markerInstance.current = new window.kakao.maps.Marker({
       position: center,
-      map: mapInstance.current
+      map: mapInstance.current,
       // title: "선택 위치"
     });
   };
