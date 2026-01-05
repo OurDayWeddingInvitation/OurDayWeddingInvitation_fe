@@ -31,6 +31,8 @@ const MainImageSection = () => {
   const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
   const mainStyleKind = useMainImageStore((s) => s.mainStyleKind);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
+  const updateMainImageInfo = useMainImageStore((s) => s.updateMainImageInfo);
+  const resetMainImageInfo = useMainImageStore((s) => s.resetMainImageInfo);
 
   const thumbnail = useImageUpload({ kind: "main" });
   const { getCompressedImage } = useCompressImageUpload();
@@ -68,7 +70,10 @@ const MainImageSection = () => {
 
     if (!compressedFile) return;
 
-    // 1) 실제 업로드 호출 (서버 전송)
+    // 미리보기 설정
+    thumbnail.handleImageUpload(compressedFile);
+
+    // 실제 업로드 호출 (서버 전송)
     const res = await uploadImage({
       weddingId: weddingId,
       file: compressedFile,
@@ -76,31 +81,42 @@ const MainImageSection = () => {
       displayOrder: 1,
     });
 
-    // 2) 미리보기는 훅에서 처리
-    thumbnail.handleImageUpload(file, res.data);
+    // 상태 업데이트
+    updateMainImageInfo(res.data);
   };
 
   // 이미지 수정
   const handleImageModify = async (blob: Blob) => {
     const file = blobToFile(blob);
 
+    if (!file) return;
+
+    // 미리보기 설정
+    thumbnail.handleImageUpload(file);
+
+    // 실제 업로드 호출 (서버 전송)
     const res = await uploadCroppedImage({
       weddingId,
       mediaId: mainImageInfo.mediaId,
       file: file,
     });
 
-    thumbnail.handleImageUpload(file, res.data);
+    // 상태 업데이트
+    updateMainImageInfo(res.data);
   };
 
   // 이미지 제거
   const handleImageRemove = async () => {
+    // 미리보기 제거
     thumbnail.handleImageRemove();
 
     await deleteImage({
       weddingId: weddingId,
       mediaId: mainImageInfo.mediaId,
     });
+
+    // 상태 초기화
+    resetMainImageInfo();
 
     // file Input 초기화
     if (fileInputRef.current) {
