@@ -52,6 +52,8 @@ const ImageAddButton = ({
   const imageSrc = () => {
     if (croppedPreview) return croppedPreview;
 
+    if (previewImage) return previewImage;
+
     if (mainImageInfo?.editedUrl) {
       return getImagePath(mainImageInfo.editedUrl);
     }
