@@ -47,42 +47,51 @@ const MainImageSection = () => {
   ];
 
   const handleClick = async (item: mainStyleItem, idx: number) => {
-    const nextIdx = selectedIdx === idx ? null : idx;
+    try {
+      const nextIdx = selectedIdx === idx ? null : idx;
 
-    setSelectedIdx(nextIdx);
-    setMainStyleKind(nextIdx === null ? "" : item.title);
+      setSelectedIdx(nextIdx);
+      setMainStyleKind(nextIdx === null ? "" : item.title);
 
-    await clientFetchApi({
-      endPoint: `/weddings/update`,
-      method: "PATCH",
-      body: {
-        weddingId: weddingId,
-        sectionId: "main",
-        updated: { posterStyle: item.title },
-      },
-    });
+      await clientFetchApi({
+        endPoint: `/weddings/update`,
+        method: "PATCH",
+        body: {
+          weddingId: weddingId,
+          sectionId: "main",
+          updated: { posterStyle: item.title },
+        },
+      });
+    } catch (error) {
+      console.error("Error updating main style kind");
+    }
   };
 
   // 이미지 업로드
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    const compressedFile = await getCompressedImage(file);
 
-    if (!compressedFile) return;
+    try {
+      const compressedFile = await getCompressedImage(file);
 
-    // 미리보기 설정
-    thumbnail.handleImageUpload(compressedFile);
+      if (!compressedFile) return;
 
-    // 실제 업로드 호출 (서버 전송)
-    const res = await uploadImage({
-      weddingId: weddingId,
-      file: compressedFile,
-      imageType: "mainImage",
-      displayOrder: 1,
-    });
+      // 미리보기 설정
+      thumbnail.handleImageUpload(compressedFile);
 
-    // 상태 업데이트
-    updateMainImageInfo(res.data);
+      // 실제 업로드 호출 (서버 전송)
+      const res = await uploadImage({
+        weddingId: weddingId,
+        file: compressedFile,
+        imageType: "mainImage",
+        displayOrder: 1,
+      });
+
+      // 상태 업데이트
+      updateMainImageInfo(res.data);
+    } catch (error) {
+      console.error("Error uploading main image");
+    }
   };
 
   // 이미지 수정
@@ -91,36 +100,44 @@ const MainImageSection = () => {
 
     if (!file) return;
 
-    // 미리보기 설정
-    thumbnail.handleImageUpload(file);
+    try {
+      // 미리보기 설정
+      thumbnail.handleImageUpload(file);
 
-    // 실제 업로드 호출 (서버 전송)
-    const res = await uploadCroppedImage({
-      weddingId,
-      mediaId: mainImageInfo.mediaId,
-      file: file,
-    });
+      // 실제 업로드 호출 (서버 전송)
+      const res = await uploadCroppedImage({
+        weddingId,
+        mediaId: mainImageInfo.mediaId,
+        file: file,
+      });
 
-    // 상태 업데이트
-    updateMainImageInfo(res.data);
+      // 상태 업데이트
+      updateMainImageInfo(res.data);
+    } catch (error) {
+      console.error("Error modifying main image");
+    }
   };
 
   // 이미지 제거
   const handleImageRemove = async () => {
-    // 미리보기 제거
-    thumbnail.handleImageRemove();
+    try {
+      // 미리보기 제거
+      thumbnail.handleImageRemove();
 
-    await deleteImage({
-      weddingId: weddingId,
-      mediaId: mainImageInfo.mediaId,
-    });
+      await deleteImage({
+        weddingId: weddingId,
+        mediaId: mainImageInfo.mediaId,
+      });
 
-    // 상태 초기화
-    resetMainImageInfo();
+      // 상태 초기화
+      resetMainImageInfo();
 
-    // file Input 초기화
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      // file Input 초기화
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (error) {
+      console.error("Error removing main image");
     }
   };
 
