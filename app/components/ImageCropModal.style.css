@@ -11,5 +11,6 @@
 }
 .crop-bg {
   background-image: url(../assets/images/crop-bg.svg);
+  background-repeat: repeat;
   background-size: 3%;
 }
