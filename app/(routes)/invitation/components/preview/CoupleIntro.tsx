@@ -17,7 +17,7 @@ const CoupleIntro = () => {
           className="tracking-[4px] text-[12px] pb-3"
           style={{ color: themeFont?.accentColor }}
         >
-          GROOM & Bride
+          GROOM & BRIDE
         </div>
         <span className="text-[16px]">신랑 & 신부를 소개합니다</span>
         <div className="flex pt-10 gap-2.5 justify-center">
