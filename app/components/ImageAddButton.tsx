@@ -4,7 +4,6 @@ import Image from "next/image";
 import LoadingImg from "@/app/assets/images/preview-image-transparent.png";
 import { DotLoader } from "react-spinners";
 import { Pencil, X } from "lucide-react";
-import "react-image-crop/dist/ReactCrop.css";
 import { useMainImageStore } from "../store/useMainImageStore";
 import { getImagePath } from "../lib/utils/functions";
 import ImageCropModal from "./ImageCropModal";
@@ -91,13 +90,12 @@ const ImageAddButton = ({
                   <Pencil color="#FFFFFF" size={22} />
                 </div>
 
-                <label
-                  htmlFor={id}
+                <button
                   onClick={onImageRemoveInternal}
                   className="bg-[#D4C6B7] rounded-full p-1.5 cursor-pointer"
                 >
                   <X color="#FFFFFF" size={22} />
-                </label>
+                </button>
               </div>
             )}
           </div>

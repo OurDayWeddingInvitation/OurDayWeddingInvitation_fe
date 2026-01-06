@@ -4,6 +4,7 @@ import { getCroppedImg } from "../lib/utils/cropImage";
 import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import "./ImageCropModal.style.css";
+
 const ImageCropModal = ({
   open,
   setOpenCrop,
