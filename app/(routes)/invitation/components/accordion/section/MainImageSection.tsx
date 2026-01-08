@@ -89,6 +89,9 @@ const MainImageSection = () => {
 
       // 상태 업데이트
       updateMainImageInfo(res.data);
+
+      // 미리보기 제거
+      thumbnail.clearPreview();
     } catch (error) {
       console.error("Error uploading main image");
     }
@@ -113,6 +116,9 @@ const MainImageSection = () => {
 
       // 상태 업데이트
       updateMainImageInfo(res.data);
+
+      // 미리보기 제거
+      thumbnail.clearPreview();
     } catch (error) {
       console.error("Error modifying main image");
     }
