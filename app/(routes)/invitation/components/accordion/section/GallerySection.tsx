@@ -3,6 +3,7 @@ import ImageAddButton from "@/app/components/ImageAddButton";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
 import { deleteImage, uploadMultipleImages } from "@/app/lib/utils/api";
+import { getImagePath } from "@/app/lib/utils/functions";
 import { useGalleryStore } from "@/app/store/useGalleryStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
@@ -11,6 +12,7 @@ import React from "react";
 const GallerySection = () => {
   const weddingId = useWeddingIdStore((s) => s.weddingId);
   const galleryImages = useGalleryStore((s) => s.galleryImages);
+  const addGalleryImages = useGalleryStore((s) => s.addGalleryImages);
 
   const { getCompressedImage } = useCompressImageUpload();
   const gallery = useImageUpload({
@@ -30,26 +32,42 @@ const GallerySection = () => {
 
     const fileArray = Array.from(files);
 
-    // 이미지 용량 리사이징
-    const compressedFiles = await Promise.all(
-      fileArray.map(async (file) => getCompressedImage(file))
-    );
+    try {
+      // 이미지 용량 리사이징
+      const compressedFiles = await Promise.all(
+        fileArray.map(async (file) => getCompressedImage(file))
+      );
 
-    await uploadMultipleImages({
-      weddingId,
-      files: compressedFiles,
-      imageType: "galleryImage",
-    });
+      if (compressedFiles.length === 0) return;
 
-    gallery.handleMultipleUpload(compressedFiles);
-    // 같은 파일 선택 가능
-    e.target.value = "";
+      // 미리보기 추가
+      gallery.handleMultipleUpload(compressedFiles);
+
+      // 서버 업로드
+      const res = await uploadMultipleImages({
+        weddingId,
+        files: compressedFiles,
+        imageType: "galleryImage",
+      });
+
+      // // 상태 업데이트
+      addGalleryImages(res.data);
+
+      // 로컬 미리보기 제거
+      gallery.clearGallery();
+
+      // 같은 파일 선택 가능
+      e.target.value = "";
+    } catch (error) {
+      console.error("Error uploading multiple images");
+    }
   };
 
   // 이미지 제거
   const handleImageRemove = async (idx: number) => {
     gallery.handleImageRemove(idx);
 
+    // TODO: 미디어 아이디도 파라미터로 받아서 있는 경우에만 이미지 삭제 하는 방향으로
     await deleteImage({
       weddingId: weddingId,
       // mediaId: mainImageInfo.mediaId
@@ -79,6 +97,19 @@ const GallerySection = () => {
             </button>
           </div>
           <div className="border-[#D9D9D9] border rounded-[10px] w-full p-4 mb-5 grid grid-cols-5 gap-5 min-h-[295px]">
+            {/* 서버에 저장된 이미지 */}
+            {galleryImages.map((img, idx) => (
+              <ImageAddButton
+                key={`server-${img.mediaId}`}
+                previewImage={getImagePath(img.originalUrl)}
+                loading={false}
+                opacity={1}
+                id={`server-gallery-${idx}`}
+                onImageRemove={() => handleImageRemove(img.mediaId)}
+              />
+            ))}
+
+            {/* 로컬 미리보기 이미지 */}
             {gallery.gallery.map((item, idx) => (
               <ImageAddButton
                 key={item.preview}

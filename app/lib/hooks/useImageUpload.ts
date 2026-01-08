@@ -1,11 +1,11 @@
-import { useMainImageStore } from "@/app/store/useMainImageStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type PreviewItem = {
   file: File | Blob;
   preview: string;
   loading: boolean;
   opacity: number;
+  mediaId?: number;
 };
 
 export const useImageUpload = ({
@@ -89,13 +89,41 @@ export const useImageUpload = ({
     }
   };
 
+  const clearPreview = () => {
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview(null);
+  };
+
+  const clearGallery = () => {
+    gallery.forEach((item) => URL.revokeObjectURL(item.preview));
+    setGallery([]);
+  };
+
+  /**
+   * 언마운트 시 메모리 정리
+   */
+  useEffect(() => {
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+      gallery.forEach((item) => {
+        URL.revokeObjectURL(item.preview);
+      });
+    };
+  }, [[preview, gallery]]);
+
   return {
     preview,
     gallery,
     loading,
     opacity,
+
     handleImageUpload,
     handleMultipleUpload,
     handleImageRemove,
+
+    clearPreview,
+    clearGallery,
   };
 };
