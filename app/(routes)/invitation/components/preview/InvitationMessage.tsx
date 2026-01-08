@@ -1,12 +1,15 @@
 import { fontList } from "@/app/lib/constants";
 import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
+import FamilyWeddingInfo from "@/app/components/common/FamilyWeddingInfo";
 
 const InvitationMessage = () => {
   const invitationInfo = useInvitationMessageStore((s) => s.invitationMessage);
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const fontKey = themeFont?.fontName;
-  const fontFamily = fontList.find((font) => font.key === fontKey)?.value ?? "";
+  const fontFamily =
+    fontList?.find((font) => font.key === fontKey)?.value ?? "";
+
   return (
     <div className="flex flex-col items-center px-5 py-7.5">
       <p
@@ -32,6 +35,8 @@ const InvitationMessage = () => {
         className="w-full"
         dangerouslySetInnerHTML={{ __html: invitationInfo?.message }}
       ></div>
+      {/* 신랑 신부 정보 */}
+      <FamilyWeddingInfo />
     </div>
   );
 };
