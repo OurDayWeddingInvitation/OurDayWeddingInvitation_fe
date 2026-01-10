@@ -62,9 +62,6 @@ const GallerySection = () => {
         imageType: "galleryImage",
       });
 
-      console.log("res.data:", res);
-      console.log("isArray:", Array.isArray(res?.data));
-
       // // 상태 업데이트
       addGalleryImages(res.data);
 
