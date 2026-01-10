@@ -104,7 +104,7 @@ export const deleteImageByType = async ({
   weddingId,
   imageType,
 }: DeleteImageByTypeParams) => {
-  const res = await fetch(`/api/media/delete?weddingId=${weddingId}`, {
+  const res = await fetch(`/api/media/delete-by-type?weddingId=${weddingId}`, {
     method: "DELETE",
     body: JSON.stringify({ imageType }),
   });

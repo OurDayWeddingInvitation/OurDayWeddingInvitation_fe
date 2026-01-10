@@ -11,7 +11,8 @@ type GalleryProp = {
   addGalleryImages: (images: ImageDetailItem[]) => void;
   updateGalleryImage: (partial: Partial<ImageDetailItem>) => void;
 
-  resetGalleryImageInfo: () => void;
+  removeGalleryImage: (mediaId: number) => void;
+  resetGalleryImages: () => void;
 };
 
 export const useGalleryStore = create<GalleryProp>((set) => ({
@@ -38,5 +39,12 @@ export const useGalleryStore = create<GalleryProp>((set) => ({
       ),
     })),
 
-  resetGalleryImageInfo: () => set({ galleryImages: null }),
+  removeGalleryImage: (mediaId) =>
+    set((state) => ({
+      galleryImages: state.galleryImages.filter(
+        (img) => img.mediaId !== mediaId
+      ),
+    })),
+
+  resetGalleryImages: () => set({ galleryImages: null }),
 }));

@@ -111,7 +111,7 @@ export const useImageUpload = ({
         URL.revokeObjectURL(item.preview);
       });
     };
-  }, [[preview, gallery]]);
+  }, [preview, gallery]);
 
   return {
     preview,

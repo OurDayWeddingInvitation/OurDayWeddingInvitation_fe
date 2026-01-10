@@ -11,20 +11,20 @@ import ImageCropModal from "./ImageCropModal";
 type OnCropConfirm = (blob: Blob, previewUrl: string) => Promise<void>;
 
 interface ImageAddButtonProps {
+  id: string;
   previewImage?: string;
   loading: boolean;
   opacity: number;
-  onImageRemove: () => void;
-  id: string;
+  onImageRemove?: () => void;
   onCropConfirm?: OnCropConfirm;
 }
 
 const ImageAddButton = ({
+  id,
   previewImage,
   loading,
   opacity,
   onImageRemove,
-  id,
   onCropConfirm,
 }: ImageAddButtonProps) => {
   const [openCrop, setOpenCrop] = useState<boolean>(false);

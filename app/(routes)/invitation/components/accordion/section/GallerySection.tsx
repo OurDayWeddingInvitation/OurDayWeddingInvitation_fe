@@ -2,23 +2,33 @@ import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
 import ImageAddButton from "@/app/components/ImageAddButton";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
-import { deleteImage, uploadMultipleImages } from "@/app/lib/utils/api";
-import { getImagePath } from "@/app/lib/utils/functions";
+import {
+  deleteImage,
+  deleteImageByType,
+  uploadCroppedImage,
+  uploadMultipleImages,
+} from "@/app/lib/utils/api";
+import { blobToFile, getImagePath } from "@/app/lib/utils/functions";
 import { useGalleryStore } from "@/app/store/useGalleryStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
 
 const GallerySection = () => {
   const weddingId = useWeddingIdStore((s) => s.weddingId);
   const galleryImages = useGalleryStore((s) => s.galleryImages);
   const addGalleryImages = useGalleryStore((s) => s.addGalleryImages);
+  const updateGalleryImage = useGalleryStore((s) => s.updateGalleryImage);
+  const removeGalleryImage = useGalleryStore((s) => s.removeGalleryImage);
+  const resetGalleryImages = useGalleryStore((s) => s.resetGalleryImages);
 
   const { getCompressedImage } = useCompressImageUpload();
   const gallery = useImageUpload({
     kind: "gallery",
     maxCount: 50,
   });
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const inputStyle =
     "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
@@ -38,6 +48,8 @@ const GallerySection = () => {
         fileArray.map(async (file) => getCompressedImage(file))
       );
 
+      console.log("compressedFiles:", compressedFiles);
+
       if (compressedFiles.length === 0) return;
 
       // 미리보기 추가
@@ -50,6 +62,9 @@ const GallerySection = () => {
         imageType: "galleryImage",
       });
 
+      console.log("res.data:", res);
+      console.log("isArray:", Array.isArray(res?.data));
+
       // // 상태 업데이트
       addGalleryImages(res.data);
 
@@ -59,19 +74,77 @@ const GallerySection = () => {
       // 같은 파일 선택 가능
       e.target.value = "";
     } catch (error) {
-      console.error("Error uploading multiple images");
+      console.error("Error uploading gallery images", error);
+    }
+  };
+
+  // 이미지 수정
+  const handleImageModify = async (mediaId: number, blob: Blob) => {
+    const file = blobToFile(blob);
+
+    if (!file) return;
+
+    try {
+      // 미리보기 설정
+      gallery.handleImageUpload(file);
+
+      // 실제 업로드 호출 (서버 전송)
+      const res = await uploadCroppedImage({
+        weddingId,
+        mediaId,
+        file,
+      });
+
+      // 상태 업데이트
+      updateGalleryImage(res.data);
+
+      // 미리보기 제거
+      gallery.clearPreview();
+    } catch (error) {
+      console.error("Error modifying gallery image");
     }
   };
 
   // 이미지 제거
-  const handleImageRemove = async (idx: number) => {
-    gallery.handleImageRemove(idx);
+  const handleImageRemove = async (idx: number, mediaId: number) => {
+    try {
+      // 미리보기 제거
+      gallery.handleImageRemove(idx);
 
-    // TODO: 미디어 아이디도 파라미터로 받아서 있는 경우에만 이미지 삭제 하는 방향으로
-    await deleteImage({
-      weddingId: weddingId,
-      // mediaId: mainImageInfo.mediaId
-    });
+      // 서버 이미지 제거
+      await deleteImage({
+        weddingId: weddingId,
+        mediaId: mediaId,
+      });
+
+      // store 이미지 제거
+      removeGalleryImage(mediaId);
+    } catch (error) {
+      console.error("Error removing gallery image");
+    }
+  };
+
+  // 이미지 모두 제거
+  const handleAllImageRemove = async () => {
+    try {
+      // 미리보기 모두 제거
+      gallery.clearGallery();
+
+      // 서버 이미지 모두 제거 (galleryImage type)
+      await deleteImageByType({
+        weddingId: weddingId,
+        imageType: "galleryImage",
+      });
+
+      resetGalleryImages();
+
+      // file Input 초기화
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (error) {
+      console.error("Error removing all gallery images");
+    }
   };
 
   return (
@@ -80,6 +153,7 @@ const GallerySection = () => {
         <div className="flex flex-wrap items-center">
           <div className="w-1/6 min-w-[50px]">제목</div>
           <input
+            ref={fileInputRef}
             type="text"
             placeholder="우리의 소중한 순간"
             className={`${inputStyle} min-w-20 max-w-[230px]`}
@@ -92,20 +166,28 @@ const GallerySection = () => {
             <p className=" text-[#CACACA] text-[12px]">
               최대 50장까지 업로드 할 수 있습니다.
             </p>
-            <button className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1">
+            <button
+              className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1"
+              onClick={handleAllImageRemove}
+            >
               전체 삭제
             </button>
           </div>
           <div className="border-[#D9D9D9] border rounded-[10px] w-full p-4 mb-5 grid grid-cols-5 gap-5 min-h-[295px]">
             {/* 서버에 저장된 이미지 */}
-            {galleryImages.map((img, idx) => (
+            {galleryImages?.map((img, idx) => (
               <ImageAddButton
                 key={`server-${img.mediaId}`}
-                previewImage={getImagePath(img.originalUrl)}
+                previewImage={
+                  img.editedUrl
+                    ? getImagePath(img.editedUrl)
+                    : getImagePath(img.originalUrl)
+                }
                 loading={false}
                 opacity={1}
                 id={`server-gallery-${idx}`}
-                onImageRemove={() => handleImageRemove(img.mediaId)}
+                onImageRemove={() => handleImageRemove(idx, img.mediaId)}
+                onCropConfirm={(blob) => handleImageModify(img.mediaId, blob)}
               />
             ))}
 
@@ -116,8 +198,7 @@ const GallerySection = () => {
                 previewImage={item.preview}
                 loading={item.loading}
                 opacity={item.opacity}
-                id={`gallery-${idx}`}
-                onImageRemove={() => handleImageRemove(idx)}
+                id={`local-gallery-${idx}`}
               />
             ))}
             <label
