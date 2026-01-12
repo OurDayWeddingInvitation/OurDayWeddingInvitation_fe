@@ -1,12 +1,38 @@
+import React from "react";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
-import React from "react";
+import CouplePersonCard from "@/app/components/common/CouplePersonCard";
 
 const CoupleIntro = () => {
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
-  const groomName = weddingInfo?.groomLastName + weddingInfo?.groomFirstName;
-  const brideName = weddingInfo?.brideLastName + weddingInfo?.brideFirstName;
+  const groomName = `${weddingInfo?.groomLastName ?? ""}${
+    weddingInfo?.groomFirstName ?? ""
+  }`;
+  const brideName = `${weddingInfo?.brideLastName ?? ""}${
+    weddingInfo?.brideFirstName ?? ""
+  }`;
+  const isGroomFirst = weddingInfo?.nameOrderType === "G";
+
+  const groomCard = (
+    <CouplePersonCard
+      roleLabel="신랑"
+      roleColor="#A9BBD2"
+      name={groomName}
+      description="나무같은 남편이 되겠습니다"
+    />
+  );
+
+  const brideCard = (
+    <CouplePersonCard
+      roleLabel="신부"
+      roleColor="#E6A5DA"
+      name={brideName}
+      description="나무같은 아내가 되겠습니다"
+    />
+  );
+  const cards = isGroomFirst ? [groomCard, brideCard] : [brideCard, groomCard];
+
   return (
     <div
       className="py-10"
@@ -17,32 +43,15 @@ const CoupleIntro = () => {
           className="tracking-[4px] text-[12px] pb-3"
           style={{ color: themeFont?.accentColor }}
         >
-          GROOM & BRIDE
+          {isGroomFirst ? "GROOM & BRIDE" : "BRIDE & GROOM"}
         </div>
-        <span className="text-[16px]">신랑 & 신부를 소개합니다</span>
+        <span className="text-[16px]">
+          {isGroomFirst ? "신랑 & 신부" : "신부 & 신랑"}을 소개합니다
+        </span>
         <div className="flex pt-10 gap-2.5 justify-center">
-          <div className="flex flex-col items-center">
-            {/* 이미지 들어갈 곳 */}
-            <div className="w-[145px] h-[145px] bg-[#D9D9D9] rounded-[10px]"></div>
-            <div className="flex gap-2.5 justify-center items-center py-2.5">
-              <span className="text-[#A9BBD2] text-[12px]">신랑</span>
-              <span>{groomName}</span>
-            </div>
-            <p className="max-w-[110px] py-5 text-center">
-              나무같은 남편이 되겠습니다
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            {/* 이미지 들어갈 곳 */}
-            <div className="w-[145px] h-[145px] bg-[#D9D9D9] rounded-[10px]"></div>
-            <div className="flex gap-2.5 justify-center items-center py-2.5">
-              <span className="text-[#E6A5DA] text-[12px]">신부</span>
-              <span>{brideName}</span>
-            </div>
-            <p className="max-w-[110px] py-5 text-center">
-              나무같은 남편이 되겠습니다
-            </p>
-          </div>
+          {cards.map((card, idx) => (
+            <React.Fragment key={idx}>{card}</React.Fragment>
+          ))}
         </div>
       </div>
     </div>

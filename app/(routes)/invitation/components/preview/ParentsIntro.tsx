@@ -46,7 +46,7 @@ const ParentsInfo = () => {
             {/* 이미지 들어갈 곳 */}
             <div className="w-[145px] h-[145px] bg-[#D9D9D9] rounded-[10px]"></div>
             <div className="flex gap-2.5 justify-center items-center py-2.5 text-[12px]">
-              <span className="text-[#A9BBD2]">신부</span>
+              <span className="text-[#e6a5da]">신부</span>
               <span>{brideName}의 부모님</span>
             </div>
             <p className="py-5 flex items-center">
