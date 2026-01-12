@@ -47,3 +47,21 @@ export function blobToFile(blob: Blob): File {
     lastModified: Date.now(),
   });
 }
+
+/**
+ * 비동기 작업을 최소 ms 시간 동안 수행하도록 보장하는 함수
+ * @param promise 실행할 실제 비동기 작업 (API 호출 등)
+ * @param ms 최소 대기 시간 (기본값 1500ms)
+ * @returns promise의 결과값
+ */
+export const withMinTime = async <T>(
+  promise: Promise<T>,
+  ms: number = 1500
+): Promise<T> => {
+  const [result] = await Promise.all([
+    promise,
+    new Promise((resolve) => setTimeout(resolve, ms)),
+  ]);
+
+  return result; // 실제 작업의 결과만 반환
+};

@@ -1,34 +1,39 @@
 import ImageAddButton from "@/app/components/ImageAddButton";
 import PreviewThumbnail from "@/app/components/PreviewThumbnail";
-import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
+import { useImagePreview } from "@/app/lib/hooks/useImagePreview";
 import { usePreviewModalStore } from "@/app/store/usePreviewModalStore";
 import { CircleX } from "lucide-react";
 
 const ShareThumbnailSection = () => {
-  const kakao = useImageUpload({ kind: "share" });
-  const link = useImageUpload({ kind: "share" });
+  const kakaoImgHook = useImagePreview({ maxCount: 1 });
+  const linkImgHook = useImagePreview({ maxCount: 1 });
+
   const { openIndex, openModal, closeModal } = usePreviewModalStore();
 
   const shareThumbnailInfo = [
     {
       title: "카카오톡 공유 썸네일",
       info: "카카오톡으로 공유 시 보이는 대표 사진입니다. (세로 사이즈 권장)",
+      hook: kakaoImgHook,
     },
     {
       title: "링크 공유 썸네일",
       info: "URL 주소로 공유 시 보이는 대표 사진입니다. (가로 사이즈 권장)",
+      hook: linkImgHook,
     },
   ];
 
   return (
     <div>
-      {shareThumbnailInfo.map((share, idx) => {
-        const thumbnail = idx === 0 ? kakao : link;
+      {shareThumbnailInfo.map((data, idx) => {
+        const { title, info, hook } = data;
+        const { singlePreview, setPreview, removePreviewItem } = hook;
+
         return (
           <div key={idx}>
             <div className="pt-8">
               <div className="flex gap-2 items-center">
-                <div className="text-[15px]">{share.title}</div>
+                <div className="text-[15px]">{title}</div>
                 <button
                   className="border-[#D4C6B7] border text-[10px] px-2.5 py-1 rounded-sm cursor-pointer"
                   onClick={() => {
@@ -39,22 +44,20 @@ const ShareThumbnailSection = () => {
                 </button>
               </div>
               <p className="text-[12px] text-[#CACACA] leading-6.5 pb-8">
-                {share.info}
+                {info}
               </p>
               <input
                 type="file"
                 id={`openImg${idx}`}
                 accept="image/*"
-                onChange={(e) =>
-                  thumbnail.handleImageUpload(e.target.files?.[0] ?? null)
-                }
+                onChange={(e) => setPreview(e.target.files?.[0] ?? null)}
                 className="hidden"
               />
               <ImageAddButton
-                previewImage={thumbnail.preview}
-                loading={thumbnail.loading}
-                opacity={thumbnail.opacity}
-                onImageRemove={thumbnail.handleImageRemove}
+                previewImage={singlePreview?.previewUrl}
+                loading={singlePreview?.isLoading}
+                opacity={singlePreview?.isLoading ? 0.5 : 1}
+                onImageRemove={() => removePreviewItem(singlePreview.id)}
                 id={`openImg${idx}`}
               />
             </div>
@@ -72,7 +75,10 @@ const ShareThumbnailSection = () => {
                   onClick={closeModal}
                 />
                 {/* 미리보기 창 */}
-                <PreviewThumbnail thumbnail={thumbnail.preview} kindIdx={idx} />
+                <PreviewThumbnail
+                  thumbnail={singlePreview?.previewUrl}
+                  kindIdx={idx}
+                />
               </div>
             </div>
           </div>

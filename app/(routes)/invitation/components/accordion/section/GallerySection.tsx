@@ -1,18 +1,22 @@
 import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
 import ImageAddButton from "@/app/components/ImageAddButton";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
-import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
+import { useImagePreview } from "@/app/lib/hooks/useImagePreview";
 import {
   deleteImage,
   deleteImageByType,
   uploadCroppedImage,
   uploadMultipleImages,
 } from "@/app/lib/utils/api";
-import { blobToFile, getImagePath } from "@/app/lib/utils/functions";
+import {
+  blobToFile,
+  getImagePath,
+  withMinTime,
+} from "@/app/lib/utils/functions";
 import { useGalleryStore } from "@/app/store/useGalleryStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 const GallerySection = () => {
   const weddingId = useWeddingIdStore((s) => s.weddingId);
@@ -23,15 +27,25 @@ const GallerySection = () => {
   const resetGalleryImages = useGalleryStore((s) => s.resetGalleryImages);
 
   const { getCompressedImage } = useCompressImageUpload();
-  const gallery = useImageUpload({
-    kind: "gallery",
+  const {
+    multiplePreview,
+    setPreview,
+    removePreviewItem,
+    removePreviewItems,
+    clearPreviewAll,
+  } = useImagePreview({
     maxCount: 50,
   });
+
+  const [loadingImageId, setLoadingImageId] = useState<number | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const inputStyle =
     "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+
+  // 해당 이미지가 로딩중인지 확인
+  const isImageLoading = (id: number) => loadingImageId === id;
 
   // 이미지 업로드
   const handleMultipleImageUpload = async (
@@ -48,25 +62,31 @@ const GallerySection = () => {
         fileArray.map(async (file) => getCompressedImage(file))
       );
 
-      console.log("compressedFiles:", compressedFiles);
+      // undefined 필터링
+      const validFiles = compressedFiles.filter(
+        (f): f is File => f !== undefined && f !== null
+      );
 
-      if (compressedFiles.length === 0) return;
+      if (validFiles.length === 0) return;
 
       // 미리보기 추가
-      gallery.handleMultipleUpload(compressedFiles);
+      const localItems = setPreview(validFiles);
 
       // 서버 업로드
-      const res = await uploadMultipleImages({
-        weddingId,
-        files: compressedFiles,
-        imageType: "galleryImage",
-      });
+      const res = await withMinTime(
+        uploadMultipleImages({
+          weddingId,
+          files: validFiles,
+          imageType: "galleryImage",
+        }),
+        1500
+      );
 
-      // // 상태 업데이트
+      // 상태 업데이트
       addGalleryImages(res.data);
 
       // 로컬 미리보기 제거
-      gallery.clearGallery();
+      removePreviewItems(localItems.map((item) => item.id));
 
       // 같은 파일 선택 가능
       e.target.value = "";
@@ -82,31 +102,36 @@ const GallerySection = () => {
     if (!file) return;
 
     try {
-      // 미리보기 설정
-      gallery.handleImageUpload(file);
+      // 로딩 상태 설정
+      setLoadingImageId(mediaId);
 
       // 실제 업로드 호출 (서버 전송)
-      const res = await uploadCroppedImage({
-        weddingId,
-        mediaId,
-        file,
-      });
+      const res = await withMinTime(
+        uploadCroppedImage({
+          weddingId,
+          mediaId,
+          file,
+        }),
+        1500
+      );
 
       // 상태 업데이트
       updateGalleryImage(res.data);
 
-      // 미리보기 제거
-      gallery.clearPreview();
+      // 로딩 상태 해제
+      setLoadingImageId(null);
     } catch (error) {
       console.error("Error modifying gallery image");
     }
   };
 
   // 이미지 제거
-  const handleImageRemove = async (idx: number, mediaId: number) => {
+  const handleImageRemove = async (localId: number, mediaId: number) => {
     try {
       // 미리보기 제거
-      gallery.handleImageRemove(idx);
+      if (localId) {
+        removePreviewItem(localId);
+      }
 
       // 서버 이미지 제거
       await deleteImage({
@@ -125,7 +150,7 @@ const GallerySection = () => {
   const handleAllImageRemove = async () => {
     try {
       // 미리보기 모두 제거
-      gallery.clearGallery();
+      clearPreviewAll();
 
       // 서버 이미지 모두 제거 (galleryImage type)
       await deleteImageByType({
@@ -180,8 +205,8 @@ const GallerySection = () => {
                     ? getImagePath(img.editedUrl)
                     : getImagePath(img.originalUrl)
                 }
-                loading={false}
-                opacity={1}
+                loading={isImageLoading(img.mediaId)}
+                opacity={isImageLoading(img.mediaId) ? 0.5 : 1}
                 id={`server-gallery-${idx}`}
                 onImageRemove={() => handleImageRemove(idx, img.mediaId)}
                 onCropConfirm={(blob) => handleImageModify(img.mediaId, blob)}
@@ -189,12 +214,12 @@ const GallerySection = () => {
             ))}
 
             {/* 로컬 미리보기 이미지 */}
-            {gallery.gallery.map((item, idx) => (
+            {multiplePreview.map((img, idx) => (
               <ImageAddButton
-                key={item.preview}
-                previewImage={item.preview}
-                loading={item.loading}
-                opacity={item.opacity}
+                key={`local-gallery-${idx}`}
+                previewImage={img.previewUrl}
+                loading={img.isLoading}
+                opacity={img.isLoading ? 0.5 : 1}
                 id={`local-gallery-${idx}`}
               />
             ))}

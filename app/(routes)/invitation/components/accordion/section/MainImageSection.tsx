@@ -7,13 +7,17 @@ import CheckButton from "@/app/components/CheckButton";
 import ImageAddButton from "@/app/components/ImageAddButton";
 import { clientFetchApi } from "@/app/lib/fetches/client";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
-import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
+import { useImagePreview } from "@/app/lib/hooks/useImagePreview";
 import {
   deleteImage,
   uploadCroppedImage,
   uploadImage,
 } from "@/app/lib/utils/api";
-import { blobToFile, getImagePath } from "@/app/lib/utils/functions";
+import {
+  blobToFile,
+  getImagePath,
+  withMinTime,
+} from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
@@ -34,7 +38,9 @@ const MainImageSection = () => {
   const updateMainImageInfo = useMainImageStore((s) => s.updateMainImageInfo);
   const resetMainImageInfo = useMainImageStore((s) => s.resetMainImageInfo);
 
-  const thumbnail = useImageUpload({ kind: "main" });
+  const { singlePreview, setPreview, removePreviewItem } = useImagePreview({
+    maxCount: 1,
+  });
   const { getCompressedImage } = useCompressImageUpload();
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
@@ -77,21 +83,25 @@ const MainImageSection = () => {
       if (!compressedFile) return;
 
       // 미리보기 설정
-      thumbnail.handleImageUpload(compressedFile);
+      const newItems = setPreview(compressedFile);
+      const localItem = newItems[0];
 
       // 실제 업로드 호출 (서버 전송)
-      const res = await uploadImage({
-        weddingId: weddingId,
-        file: compressedFile,
-        imageType: "mainImage",
-        displayOrder: 1,
-      });
+      const res = await withMinTime(
+        uploadImage({
+          weddingId: weddingId,
+          file: compressedFile,
+          imageType: "mainImage",
+          displayOrder: 1,
+        }),
+        1500
+      );
 
-      // 상태 업데이트
+      // store 상태 업데이트
       updateMainImageInfo(res.data);
 
       // 미리보기 제거
-      thumbnail.clearPreview();
+      removePreviewItem(localItem.id);
     } catch (error) {
       console.error("Error uploading main image");
     }
@@ -103,22 +113,26 @@ const MainImageSection = () => {
 
     if (!file) return;
 
+    // 미리보기 설정
+    const newItems = setPreview(file);
+    const localItem = newItems[0];
+
     try {
-      // 미리보기 설정
-      thumbnail.handleImageUpload(file);
-
       // 실제 업로드 호출 (서버 전송)
-      const res = await uploadCroppedImage({
-        weddingId,
-        mediaId: mainImageInfo.mediaId,
-        file: file,
-      });
+      const res = await withMinTime(
+        uploadCroppedImage({
+          weddingId,
+          mediaId: mainImageInfo.mediaId,
+          file: file,
+        }),
+        1500
+      );
 
-      // 상태 업데이트
+      // store 상태 업데이트
       updateMainImageInfo(res.data);
 
       // 미리보기 제거
-      thumbnail.clearPreview();
+      removePreviewItem(localItem.id);
     } catch (error) {
       console.error("Error modifying main image");
     }
@@ -128,14 +142,16 @@ const MainImageSection = () => {
   const handleImageRemove = async () => {
     try {
       // 미리보기 제거
-      thumbnail.handleImageRemove();
+      if (singlePreview) {
+        removePreviewItem(singlePreview.id);
+      }
 
       await deleteImage({
         weddingId: weddingId,
         mediaId: mainImageInfo.mediaId,
       });
 
-      // 상태 초기화
+      // store 상태 초기화
       resetMainImageInfo();
 
       // file Input 초기화
@@ -178,11 +194,13 @@ const MainImageSection = () => {
         <ImageAddButton
           previewImage={
             mainImageInfo
-              ? getImagePath(mainImageInfo.originalUrl)
-              : thumbnail.preview
+              ? getImagePath(
+                  mainImageInfo.editedUrl ?? mainImageInfo.originalUrl
+                )
+              : singlePreview?.previewUrl
           }
-          loading={thumbnail.loading}
-          opacity={thumbnail.opacity}
+          loading={singlePreview?.isLoading}
+          opacity={singlePreview?.isLoading ? 0.5 : 1}
           onImageRemove={handleImageRemove}
           id="openImg"
           onCropConfirm={(blob) => handleImageModify(blob)}
