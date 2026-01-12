@@ -69,7 +69,7 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
               <ToggleButton toggle={menu.toggle} isVisble={menu.isVisible} />
               <h3 className="font-medium relative">
                 {menu.label}
-                {menu.isRequired && (
+                {menu.toggle && (
                   <span className="text-[#FE5757] absolute -top-2 -right-4">
                     *
                   </span>

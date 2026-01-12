@@ -2,9 +2,8 @@ export interface InvitationMenuItem {
   id: string; // 고유 아이디
   label: string; // 화면에 표시할 메뉴명
   movable?: boolean; // 순서 변경 가능 여부
-  toggle: boolean; // 토글 고정메뉴 여부
+  toggle: boolean; // 토글 고정메뉴 여부 & 필수 항목
   isVisible: boolean; // 메뉴 보여주는 여부
-  isRequired?: boolean; // 필수 메뉴 여부
 }
 
 export const invitationMenu: InvitationMenuItem[] = [
@@ -14,7 +13,6 @@ export const invitationMenu: InvitationMenuItem[] = [
     movable: false,
     toggle: true,
     isVisible: true,
-    isRequired: true,
   },
   {
     id: "weddingInfo",
@@ -22,31 +20,27 @@ export const invitationMenu: InvitationMenuItem[] = [
     movable: false,
     toggle: true,
     isVisible: true,
-    isRequired: true,
   },
   {
     id: "loadingScreen",
     label: "로딩화면",
     movable: false,
-    toggle: false,
+    toggle: true,
     isVisible: true,
-    isRequired: true,
   },
   {
     id: "mainImage",
     label: "메인 사진",
     movable: false,
-    toggle: false,
+    toggle: true,
     isVisible: true,
-    isRequired: true,
   },
   {
     id: "invitationText",
     label: "초대 문구",
     movable: true,
-    toggle: false,
+    toggle: true,
     isVisible: true,
-    isRequired: true,
   },
   {
     id: "coupleIntro",
@@ -54,7 +48,6 @@ export const invitationMenu: InvitationMenuItem[] = [
     movable: true,
     toggle: false,
     isVisible: true,
-    isRequired: false,
   },
   {
     id: "parentsIntro",
@@ -62,7 +55,6 @@ export const invitationMenu: InvitationMenuItem[] = [
     movable: true,
     toggle: false,
     isVisible: true,
-    isRequired: false,
   },
   {
     id: "gallery",
@@ -77,7 +69,6 @@ export const invitationMenu: InvitationMenuItem[] = [
     movable: true,
     toggle: false,
     isVisible: true,
-    isRequired: false,
   },
   {
     id: "accountInfo",
@@ -85,7 +76,6 @@ export const invitationMenu: InvitationMenuItem[] = [
     movable: true,
     toggle: false,
     isVisible: true,
-    isRequired: false,
   },
   {
     id: "locationInfo",
@@ -93,14 +83,12 @@ export const invitationMenu: InvitationMenuItem[] = [
     movable: true,
     toggle: false,
     isVisible: true,
-    isRequired: false,
   },
   {
     id: "shareThumbnail",
     label: "공유 썸네일",
     movable: false,
-    toggle: true,
+    toggle: false,
     isVisible: true,
-    isRequired: false,
   },
 ];
