@@ -1,13 +1,18 @@
 import { create } from "zustand";
 import { ImageDetailItem } from "../lib/fetches/media/type";
+import { GallerySectionType } from "../lib/fetches/invitation/type";
 
 type GalleryProp = {
   galleryImages: ImageDetailItem[] | null;
-  galleryTitle: string;
+  galleryInfo: GallerySectionType | null;
+
+  setGalleryInfo: (data: GallerySectionType) => void;
+  updateGalleryInfo: <K extends keyof GallerySectionType>(
+    key: K,
+    value: GallerySectionType[K]
+  ) => void;
 
   setGalleryImages: (data: ImageDetailItem[]) => void;
-  setGalleryTitle: (title: string) => void;
-
   addGalleryImages: (images: ImageDetailItem[]) => void;
   updateGalleryImage: (partial: Partial<ImageDetailItem>) => void;
 
@@ -17,14 +22,21 @@ type GalleryProp = {
 
 export const useGalleryStore = create<GalleryProp>((set) => ({
   galleryImages: null,
-  galleryTitle: "",
+  galleryInfo: null,
+
+  setGalleryInfo: (data) => {
+    set({ galleryInfo: data });
+  },
+
+  updateGalleryInfo: (key, value) =>
+    set((state) => ({
+      galleryInfo: state.galleryInfo
+        ? { ...state.galleryInfo, [key]: value }
+        : state.galleryInfo,
+    })),
 
   setGalleryImages: (data) => {
     set({ galleryImages: data });
-  },
-
-  setGalleryTitle: (title) => {
-    set({ galleryTitle: title });
   },
 
   addGalleryImages: (images) =>

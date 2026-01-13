@@ -1,7 +1,9 @@
 import ImageAddBtnIcon from "@/app/assets/images/image-add-btn.svg";
 import ImageAddButton from "@/app/components/ImageAddButton";
+import { GallerySectionType } from "@/app/lib/fetches/invitation/type";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { useImagePreview } from "@/app/lib/hooks/useImagePreview";
+import { useWeddingUpdate } from "@/app/lib/hooks/useWeddingInfoUpdate";
 import {
   deleteImage,
   deleteImageByType,
@@ -20,7 +22,9 @@ import React, { useRef, useState } from "react";
 
 const GallerySection = () => {
   const weddingId = useWeddingIdStore((s) => s.weddingId);
+  const galleryInfo = useGalleryStore((s) => s.galleryInfo);
   const galleryImages = useGalleryStore((s) => s.galleryImages);
+  const updateGalleryInfo = useGalleryStore((s) => s.updateGalleryInfo);
   const addGalleryImages = useGalleryStore((s) => s.addGalleryImages);
   const updateGalleryImage = useGalleryStore((s) => s.updateGalleryImage);
   const removeGalleryImage = useGalleryStore((s) => s.removeGalleryImage);
@@ -38,6 +42,8 @@ const GallerySection = () => {
   });
 
   const [loadingImageId, setLoadingImageId] = useState<number | null>(null);
+  const [localGalleryInfo, setLocalGalleryInfo] =
+    useState<GallerySectionType | null>(() => galleryInfo);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -169,6 +175,15 @@ const GallerySection = () => {
     }
   };
 
+  // 갤러리 제목 업데이트
+  useWeddingUpdate({
+    localState: localGalleryInfo,
+    storeState: galleryInfo,
+    updateStoreField: updateGalleryInfo,
+    sectionId: "gallery",
+    weddingId: weddingId,
+  });
+
   return (
     <div>
       <div className="flex flex-col gap-2.5 w-full">
@@ -177,9 +192,17 @@ const GallerySection = () => {
           <input
             ref={fileInputRef}
             type="text"
-            placeholder="우리의 소중한 순간"
+            value={localGalleryInfo?.title}
+            placeholder="제목을 작성 해주세요. (공백포함 15자 이내)"
             className={`${inputStyle} min-w-20 max-w-[230px]`}
+            maxLength={15}
             id="galleryTitle"
+            onChange={(e) => {
+              setLocalGalleryInfo((prev) => ({
+                ...prev,
+                title: e.target.value,
+              }));
+            }}
           />
         </div>
         <div>
