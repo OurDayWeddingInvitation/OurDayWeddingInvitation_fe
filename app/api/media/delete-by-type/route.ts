@@ -8,24 +8,22 @@ export async function DELETE(req: NextRequest) {
   req.headers.set("Authorization", `Bearer ${token}`);
 
   const weddingId = req.nextUrl.searchParams.get("weddingId");
-  const mediaId = req.nextUrl.searchParams.get("mediaId");
+  const { imageType } = await req.json();
 
   try {
-    if (!weddingId || !mediaId) {
+    if (!weddingId || !imageType) {
       return NextResponse.json({ error: "Missing Data" }, { status: 400 });
     }
 
-    const res = await fetch(
-      `${apiDomain}/weddings/${weddingId}/media/${mediaId}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`${apiDomain}/weddings/${weddingId}/media`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ imageType }),
+      cache: "no-store",
+    });
 
     const result = await res.json();
 

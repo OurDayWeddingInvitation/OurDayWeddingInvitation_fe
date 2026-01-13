@@ -1,15 +1,20 @@
 import ImageAddButton from "@/app/components/ImageAddButton";
-import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
-import React from "react";
+import { useImagePreview } from "@/app/lib/hooks/useImagePreview";
 
 const ParentsIntroSection = () => {
-  const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border rounded-sm text-sm py-1.5 px-1 ";
+  const groomParentsImgHook = useImagePreview({ maxCount: 1 });
+  const brideParentsImgHook = useImagePreview({ maxCount: 1 });
+
+  const inputStyle =
+    "outline-0 flex-1 border-[#E0E0E0] border rounded-sm text-sm py-1.5 px-1 ";
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
-  const couple = ["신랑", "신부"];
-  const groomParents = useImageUpload({ kind: "parents" });
-  const brideParents = useImageUpload({ kind: "parents" });
+
+  const parentsData = [
+    { label: "신랑", hook: groomParentsImgHook },
+    { label: "신부", hook: brideParentsImgHook },
+  ];
 
   return (
     <div>
@@ -28,7 +33,9 @@ const ParentsIntroSection = () => {
           <div className="flex gap-2 flex-1 items-end">
             <textarea
               className={`${inputStyle} m-h-[69px] resize-none max-w-[275px]`}
-              defaultValue={"저희의 시작을 사랑으로 응원해주신 양가 부모님을 소개합니다."}
+              defaultValue={
+                "저희의 시작을 사랑으로 응원해주신 양가 부모님을 소개합니다."
+              }
               placeholder="소개글을 작성해주세요.(공백포함 100자 이내)"
               onChange={(e) => {}}
             />
@@ -38,25 +45,29 @@ const ParentsIntroSection = () => {
           </div>
         </div>
         <div>
-          {couple.map((item, idx) => {
-            const thumbnail = idx === 0 ? groomParents : brideParents;
+          {parentsData.map((data, idx) => {
+            const { label, hook } = data;
+            const { singlePreview, setPreview, removePreviewItem } = hook;
+
             return (
               <div key={idx}>
-                <div className="pb-1.5">{item}측 부모님 사진</div>
-                <p className="text-[12px] text-[#CACACA] pb-7">사진은 최대 30MB까지 업로드 가능합니다.</p>
+                <div className="pb-1.5">{label}측 부모님 사진</div>
+                <p className="text-[12px] text-[#CACACA] pb-7">
+                  사진은 최대 30MB까지 업로드 가능합니다.
+                </p>
                 <input
                   type="file"
                   id={`parentsImg${idx}`}
                   accept="image/*"
-                  onChange={(e) => thumbnail.handleImageUpload(e.target.files?.[0] ?? null)}
+                  onChange={(e) => setPreview(e.target.files?.[0] ?? null)}
                   className="hidden"
                 />
                 <div className={`${idx === 0 && "pb-[38px]"}`}>
                   <ImageAddButton
-                    previewImage={thumbnail.preview}
-                    loading={thumbnail.loading}
-                    opacity={thumbnail.opacity}
-                    onImageRemove={thumbnail.handleImageRemove}
+                    previewImage={singlePreview?.previewUrl}
+                    loading={singlePreview?.isLoading}
+                    opacity={singlePreview?.isLoading ? 0.5 : 1}
+                    onImageRemove={() => removePreviewItem(singlePreview.id)}
                     id={`parentsImg${idx}`}
                   />
                 </div>

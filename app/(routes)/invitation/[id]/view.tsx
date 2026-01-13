@@ -2,12 +2,11 @@
 
 import ToggleImg from "@/app/assets/images/toggle-icon.svg";
 import Header from "@/app/components/Header";
-import {
-  ImageDetail,
-  InvitationDetail,
-} from "@/app/lib/fetches/invitation/type";
+import { InvitationDetail } from "@/app/lib/fetches/invitation/type";
+import { ImageDetail } from "@/app/lib/fetches/media/type";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
+import { useGalleryStore } from "@/app/store/useGalleryStore";
 import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
@@ -39,6 +38,8 @@ export default function InvitationView({
   );
   const setThemeFont = useThemeFontStore((s) => s.setThemeFont);
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
+  const setGalleryTitle = useGalleryStore((s) => s.setGalleryTitle);
+  const setGalleryImages = useGalleryStore((s) => s.setGalleryImages);
 
   useEffect(() => {
     if (weddingId) {
@@ -68,18 +69,31 @@ export default function InvitationView({
     if (invitationDetail?.sections?.locationInfo) {
       setLocationInfo(invitationDetail?.sections?.locationInfo);
     }
+
+    if (invitationDetail?.sections?.gallery) {
+      setGalleryTitle(invitationDetail?.sections?.gallery.title);
+    }
   }, [invitationDetail]);
 
   useEffect(() => {
     // imageType 별로 필요한 값 저장
-    if (imageDetail?.length) {
+    if (imageDetail?.length > 0) {
       const mainImage = imageDetail
         .filter((img) => img.imageType === "mainImage")
         .at(-1);
 
+      const galleryImage = imageDetail.filter(
+        (img) => img.imageType === "galleryImage"
+      );
+
       // 메인 이미지
       if (mainImage) {
         setMainImageInfo(mainImage);
+      }
+
+      // 갤러리 이미지
+      if (galleryImage) {
+        setGalleryImages(galleryImage);
       }
     }
   }, [imageDetail]);

@@ -8,13 +8,21 @@ export async function POST(req: NextRequest) {
   req.headers.set("Authorization", `Bearer ${token}`);
 
   try {
-    const formData = await req.formData();
-    const files = formData.get("file") as File;
-    const weddingId = formData.get("weddingId") as string;
+    const weddingId = req.nextUrl.searchParams.get("weddingId");
 
-    if (!files) {
-      console.error("File not found or invalid");
-      return;
+    const formData = await req.formData();
+    const singleFile = formData.get("file") as File;
+    const multipleFiles = formData.getAll("files") as File[];
+
+    if (!singleFile && multipleFiles.length === 0) {
+      return NextResponse.json(
+        { error: "File not found or invalid" },
+        { status: 400 }
+      );
+    }
+
+    if (!weddingId) {
+      return NextResponse.json({ error: "Missing weddingId" }, { status: 400 });
     }
 
     const res = await fetch(`${apiDomain}/weddings/${weddingId}/media`, {
