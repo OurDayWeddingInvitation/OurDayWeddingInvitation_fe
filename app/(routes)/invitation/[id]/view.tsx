@@ -8,6 +8,7 @@ import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useGalleryStore } from "@/app/store/useGalleryStore";
 import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
+import { useLoadingScreenStore } from "@/app/store/useLoadingScreenStore";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
@@ -40,6 +41,9 @@ export default function InvitationView({
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
   const setGalleryTitle = useGalleryStore((s) => s.setGalleryTitle);
   const setGalleryImages = useGalleryStore((s) => s.setGalleryImages);
+  const setLoadingScreenStyle = useLoadingScreenStore(
+    (s) => s.setLoadingScreenStyle
+  );
 
   useEffect(() => {
     if (weddingId) {
@@ -72,6 +76,10 @@ export default function InvitationView({
 
     if (invitationDetail?.sections?.gallery) {
       setGalleryTitle(invitationDetail?.sections?.gallery.title);
+    }
+
+    if (invitationDetail?.sections?.loadingScreen) {
+      setLoadingScreenStyle(invitationDetail?.sections?.loadingScreen);
     }
   }, [invitationDetail]);
 
