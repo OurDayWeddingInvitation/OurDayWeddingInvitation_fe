@@ -38,7 +38,7 @@ export default function InvitationView({
   );
   const setThemeFont = useThemeFontStore((s) => s.setThemeFont);
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
-  const setGalleryTitle = useGalleryStore((s) => s.setGalleryTitle);
+  const setGalleryInfo = useGalleryStore((s) => s.setGalleryInfo);
   const setGalleryImages = useGalleryStore((s) => s.setGalleryImages);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function InvitationView({
     }
 
     if (invitationDetail?.sections?.gallery) {
-      setGalleryTitle(invitationDetail?.sections?.gallery.title);
+      setGalleryInfo(invitationDetail?.sections?.gallery);
     }
   }, [invitationDetail]);
 
