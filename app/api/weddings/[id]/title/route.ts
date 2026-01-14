@@ -1,25 +1,36 @@
+import { getToken } from "@/app/lib/auth/token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { weddingId: string } }
+  { params }: { params: { id: string } }
 ) {
+  const apiDomain = process.env.API_DOMAIN;
+  const token = await getToken(req);
+
+  req.headers.set("Authorization", `Bearer ${token}`);
+
+  const { title } = await req.json();
+
   try {
-    const body = await req.json();
-    const { title } = body;
+    const data = await fetch(`${apiDomain}/weddings/${params.id}/title`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: req.headers.get("authorization") ?? "",
+      },
+      body: JSON.stringify({ title: title }),
+      cache: "no-store",
+    });
 
-    if (!title) {
-      return NextResponse.json(
-        { message: "title is required" },
-        { status: 400 }
-      );
-    }
+    const json = await data.json();
 
-    return NextResponse.json(
-      { message: "청첩장 제목 수정 완료", title },
-      { status: 200 }
-    );
+    return NextResponse.json(data, { status: 200 });
   } catch (e) {
-    return NextResponse.json({ message: "서버 오류" }, { status: 500 });
+    console.error(e);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

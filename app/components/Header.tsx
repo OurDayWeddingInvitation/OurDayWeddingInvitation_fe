@@ -7,6 +7,8 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useWeddingIdStore } from "../store/useWeddingIdStore";
 import { clientFetchApi } from "../lib/fetches/client";
+import Link from "next/link";
+import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
 
 type Props = {
   showTitle?: boolean;
@@ -20,17 +22,22 @@ export default function Header({
   showSaveText = false,
 }: Props) {
   const loadingState = loadingStore((s) => s.loading);
-  const [title, setTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const { weddingId } = useWeddingIdStore();
-
+  const weddingInfoTitle = useWeddingTitleStore((s) => s.weddingInfoTitle);
+  const setWeddingTitle = useWeddingTitleStore((s) => s.setWeddingInfoTitle);
   const handleSave = async () => {
-    setIsEditing(false);
+    if (!weddingInfoTitle) {
+      setIsEditing(false);
+      return;
+    }
 
     await clientFetchApi({
       endPoint: `/weddings/${weddingId}/title`,
       method: "PATCH",
-      body: { title },
+      body: {
+        title: weddingInfoTitle,
+      },
     });
   };
 
@@ -39,7 +46,9 @@ export default function Header({
       <div className="max-w-[1200px] flex justify-between items-center m-auto px-2.5 h-full">
         <div className="flex gap-3 items-center">
           {/* 로고 */}
-          <div className="font-black text-3xl">OurDay</div>
+          <Link href="/dashboard" className="font-black text-3xl">
+            OurDay
+          </Link>
           {showSaveText && (
             <>
               <Image
@@ -61,19 +70,19 @@ export default function Header({
               {isEditing ? (
                 <input
                   autoFocus
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={weddingInfoTitle}
+                  onChange={(e) => setWeddingTitle(e.target.value)}
                   onBlur={handleSave}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") handleSave();
                   }}
-                  className="font-medium text-xl text-center border-b border-gray-300 focus:outline-none"
+                  className="font-medium text-center border-b border-gray-300 focus:outline-none"
                 />
               ) : (
                 <>
-                  <div className="font-medium ">{title}</div>
+                  <div className="font-medium">{weddingInfoTitle}</div>
                   <Pencil
-                    size={16}
+                    size={15}
                     className="absolute -top-2 -right-6 cursor-pointer opacity-70 hover:opacity-100"
                     onClick={() => setIsEditing(true)}
                   />
