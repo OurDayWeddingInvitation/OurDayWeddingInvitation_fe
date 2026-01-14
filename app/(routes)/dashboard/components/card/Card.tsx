@@ -20,8 +20,6 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
         method: "POST",
       });
     }
-
-    router.refresh();
   };
 
   const handleDeleteInvitation = async () => {
