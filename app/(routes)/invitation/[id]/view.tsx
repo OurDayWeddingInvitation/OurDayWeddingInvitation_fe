@@ -11,6 +11,7 @@ import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore
 import { useLoadingScreenStore } from "@/app/store/useLoadingScreenStore";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
+import { useParentsIntroStore } from "@/app/store/useParentsIntroStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
@@ -44,20 +45,23 @@ export default function InvitationView({
   const setLoadingScreenStyle = useLoadingScreenStore(
     (s) => s.setLoadingScreenStyle
   );
+  const setParentsIntroInfo = useParentsIntroStore(
+    (s) => s.setParentsIntroInfo
+  );
+  const setParentsImageInfo = useParentsIntroStore(
+    (s) => s.setParentsImageInfo
+  );
 
   useEffect(() => {
     if (weddingId) {
       setWeddingId(weddingId);
     }
-
     if (invitationDetail?.sections?.weddingInfo) {
       setWeddingInfo(invitationDetail?.sections?.weddingInfo);
     }
-
     if (invitationDetail?.sections?.main) {
       setMainStyleKind(invitationDetail?.sections?.main.posterStyle);
     }
-
     if (invitationDetail?.sections?.familyInfo) {
       setFamilyInfo(invitationDetail?.sections?.familyInfo);
     }
@@ -73,13 +77,14 @@ export default function InvitationView({
     if (invitationDetail?.sections?.locationInfo) {
       setLocationInfo(invitationDetail?.sections?.locationInfo);
     }
-
     if (invitationDetail?.sections?.gallery) {
       setGalleryInfo(invitationDetail?.sections?.gallery);
     }
-
     if (invitationDetail?.sections?.loadingScreen) {
       setLoadingScreenStyle(invitationDetail?.sections?.loadingScreen);
+    }
+    if (invitationDetail?.sections?.parentsIntro) {
+      setParentsIntroInfo(invitationDetail?.sections?.parentsIntro);
     }
   }, [invitationDetail]);
 
@@ -89,19 +94,30 @@ export default function InvitationView({
       const mainImage = imageDetail
         .filter((img) => img.imageType === "mainImage")
         .at(-1);
-
       const galleryImage = imageDetail.filter(
         (img) => img.imageType === "galleryImage"
+      );
+      const groomParentsImage = imageDetail.find(
+        (img) => img.imageType === "groomParentsImage"
+      );
+      const brideParentsImage = imageDetail.find(
+        (img) => img.imageType === "brideParentsImage"
       );
 
       // 메인 이미지
       if (mainImage) {
         setMainImageInfo(mainImage);
       }
-
       // 갤러리 이미지
       if (galleryImage) {
         setGalleryImages(galleryImage);
+      }
+      // 부모님 이미지
+      if (groomParentsImage || brideParentsImage) {
+        setParentsImageInfo({
+          groomParentsImage,
+          brideParentsImage,
+        });
       }
     }
   }, [imageDetail]);
