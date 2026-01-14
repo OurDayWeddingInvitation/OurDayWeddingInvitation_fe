@@ -5,8 +5,8 @@ import React from "react";
 const CoupleIntro = () => {
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
-  const groomName = weddingInfo?.groomLastName + weddingInfo?.groomFirstName;
-  const brideName = weddingInfo?.brideLastName + weddingInfo?.brideFirstName;
+  const groomName = `${weddingInfo?.groomLastName} ${weddingInfo?.groomFirstName}`;
+  const brideName = `${weddingInfo?.brideLastName} ${weddingInfo?.brideFirstName}`;
   return (
     <div
       className="py-10"
