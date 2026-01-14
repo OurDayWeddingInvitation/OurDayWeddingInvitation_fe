@@ -16,26 +16,16 @@ const FamilyWeddingInfo = () => {
 
   const groomBlock = (
     <FamilyWeddingInfoCoupleCard
-      fatherName={familyInfo?.groomFatherName}
-      motherName={familyInfo?.groomMotherName}
-      fatherDeceased={familyInfo?.groomFatherDeceased}
-      motherDeceased={familyInfo?.groomMotherDeceased}
-      groomMotherDeceased={familyInfo?.groomMotherDeceased}
-      brideMotherDeceased={familyInfo?.brideMotherDeceased}
-      role="아들"
+      type="groom"
+      familyInfo={familyInfo}
       childName={groomName}
     />
   );
 
   const brideBlock = (
     <FamilyWeddingInfoCoupleCard
-      fatherName={familyInfo?.brideFatherName}
-      motherName={familyInfo?.brideMotherName}
-      fatherDeceased={familyInfo?.brideFatherDeceased}
-      motherDeceased={familyInfo?.brideMotherDeceased}
-      groomMotherDeceased={familyInfo?.groomMotherDeceased}
-      brideMotherDeceased={familyInfo?.brideMotherDeceased}
-      role="딸"
+      type="bride"
+      familyInfo={familyInfo}
       childName={brideName}
     />
   );
