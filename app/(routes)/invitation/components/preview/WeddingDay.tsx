@@ -9,13 +9,15 @@ const WeddingDay = () => {
   const today = new Date();
 
   const selectedYear = Number(weddingInfo?.weddingYear ?? today.getFullYear());
-  const selectedMonth = Number(weddingInfo?.weddingMonth ?? today.getMonth());
+  const selectedMonth = Number(
+    weddingInfo?.weddingMonth ?? today.getMonth() + 1
+  );
   const selectedDay = Number(weddingInfo?.weddingDay ?? today.getDate());
 
   const date = new Date(
     Date.UTC(
       Number(weddingInfo?.weddingYear ?? today.getFullYear()),
-      Number(weddingInfo?.weddingMonth ?? today.getMonth()) - 1,
+      Number(weddingInfo?.weddingMonth ?? today.getMonth() + 1) - 1,
       Number(weddingInfo?.weddingDay ?? today.getDate())
     )
   );
