@@ -1,7 +1,5 @@
-import {
-  ImageDetail,
-  InvitationDetail,
-} from "@/app/lib/fetches/invitation/type";
+import { InvitationDetail } from "@/app/lib/fetches/invitation/type";
+import { ImageDetail } from "@/app/lib/fetches/media/type";
 import { fetchApi } from "@/app/lib/fetches/server";
 import { ApiResponseType } from "@/app/lib/fetches/type";
 import InvitationView from "./view";

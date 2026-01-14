@@ -10,7 +10,7 @@ const Mainstyle1 = ({
 }: {
   weddingInfo?: WeddingInfoSectionType;
 }) => {
-  const { mainImageInfo } = useMainImageStore();
+  const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
 
   const [weddingDayOfWeek, setWeddingDayOfWeek] = useState<string>("");
   const [weddingDayOfWeekEng, setWeddingDayOfWeekEng] = useState<string>("");
@@ -96,7 +96,11 @@ const Mainstyle1 = ({
         </div>
         {mainImageInfo ? (
           <img
-            src={getImagePath(mainImageInfo.originalUrl)}
+            src={
+              mainImageInfo.editedUrl
+                ? getImagePath(mainImageInfo.editedUrl)
+                : getImagePath(mainImageInfo.originalUrl)
+            }
             alt="메인 이미지2"
             className="py-[22px] h-[760px] object-cover"
           />

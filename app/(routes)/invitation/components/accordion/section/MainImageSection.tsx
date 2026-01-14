@@ -7,9 +7,17 @@ import CheckButton from "@/app/components/CheckButton";
 import ImageAddButton from "@/app/components/ImageAddButton";
 import { clientFetchApi } from "@/app/lib/fetches/client";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
-import { useImageUpload } from "@/app/lib/hooks/useImageUpload";
-import { deleteImage, uploadCroppedImage, uploadImage } from "@/app/lib/utils/api";
-import { getImagePath } from "@/app/lib/utils/functions";
+import { useImagePreview } from "@/app/lib/hooks/useImagePreview";
+import {
+  deleteImage,
+  uploadCroppedImage,
+  uploadImage,
+} from "@/app/lib/utils/api";
+import {
+  blobToFile,
+  getImagePath,
+  withMinTime,
+} from "@/app/lib/utils/functions";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import Image from "next/image";
@@ -23,73 +31,135 @@ type mainStyleItem = {
 };
 
 const MainImageSection = () => {
-  const thumbnail = useImageUpload({ kind: "main" });
+  const weddingId = useWeddingIdStore((s) => s.weddingId);
+  const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
+  const mainStyleKind = useMainImageStore((s) => s.mainStyleKind);
+  const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
+  const updateMainImageInfo = useMainImageStore((s) => s.updateMainImageInfo);
+  const resetMainImageInfo = useMainImageStore((s) => s.resetMainImageInfo);
+
+  const { singlePreview, setPreview, removePreviewItem } = useImagePreview({
+    maxCount: 1,
+  });
   const { getCompressedImage } = useCompressImageUpload();
-  const { weddingId } = useWeddingIdStore();
-  const { mainImageInfo, mainStyleKind, setMainStyleKind } = useMainImageStore();
+
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const mainStyleArr = [
     { title: "mainStyle1", url: MainStyle1 },
     { title: "mainStyle2", url: MainStyle2 },
-    { title: "mainStyle3", url: MainStyle3 }
+    { title: "mainStyle3", url: MainStyle3 },
   ];
 
   const handleClick = async (item: mainStyleItem, idx: number) => {
-    const nextIdx = selectedIdx === idx ? null : idx;
+    try {
+      const nextIdx = selectedIdx === idx ? null : idx;
 
-    setSelectedIdx(nextIdx);
-    setMainStyleKind(nextIdx === null ? "" : item.title);
+      setSelectedIdx(nextIdx);
+      setMainStyleKind(nextIdx === null ? "" : item.title);
 
-    await clientFetchApi({
-      endPoint: `/weddings/update`,
-      method: "PATCH",
-      body: {
-        weddingId: weddingId,
-        sectionId: "main",
-        updated: { posterStyle: item.title }
-      }
-    });
+      await clientFetchApi({
+        endPoint: `/weddings/update`,
+        method: "PATCH",
+        body: {
+          weddingId: weddingId,
+          sectionId: "main",
+          updated: { posterStyle: item.title },
+        },
+      });
+    } catch (error) {
+      console.error("Error updating main style kind");
+    }
   };
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 이미지 업로드
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    const compressedFile = await getCompressedImage(file);
 
-    if (!compressedFile) return;
+    try {
+      const compressedFile = await getCompressedImage(file);
 
-    // 1) 이미지 이미 있는 경우 삭제
-    if (mainImageInfo && mainImageInfo.mediaId) {
+      if (!compressedFile) return;
+
+      // 미리보기 설정
+      const newItems = setPreview(compressedFile);
+      const localItem = newItems[0];
+
+      // 실제 업로드 호출 (서버 전송)
+      const res = await withMinTime(
+        uploadImage({
+          weddingId: weddingId,
+          file: compressedFile,
+          imageType: "mainImage",
+          displayOrder: 1,
+        }),
+        1500
+      );
+
+      // store 상태 업데이트
+      updateMainImageInfo(res.data);
+
+      // 미리보기 제거
+      removePreviewItem(localItem.id);
+    } catch (error) {
+      console.error("Error uploading main image");
+    }
+  };
+
+  // 이미지 수정
+  const handleImageModify = async (blob: Blob) => {
+    const file = blobToFile(blob);
+
+    if (!file) return;
+
+    // 미리보기 설정
+    const newItems = setPreview(file);
+    const localItem = newItems[0];
+
+    try {
+      // 실제 업로드 호출 (서버 전송)
+      const res = await withMinTime(
+        uploadCroppedImage({
+          weddingId,
+          mediaId: mainImageInfo.mediaId,
+          file: file,
+        }),
+        1500
+      );
+
+      // store 상태 업데이트
+      updateMainImageInfo(res.data);
+
+      // 미리보기 제거
+      removePreviewItem(localItem.id);
+    } catch (error) {
+      console.error("Error modifying main image");
+    }
+  };
+
+  // 이미지 제거
+  const handleImageRemove = async () => {
+    try {
+      // 미리보기 제거
+      if (singlePreview) {
+        removePreviewItem(singlePreview.id);
+      }
+
       await deleteImage({
         weddingId: weddingId,
-        mediaId: mainImageInfo.mediaId
+        mediaId: mainImageInfo.mediaId,
       });
-    }
 
-    // 2) 실제 업로드 호출 (서버 전송)
-    const res = await uploadImage({
-      weddingId: weddingId,
-      file: compressedFile,
-      imageType: "mainImage",
-      displayOrder: 1
-    });
+      // store 상태 초기화
+      resetMainImageInfo();
 
-    // 3) 미리보기는 훅에서 처리
-    thumbnail.handleImageUpload(file, res.data);
-  };
-
-  const handleImageRemove = async () => {
-    thumbnail.handleImageRemove();
-
-    await deleteImage({
-      weddingId: weddingId,
-      mediaId: mainImageInfo.mediaId
-    });
-
-    // file Input 초기화
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      // file Input 초기화
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (error) {
+      console.error("Error removing main image");
     }
   };
 
@@ -100,7 +170,9 @@ const MainImageSection = () => {
       return;
     }
 
-    const foundIndex = mainStyleArr.findIndex((item) => item.title === mainStyleKind);
+    const foundIndex = mainStyleArr.findIndex(
+      (item) => item.title === mainStyleKind
+    );
 
     if (foundIndex !== -1) {
       setSelectedIdx(foundIndex);
@@ -111,20 +183,27 @@ const MainImageSection = () => {
     <div>
       <h3 className="text-[15px] py-3.5">대문 사진</h3>
       <div className="flex gap-2.5">
-        <input type="file" id="openImg" accept="image/*" onChange={(e) => handleImageChange(e)} className="hidden" ref={fileInputRef} />
+        <input
+          type="file"
+          id="openImg"
+          accept="image/*"
+          onChange={(e) => handleImageUpload(e)}
+          className="hidden"
+          ref={fileInputRef}
+        />
         <ImageAddButton
-          previewImage={mainImageInfo ? getImagePath(mainImageInfo.originalUrl) : thumbnail.preview}
-          loading={thumbnail.loading}
-          opacity={thumbnail.opacity}
+          previewImage={
+            mainImageInfo
+              ? getImagePath(
+                  mainImageInfo.editedUrl ?? mainImageInfo.originalUrl
+                )
+              : singlePreview?.previewUrl
+          }
+          loading={singlePreview?.isLoading}
+          opacity={singlePreview?.isLoading ? 0.5 : 1}
           onImageRemove={handleImageRemove}
           id="openImg"
-          onCropConfirm={async (blob) => {
-            await uploadCroppedImage({
-              weddingId,
-              mediaId: mainImageInfo.mediaId,
-              file: blob
-            });
-          }}
+          onCropConfirm={(blob) => handleImageModify(blob)}
         />
       </div>
 

@@ -9,7 +9,7 @@ const Mainstyle3 = ({
 }: {
   weddingInfo?: WeddingInfoSectionType;
 }) => {
-  const { mainImageInfo } = useMainImageStore();
+  const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
   const groomName = `${weddingInfo?.groomLastName ?? ""}${
     weddingInfo?.groomFirstName ?? ""
   }`;
@@ -26,7 +26,11 @@ const Mainstyle3 = ({
       >
         {mainImageInfo ? (
           <img
-            src={getImagePath(mainImageInfo.originalUrl)}
+            src={
+              mainImageInfo.editedUrl
+                ? getImagePath(mainImageInfo.editedUrl)
+                : getImagePath(mainImageInfo.originalUrl)
+            }
             alt="메인 이미지"
             className="h-[760px] object-cover"
           />
