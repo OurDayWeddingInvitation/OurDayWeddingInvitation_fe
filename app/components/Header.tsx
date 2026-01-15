@@ -3,6 +3,8 @@
 import Image from "next/image";
 import SaveTemporaryIcon from "../assets/images/save-temporary.png";
 import { loadingStore } from "../store/useLoadingStore";
+import Spinner from "@/app/assets/images/loader.svg";
+import { FadeSpinner } from "./common/Spinner";
 
 type Props = {
   showTitle?: boolean;
@@ -26,7 +28,9 @@ export default function Header({
             <div className="flex items-center gap-2">
               {loadingState ? (
                 <>
-                  <Spinner />
+                  <div className="h-6 w-6">
+                    <FadeSpinner />
+                  </div>
                   <div className="text-sm text-[#CACACA]">임시저장중</div>
                 </>
               ) : (
@@ -62,9 +66,3 @@ export default function Header({
     </header>
   );
 }
-
-const Spinner = () => {
-  return (
-    <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#CACACA] border-t-transparent" />
-  );
-};
