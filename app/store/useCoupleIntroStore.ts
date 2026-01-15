@@ -12,10 +12,12 @@ type CoupleIntroProp = {
   };
 
   setCoupleIntroInfo: (data: CoupleIntroSectionType) => void;
-  setCoupleImageInfo: (data: {
-    groomImage: ImageDetailItem | null;
-    brideImage: ImageDetailItem | null;
-  }) => void;
+  setCoupleImageInfo: (
+    data: Partial<{
+      groomImage: ImageDetailItem | null;
+      brideImage: ImageDetailItem | null;
+    }>
+  ) => void;
 
   updateCoupleIntroInfo: (partial: Partial<CoupleIntroSectionType>) => void;
   updateCoupleImageInfo: (
@@ -36,7 +38,13 @@ export const useCoupleIntroStore = create<CoupleIntroProp>((set) => ({
   },
 
   setCoupleIntroInfo: (data) => set({ coupleIntroInfo: data }),
-  setCoupleImageInfo: (data) => set({ coupleImageInfo: data }),
+  setCoupleImageInfo: (data) =>
+    set({
+      coupleImageInfo: {
+        groomImage: data.groomImage ?? null,
+        brideImage: data.brideImage ?? null,
+      },
+    }),
 
   updateCoupleIntroInfo: (partial) =>
     set((state) => ({

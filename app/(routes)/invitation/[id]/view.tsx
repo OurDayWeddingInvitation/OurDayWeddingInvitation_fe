@@ -117,12 +117,10 @@ export default function InvitationView({
       }
 
       // 신랑 신부 이미지
-      if (groomImage || brideImage) {
-        setCoupleImageInfo({
-          groomImage: groomImage,
-          brideImage: brideImage,
-        });
-      }
+      setCoupleImageInfo({
+        groomImage: groomImage,
+        brideImage: brideImage,
+      });
     }
   }, [imageDetail]);
 
