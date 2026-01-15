@@ -25,7 +25,7 @@ export async function PATCH(
 
     const json = await data.json();
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(json, { status: 200 });
   } catch (e) {
     console.error(e);
     return NextResponse.json(
