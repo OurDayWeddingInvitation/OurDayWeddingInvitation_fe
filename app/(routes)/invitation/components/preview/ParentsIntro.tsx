@@ -10,6 +10,26 @@ const ParentsInfo = () => {
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
   const groomName = weddingInfo?.groomFirstName;
   const brideName = weddingInfo?.brideFirstName;
+  const isGroomFirst = weddingInfo?.nameOrderType === "G";
+  const parents = [
+    {
+      key: "groom",
+      label: "신랑",
+      labelColor: "#A9BBD2",
+      childName: groomName,
+      father: familyInfo?.groomFatherName,
+      mother: familyInfo?.groomMotherName,
+    },
+    {
+      key: "bride",
+      label: "신부",
+      labelColor: "#e6a5da",
+      childName: brideName,
+      father: familyInfo?.brideFatherName,
+      mother: familyInfo?.brideMotherName,
+    },
+  ];
+  const orderedParents = isGroomFirst ? parents : [...parents].reverse();
   return (
     <div
       className="py-10"
@@ -29,32 +49,23 @@ const ParentsInfo = () => {
         </div>
 
         <div className="flex justify-center gap-2.5">
-          <div className="flex flex-col items-center">
-            {/* 이미지 들어갈 곳 */}
-            <div className="w-[145px] h-[145px] bg-[#D9D9D9] rounded-[10px]"></div>
-            <div className="flex gap-2.5 justify-center items-center py-2.5 text-[12px]">
-              <span className="text-[#A9BBD2]">신랑</span>
-              <span>{groomName}의 부모님</span>
+          {orderedParents.map((p) => (
+            <div key={p.key} className="flex flex-col items-center">
+              {/* 이미지 자리 */}
+              <div className="w-[145px] h-[145px] bg-[#D9D9D9] rounded-[10px]" />
+
+              <div className="flex gap-2.5 justify-center items-center py-2.5 text-[12px]">
+                <span style={{ color: p.labelColor }}>{p.label}</span>
+                <span>{p.childName}의 부모님</span>
+              </div>
+
+              <p className="py-5 flex items-center gap-1">
+                <span>{p.father}</span>
+                <Heart color="#E58989" fill="#E58989" size={18} />
+                <span>{p.mother}</span>
+              </p>
             </div>
-            <p className="py-5 flex items-center">
-              <span>{familyInfo?.groomFatherName}</span>
-              <Heart color="#E58989" fill="#E58989" size={18} />
-              <span>{familyInfo?.groomMotherName}</span>
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            {/* 이미지 들어갈 곳 */}
-            <div className="w-[145px] h-[145px] bg-[#D9D9D9] rounded-[10px]"></div>
-            <div className="flex gap-2.5 justify-center items-center py-2.5 text-[12px]">
-              <span className="text-[#A9BBD2]">신부</span>
-              <span>{brideName}의 부모님</span>
-            </div>
-            <p className="py-5 flex items-center">
-              <span>{familyInfo?.brideFatherName}</span>
-              <Heart color="#E58989" fill="#E58989" size={18} />
-              <span>{familyInfo?.brideMotherName}</span>
-            </p>
-          </div>
+          ))}
         </div>
       </div>
     </div>
