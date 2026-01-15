@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useWeddingIdStore } from "../store/useWeddingIdStore";
 import { clientFetchApi } from "../lib/fetches/client";
 import Link from "next/link";
-import { useWeddingTitleUpdate } from "@/app/lib/hooks/useWeddingTitleUpdate";
 import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
 
 import { FadeSpinner } from "./common/Spinner";
@@ -29,7 +28,6 @@ export default function Header({
   const weddingId = useWeddingIdStore((s) => s.weddingId);
   const weddingInfoTitle = useWeddingTitleStore((s) => s.weddingInfoTitle);
   const setWeddingTitle = useWeddingTitleStore((s) => s.setWeddingInfoTitle);
-  const [titleInfo, setTitleInfo] = useState(() => weddingInfoTitle);
 
   const handleSave = async () => {
     if (!weddingInfoTitle.trim()) {
@@ -48,12 +46,6 @@ export default function Header({
     setIsEditing(false);
   };
 
-  useWeddingTitleUpdate(
-    titleInfo,
-    weddingInfoTitle,
-    setWeddingTitle,
-    weddingId
-  );
   return (
     <header className="bg-[#FFFFFF] h-17.5 fixed w-full z-9999 border-b-[#CACACA] border-b">
       <div className="max-w-[1200px] flex justify-between items-center m-auto px-2.5 h-full">
@@ -99,6 +91,7 @@ export default function Header({
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleSave();
+                      setIsEditing(false);
                     }
                   }}
                   className="font-medium text-center border-b border-gray-300 focus:outline-none"
