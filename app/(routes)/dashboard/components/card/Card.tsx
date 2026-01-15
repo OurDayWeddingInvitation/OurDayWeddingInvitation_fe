@@ -4,14 +4,17 @@ import LetterImg from "@/app/assets/images/letter.png";
 import { clientFetchApi } from "@/app/lib/fetches/client";
 import { Invitation } from "@/app/lib/fetches/invitation/type";
 import { getImagePath } from "@/app/lib/utils/functions";
+import { useWeddingTitleStore } from "@/app/store/useWeddingTitleStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Card({ invitation }: { invitation?: Invitation }) {
   const router = useRouter();
+  const setWeddingTitle = useWeddingTitleStore((s) => s.setWeddingInfoTitle);
 
   const handleGoInvitation = async () => {
     if (invitation) {
+      setWeddingTitle(invitation?.weddingTitle ?? "");
       router.push(`/invitation/${invitation.weddingId}`);
     } else {
       await clientFetchApi({
