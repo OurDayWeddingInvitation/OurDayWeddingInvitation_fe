@@ -7,6 +7,7 @@ import { getImagePath } from "@/app/lib/utils/functions";
 import { useWeddingTitleStore } from "@/app/store/useWeddingTitleStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Trash2 } from "lucide-react";
 
 export default function Card({ invitation }: { invitation?: Invitation }) {
   const router = useRouter();
@@ -24,11 +25,32 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
     }
   };
 
+  const handleDeleteInvitation = async () => {
+    if (!invitation?.weddingId) return;
+
+    await clientFetchApi({
+      endPoint: `/weddings/${invitation.weddingId}`,
+      method: "DELETE",
+    });
+
+    router.refresh();
+  };
+
   return (
     <div className="flex flex-col gap-1">
-      <p className="pl-3 text-sm text-[#CACACA] min-h-5">
-        {invitation?.weddingTitle ?? ""}
-      </p>
+      <div className="flex justify-between">
+        <p className="pl-3 text-sm text-[#CACACA] min-h-5">
+          {invitation?.weddingTitle ?? ""}
+        </p>
+        {invitation && (
+          <Trash2
+            color="#CACACA"
+            className="cursor-pointer"
+            onClick={handleDeleteInvitation}
+          />
+        )}
+      </div>
+
       <div className="relative flex flex-col items-center justify-end w-62.5 h-100 overflow-hidden bg-white rounded-2xl border border-[#C8C8C8] pb-6 shadow-[2px_4px_4px_0px_#0000001A]">
         {!invitation ? (
           <>
