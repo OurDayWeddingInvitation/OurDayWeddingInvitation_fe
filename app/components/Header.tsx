@@ -8,7 +8,9 @@ import { useState } from "react";
 import { useWeddingIdStore } from "../store/useWeddingIdStore";
 import { clientFetchApi } from "../lib/fetches/client";
 import Link from "next/link";
+import { useWeddingTitleUpdate } from "@/app/lib/hooks/useWeddingTitleUpdate";
 import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
+
 import { FadeSpinner } from "./common/Spinner";
 
 type Props = {
@@ -24,11 +26,13 @@ export default function Header({
 }: Props) {
   const loadingState = loadingStore((s) => s.loading);
   const [isEditing, setIsEditing] = useState(false);
-  const { weddingId } = useWeddingIdStore();
+  const weddingId = useWeddingIdStore((s) => s.weddingId);
   const weddingInfoTitle = useWeddingTitleStore((s) => s.weddingInfoTitle);
   const setWeddingTitle = useWeddingTitleStore((s) => s.setWeddingInfoTitle);
+  const [titleInfo, setTitleInfo] = useState(() => weddingInfoTitle);
+
   const handleSave = async () => {
-    if (!weddingInfoTitle) {
+    if (!weddingInfoTitle.trim()) {
       setIsEditing(false);
       return;
     }
@@ -40,8 +44,16 @@ export default function Header({
         title: weddingInfoTitle,
       },
     });
+
+    setIsEditing(false);
   };
 
+  useWeddingTitleUpdate(
+    titleInfo,
+    weddingInfoTitle,
+    setWeddingTitle,
+    weddingId
+  );
   return (
     <header className="bg-[#FFFFFF] h-17.5 fixed w-full z-9999 border-b-[#CACACA] border-b">
       <div className="max-w-[1200px] flex justify-between items-center m-auto px-2.5 h-full">
@@ -85,7 +97,10 @@ export default function Header({
                   onChange={(e) => setWeddingTitle(e.target.value)}
                   onBlur={handleSave}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") handleSave();
+                    if (e.key === "Enter") {
+                      handleSave();
+                      setIsEditing(false);
+                    }
                   }}
                   className="font-medium text-center border-b border-gray-300 focus:outline-none"
                 />
