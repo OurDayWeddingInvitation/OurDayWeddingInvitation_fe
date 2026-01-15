@@ -3,6 +3,8 @@
 import Image from "next/image";
 import SaveTemporaryIcon from "../assets/images/save-temporary.png";
 import { loadingStore } from "../store/useLoadingStore";
+import Spinner from "@/app/assets/images/loader.svg";
+import { FadeSpinner } from "./common/Spinner";
 
 type Props = {
   showTitle?: boolean;
@@ -21,19 +23,28 @@ export default function Header({
     <header className="bg-[#FFFFFF] h-17.5 fixed w-full z-9999">
       <div className="max-w-[1200px] flex justify-between items-center m-auto px-2.5 h-full">
         <div className="flex gap-3 items-center">
-          {/* 로고 */}
           <div className="font-black text-3xl">OurDay</div>
           {showSaveText && (
-            <>
-              <Image
-                src={SaveTemporaryIcon}
-                alt="임시저장아이콘"
-                className="h-full"
-              />
-              <div className="text-[#CACACA]">
-                {loadingState ? "임시저장중" : "임시저장 완료"}
-              </div>
-            </>
+            <div className="flex items-center gap-2">
+              {loadingState ? (
+                <>
+                  <div className="h-6 w-6">
+                    <FadeSpinner />
+                  </div>
+                  <div className="text-sm text-[#CACACA]">임시저장중</div>
+                </>
+              ) : (
+                <>
+                  <Image
+                    key="save-done"
+                    src={SaveTemporaryIcon}
+                    alt="임시저장 완료"
+                    className="h-6 w-6 animate-[save-pop_0.5s_ease-out]"
+                  />
+                  <div className="text-sm text-[#CACACA]">임시저장 완료</div>
+                </>
+              )}
+            </div>
           )}
         </div>
 
