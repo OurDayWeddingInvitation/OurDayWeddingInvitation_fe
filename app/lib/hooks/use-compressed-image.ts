@@ -19,6 +19,16 @@ import imageCompression from "browser-image-compression";
  */
 export const useCompressImageUpload = () => {
   const getCompressedImage = useCallback(async (imgTarget: File) => {
+    // SVG 파일은 압축하지 않고 바로 반환
+    if (imgTarget.type === "image/svg+xml") {
+      return imgTarget;
+    }
+
+    // GIF 파일은 압축하지 않고 바로 반환
+    if (imgTarget.type === "image/gif") {
+      return imgTarget;
+    }
+
     try {
       const compressedFile = await imageCompression(imgTarget, {
         maxSizeMB: 2,
