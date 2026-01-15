@@ -19,14 +19,18 @@ import imageCompression from "browser-image-compression";
  */
 export const useCompressImageUpload = () => {
   const getCompressedImage = useCallback(async (imgTarget: File) => {
-    // SVG 파일은 압축하지 않고 바로 반환
-    if (imgTarget.type === "image/svg+xml") {
-      return imgTarget;
+    // 파일 형식 체크 (JPEG, PNG, WEBP)
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(imgTarget.type)) {
+      alert("유효하지 않은 파일 형식입니다.");
+      return null;
     }
 
-    // GIF 파일은 압축하지 않고 바로 반환
-    if (imgTarget.type === "image/gif") {
-      return imgTarget;
+    // 용량 체크 (30MB 이하)
+    const maxSize = 30 * 1024 * 1024; // 30MB
+    if (imgTarget.size > maxSize) {
+      alert("파일 크기는 30MB 이하여야 합니다.");
+      return null;
     }
 
     try {
@@ -39,8 +43,7 @@ export const useCompressImageUpload = () => {
       return compressedFile;
     } catch (error) {
       console.log("[getFileToUpload] 이미지 업로드 처리 중 오류 발생: ", error);
-
-      return null;
+      return imgTarget;
     }
   }, []);
 
