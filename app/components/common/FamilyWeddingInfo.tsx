@@ -6,8 +6,6 @@ import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 const FamilyWeddingInfo = () => {
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
   const familyInfo = useFamilyInfoStore((s) => s.familyInfo);
-  // const groomName = weddingInfo?.groomLastName + weddingInfo?.groomFirstName;
-  // const brideName = weddingInfo?.brideLastName + weddingInfo?.brideFirstName;
   const groomName = `${weddingInfo?.groomLastName ?? ""}${
     weddingInfo?.groomFirstName ?? ""
   }`;

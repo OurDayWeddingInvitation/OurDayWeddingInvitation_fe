@@ -5,6 +5,7 @@ import Header from "@/app/components/Header";
 import { InvitationDetail } from "@/app/lib/fetches/invitation/type";
 import { ImageDetail } from "@/app/lib/fetches/media/type";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
+import { useCoupleIntroStore } from "@/app/store/useCoupleIntroStore";
 import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useGalleryStore } from "@/app/store/useGalleryStore";
 import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
@@ -51,6 +52,8 @@ export default function InvitationView({
   const setParentsImageInfo = useParentsIntroStore(
     (s) => s.setParentsImageInfo
   );
+  const setCoupleIntroInfo = useCoupleIntroStore((s) => s.setCoupleIntroInfo);
+  const setCoupleImageInfo = useCoupleIntroStore((s) => s.setCoupleImageInfo);
 
   useEffect(() => {
     if (weddingId) {
@@ -86,6 +89,9 @@ export default function InvitationView({
     if (invitationDetail?.sections?.parentsIntro) {
       setParentsIntroInfo(invitationDetail?.sections?.parentsIntro);
     }
+    if (invitationDetail?.sections?.coupleIntro) {
+      setCoupleIntroInfo(invitationDetail?.sections?.coupleIntro);
+    }
   }, [invitationDetail]);
 
   useEffect(() => {
@@ -103,6 +109,12 @@ export default function InvitationView({
       const brideParentsImage = imageDetail.find(
         (img) => img.imageType === "brideParentsImage"
       );
+      const groomImage = imageDetail.find(
+        (img) => img.imageType === "groomImage"
+      );
+      const brideImage = imageDetail.find(
+        (img) => img.imageType === "brideImage"
+      );
 
       // 메인 이미지
       if (mainImage) {
@@ -116,6 +128,11 @@ export default function InvitationView({
       setParentsImageInfo({
         groomParentsImage: groomParentsImage,
         brideParentsImage: brideParentsImage,
+      });
+      // 신랑 신부 이미지
+      setCoupleImageInfo({
+        groomImage: groomImage,
+        brideImage: brideImage,
       });
     }
   }, [imageDetail]);
