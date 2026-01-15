@@ -9,7 +9,6 @@ import { useWeddingIdStore } from "../store/useWeddingIdStore";
 import { clientFetchApi } from "../lib/fetches/client";
 import Link from "next/link";
 import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
-
 import { FadeSpinner } from "./common/Spinner";
 
 type Props = {
