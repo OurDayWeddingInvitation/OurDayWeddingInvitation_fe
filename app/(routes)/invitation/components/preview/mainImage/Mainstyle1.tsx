@@ -70,6 +70,17 @@ const Mainstyle1 = ({
     weddingInfo?.weddingDay,
   ]);
 
+  const groomName = `${weddingInfo?.groomLastName ?? ""}${
+    weddingInfo?.groomFirstName ?? ""
+  }`;
+  const brideName = `${weddingInfo?.brideLastName ?? ""}${
+    weddingInfo?.brideFirstName ?? ""
+  }`;
+  const orderedNames =
+    weddingInfo?.nameOrderType === "G"
+      ? `${groomName} • ${brideName}`
+      : `${brideName} • ${groomName}`;
+
   return (
     <div
       className="bg-[#FFFFFF] px-[22px] py-[60px] text-[#5E5852]"
@@ -99,11 +110,7 @@ const Mainstyle1 = ({
       </div>
       <div className="text-center">
         <div className="text-[20px] font-extrabold pb-[30px]">
-          {`${weddingInfo?.groomLastName ?? ""}${
-            weddingInfo?.groomFirstName ?? ""
-          } • ${weddingInfo?.brideLastName ?? ""}${
-            weddingInfo?.brideFirstName ?? ""
-          }`}
+          {orderedNames}
         </div>
         <p>
           {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월 ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek} ${weddingInfo?.weddingTimePeriod} ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}

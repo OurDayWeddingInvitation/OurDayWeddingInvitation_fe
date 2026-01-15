@@ -14,6 +14,17 @@ const Mainstyle2 = ({
 
   const [weddingDayOfWeek, setWeddingDayOfWeek] = useState<string>("");
 
+  const groomName = `${weddingInfo?.groomLastName ?? ""}${
+    weddingInfo?.groomFirstName ?? ""
+  }`;
+  const brideName = `${weddingInfo?.brideLastName ?? ""}${
+    weddingInfo?.brideFirstName ?? ""
+  }`;
+  const orderedNames =
+    weddingInfo?.nameOrderType === "G"
+      ? `${groomName} ♥ ${brideName}`
+      : `${brideName} ♥ ${groomName}`;
+
   useEffect(() => {
     if (
       !weddingInfo?.weddingYear ||
@@ -64,10 +75,7 @@ const Mainstyle2 = ({
       style={{ fontFamily: "NanumMyeongjo" }}
     >
       <div className="text-center text-[20px]">
-        <span className="font-extrabold">
-          {`${weddingInfo?.groomLastName}${weddingInfo?.groomFirstName}`} ♥
-          {`${weddingInfo?.brideLastName}${weddingInfo?.brideFirstName}`}
-        </span>
+        <span className="font-extrabold">{orderedNames}</span>
         <div className="text-center text-[14px] pt-[30px]">
           <p>
             {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월 ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek} ${weddingInfo?.weddingTimePeriod} ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}

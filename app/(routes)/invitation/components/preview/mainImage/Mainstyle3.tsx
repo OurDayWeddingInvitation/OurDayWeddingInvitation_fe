@@ -10,6 +10,13 @@ const Mainstyle3 = ({
   weddingInfo?: WeddingInfoSectionType;
 }) => {
   const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
+  const groomName = `${weddingInfo?.groomLastName ?? ""}${
+    weddingInfo?.groomFirstName ?? ""
+  }`;
+  const brideName = `${weddingInfo?.brideLastName ?? ""}${
+    weddingInfo?.brideFirstName ?? ""
+  }`;
+  const isGroomFirst = weddingInfo?.nameOrderType === "G";
 
   return (
     <div className="text-[#FFFFFF]">
@@ -31,9 +38,9 @@ const Mainstyle3 = ({
           <div className="bg-[#D9D9D9] h-[760px]"></div>
         )}
         <div className="absolute flex justify-between w-full h-full left-0 top-0 px-3.5 pt-[27px] ">
-          <span>{`${weddingInfo?.groomLastName}${weddingInfo?.groomFirstName}`}</span>
+          <span>{isGroomFirst ? groomName : brideName}</span>
           <span>Wedding Day</span>
-          <span>{`${weddingInfo?.brideLastName}${weddingInfo?.brideFirstName}`}</span>
+          <span>{isGroomFirst ? brideName : groomName}</span>
         </div>
         <div className="absolute left-0 bottom-[73px] text-center w-full px-2.5 z-9">
           <div className="text-[36px]">The Beginning of Forever</div>
