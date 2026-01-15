@@ -113,12 +113,10 @@ export default function InvitationView({
         setGalleryImages(galleryImage);
       }
       // 부모님 이미지
-      if (groomParentsImage || brideParentsImage) {
-        setParentsImageInfo({
-          groomParentsImage,
-          brideParentsImage,
-        });
-      }
+      setParentsImageInfo({
+        groomParentsImage,
+        brideParentsImage,
+      });
     }
   }, [imageDetail]);
 

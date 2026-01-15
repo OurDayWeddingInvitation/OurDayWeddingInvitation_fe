@@ -12,10 +12,12 @@ type ParentsIntroProp = {
   };
 
   setParentsIntroInfo: (data: ParentsIntroSectionType) => void;
-  setParentsImageInfo: (data: {
-    groomParentsImage: ImageDetailItem | null;
-    brideParentsImage: ImageDetailItem | null;
-  }) => void;
+  setParentsImageInfo: (
+    data: Partial<{
+      groomParentsImage: ImageDetailItem | null;
+      brideParentsImage: ImageDetailItem | null;
+    }>
+  ) => void;
 
   updateParentsIntroInfo: (partial: Partial<ParentsIntroSectionType>) => void;
   updateParentsImageInfo: (
@@ -36,7 +38,13 @@ export const useParentsIntroStore = create<ParentsIntroProp>((set) => ({
   },
 
   setParentsIntroInfo: (data) => set({ parentsIntroInfo: data }),
-  setParentsImageInfo: (data) => set({ parentsImageInfo: data }),
+  setParentsImageInfo: (data) =>
+    set({
+      parentsImageInfo: {
+        groomParentsImage: data.groomParentsImage ?? null,
+        brideParentsImage: data.brideParentsImage ?? null,
+      },
+    }),
 
   updateParentsIntroInfo: (partial) =>
     set((state) => ({
