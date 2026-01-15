@@ -114,8 +114,8 @@ export default function InvitationView({
       }
       // 부모님 이미지
       setParentsImageInfo({
-        groomParentsImage,
-        brideParentsImage,
+        groomParentsImage: groomParentsImage,
+        brideParentsImage: brideParentsImage,
       });
     }
   }, [imageDetail]);
