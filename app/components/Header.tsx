@@ -9,6 +9,7 @@ import { useWeddingIdStore } from "../store/useWeddingIdStore";
 import { clientFetchApi } from "../lib/fetches/client";
 import Link from "next/link";
 import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
+import { FadeSpinner } from "./common/Spinner";
 
 type Props = {
   showTitle?: boolean;
@@ -50,16 +51,26 @@ export default function Header({
             OurDay
           </Link>
           {showSaveText && (
-            <>
-              <Image
-                src={SaveTemporaryIcon}
-                alt="임시저장아이콘"
-                className="h-full"
-              />
-              <div className="text-[#CACACA]">
-                {loadingState ? "임시저장중" : "임시저장 완료"}
-              </div>
-            </>
+            <div className="flex items-center gap-2">
+              {loadingState ? (
+                <>
+                  <div className="h-6 w-6">
+                    <FadeSpinner />
+                  </div>
+                  <div className="text-sm text-[#CACACA]">임시저장중</div>
+                </>
+              ) : (
+                <>
+                  <Image
+                    key="save-done"
+                    src={SaveTemporaryIcon}
+                    alt="임시저장 완료"
+                    className="h-6 w-6 animate-[save-pop_0.5s_ease-out]"
+                  />
+                  <div className="text-sm text-[#CACACA]">임시저장 완료</div>
+                </>
+              )}
+            </div>
           )}
         </div>
 
