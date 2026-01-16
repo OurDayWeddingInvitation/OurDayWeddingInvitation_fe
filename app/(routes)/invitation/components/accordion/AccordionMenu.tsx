@@ -24,28 +24,30 @@ type DragEndEvent = {
 };
 
 const AccordionMenu = () => {
-  const [items, setItems] = useState<InvitationMenuItem[]>(invitationMenu);
   const [openItem, setOpenItem] = useState<string>("item-0");
   const weddingId = useWeddingIdStore((s) => s.weddingId);
   const menuSetting = useMenuSettingStore((s) => s.menuSetting);
   const setMenuSetting = useMenuSettingStore((s) => s.setMenuSetting);
 
+  // 메뉴 목록
   const displayItems = useMemo(() => {
     if (!menuSetting?.length) return invitationMenu;
 
     return invitationMenu
-      .map((item) => {
+      .map((item, idx) => {
         const setting = menuSetting.find((s) => s.sectionKey === item.id);
 
         return {
           ...item,
           isVisible: setting?.isVisible ?? item.isVisible,
-          displayOrder: setting?.displayOrder ?? 0,
+          displayOrder: setting?.displayOrder ?? idx + 1,
         };
       })
       .sort((a, b) => a.displayOrder - b.displayOrder);
   }, [menuSetting]);
+  // console.log(menuSetting);
 
+  // 드래그 함수
   const handleDragEnd = async ({ active, over }: DragEndEvent) => {
     if (!over) return;
 
@@ -59,20 +61,15 @@ const AccordionMenu = () => {
       isVisible: item.isVisible,
       displayOrder: idx + 1,
     }));
-
     setMenuSetting(newSettings);
-
-    await clientFetchApi({
-      endPoint: `/weddings/${weddingId}/sections/settings`,
-      method: "PATCH",
-      body: { sectionSettings: newSettings },
-    });
   };
 
+  // 아코디언 열기 함수
   const handleOpen = (value: string) => {
     setOpenItem(value);
   };
 
+  // 커스텀 충돌 감지기
   const customCollision = useCallback(
     (args) => {
       return closestCenter({
@@ -88,8 +85,19 @@ const AccordionMenu = () => {
     [displayItems]
   );
 
-  console.log(displayItems, "displayItems");
-  console.log(menuSetting, "menuSetting");
+  useEffect(() => {
+    if (!menuSetting || !weddingId) return;
+
+    const timeout = setTimeout(async () => {
+      await clientFetchApi({
+        endPoint: `/weddings/${weddingId}/sections/settings`,
+        method: "PATCH",
+        body: { sectionSettings: menuSetting },
+      });
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [menuSetting, weddingId]);
 
   return (
     <Accordion
