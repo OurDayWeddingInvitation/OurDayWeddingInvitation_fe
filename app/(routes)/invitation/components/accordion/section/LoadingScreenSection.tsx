@@ -21,8 +21,8 @@ const LoadingScreenSection = () => {
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const loadingStyleArr = [
-    { title: "type1", url: LoadingStyle1 },
-    { title: "type2", url: LoadingStyle2 },
+    { title: "1", url: LoadingStyle1 },
+    { title: "2", url: LoadingStyle2 },
   ];
 
   // 로딩 스타일 선택 핸들러
