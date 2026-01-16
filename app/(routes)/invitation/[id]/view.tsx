@@ -55,7 +55,6 @@ export default function InvitationView({
   );
   const setCoupleIntroInfo = useCoupleIntroStore((s) => s.setCoupleIntroInfo);
   const setCoupleImageInfo = useCoupleIntroStore((s) => s.setCoupleImageInfo);
-  const setShareLinkInfo = useShareThumbnailStore((s) => s.setShareLinkInfo);
   const setShareThumbnailInfo = useShareThumbnailStore(
     (s) => s.setShareThumbnailInfo
   );
@@ -96,9 +95,6 @@ export default function InvitationView({
     }
     if (invitationDetail?.sections?.coupleIntro) {
       setCoupleIntroInfo(invitationDetail?.sections?.coupleIntro);
-    }
-    if (invitationDetail?.sections?.shareLink) {
-      setShareLinkInfo(invitationDetail?.sections?.shareLink);
     }
   }, [invitationDetail]);
 

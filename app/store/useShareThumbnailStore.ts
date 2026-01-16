@@ -5,13 +5,11 @@ import { ImageDetailItem } from "../lib/fetches/media/type";
 type ShareThumbnailType = "kakaoThumbnailImage" | "linkThumbnailImage";
 
 type ShareThumbnailProp = {
-  shareLinkInfo: ShareLinkSection | null;
   shareThumbnailInfo: {
     kakaoThumbnailImage: ImageDetailItem | null;
     linkThumbnailImage: ImageDetailItem | null;
   };
 
-  setShareLinkInfo: (data: ShareLinkSection) => void;
   setShareThumbnailInfo: (
     data: Partial<{
       kakaoThumbnailImage: ImageDetailItem | null;
@@ -19,7 +17,6 @@ type ShareThumbnailProp = {
     }>
   ) => void;
 
-  updateShareLinkInfo: (partial: Partial<ShareLinkSection>) => void;
   updateShareThumbnailInfo: (
     partial: Partial<{
       kakaoImage: ImageDetailItem | null;
@@ -31,13 +28,11 @@ type ShareThumbnailProp = {
 };
 
 export const useShareThumbnailStore = create<ShareThumbnailProp>((set) => ({
-  shareLinkInfo: null,
   shareThumbnailInfo: {
     kakaoThumbnailImage: null,
     linkThumbnailImage: null,
   },
 
-  setShareLinkInfo: (data) => set({ shareLinkInfo: data }),
   setShareThumbnailInfo: (data) =>
     set({
       shareThumbnailInfo: {
@@ -46,13 +41,6 @@ export const useShareThumbnailStore = create<ShareThumbnailProp>((set) => ({
       },
     }),
 
-  updateShareLinkInfo: (partial) =>
-    set((state) => ({
-      shareLinkInfo: {
-        ...(state.shareLinkInfo ?? {}), // 기존 값 없으면 빈 객체
-        ...partial, // 변경 값 덮어쓰기
-      },
-    })),
   updateShareThumbnailInfo: (partial) =>
     set((state) => ({
       shareThumbnailInfo: {

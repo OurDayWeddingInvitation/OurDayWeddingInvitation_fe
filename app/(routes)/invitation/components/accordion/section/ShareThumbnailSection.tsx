@@ -1,6 +1,5 @@
 import ImageAddButton from "@/app/components/ImageAddButton";
 import PreviewThumbnail from "@/app/components/PreviewThumbnail";
-import { ShareLinkSection } from "@/app/lib/fetches/invitation/type";
 import { useCompressImageUpload } from "@/app/lib/hooks/use-compressed-image";
 import { useImagePreview } from "@/app/lib/hooks/useImagePreview";
 import {
@@ -16,17 +15,15 @@ import {
 import { usePreviewModalStore } from "@/app/store/usePreviewModalStore";
 import { useShareThumbnailStore } from "@/app/store/useShareThumbnailStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
+import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import { CircleX } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const ShareThumbnailSection = () => {
   const weddingId = useWeddingIdStore((s) => s.weddingId);
-  const shareLinkInfo = useShareThumbnailStore((s) => s.shareLinkInfo);
+  const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
   const shareThumbnailInfo = useShareThumbnailStore(
     (s) => s.shareThumbnailInfo
-  );
-  const updateShareLinkInfo = useShareThumbnailStore(
-    (s) => s.updateShareLinkInfo
   );
   const updateShareThumbnailInfo = useShareThumbnailStore(
     (s) => s.updateShareThumbnailInfo
@@ -41,8 +38,6 @@ const ShareThumbnailSection = () => {
   const { openIndex, openModal, closeModal } = usePreviewModalStore();
   const { getCompressedImage } = useCompressImageUpload();
 
-  const [localShareLinkInfo, setLocalShareLinkInfo] =
-    useState<ShareLinkSection>(() => shareLinkInfo);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const shareThumbnailData = [
@@ -59,6 +54,8 @@ const ShareThumbnailSection = () => {
       hook: linkImgHook,
     },
   ];
+
+  console.log(weddingInfo);
 
   // 이미지 업로드
   const handleImageUpload = async (
