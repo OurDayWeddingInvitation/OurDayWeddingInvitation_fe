@@ -2,11 +2,9 @@ import React from "react";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { Heart } from "lucide-react";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
-import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 
 const ParentsInfo = () => {
   const themeFont = useThemeFontStore((s) => s.themeFont);
-  const familyInfo = useFamilyInfoStore((s) => s.familyInfo);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
   const groomName = weddingInfo?.groomFirstName;
   const brideName = weddingInfo?.brideFirstName;
@@ -17,16 +15,16 @@ const ParentsInfo = () => {
       label: "신랑",
       labelColor: "#A9BBD2",
       childName: groomName,
-      father: familyInfo?.groomFatherName,
-      mother: familyInfo?.groomMotherName,
+      father: weddingInfo?.groomFatherName,
+      mother: weddingInfo?.groomMotherName,
     },
     {
       key: "bride",
       label: "신부",
       labelColor: "#e6a5da",
       childName: brideName,
-      father: familyInfo?.brideFatherName,
-      mother: familyInfo?.brideMotherName,
+      father: weddingInfo?.brideFatherName,
+      mother: weddingInfo?.brideMotherName,
     },
   ];
   const orderedParents = isGroomFirst ? parents : [...parents].reverse();

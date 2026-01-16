@@ -1,34 +1,35 @@
 import React from "react";
 import Ribbon from "@/app/assets/icons/ribbon.svg";
 import Image from "next/image";
+import { WeddingInfoSectionType } from "@/app/lib/fetches/invitation/type";
 
 type Props = {
   type: "groom" | "bride";
-  familyInfo: any;
+  weddingInfo: WeddingInfoSectionType;
   childName: string;
 };
 
-const FamilyWeddingCoupleCard = ({ type, familyInfo, childName }: Props) => {
+const FamilyWeddingCoupleCard = ({ type, weddingInfo, childName }: Props) => {
   const isGroom = type === "groom";
 
   const fatherName = isGroom
-    ? familyInfo?.groomFatherName
-    : familyInfo?.brideFatherName;
+    ? weddingInfo?.groomFatherName
+    : weddingInfo?.brideFatherName;
 
   const motherName = isGroom
-    ? familyInfo?.groomMotherName
-    : familyInfo?.brideMotherName;
+    ? weddingInfo?.groomMotherName
+    : weddingInfo?.brideMotherName;
 
   const fatherDeceased = isGroom
-    ? familyInfo?.groomFatherDeceased
-    : familyInfo?.brideFatherDeceased;
+    ? weddingInfo?.groomFatherDeceased
+    : weddingInfo?.brideFatherDeceased;
 
   const motherDeceased = isGroom
-    ? familyInfo?.groomMotherDeceased
-    : familyInfo?.brideMotherDeceased;
+    ? weddingInfo?.groomMotherDeceased
+    : weddingInfo?.brideMotherDeceased;
 
   const showMotherRibbon =
-    familyInfo?.groomMotherDeceased || familyInfo?.brideMotherDeceased;
+    weddingInfo?.groomMotherDeceased || weddingInfo?.brideMotherDeceased;
 
   return (
     <div className="grid grid-cols-[130px_32px_1fr] gap-x-2">

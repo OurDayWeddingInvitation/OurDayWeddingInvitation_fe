@@ -6,7 +6,6 @@ import { InvitationDetail } from "@/app/lib/fetches/invitation/type";
 import { ImageDetail } from "@/app/lib/fetches/media/type";
 import { useAccountInfoStoreTest } from "@/app/store/useAccountInfoStoreTest";
 import { useCoupleIntroStore } from "@/app/store/useCoupleIntroStore";
-import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import { useGalleryStore } from "@/app/store/useGalleryStore";
 import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
 import { useLoadingScreenStore } from "@/app/store/useLoadingScreenStore";
@@ -34,7 +33,6 @@ export default function InvitationView({
   const setWeddingInfo = useWeddingInfoStore((s) => s.setWeddingInfo);
   const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
-  const setFamilyInfo = useFamilyInfoStore((s) => s.setFamilyInfo);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
   const setInvitationInfo = useInvitationMessageStore(
     (s) => s.setInvitationMessage
@@ -64,9 +62,6 @@ export default function InvitationView({
     }
     if (invitationDetail?.sections?.main) {
       setMainStyleKind(invitationDetail?.sections?.main.posterStyle);
-    }
-    if (invitationDetail?.sections?.familyInfo) {
-      setFamilyInfo(invitationDetail?.sections?.familyInfo);
     }
     if (invitationDetail?.sections?.accountInfo) {
       setAccountInfo(invitationDetail?.sections?.accountInfo);

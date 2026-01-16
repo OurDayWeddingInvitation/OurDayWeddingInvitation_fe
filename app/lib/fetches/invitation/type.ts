@@ -13,7 +13,6 @@ export interface Sections {
   main?: MainSection;
   shareLink?: ShareLinkSection;
   weddingInfo?: WeddingInfoSectionType;
-  familyInfo?: FamilyInfoSectionType;
   invitationMessage?: InvitationMessageSectionType;
   coupleIntro?: CoupleIntroSectionType;
   parentsIntro?: ParentsIntroSectionType;
@@ -47,9 +46,6 @@ export interface WeddingInfoSectionType {
   weddingMinute?: string;
   weddingHallName?: string;
   weddingHallFloor?: string;
-}
-
-export interface FamilyInfoSectionType {
   groomFatherName?: string;
   groomFatherDeceased?: boolean;
   groomMotherName?: string;

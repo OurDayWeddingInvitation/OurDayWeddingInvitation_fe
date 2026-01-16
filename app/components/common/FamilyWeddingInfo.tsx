@@ -1,11 +1,9 @@
 import React from "react";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
-import { useFamilyInfoStore } from "@/app/store/useFamilyInfoStore";
 import FamilyWeddingInfoCoupleCard from "@/app/components/common/FamilyWeddingCoupleCard";
 
 const FamilyWeddingInfo = () => {
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
-  const familyInfo = useFamilyInfoStore((s) => s.familyInfo);
   const groomName = `${weddingInfo?.groomLastName ?? ""}${
     weddingInfo?.groomFirstName ?? ""
   }`;
@@ -17,7 +15,7 @@ const FamilyWeddingInfo = () => {
   const groomBlock = (
     <FamilyWeddingInfoCoupleCard
       type="groom"
-      familyInfo={familyInfo}
+      weddingInfo={weddingInfo}
       childName={groomName}
     />
   );
@@ -25,7 +23,7 @@ const FamilyWeddingInfo = () => {
   const brideBlock = (
     <FamilyWeddingInfoCoupleCard
       type="bride"
-      familyInfo={familyInfo}
+      weddingInfo={weddingInfo}
       childName={brideName}
     />
   );
