@@ -21,8 +21,8 @@ export async function GET(req: NextRequest) {
       },
       cache: "no-store",
     });
-
-    return NextResponse.json(data, { status: 200 });
+    const json = await data.json();
+    return NextResponse.json(json, { status: 200 });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     console.error(message);
