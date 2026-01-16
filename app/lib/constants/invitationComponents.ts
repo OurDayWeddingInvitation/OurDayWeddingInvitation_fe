@@ -12,16 +12,16 @@ import LoadingScreenSection from "@/app/(routes)/invitation/components/accordion
 import FlipImageSection from "@/app/(routes)/invitation/components/accordion/section/FlipImageSection";
 
 export const sectionComponents: Record<string, React.FC> = {
-  mainImage: MainImageSection,
+  main: MainImageSection,
   weddingInfo: WeddingInfoSection,
-  invitationText: InvitationMessageSection,
-  shareThumbnail: ShareThumbnailSection,
-  colorFont: ColorFontSection,
+  invitationMessage: InvitationMessageSection,
+  shareLink: ShareThumbnailSection,
+  themeFont: ColorFontSection,
   coupleIntro: CoupleIntroSection,
   gallery: GallerySection,
   accountInfo: AccountInfoSection,
   locationInfo: LocationInfoSection,
   parentsIntro: ParentsIntroSection,
   loadingScreen: LoadingScreenSection,
-  flipImage: FlipImageSection,
+  flipbook: FlipImageSection,
 };
