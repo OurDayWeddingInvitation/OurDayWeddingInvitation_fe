@@ -31,6 +31,8 @@ const WeddingInfoSection = () => {
 
   const parents = ["아버지", "어머니"];
   const label = ["신랑", "신부"];
+  const roles = ["groom", "bride"];
+  const parentsMap = ["Father", "Mother"];
 
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
   const updateField = useWeddingInfoStore((s) => s.updateWeddingInfoField);
@@ -120,8 +122,6 @@ const WeddingInfoSection = () => {
             {/* 부모님 입력 필드 */}
             {parents.map((name, parentIdx) => {
               const checkId = `check-${roleIdx}-${parentIdx}`;
-              const roles = ["groom", "bride"];
-              const parentsMap = ["Father", "Mother"];
               const parentsKey = `${roles[roleIdx]}${parentsMap[parentIdx]}Name`;
               const isDeceasedKey = `${roles[roleIdx]}${parentsMap[parentIdx]}Deceased`;
 
