@@ -15,13 +15,11 @@ import {
 import { usePreviewModalStore } from "@/app/store/usePreviewModalStore";
 import { useShareThumbnailStore } from "@/app/store/useShareThumbnailStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
-import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import { CircleX } from "lucide-react";
 import { useRef } from "react";
 
 const ShareThumbnailSection = () => {
   const weddingId = useWeddingIdStore((s) => s.weddingId);
-  const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
   const shareThumbnailInfo = useShareThumbnailStore(
     (s) => s.shareThumbnailInfo
   );
@@ -54,8 +52,6 @@ const ShareThumbnailSection = () => {
       hook: linkImgHook,
     },
   ];
-
-  console.log(weddingInfo);
 
   // 이미지 업로드
   const handleImageUpload = async (
