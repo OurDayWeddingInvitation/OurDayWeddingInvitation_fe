@@ -12,6 +12,7 @@ import { useLoadingScreenStore } from "@/app/store/useLoadingScreenStore";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useParentsIntroStore } from "@/app/store/useParentsIntroStore";
+import { useShareThumbnailStore } from "@/app/store/useShareThumbnailStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
@@ -52,6 +53,9 @@ export default function InvitationView({
   );
   const setCoupleIntroInfo = useCoupleIntroStore((s) => s.setCoupleIntroInfo);
   const setCoupleImageInfo = useCoupleIntroStore((s) => s.setCoupleImageInfo);
+  const setShareThumbnailInfo = useShareThumbnailStore(
+    (s) => s.setShareThumbnailInfo
+  );
 
   useEffect(() => {
     if (weddingId) {
@@ -110,6 +114,12 @@ export default function InvitationView({
       const brideImage = imageDetail.find(
         (img) => img.imageType === "brideImage"
       );
+      const kakaoImage = imageDetail.find(
+        (img) => img.imageType === "kakaoThumbnailImage"
+      );
+      const linkImage = imageDetail.find(
+        (img) => img.imageType === "linkThumbnailImage"
+      );
 
       // 메인 이미지
       if (mainImage) {
@@ -128,6 +138,11 @@ export default function InvitationView({
       setCoupleImageInfo({
         groomImage: groomImage,
         brideImage: brideImage,
+      });
+      // 공유 썸네일 이미지
+      setShareThumbnailInfo({
+        kakaoThumbnailImage: kakaoImage,
+        linkThumbnailImage: linkImage,
       });
     }
   }, [imageDetail]);
