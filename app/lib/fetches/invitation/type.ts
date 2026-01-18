@@ -5,6 +5,7 @@ export interface Invitation {
 }
 
 export interface InvitationDetail {
+  weddingTitle: string;
   sections?: Sections;
   sectionSettings?: SectionSettingItem[];
 }

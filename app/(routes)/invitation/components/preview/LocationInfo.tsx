@@ -56,7 +56,7 @@ const LocationInfo = () => {
           <span>{locationInfo?.address}</span>
         </p>
         <div className="pb-5">
-          <KakaoMap lat={lat} lon={lon} />
+          <KakaoMap lat={lat} lon={lon} isOpen={true} />
         </div>
       </div>
       <div className="px-4">

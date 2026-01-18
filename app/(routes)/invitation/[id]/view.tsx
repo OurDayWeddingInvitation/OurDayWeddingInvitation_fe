@@ -20,6 +20,8 @@ import Image from "next/image";
 import { useEffect } from "react";
 import Form from "../components/form/Form";
 import Preview from "../components/preview/preview";
+import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
+import { useWeddingTitleStore } from "@/app/store/useWeddingTitleStore";
 
 export default function InvitationView({
   weddingId,
@@ -31,6 +33,9 @@ export default function InvitationView({
   imageDetail: ImageDetail;
 }) {
   const setWeddingId = useWeddingIdStore((s) => s.setWeddingId);
+  const setWeddingInfoTitle = useWeddingTitleStore(
+    (s) => s.setWeddingInfoTitle
+  );
   const setWeddingInfo = useWeddingInfoStore((s) => s.setWeddingInfo);
   const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
@@ -56,10 +61,14 @@ export default function InvitationView({
   const setShareThumbnailInfo = useShareThumbnailStore(
     (s) => s.setShareThumbnailInfo
   );
+  const setMenuSetting = useMenuSettingStore((s) => s.setMenuSetting);
 
   useEffect(() => {
     if (weddingId) {
       setWeddingId(weddingId);
+    }
+    if (invitationDetail?.weddingTitle) {
+      setWeddingInfoTitle(invitationDetail?.weddingTitle);
     }
     if (invitationDetail?.sections?.weddingInfo) {
       setWeddingInfo(invitationDetail?.sections?.weddingInfo);
@@ -90,6 +99,9 @@ export default function InvitationView({
     }
     if (invitationDetail?.sections?.coupleIntro) {
       setCoupleIntroInfo(invitationDetail?.sections?.coupleIntro);
+    }
+    if (invitationDetail.sectionSettings) {
+      setMenuSetting(invitationDetail.sectionSettings);
     }
   }, [invitationDetail]);
 

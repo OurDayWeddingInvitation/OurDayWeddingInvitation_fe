@@ -1,12 +1,22 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { Accordion } from "@radix-ui/react-accordion";
 import { DndContext, closestCenter, DroppableContainer } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
-import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from "@dnd-kit/modifiers";
 import AccordionMenuItem from "./AccordionMenuItem";
 import { invitationMenu, InvitationMenuItem } from "@/app/lib/constants";
+import { clientFetchApi } from "@/app/lib/fetches/client";
+import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
+import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
 
 type DragEndEvent = {
   active: { id: string | number };
@@ -14,41 +24,80 @@ type DragEndEvent = {
 };
 
 const AccordionMenu = () => {
-  const [items, setItems] = useState<InvitationMenuItem[]>(invitationMenu);
   const [openItem, setOpenItem] = useState<string>("item-0");
+  const weddingId = useWeddingIdStore((s) => s.weddingId);
+  const menuSetting = useMenuSettingStore((s) => s.menuSetting);
+  const setMenuSetting = useMenuSettingStore((s) => s.setMenuSetting);
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  // 메뉴 목록
+  const displayItems = useMemo(() => {
+    if (!menuSetting?.length) return invitationMenu;
 
-    const activeIndex = items.findIndex((item) => item.id === active.id);
-    const newIndex = items.findIndex((item) => item.id === over.id);
+    return invitationMenu
+      .map((item, idx) => {
+        const setting = menuSetting.find((s) => s.sectionKey === item.id);
 
-    const activeItem = items.find((item) => item.id === active.id);
-    const newItem = items.find((item) => item.id === over.id);
+        return {
+          ...item,
+          isVisible: setting?.isVisible ?? item.isVisible,
+          displayOrder: setting?.displayOrder ?? idx + 1,
+        };
+      })
+      .sort((a, b) => a.displayOrder - b.displayOrder);
+  }, [menuSetting]);
+  // console.log(menuSetting);
 
-    if (!activeItem?.movable || !newItem?.movable) {
-      return;
-    }
+  // 드래그 함수
+  const handleDragEnd = async ({ active, over }: DragEndEvent) => {
+    if (!over) return;
 
-    setItems((items) => arrayMove(items, activeIndex, newIndex));
+    const oldIndex = displayItems.findIndex((i) => i.id === active.id);
+    const newIndex = displayItems.findIndex((i) => i.id === over.id);
+
+    const reordered = arrayMove(displayItems, oldIndex, newIndex);
+
+    const newSettings = reordered.map((item, idx) => ({
+      sectionKey: item.id,
+      isVisible: item.isVisible,
+      displayOrder: idx + 1,
+    }));
+    setMenuSetting(newSettings);
   };
 
+  // 아코디언 열기 함수
   const handleOpen = (value: string) => {
     setOpenItem(value);
   };
 
+  // 커스텀 충돌 감지기
   const customCollision = useCallback(
     (args) => {
       return closestCenter({
         ...args,
-        droppableContainers: args.droppableContainers.filter((c: DroppableContainer) => {
-          const item = items.find((i) => i.id === c.id);
-          return item?.movable === true;
-        })
+        droppableContainers: args.droppableContainers.filter(
+          (c: DroppableContainer) => {
+            const item = displayItems.find((i) => i.id === c.id);
+            return item?.movable === true;
+          }
+        ),
       });
     },
-    [items]
+    [displayItems]
   );
+
+  useEffect(() => {
+    if (!menuSetting || !weddingId) return;
+
+    const timeout = setTimeout(async () => {
+      await clientFetchApi({
+        endPoint: `/weddings/${weddingId}/sections/settings`,
+        method: "PATCH",
+        body: { sectionSettings: menuSetting },
+      });
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [menuSetting, weddingId]);
 
   return (
     <Accordion
@@ -59,10 +108,24 @@ const AccordionMenu = () => {
       value={openItem}
       onValueChange={handleOpen}
     >
-      <DndContext collisionDetection={customCollision} onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
-        <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-          {items.map((item, idx) => {
-            return <AccordionMenuItem key={item.id} menu={item} idx={idx} isOpen={openItem === `item-${idx}`} />;
+      <DndContext
+        collisionDetection={customCollision}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+      >
+        <SortableContext
+          items={displayItems.map((i) => i.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {displayItems.map((item, idx) => {
+            return (
+              <AccordionMenuItem
+                key={item.id}
+                menu={item}
+                idx={idx}
+                isOpen={openItem === `item-${idx}`}
+              />
+            );
           })}
         </SortableContext>
       </DndContext>

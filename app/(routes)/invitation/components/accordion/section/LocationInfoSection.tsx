@@ -9,13 +9,16 @@ import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import React, { useState, useEffect } from "react";
 
 const LocationInfoSection = ({ isOpen }) => {
-  const inputStyle = "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+  const inputStyle =
+    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
   const labelStyle = "w-1/7 min-w-[60px]";
   const [lat, setLat] = useState<number>(0);
   const [lon, setLon] = useState<number>(0);
   const locationInfo = useLocationInfoStore((s) => s.locationInfo);
   const updateField = useLocationInfoStore((s) => s.updateLocationInfoField);
-  const [localInfo, setLocalInfo] = useState<LocationInfoSectionType>(() => locationInfo);
+  const [localInfo, setLocalInfo] = useState<LocationInfoSectionType>(
+    () => locationInfo
+  );
 
   const { weddingId } = useWeddingIdStore();
 
@@ -25,9 +28,9 @@ const LocationInfoSection = ({ isOpen }) => {
       oncomplete: async (data) => {
         setLocalInfo((prev) => ({
           ...prev,
-          address: data.address
+          address: data.address,
         }));
-      }
+      },
     }).open();
   };
 
@@ -44,7 +47,10 @@ const LocationInfoSection = ({ isOpen }) => {
     return count > 0 ? count : 1;
   };
 
-  const trafficBlocks = Array.from({ length: getTrafficCount(localInfo) }, (_, i) => i);
+  const trafficBlocks = Array.from(
+    { length: getTrafficCount(localInfo) },
+    (_, i) => i
+  );
 
   // 교통수단 삭제 함수
   const removeTraffic = (removeIndex: number) => {
@@ -67,7 +73,7 @@ const LocationInfoSection = ({ isOpen }) => {
       console.log(newTransportFields);
       return {
         ...prev,
-        ...newTransportFields
+        ...newTransportFields,
       };
     });
   };
@@ -76,7 +82,11 @@ const LocationInfoSection = ({ isOpen }) => {
     if (!localInfo.address) return;
 
     const fetchPosition = async () => {
-      const res = await fetch(`/api/invitation/geocode?address=${encodeURIComponent(localInfo.address)}`);
+      const res = await fetch(
+        `/api/invitation/geocode?address=${encodeURIComponent(
+          localInfo.address
+        )}`
+      );
       const data = await res.json();
 
       if (!data.documents || data.documents.length === 0) return;
@@ -94,14 +104,20 @@ const LocationInfoSection = ({ isOpen }) => {
     storeState: locationInfo,
     updateStoreField: updateField,
     sectionId: "locationInfo",
-    weddingId: weddingId
+    weddingId: weddingId,
   });
 
   return (
     <div>
       <div className="flex items-center gap-2.5 pb-3">
         <div className={labelStyle}>예식장 주소</div>
-        <input type="text" className={inputStyle} value={localInfo.address} onClick={openPost} readOnly />
+        <input
+          type="text"
+          className={inputStyle}
+          value={localInfo.address}
+          onClick={openPost}
+          readOnly
+        />
         <input
           type="text"
           className={inputStyle}
@@ -110,17 +126,22 @@ const LocationInfoSection = ({ isOpen }) => {
           onChange={(e) =>
             setLocalInfo((prev) => ({
               ...prev,
-              addressDetail: e.target.value
+              addressDetail: e.target.value,
             }))
           }
         />
-        <button className="bg-[#D2BEA9] text-[#FFFFFF] font-light px-5 py-2 rounded-sm cursor-pointer" onClick={openPost}>
+        <button
+          className="bg-[#D2BEA9] text-[#FFFFFF] font-light px-5 py-2 rounded-sm cursor-pointer"
+          onClick={openPost}
+        >
           주소 검색
         </button>
       </div>
 
       <div className="px-4">
-        <p className="text-[#CACACA] text-[12px] pb-4">주소 검색을 통해 예식장 주소를 입력해주세요.</p>
+        <p className="text-[#CACACA] text-[12px] pb-4">
+          주소 검색을 통해 예식장 주소를 입력해주세요.
+        </p>
         <KakaoMap lat={lat} lon={lon} isOpen={isOpen} />
       </div>
 
@@ -134,7 +155,10 @@ const LocationInfoSection = ({ isOpen }) => {
             <div className="flex gap-2 items-center">
               <span className="text-[#D2BEA9]">#{idx + 1}</span> 교통수단
               {idx >= 1 && (
-                <button className="border-[#D4C6B7] border text-[10px] py-1.5 px-3 rounded-sm cursor-pointer" onClick={() => removeTraffic(idx)}>
+                <button
+                  className="border-[#D4C6B7] border text-[10px] py-1.5 px-3 rounded-sm cursor-pointer"
+                  onClick={() => removeTraffic(idx)}
+                >
                   삭제
                 </button>
               )}
@@ -147,7 +171,7 @@ const LocationInfoSection = ({ isOpen }) => {
                 onChange={(val: string) => {
                   setLocalInfo((prev) => ({
                     ...prev,
-                    [trafficKey]: val
+                    [trafficKey]: val,
                   }));
                 }}
               />
@@ -170,7 +194,7 @@ const LocationInfoSection = ({ isOpen }) => {
             onClick={() => {
               setLocalInfo((prev) => ({
                 ...prev,
-                [`transport${trafficBlocks.length + 1}Title`]: "지하철"
+                [`transport${trafficBlocks.length + 1}Title`]: "지하철",
               }));
             }}
           >
