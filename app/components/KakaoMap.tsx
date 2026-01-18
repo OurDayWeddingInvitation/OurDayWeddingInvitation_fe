@@ -13,64 +13,73 @@ export default function KakaoMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef(null);
   const markerInstance = useRef(null);
-  const [sdkLoaded, setSdkLoaded] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
-  const initMap = () => {
-    if (!window.kakao || !window.kakao.maps) return;
-
-    if (!mapRef.current) return;
-
-    const center = new window.kakao.maps.LatLng(lat, lon);
-
-    mapInstance.current = new window.kakao.maps.Map(mapRef.current, {
-      center,
-      level: 3,
-      draggable: false,
-    });
-
-    markerInstance.current = new window.kakao.maps.Marker({
-      position: center,
-      map: mapInstance.current,
-      // title: "선택 위치"
-    });
-  };
-
+  // SDK 상태를 강제로 체크하는 로직
   useEffect(() => {
-    if (mapInstance.current && markerInstance.current) {
-      const newCenter = new window.kakao.maps.LatLng(lat, lon);
-      mapInstance.current.setCenter(newCenter);
-      markerInstance.current.setPosition(newCenter);
-    }
-  }, [lat, lon, isOpen]);
+    const checkInterval = setInterval(() => {
+      if (window.kakao && window.kakao.maps && window.kakao.maps.LatLng) {
+        // LatLng이 존재하면 load 콜백을 한 번 더 실행해서 확실히 초기화
+        window.kakao.maps.load(() => {
+          setIsReady(true);
+          clearInterval(checkInterval);
+        });
+      }
+    }, 100);
 
-  useEffect(() => {
-    if (!sdkLoaded) return;
-    if (!mapRef.current) return;
-
-    setTimeout(() => {
-      initMap();
-    }, 50);
-  }, [sdkLoaded, isOpen]);
-
-  useEffect(() => {
-    if (window.kakao?.maps) {
-      setTimeout(() => setSdkLoaded(true), 0);
-    }
+    return () => clearInterval(checkInterval);
   }, []);
+
+  useEffect(() => {
+    if (!isReady || !isOpen || !mapRef.current) return;
+
+    const timeoutId = setTimeout(() => {
+      const center = new window.kakao.maps.LatLng(lat, lon);
+
+      if (!mapInstance.current) {
+        // 지도 첫 생성
+        const map = new window.kakao.maps.Map(mapRef.current, {
+          center,
+          level: 3,
+        });
+        map.setDraggable(false);
+        map.setZoomable(false);
+
+        const marker = new window.kakao.maps.Marker({
+          position: center,
+          map: map,
+        });
+        mapInstance.current = map;
+        markerInstance.current = marker;
+      } else {
+        // 이미 있으면 위치만 조정
+        mapInstance.current.relayout();
+        mapInstance.current.setCenter(center);
+        markerInstance.current.setPosition(center);
+      }
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [isReady, isOpen, lat, lon]);
 
   return (
     <>
       <Script
-        src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false&libraries=services`}
-        onLoad={() => {
-          window.kakao.maps.load(() => {
-            setSdkLoaded(true);
-          });
-        }}
+        src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`}
         strategy="afterInteractive"
+        onLoad={() => {
+          window.kakao.maps.load(() => setIsReady(true));
+        }}
       />
 
-      <div ref={mapRef} className="w-full h-[359px]" />
+      <div
+        ref={mapRef}
+        style={{
+          width: "100%",
+          height: "359px",
+          display: isOpen ? "block" : "none",
+        }}
+      />
     </>
   );
 }
