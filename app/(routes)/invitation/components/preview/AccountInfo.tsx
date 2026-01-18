@@ -14,7 +14,9 @@ const AccountInfo = () => {
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const accountInfo = useAccountInfoStoreTest((s) => s.accountInfo);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
+
   const isGroomFirst = weddingInfo?.nameOrderType === "G";
+
   const accountGroups = [
     {
       key: "groom",
@@ -87,7 +89,7 @@ const AccountInfo = () => {
   };
 
   return (
-    <div className="bg-[#FFFFFF] py-20">
+    <div className="bg-[#FFFFFF] py-10">
       <div className="text-center">
         <div
           className="tracking-[4px] text-[12px] pb-3"

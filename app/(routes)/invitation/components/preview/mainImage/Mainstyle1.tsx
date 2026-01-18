@@ -109,9 +109,7 @@ const Mainstyle1 = ({
         )}
       </div>
       <div className="text-center">
-        <div className="text-[20px] font-extrabold pb-[30px]">
-          {orderedNames}
-        </div>
+        <div className="text-[20px] font-extrabold py-7.5">{orderedNames}</div>
         <p>
           {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월 ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek} ${weddingInfo?.weddingTimePeriod} ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
         </p>

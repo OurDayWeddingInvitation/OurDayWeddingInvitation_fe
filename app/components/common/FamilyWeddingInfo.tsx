@@ -30,7 +30,7 @@ const FamilyWeddingInfo = () => {
 
   return (
     <div>
-      <div className="py-10">
+      <div className="pt-10">
         <div className="mx-auto flex flex-col gap-3.5">
           {isGroomFirst ? (
             <>

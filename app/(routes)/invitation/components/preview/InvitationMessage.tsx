@@ -11,7 +11,7 @@ const InvitationMessage = () => {
     fontList?.find((font) => font.key === fontKey)?.value ?? "";
 
   return (
-    <div className="flex flex-col items-center px-5 py-7.5">
+    <div className="flex flex-col items-center px-5 py-10">
       <p
         className="leading-[100%] tracking-[0.375rem] pb-2.5"
         style={{

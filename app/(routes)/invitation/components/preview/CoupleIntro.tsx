@@ -1,11 +1,16 @@
-import React from "react";
+import CouplePersonCard from "@/app/components/common/CouplePersonCard";
+import { getImagePath } from "@/app/lib/utils/functions";
+import { useCoupleIntroStore } from "@/app/store/useCoupleIntroStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
-import CouplePersonCard from "@/app/components/common/CouplePersonCard";
+import React from "react";
 
 const CoupleIntro = () => {
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
+  const coupleIntroInfo = useCoupleIntroStore((s) => s.coupleIntroInfo);
+  const coupleImageInfo = useCoupleIntroStore((s) => s.coupleImageInfo);
+
   const groomName = `${weddingInfo?.groomLastName ?? ""}${
     weddingInfo?.groomFirstName ?? ""
   }`;
@@ -14,12 +19,32 @@ const CoupleIntro = () => {
   }`;
   const isGroomFirst = weddingInfo?.nameOrderType === "G";
 
+  const coupleIntroTitle = coupleIntroInfo?.title ?? "";
+
+  // TODO: 이미지 경로 처리 함수로 변경 필요
+  const groomImageUrl = coupleImageInfo?.groomImage
+    ? getImagePath(
+        coupleImageInfo?.groomImage?.editedUrl ??
+          coupleImageInfo?.groomImage?.originalUrl
+      )
+    : "";
+  const brideImageUrl = coupleImageInfo?.brideImage
+    ? getImagePath(
+        coupleImageInfo?.brideImage?.editedUrl ??
+          coupleImageInfo?.brideImage?.originalUrl
+      )
+    : "";
+
+  const groomDescription = coupleIntroInfo?.groomIntro ?? "";
+  const brideDescription = coupleIntroInfo?.brideIntro ?? "";
+
   const groomCard = (
     <CouplePersonCard
       roleLabel="신랑"
       roleColor="#A9BBD2"
       name={groomName}
-      description="나무같은 남편이 되겠습니다"
+      imageUrl={groomImageUrl}
+      description={groomDescription}
     />
   );
 
@@ -28,7 +53,8 @@ const CoupleIntro = () => {
       roleLabel="신부"
       roleColor="#E6A5DA"
       name={brideName}
-      description="나무같은 아내가 되겠습니다"
+      imageUrl={brideImageUrl}
+      description={brideDescription}
     />
   );
   const cards = isGroomFirst ? [groomCard, brideCard] : [brideCard, groomCard];
@@ -45,9 +71,7 @@ const CoupleIntro = () => {
         >
           {isGroomFirst ? "GROOM & BRIDE" : "BRIDE & GROOM"}
         </div>
-        <span className="text-[16px]">
-          {isGroomFirst ? "신랑 & 신부" : "신부 & 신랑"}을 소개합니다
-        </span>
+        <span className="text-[16px]">{coupleIntroTitle}</span>
         <div className="flex pt-10 gap-2.5 justify-center">
           {cards.map((card, idx) => (
             <React.Fragment key={idx}>{card}</React.Fragment>
