@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import Form from "../components/form/Form";
 import Preview from "../components/preview/preview";
 import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
+import { useWeddingTitleStore } from "@/app/store/useWeddingTitleStore";
 
 export default function InvitationView({
   weddingId,
@@ -31,25 +32,28 @@ export default function InvitationView({
   imageDetail: ImageDetail;
 }) {
   const setWeddingId = useWeddingIdStore((s) => s.setWeddingId);
+  const setWeddingInfoTitle = useWeddingTitleStore(
+    (s) => s.setWeddingInfoTitle,
+  );
   const setWeddingInfo = useWeddingInfoStore((s) => s.setWeddingInfo);
   const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
   const setInvitationInfo = useInvitationMessageStore(
-    (s) => s.setInvitationMessage
+    (s) => s.setInvitationMessage,
   );
   const setThemeFont = useThemeFontStore((s) => s.setThemeFont);
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
   const setGalleryInfo = useGalleryStore((s) => s.setGalleryInfo);
   const setGalleryImages = useGalleryStore((s) => s.setGalleryImages);
   const setLoadingScreenStyle = useLoadingScreenStore(
-    (s) => s.setLoadingScreenStyle
+    (s) => s.setLoadingScreenStyle,
   );
   const setParentsIntroInfo = useParentsIntroStore(
-    (s) => s.setParentsIntroInfo
+    (s) => s.setParentsIntroInfo,
   );
   const setParentsImageInfo = useParentsIntroStore(
-    (s) => s.setParentsImageInfo
+    (s) => s.setParentsImageInfo,
   );
   const setCoupleIntroInfo = useCoupleIntroStore((s) => s.setCoupleIntroInfo);
   const setCoupleImageInfo = useCoupleIntroStore((s) => s.setCoupleImageInfo);
@@ -58,6 +62,9 @@ export default function InvitationView({
   useEffect(() => {
     if (weddingId) {
       setWeddingId(weddingId);
+    }
+    if (invitationDetail?.weddingTitle) {
+      setWeddingInfoTitle(invitationDetail?.weddingTitle);
     }
     if (invitationDetail?.sections?.weddingInfo) {
       setWeddingInfo(invitationDetail?.sections?.weddingInfo);
@@ -101,19 +108,19 @@ export default function InvitationView({
         .filter((img) => img.imageType === "mainImage")
         .at(-1);
       const galleryImage = imageDetail.filter(
-        (img) => img.imageType === "galleryImage"
+        (img) => img.imageType === "galleryImage",
       );
       const groomParentsImage = imageDetail.find(
-        (img) => img.imageType === "groomParentsImage"
+        (img) => img.imageType === "groomParentsImage",
       );
       const brideParentsImage = imageDetail.find(
-        (img) => img.imageType === "brideParentsImage"
+        (img) => img.imageType === "brideParentsImage",
       );
       const groomImage = imageDetail.find(
-        (img) => img.imageType === "groomImage"
+        (img) => img.imageType === "groomImage",
       );
       const brideImage = imageDetail.find(
-        (img) => img.imageType === "brideImage"
+        (img) => img.imageType === "brideImage",
       );
 
       // 메인 이미지
