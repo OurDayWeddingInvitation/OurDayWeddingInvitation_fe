@@ -2,14 +2,6 @@
 
 import { fontList, previewComponents } from "@/app/lib/constants";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
-import AccountInfo from "./AccountInfo";
-import Gallery from "./Gallery";
-import InvitationMessage from "./InvitationMessage";
-import LocationInfo from "./LocationInfo";
-import MainImage from "./mainImage/MainImage";
-import WeddingDay from "./WeddingDay";
-import CoupleIntro from "./CoupleIntro";
-import ParentsInfo from "./ParentsIntro";
 import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
 
 const Preview = () => {
