@@ -47,17 +47,18 @@ const MainImageSection = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const mainStyleArr = [
-    { title: "mainStyle1", url: MainStyle1 },
-    { title: "mainStyle2", url: MainStyle2 },
-    { title: "mainStyle3", url: MainStyle3 },
+    { title: "1", url: MainStyle1 },
+    { title: "2", url: MainStyle2 },
+    { title: "3", url: MainStyle3 },
   ];
 
   const handleClick = async (item: mainStyleItem, idx: number) => {
     try {
       const nextIdx = selectedIdx === idx ? null : idx;
+      const mainStyleKind = nextIdx === null ? "" : item.title;
 
       setSelectedIdx(nextIdx);
-      setMainStyleKind(nextIdx === null ? "" : item.title);
+      setMainStyleKind(mainStyleKind);
 
       await clientFetchApi({
         endPoint: `/weddings/update`,
@@ -65,7 +66,7 @@ const MainImageSection = () => {
         body: {
           weddingId: weddingId,
           sectionId: "main",
-          updated: { posterStyle: item.title },
+          updated: { posterStyle: mainStyleKind },
         },
       });
     } catch (error) {

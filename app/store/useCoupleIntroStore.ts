@@ -19,7 +19,10 @@ type CoupleIntroProp = {
     }>
   ) => void;
 
-  updateCoupleIntroInfo: (partial: Partial<CoupleIntroSectionType>) => void;
+  updateCoupleIntroInfo: <K extends keyof CoupleIntroSectionType>(
+    key: K,
+    value: CoupleIntroSectionType[K]
+  ) => void;
   updateCoupleImageInfo: (
     partial: Partial<{
       groomImage: ImageDetailItem | null;
@@ -46,11 +49,11 @@ export const useCoupleIntroStore = create<CoupleIntroProp>((set) => ({
       },
     }),
 
-  updateCoupleIntroInfo: (partial) =>
+  updateCoupleIntroInfo: (key, value) =>
     set((state) => ({
       coupleIntroInfo: {
-        ...(state.coupleIntroInfo ?? {}), // 기존 값 없으면 빈 객체
-        ...partial, // 변경 값 덮어쓰기
+        ...(state.coupleIntroInfo ?? {}),
+        [key]: value,
       },
     })),
   updateCoupleImageInfo: (partial) =>
