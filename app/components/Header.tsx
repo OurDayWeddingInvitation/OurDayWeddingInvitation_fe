@@ -97,12 +97,16 @@ export default function Header({
                 />
               ) : (
                 <>
-                  <div className="font-medium">{weddingInfoTitle}</div>
-                  <Pencil
-                    size={15}
-                    className="absolute -top-2 -right-6 cursor-pointer opacity-70 hover:opacity-100"
-                    onClick={() => setIsEditing(true)}
-                  />
+                  {weddingInfoTitle && (
+                    <div>
+                      <div className="font-medium">{weddingInfoTitle}</div>
+                      <Pencil
+                        size={15}
+                        className="absolute -top-2 -right-6 cursor-pointer opacity-70 hover:opacity-100"
+                        onClick={() => setIsEditing(true)}
+                      />
+                    </div>
+                  )}
                 </>
               )}
             </div>
