@@ -23,29 +23,24 @@ const Preview = () => {
   const fontFamily = fontList.find((font) => font.key === fontKey)?.value ?? "";
 
   return (
-    <div>
-      <div className="relative h-[720px]">
-        {/* <Image src={Mockup} alt="미리보기목업" className="absolute left-0 top-0 w-full overflow-hidden border" /> */}
-        <div
-          className="overflow-scroll [&::-webkit-scrollbar]:hidden h-full z-99"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-            backgroundColor: themeFont?.backgroundColor ?? "",
-            fontSize: themeFont?.fontSize ?? 14,
-            fontFamily: fontFamily ?? "",
-          }}
-        >
-          <MainImage />
-          <InvitationMessage />
-          <WeddingDay />
-          <CoupleIntro />
-          <ParentsInfo />
-          <Gallery />
-          <AccountInfo />
-          <LocationInfo />
-        </div>
-      </div>
+    <div
+      className="relative h-200 overflow-scroll [&::-webkit-scrollbar]:hidden z-99"
+      style={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+        backgroundColor: themeFont?.backgroundColor ?? "",
+        fontSize: themeFont?.fontSize ?? 14,
+        fontFamily: fontFamily ?? "",
+      }}
+    >
+      <MainImage />
+      <InvitationMessage />
+      <WeddingDay />
+      <CoupleIntro />
+      <ParentsInfo />
+      <Gallery />
+      <AccountInfo />
+      <LocationInfo />
     </div>
   );
 };
