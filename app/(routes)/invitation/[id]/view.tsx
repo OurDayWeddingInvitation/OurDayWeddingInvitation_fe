@@ -19,6 +19,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import Form from "../components/form/Form";
 import Preview from "../components/preview/preview";
+import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
 
 export default function InvitationView({
   weddingId,
@@ -52,6 +53,7 @@ export default function InvitationView({
   );
   const setCoupleIntroInfo = useCoupleIntroStore((s) => s.setCoupleIntroInfo);
   const setCoupleImageInfo = useCoupleIntroStore((s) => s.setCoupleImageInfo);
+  const setMenuSetting = useMenuSettingStore((s) => s.setMenuSetting);
 
   useEffect(() => {
     if (weddingId) {
@@ -86,6 +88,9 @@ export default function InvitationView({
     }
     if (invitationDetail?.sections?.coupleIntro) {
       setCoupleIntroInfo(invitationDetail?.sections?.coupleIntro);
+    }
+    if (invitationDetail.sectionSettings) {
+      setMenuSetting(invitationDetail.sectionSettings);
     }
   }, [invitationDetail]);
 

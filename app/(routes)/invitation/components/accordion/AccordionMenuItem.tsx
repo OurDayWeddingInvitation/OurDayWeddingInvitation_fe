@@ -17,18 +17,7 @@ import "./Accordion.style.css";
 const AccordionMenuItem = ({ idx, menu, isOpen }) => {
   //props
   const sectionPropsMap: SectionProps = {
-    // mainImage: {},
-    // weddingInfo: {},
-    // invitationText: {},
-    // shareThumbnail: {},
-    // colorFont: {},
-    // coupleIntro: {},
-    // gallery: {},
-    // accountInfo: {},
     locationInfo: { isOpen: isOpen },
-    // parentsIntro: {},
-    // loadingScreen: {},
-    // flipImage: {}
   };
 
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -66,7 +55,11 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
               >
                 ⠿
               </div>
-              <ToggleButton toggle={menu.toggle} isVisble={menu.isVisible} />
+              <ToggleButton
+                toggle={menu.toggle}
+                isVisble={menu.isVisible}
+                id={menu.id}
+              />
               <h3 className="font-medium relative">
                 {menu.label}
                 {menu.toggle && (

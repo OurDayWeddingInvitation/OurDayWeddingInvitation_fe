@@ -8,7 +8,7 @@ export interface InvitationMenuItem {
 
 export const invitationMenu: InvitationMenuItem[] = [
   {
-    id: "colorFont",
+    id: "themeFont",
     label: "컬러 & 폰트",
     movable: false,
     toggle: true,
@@ -29,14 +29,14 @@ export const invitationMenu: InvitationMenuItem[] = [
     isVisible: true,
   },
   {
-    id: "mainImage",
+    id: "main",
     label: "메인 사진",
     movable: false,
     toggle: true,
     isVisible: true,
   },
   {
-    id: "invitationText",
+    id: "invitationMessage",
     label: "초대 문구",
     movable: true,
     toggle: true,
@@ -64,7 +64,7 @@ export const invitationMenu: InvitationMenuItem[] = [
     isVisible: true,
   },
   {
-    id: "flipImage",
+    id: "flipbook",
     label: "플립북 이미지",
     movable: true,
     toggle: false,
@@ -85,7 +85,7 @@ export const invitationMenu: InvitationMenuItem[] = [
     isVisible: true,
   },
   {
-    id: "shareThumbnail",
+    id: "shareLink",
     label: "공유 썸네일",
     movable: false,
     toggle: false,

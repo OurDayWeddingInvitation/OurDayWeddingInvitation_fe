@@ -1,17 +1,20 @@
 import React, { useState } from "react";
+import { useMenuSettingStore } from "../store/useMenuSettingInfoStore";
 
-const ToggleButton = ({ toggle, isVisble }) => {
-  const [isVisible, setIsVisible] = useState<boolean>(isVisble);
+const ToggleButton = ({ toggle, isVisble, id }) => {
   const [toolVisible, setToolVisible] = useState<boolean>(false);
+  const menuSetting = useMenuSettingStore((s) => s.menuSetting);
+  const updateMenuSetting = useMenuSettingStore((s) => s.updateMenuSetting);
+  const isVisible =
+    menuSetting?.find((item) => item.sectionKey === id)?.isVisible ?? isVisble;
 
   const handleToggleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setToolVisible(true);
-    setIsVisible((prev: boolean) => (toggle ? true : !prev));
-
     setTimeout(() => {
       setToolVisible(false);
     }, 1200);
+    updateMenuSetting(id, { isVisible: toggle ? true : !isVisible });
   };
 
   return (
