@@ -12,7 +12,6 @@ import { Trash2 } from "lucide-react";
 export default function Card({ invitation }: { invitation?: Invitation }) {
   const router = useRouter();
   const setWeddingTitle = useWeddingTitleStore((s) => s.setWeddingInfoTitle);
-  console.log(invitation);
 
   const handleGoInvitation = async () => {
     if (invitation) {
@@ -83,7 +82,6 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
         )}
 
         <button
-          type="button"
           className="flex items-center justify-center w-49 h-10 bg-[#D4C6B7] rounded-sm font-semibold text-sm text-[#433F3B] active:scale-95 cursor-pointer focus:outline-none z-999"
           onClick={handleGoInvitation}
         >
