@@ -2,14 +2,65 @@ import React from "react";
 import { ChevronRight } from "lucide-react";
 import ThumbnailBtm from "@/app/assets/images/thumbnail-btm.svg";
 import Image from "next/image";
+import { useWeddingInfoStore } from "../store/useWeddingInfoStore";
 
 const PreviewThumbnail = ({ thumbnail, kindIdx }) => {
+  const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
+
+  const groomName = `${weddingInfo?.groomLastName ?? ""}${
+    weddingInfo?.groomFirstName ?? ""
+  }`;
+  const brideName = `${weddingInfo?.brideLastName ?? ""}${
+    weddingInfo?.brideFirstName ?? ""
+  }`;
+  const weddingHallName = weddingInfo?.weddingHallName;
+  const weddingHallFloor = weddingInfo?.weddingHallFloor;
+
+  const today = new Date();
+
+  const selectedYear = Number(weddingInfo?.weddingYear ?? today.getFullYear());
+  const selectedMonth = Number(
+    weddingInfo?.weddingMonth ?? today.getMonth() + 1
+  );
+  const selectedDay = Number(weddingInfo?.weddingDay ?? today.getDate());
+
+  const date = new Date(
+    Date.UTC(
+      Number(selectedYear),
+      Number(selectedMonth) - 1,
+      Number(selectedDay)
+    )
+  );
+  const days: Array<string> = [
+    "(일)",
+    "(월)",
+    "(화)",
+    "(수)",
+    "(목)",
+    "(금)",
+    "(토)",
+  ];
+  const day = days[date.getUTCDay()];
+
+  const dateText = `${selectedYear}.${selectedMonth}.${selectedDay}\u00A0${day}`;
+
+  const timeText = `${weddingInfo?.weddingTimePeriod ?? ""}\u00A0${
+    weddingInfo?.weddingHour ?? "00"
+  }:${weddingInfo?.weddingMinute ?? "00"}`;
+
+  const placeText = weddingHallName ?? "";
+
+  const fullWeddingInfo = `${dateText} ${timeText} ${placeText}`;
+
   const isLink = kindIdx === 1;
   const containerHeight = kindIdx === 0 ? 560 : 400;
   const imageHeight = kindIdx === 0 ? 301 : 115;
 
   return (
-    <div className="bg-[#afc0cf] rounded-[5px] font-medium relative" style={{ height: containerHeight }}>
+    <div
+      className="bg-[#afc0cf] rounded-t-[5px] font-medium relative"
+      style={{ height: containerHeight }}
+    >
       <div style={{ fontFamily: "Pretendard", height: containerHeight }}>
         <div className="text-[#F8F8F9] bg-[#95A3B0] text-[11px] w-[130px] py-1 px-1 rounded-full text-center absolute top-8 left-[50%] -translate-x-[50%]">
           0000년 0월 0일 월요일
@@ -17,7 +68,9 @@ const PreviewThumbnail = ({ thumbnail, kindIdx }) => {
         <div className="absolute right-3 bottom-10">
           {isLink && (
             <div className="relative bg-[#FAE64C] rounded-[13.5px] py-2 px-3 mb-3">
-              <div className="text-[#0E6CD3] text-[15px] underline">https://www.ourday.co.kr/FR3d4sq</div>
+              <div className="text-[#0E6CD3] text-[15px] underline">
+                https://www.ourday.co.kr/FR3d4sq
+              </div>
               <div
                 className="absolute -right-[3px] top-[3px] w-4 h-4 bg-[#FAE64C] rotate-273"
                 style={{
@@ -25,7 +78,7 @@ const PreviewThumbnail = ({ thumbnail, kindIdx }) => {
                   borderBottomLeftRadius: "10px",
                   borderTopLeftRadius: "10px",
                   borderTopRightRadius: "30px",
-                  transform: "translate(0px,6px)"
+                  transform: "translate(0px,6px)",
                 }}
               ></div>
             </div>
@@ -34,23 +87,41 @@ const PreviewThumbnail = ({ thumbnail, kindIdx }) => {
           <div className="w-[244px] bg-white rounded-[10px] overflow-hidden">
             {thumbnail ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={thumbnail} alt="미리보기 이미지" className="w-full bg-[#D2D2D2] object-cover" style={{ height: imageHeight }} />
+              <img
+                src={thumbnail}
+                alt="미리보기 이미지"
+                className="w-full bg-[#D2D2D2] object-cover"
+                style={{ height: imageHeight }}
+              />
             ) : (
-              <div className="w-full bg-[#D2D2D2]" style={{ height: imageHeight }}></div>
+              <div
+                className="w-full bg-[#D2D2D2]"
+                style={{ height: imageHeight }}
+              ></div>
             )}
             {/* 예식 정보 */}
             <div className="bg-white p-3">
               <div className={`${thumbnail ? "opacity-100" : "opacity-0"}`}>
-                <div className="font-semibold text-[14px]">김관휘 ❤️ 유나영, 결혼합니다!</div>
-                <span className="text-[#767676] text-[12px] w-full block">2025.12.27(토) 오전 11:20 더베뉴지서울 1층</span>
-                <span className="text-[#767676] text-[12px] w-full block">네이처홀</span>
+                <div className="font-semibold text-[14px]">
+                  {groomName} ❤️ {brideName}, 결혼합니다!
+                </div>
+                <span className="text-[#767676] text-[12px] w-full block">
+                  {fullWeddingInfo}
+                </span>
+                <span className="text-[#767676] text-[12px] w-full block">
+                  {weddingHallFloor}
+                </span>
               </div>
 
               {isLink ? (
-                <div className="text-[#0E6CD3] text-[12px] underline">https://www.ourday.co.kr/FR3d4sq</div>
+                <div className="text-[#0E6CD3] text-[12px] underline">
+                  https://www.ourday.co.kr/FR3d4sq
+                </div>
               ) : (
                 <div>
-                  <div className="text-[12px] font-semibold bg-[#F1F2F4] text-center py-2 mt-1 rounded-xs">모바일 청첩장 보기</div>
+                  <div className="text-[12px] font-semibold bg-[#F1F2F4] text-center py-2 mt-1 rounded-xs">
+                    모바일 청첩장 보기
+                  </div>
                   <div className="flex text-[12px] items-center justify-between mt-2">
                     <div className="text-[#CACACA]">아워데이</div>
                     <ChevronRight color={"#CACACA"} size={15} />
