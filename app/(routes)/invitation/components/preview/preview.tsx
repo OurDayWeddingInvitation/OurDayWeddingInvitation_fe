@@ -1,26 +1,23 @@
 "use client";
 
-import { fontList } from "@/app/lib/constants";
+import { fontList, previewComponents } from "@/app/lib/constants";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import AccountInfo from "./AccountInfo";
 import Gallery from "./Gallery";
 import InvitationMessage from "./InvitationMessage";
 import LocationInfo from "./LocationInfo";
 import MainImage from "./mainImage/MainImage";
-import { useInvitationMessageStore } from "@/app/store/useInvitationMessageStore";
 import WeddingDay from "./WeddingDay";
 import CoupleIntro from "./CoupleIntro";
 import ParentsInfo from "./ParentsIntro";
+import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
 
 const Preview = () => {
-  // const { invitationTitle, invitationMessage } = useMessageStore();
   // constant로 fontname에 맞게 fontfamily 설정 필요
   const themeFont = useThemeFontStore((s) => s.themeFont);
-  const invitationMessage = useInvitationMessageStore(
-    (s) => s.invitationMessage
-  );
   const fontKey = themeFont?.fontName;
   const fontFamily = fontList.find((font) => font.key === fontKey)?.value ?? "";
+  const menuSetting = useMenuSettingStore((s) => s.menuSetting);
 
   return (
     <div>
@@ -36,14 +33,14 @@ const Preview = () => {
             fontFamily: fontFamily ?? "",
           }}
         >
-          <MainImage />
-          <InvitationMessage />
-          <WeddingDay />
-          <CoupleIntro />
-          <ParentsInfo />
-          <Gallery />
-          <AccountInfo />
-          <LocationInfo />
+          {(menuSetting || [])
+            .filter((item) => item.isVisible)
+            .sort((a, b) => a.displayOrder - b.displayOrder)
+            .map((item) => {
+              const Component = previewComponents[item.sectionKey];
+              if (!Component) return null;
+              return <Component key={item.sectionKey} />;
+            })}
         </div>
       </div>
     </div>
