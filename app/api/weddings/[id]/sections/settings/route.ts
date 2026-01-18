@@ -1,37 +1,36 @@
 import { getToken } from "@/app/lib/auth/token";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(req: NextRequest) {
-  //고정
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const apiDomain = process.env.API_DOMAIN;
   const token = await getToken(req);
 
   req.headers.set("Authorization", `Bearer ${token}`);
 
-  const { weddingId, sectionId, updated } = await req.json();
-
-  console.log(updated);
+  const { sectionSettings } = await req.json();
 
   try {
     const data = await fetch(
-      `${apiDomain}/weddings/${weddingId}/sections/${sectionId}`,
+      `${apiDomain}/weddings/${params.id}/sections/settings`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: req.headers.get("authorization") ?? "",
         },
-        body: JSON.stringify(updated),
+        body: JSON.stringify({ sectionSettings }),
         cache: "no-store",
       }
     );
+
     const json = await data.json();
 
     return NextResponse.json(json, { status: 200 });
   } catch (e) {
-    const message = e instanceof Error ? e.message : String(e);
-    console.error(message);
-
+    console.error(e);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

@@ -18,6 +18,8 @@ declare global {
   }
 
   interface KakaoMapInstance {
+    setZoomable(arg0: boolean): unknown;
+    setDraggable(arg0: boolean): unknown;
     setCenter: (latlng: KakaoMapLatLng) => void;
     setLevel: (level: number) => void;
   }
@@ -28,7 +30,10 @@ declare global {
 
   interface KakaoMapsStatic {
     load(initMap: () => void): unknown;
-    Map: new (container: HTMLElement, options: KakaoMapOptions) => KakaoMapInstance;
+    Map: new (
+      container: HTMLElement,
+      options: KakaoMapOptions
+    ) => KakaoMapInstance;
     Marker: new (options: KakaoMarkerOptions) => KakaoMarkerInstance;
     LatLng: new (lat: number, lng: number) => KakaoMapLatLng;
   }

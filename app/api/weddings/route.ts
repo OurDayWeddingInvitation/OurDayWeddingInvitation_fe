@@ -46,9 +46,9 @@ export async function POST(req: NextRequest) {
       cache: "no-store",
     });
 
-    console.log(data);
+    const json = await data.json();
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(json, { status: 200 });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     console.error(message);
