@@ -18,10 +18,12 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
       setWeddingTitle(invitation?.weddingTitle ?? "");
       router.push(`/invitation/${invitation.weddingId}`);
     } else {
-      await clientFetchApi({
+      const res = await clientFetchApi({
         endPoint: "/weddings",
         method: "POST",
       });
+      router.refresh();
+      router.push(`/invitation/${res.data.weddingId}`);
     }
   };
 
