@@ -11,7 +11,7 @@ import AccountInfo from "@/app/(routes)/invitation/components/preview/AccountInf
 export const previewComponents: Record<string, React.FC> = {
   main: MainImage,
   invitationMessage: InvitationMessage,
-  weddingInfo: WeddingDay,
+  weddingInfo: null,
   coupleIntro: CoupleIntro,
   parentsIntro: ParentsInfo,
   gallery: Gallery,
