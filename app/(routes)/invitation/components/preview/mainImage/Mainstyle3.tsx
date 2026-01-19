@@ -18,10 +18,10 @@ const Mainstyle3 = ({
   }`;
   const isGroomFirst = weddingInfo?.nameOrderType === "G";
 
-  const imageUrl = mainImageInfo.editedUrl
-    ? getImagePath(mainImageInfo.editedUrl)
-    : getImagePath(mainImageInfo.originalUrl);
-  const cacheVer = new Date(mainImageInfo.updatedAt).getTime();
+  const imageUrl = mainImageInfo?.editedUrl
+    ? getImagePath(mainImageInfo?.editedUrl)
+    : getImagePath(mainImageInfo?.originalUrl);
+  const cacheVer = new Date(mainImageInfo?.updatedAt).getTime();
 
   return (
     <div className="box-border overflow-hiddentext-[#FFFFFF]">

@@ -26,10 +26,10 @@ const Mainstyle1 = ({
       ? `${groomName} • ${brideName}`
       : `${brideName} • ${groomName}`;
 
-  const imageUrl = mainImageInfo.editedUrl
-    ? getImagePath(mainImageInfo.editedUrl)
-    : getImagePath(mainImageInfo.originalUrl);
-  const cacheVer = new Date(mainImageInfo.updatedAt).getTime();
+  const imageUrl = mainImageInfo?.editedUrl
+    ? getImagePath(mainImageInfo?.editedUrl)
+    : getImagePath(mainImageInfo?.originalUrl);
+  const cacheVer = new Date(mainImageInfo?.updatedAt).getTime();
 
   useEffect(() => {
     if (
