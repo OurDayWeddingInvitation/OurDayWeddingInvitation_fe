@@ -40,14 +40,16 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex justify-between">
-        <p className="pl-3 text-sm text-[#CACACA] min-h-5">
+      <div className="flex gap-2">
+        <p className="pl-3 text-sm text-[#CACACA] min-h-5 overflow-hidden whitespace-nowrap w-[220px] text-ellipsis">
           {invitation?.weddingTitle ?? ""}
         </p>
+
         {invitation && (
           <Trash2
+            size={18} // 아이콘 크기 적절히 조절
             color="#CACACA"
-            className="cursor-pointer"
+            className="cursor-pointer shrink-0"
             onClick={handleDeleteInvitation}
           />
         )}
