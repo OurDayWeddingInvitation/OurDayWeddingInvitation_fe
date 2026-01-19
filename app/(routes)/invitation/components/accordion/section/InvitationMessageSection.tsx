@@ -51,7 +51,7 @@ const InvitationMessageSection = () => {
       <div className={fieldStyle}>
         <p className={labelStyle}>본문</p>
         <a
-          href=""
+          href="https://spangle-produce-63a.notion.site/2ec3207f54ac80a4b084e8851fea6c6c?pvs=143"
           target="_blank"
           className="font-extralight text-xs leading-[26px] tracking-[-0.5px] underline text-[#CACACA]"
         >

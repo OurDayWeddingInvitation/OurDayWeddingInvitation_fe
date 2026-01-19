@@ -34,25 +34,13 @@ const FamilyWeddingCoupleCard = ({ type, weddingInfo, childName }: Props) => {
   const brideRankName = weddingInfo?.brideRankName ?? "딸";
 
   return (
-    <div className="grid grid-cols-[130px_32px_1fr] gap-x-2">
+    <div className="grid grid-cols-[auto_32px_1fr] gap-x-2 whitespace-nowrap">
       <span className="flex">
-        <Image
-          src={Ribbon}
-          alt="고인"
-          width={14}
-          style={{ opacity: fatherDeceased ? 1 : 0 }}
-        />
+        {fatherDeceased && <Image src={Ribbon} alt="고인" width={14} />}
         <span>{fatherName}</span>
-        <span>·</span>
+        <span className="mx-1">·</span>
 
-        {showMotherRibbon && (
-          <Image
-            src={Ribbon}
-            alt="고인"
-            width={14}
-            style={{ opacity: motherDeceased ? 1 : 0 }}
-          />
-        )}
+        {motherDeceased && <Image src={Ribbon} alt="고인" width={14} />}
 
         <span>{motherName}의</span>
       </span>
