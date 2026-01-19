@@ -21,7 +21,7 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
   };
 
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: menu.id });
+    useSortable({ id: menu.id, disabled: !menu.movable });
   const Component = sectionComponents[menu.id];
   const props = sectionPropsMap[menu.id];
   const style = menu.movable
