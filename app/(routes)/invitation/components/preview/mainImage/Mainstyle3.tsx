@@ -18,6 +18,11 @@ const Mainstyle3 = ({
   }`;
   const isGroomFirst = weddingInfo?.nameOrderType === "G";
 
+  const imageUrl = mainImageInfo.editedUrl
+    ? getImagePath(mainImageInfo.editedUrl)
+    : getImagePath(mainImageInfo.originalUrl);
+  const cacheVer = new Date(mainImageInfo.updatedAt).getTime();
+
   return (
     <div className="box-border overflow-hiddentext-[#FFFFFF]">
       <div
@@ -26,11 +31,7 @@ const Mainstyle3 = ({
       >
         {mainImageInfo ? (
           <img
-            src={
-              mainImageInfo.editedUrl
-                ? getImagePath(mainImageInfo.editedUrl)
-                : getImagePath(mainImageInfo.originalUrl)
-            }
+            src={`${imageUrl}?v=${cacheVer}`}
             alt="메인 이미지"
             className="h-[760px] object-cover"
           />

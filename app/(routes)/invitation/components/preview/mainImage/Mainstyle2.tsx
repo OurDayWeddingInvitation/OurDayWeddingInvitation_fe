@@ -25,6 +25,11 @@ const Mainstyle2 = ({
       ? `${groomName} ♥ ${brideName}`
       : `${brideName} ♥ ${groomName}`;
 
+  const imageUrl = mainImageInfo.editedUrl
+    ? getImagePath(mainImageInfo.editedUrl)
+    : getImagePath(mainImageInfo.originalUrl);
+  const cacheVer = new Date(mainImageInfo.updatedAt).getTime();
+
   useEffect(() => {
     if (
       !weddingInfo?.weddingYear ||
@@ -98,11 +103,7 @@ const Mainstyle2 = ({
       <div className="flex-1 min-h-0 overflow-hidden flex items-center justify-center">
         {mainImageInfo ? (
           <img
-            src={
-              mainImageInfo.editedUrl
-                ? getImagePath(mainImageInfo.editedUrl)
-                : getImagePath(mainImageInfo.originalUrl)
-            }
+            src={`${imageUrl}?v=${cacheVer}`}
             alt="메인 이미지"
             className="max-w-full max-h-full object-contain"
             style={{
