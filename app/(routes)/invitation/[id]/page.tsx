@@ -18,6 +18,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     method: "GET",
   });
 
+  console.log(response);
+
   return (
     <InvitationView
       weddingId={params.id}

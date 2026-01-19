@@ -103,7 +103,23 @@ export default function InvitationView({
     if (invitationDetail.sectionSettings) {
       setMenuSetting(invitationDetail.sectionSettings);
     }
-  }, [invitationDetail]);
+  }, [
+    invitationDetail,
+    setAccountInfo,
+    setCoupleIntroInfo,
+    setGalleryInfo,
+    setInvitationInfo,
+    setLoadingScreenStyle,
+    setLocationInfo,
+    setMainStyleKind,
+    setMenuSetting,
+    setParentsIntroInfo,
+    setThemeFont,
+    setWeddingId,
+    setWeddingInfo,
+    setWeddingInfoTitle,
+    weddingId,
+  ]);
 
   useEffect(() => {
     // imageType 별로 필요한 값 저장

@@ -4,11 +4,16 @@ import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import Mainstyle1 from "./Mainstyle1";
 import Mainstyle2 from "./Mainstyle2";
 import Mainstyle3 from "./Mainstyle3";
+import { useEffect } from "react";
 
 const MainImage = () => {
   const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
   const mainStyleKind = useMainImageStore((s) => s.mainStyleKind);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
+
+  useEffect(() => {
+    console.log(mainStyleKind);
+  });
 
   return (
     <div className="w-full">
