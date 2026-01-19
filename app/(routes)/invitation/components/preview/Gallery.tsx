@@ -12,7 +12,7 @@ const Gallery = () => {
 
   const [visibleCount, setVisibleCount] = useState<number>(9);
   const [imageSizes, setImageSizes] = useState<
-    Record<number, { width: number; height: number }>
+    Record<string, { width: number; height: number }>
   >({});
 
   const handleLoadMore = () => {
@@ -24,19 +24,33 @@ const Gallery = () => {
     setVisibleCount(9);
   }, [galleryImages?.length]);
 
-  // 이미지 가로 세로 크기 함수
-  const handleImageLoad = (idx: number, src: string) => {
-    if (imageSizes[idx]) return;
+  useEffect(() => {
+    if (!galleryImages) return;
 
-    const img = new Image();
-    img.onload = () => {
-      setImageSizes((prev) => ({
-        ...prev,
-        [idx]: { width: img.naturalWidth, height: img.naturalHeight },
-      }));
-    };
-    img.src = src;
-  };
+    const targets = galleryImages.slice(0, visibleCount);
+
+    targets.forEach((image) => {
+      const src = getImagePath(image.editedUrl ?? image.originalUrl);
+
+      if (imageSizes[src]) return;
+
+      const img = new Image();
+      img.onload = () => {
+        setImageSizes((prev) => {
+          if (prev[src]) return prev;
+
+          return {
+            ...prev,
+            [src]: {
+              width: img.naturalWidth,
+              height: img.naturalHeight,
+            },
+          };
+        });
+      };
+      img.src = src;
+    });
+  }, [galleryImages, visibleCount]);
 
   return (
     <div className="text-center bg-[#FFFFFF] pb-10">
@@ -51,19 +65,15 @@ const Gallery = () => {
         <div className="grid grid-cols-3 px-4 gap-2">
           {galleryImages?.slice(0, visibleCount).map((image, idx) => {
             const src = getImagePath(image.editedUrl ?? image.originalUrl);
-
-            handleImageLoad(idx, src);
-
-            const width = imageSizes[idx]?.width ?? 1200;
-            const height = imageSizes[idx]?.height ?? 1600;
+            const size = imageSizes[src];
 
             return (
               <Item
                 key={idx}
                 original={src}
                 thumbnail={src}
-                width={width}
-                height={height}
+                width={size?.width ?? 1200}
+                height={size?.height ?? 1600}
               >
                 {({ ref, open }) => (
                   <div
