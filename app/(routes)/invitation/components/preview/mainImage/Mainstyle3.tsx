@@ -19,9 +19,9 @@ const Mainstyle3 = ({
   const isGroomFirst = weddingInfo?.nameOrderType === "G";
 
   return (
-    <div className="text-[#FFFFFF]">
+    <div className="box-border overflow-hiddentext-[#FFFFFF]">
       <div
-        className="text-center text-[14px] relative"
+        className="relative flex flex-col h-full text-center text-[14px]"
         style={{ fontFamily: "GreatVibes" }}
       >
         {mainImageInfo ? (
@@ -42,13 +42,23 @@ const Mainstyle3 = ({
           <span>Wedding Day</span>
           <span>{isGroomFirst ? brideName : groomName}</span>
         </div>
-        <div className="absolute left-0 bottom-[73px] text-center w-full px-2.5 z-9">
+
+        {/* 하단 오버레이 텍스트 */}
+        <div className="absolute left-0 bottom-[73px] w-full px-2.5 text-center">
           <div className="text-[36px]">The Beginning of Forever</div>
+
           <p className="text-[11px]" style={{ fontFamily: "Noto Sans KR" }}>
-            <span>IN THE STORY WRITTEN BY TIME AND MEMORY,</span>
-            <span>WE ARE GRATEFUL FOR THE CHAPTERS THAT LED US HERE,</span>
-            <span>AND BEGIN THE NEXT WITH LOVE OF FOREVER.</span>
+            <span className="block">
+              IN THE STORY WRITTEN BY TIME AND MEMORY,
+            </span>
+            <span className="block">
+              WE ARE GRATEFUL FOR THE CHAPTERS THAT LED US HERE,
+            </span>
+            <span className="block">
+              AND BEGIN THE NEXT WITH LOVE OF FOREVER.
+            </span>
           </p>
+
           <span className="text-[20px]">
             {weddingInfo?.weddingYear} . {weddingInfo?.weddingMonth} .{" "}
             {weddingInfo?.weddingDay}
