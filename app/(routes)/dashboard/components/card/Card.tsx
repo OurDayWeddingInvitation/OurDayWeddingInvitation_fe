@@ -30,11 +30,18 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
   const handleDeleteInvitation = async () => {
     if (!invitation?.weddingId) return;
 
+    const isConfirmed = window.confirm(
+      "청첩장을 삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.",
+    );
+
+    if (!isConfirmed) return;
+
     await clientFetchApi({
       endPoint: `/weddings/${invitation.weddingId}`,
       method: "DELETE",
     });
 
+    alert("삭제가 완료되었습니다.");
     router.refresh();
   };
 
