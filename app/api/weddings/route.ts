@@ -46,7 +46,11 @@ export async function POST(req: NextRequest) {
       cache: "no-store",
     });
 
+<<<<<<< Updated upstream
     const json = await data.json();
+=======
+    const json = data.json();
+>>>>>>> Stashed changes
 
     return NextResponse.json(json, { status: 200 });
   } catch (e) {

@@ -12,11 +12,16 @@ const MainImage = () => {
 
   return (
     <div className="w-full">
-      {mainStyleKind === "1" && <Mainstyle1 weddingInfo={weddingInfo} />}
-      {mainStyleKind === "2" && <Mainstyle2 weddingInfo={weddingInfo} />}
-      {mainStyleKind === "3" && <Mainstyle3 weddingInfo={weddingInfo} />}
-
-      {!mainStyleKind && mainImageInfo && (
+      {mainStyleKind === "mainStyle1" && (
+        <Mainstyle1 weddingInfo={weddingInfo} />
+      )}
+      {mainStyleKind === "mainStyle2" && (
+        <Mainstyle2 weddingInfo={weddingInfo} />
+      )}
+      {mainStyleKind === "mainStyle3" && (
+        <Mainstyle3 weddingInfo={weddingInfo} />
+      )}
+      {/* {!mainStyleKind && mainImageInfo && (
         <img
           src={
             mainImageInfo.editedUrl
@@ -24,12 +29,12 @@ const MainImage = () => {
               : getImagePath(mainImageInfo.originalUrl)
           }
           alt="메인 이미지"
-          className="w-full object-cover h-[760px]"
+          className="w-full h-[760px]"
         />
       )}
       {!mainImageInfo && !mainStyleKind && (
         <div className="bg-[#D9D9D9] h-[760px]"></div>
-      )}
+      )} */}
     </div>
   );
 };

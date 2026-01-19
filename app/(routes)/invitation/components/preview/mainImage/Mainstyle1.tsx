@@ -28,8 +28,8 @@ const Mainstyle1 = ({
       Date.UTC(
         Number(weddingInfo?.weddingYear),
         Number(weddingInfo?.weddingMonth) - 1,
-        Number(weddingInfo?.weddingDay)
-      )
+        Number(weddingInfo?.weddingDay),
+      ),
     );
 
     // 날짜 유효성 검증
@@ -83,10 +83,16 @@ const Mainstyle1 = ({
 
   return (
     <div
-      className="bg-[#FFFFFF] px-[22px] py-[60px] text-[#5E5852]"
+      className="
+    h-screen box-border overflow-hidden
+    bg-[#FFFFFF] px-[22px] py-[60px]
+    text-[#5E5852]
+    flex flex-col
+  "
       style={{ fontFamily: "NanumMyeongjo" }}
     >
-      <div className="text-center text-[24px] font-extrabold">
+      {/* 상단 날짜 */}
+      <div className="text-center text-[24px] font-extrabold shrink-0">
         <span>
           {weddingInfo?.weddingYear} / {weddingInfo?.weddingMonth} /
           {weddingInfo?.weddingDay}
@@ -94,6 +100,10 @@ const Mainstyle1 = ({
         <div className="text-[14px] font-bold tracking-[2.8px]">
           {weddingDayOfWeekEng}
         </div>
+      </div>
+
+      {/* 이미지 영역 */}
+      <div className="flex-1 min-h-0 overflow-hidden py-[22px] flex items-center justify-center">
         {mainImageInfo ? (
           <img
             src={
@@ -101,17 +111,24 @@ const Mainstyle1 = ({
                 ? getImagePath(mainImageInfo.editedUrl)
                 : getImagePath(mainImageInfo.originalUrl)
             }
-            alt="메인 이미지2"
-            className="py-[22px] h-[760px] object-cover"
+            alt="메인 이미지"
+            className="max-w-full max-h-full object-contain"
           />
         ) : (
-          <div className="bg-[#D9D9D9] h-[760px]"></div>
+          <div className="w-full h-full bg-[#D9D9D9]" />
         )}
       </div>
-      <div className="text-center">
-        <div className="text-[20px] font-extrabold py-7.5">{orderedNames}</div>
+
+      {/* 하단 텍스트 */}
+      <div className="text-center shrink-0">
+        <div className="text-[20px] font-extrabold pb-[30px]">
+          {orderedNames}
+        </div>
         <p>
-          {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월 ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek} ${weddingInfo?.weddingTimePeriod} ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
+          {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월
+        ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek}
+        ${weddingInfo?.weddingTimePeriod}
+        ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
         </p>
         <p>
           {weddingInfo?.weddingHallName}, {weddingInfo?.weddingHallFloor}
