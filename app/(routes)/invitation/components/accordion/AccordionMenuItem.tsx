@@ -34,7 +34,7 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
   return (
     <AccordionItem
       value={`item-${idx}`}
-      className="flex flex-col w-full bg-white p-5 rounded-lg h-[68px] justify-center"
+      className="flex flex-col w-full bg-white p-[22px] rounded-lg justify-center"
       ref={setNodeRef}
       key={idx}
       style={style}
