@@ -12,15 +12,9 @@ const MainImage = () => {
 
   return (
     <div className="w-full">
-      {mainStyleKind === "mainStyle1" && (
-        <Mainstyle1 weddingInfo={weddingInfo} />
-      )}
-      {mainStyleKind === "mainStyle2" && (
-        <Mainstyle2 weddingInfo={weddingInfo} />
-      )}
-      {mainStyleKind === "mainStyle3" && (
-        <Mainstyle3 weddingInfo={weddingInfo} />
-      )}
+      {mainStyleKind === "1" && <Mainstyle1 weddingInfo={weddingInfo} />}
+      {mainStyleKind === "2" && <Mainstyle2 weddingInfo={weddingInfo} />}
+      {mainStyleKind === "3" && <Mainstyle3 weddingInfo={weddingInfo} />}
       {/* {!mainStyleKind && mainImageInfo && (
         <img
           src={

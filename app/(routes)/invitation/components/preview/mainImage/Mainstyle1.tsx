@@ -15,6 +15,22 @@ const Mainstyle1 = ({
   const [weddingDayOfWeek, setWeddingDayOfWeek] = useState<string>("");
   const [weddingDayOfWeekEng, setWeddingDayOfWeekEng] = useState<string>("");
 
+  const groomName = `${weddingInfo?.groomLastName ?? ""}${
+    weddingInfo?.groomFirstName ?? ""
+  }`;
+  const brideName = `${weddingInfo?.brideLastName ?? ""}${
+    weddingInfo?.brideFirstName ?? ""
+  }`;
+  const orderedNames =
+    weddingInfo?.nameOrderType === "G"
+      ? `${groomName} • ${brideName}`
+      : `${brideName} • ${groomName}`;
+
+  const imageUrl = mainImageInfo.editedUrl
+    ? getImagePath(mainImageInfo.editedUrl)
+    : getImagePath(mainImageInfo.originalUrl);
+  const cacheVer = new Date(mainImageInfo.updatedAt).getTime();
+
   useEffect(() => {
     if (
       !weddingInfo?.weddingYear ||
@@ -28,8 +44,8 @@ const Mainstyle1 = ({
       Date.UTC(
         Number(weddingInfo?.weddingYear),
         Number(weddingInfo?.weddingMonth) - 1,
-        Number(weddingInfo?.weddingDay),
-      ),
+        Number(weddingInfo?.weddingDay)
+      )
     );
 
     // 날짜 유효성 검증
@@ -70,17 +86,6 @@ const Mainstyle1 = ({
     weddingInfo?.weddingDay,
   ]);
 
-  const groomName = `${weddingInfo?.groomLastName ?? ""}${
-    weddingInfo?.groomFirstName ?? ""
-  }`;
-  const brideName = `${weddingInfo?.brideLastName ?? ""}${
-    weddingInfo?.brideFirstName ?? ""
-  }`;
-  const orderedNames =
-    weddingInfo?.nameOrderType === "G"
-      ? `${groomName} • ${brideName}`
-      : `${brideName} • ${groomName}`;
-
   return (
     <div
       className="
@@ -106,11 +111,7 @@ const Mainstyle1 = ({
       <div className="flex-1 min-h-0 overflow-hidden py-[22px] flex items-center justify-center">
         {mainImageInfo ? (
           <img
-            src={
-              mainImageInfo.editedUrl
-                ? getImagePath(mainImageInfo.editedUrl)
-                : getImagePath(mainImageInfo.originalUrl)
-            }
+            src={`${imageUrl}?v=${cacheVer}`}
             alt="메인 이미지"
             className="max-w-full max-h-full object-contain"
           />
