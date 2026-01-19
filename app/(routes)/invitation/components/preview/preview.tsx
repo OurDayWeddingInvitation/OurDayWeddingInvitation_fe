@@ -13,7 +13,7 @@ import WeddingDay from "./WeddingDay";
 import CoupleIntro from "./CoupleIntro";
 import ParentsInfo from "./ParentsIntro";
 
-const Preview = ({ isLink = false }: { isLink: boolean }) => {
+const Preview = ({ isLink = false }: { isLink?: boolean }) => {
   // const { invitationTitle, invitationMessage } = useMessageStore();
   // constant로 fontname에 맞게 fontfamily 설정 필요
   const themeFont = useThemeFontStore((s) => s.themeFont);
