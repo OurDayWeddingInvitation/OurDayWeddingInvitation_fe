@@ -25,10 +25,7 @@ jobs:
             nvm install
             nvm use
 
-            # 버전 확인 로그
-            node -v
-            npm -v
-            which node
+            npm install -g pm2
 
             git fetch --all
             git reset --hard origin/main
