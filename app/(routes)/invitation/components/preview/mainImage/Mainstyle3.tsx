@@ -24,16 +24,20 @@ const Mainstyle3 = ({
   const cacheVer = new Date(mainImageInfo?.updatedAt).getTime();
 
   return (
-    <div className="box-border overflow-hiddentext-[#FFFFFF]">
+    <div className="box-border overflow-hiddentext-[#FFFFFF] w-full">
       <div
-        className="relative flex flex-col h-full text-center text-[14px]"
+        className="relative flex flex-col text-center text-[14px] aspect-2/3"
         style={{ fontFamily: "GreatVibes" }}
       >
         {mainImageInfo ? (
           <img
-            src={`${imageUrl}?v=${cacheVer}`}
+            src={
+              mainImageInfo.editedUrl
+                ? getImagePath(mainImageInfo.editedUrl)
+                : getImagePath(mainImageInfo.originalUrl)
+            }
             alt="메인 이미지"
-            className="h-[760px] object-cover"
+            className="aspect-2/3 object-cover"
           />
         ) : (
           <div className="bg-[#D9D9D9] h-[760px]"></div>

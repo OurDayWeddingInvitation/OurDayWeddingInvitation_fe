@@ -37,6 +37,7 @@ const Mainstyle1 = ({
       !weddingInfo?.weddingMonth ||
       weddingInfo?.weddingDay
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWeddingDayOfWeek("월요일");
     }
 

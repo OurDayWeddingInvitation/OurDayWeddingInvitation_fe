@@ -12,6 +12,8 @@ import MainImage from "./mainImage/MainImage";
 import WeddingDay from "./WeddingDay";
 import CoupleIntro from "./CoupleIntro";
 import ParentsInfo from "./ParentsIntro";
+import { FadeInSection } from "../FadeInSection";
+import { useEffect } from "react";
 
 const Preview = ({ isLink = false }: { isLink?: boolean }) => {
   // const { invitationTitle, invitationMessage } = useMessageStore();
@@ -21,6 +23,10 @@ const Preview = ({ isLink = false }: { isLink?: boolean }) => {
   const fontKey = themeFont?.fontName;
   const fontFamily = fontList.find((font) => font.key === fontKey)?.value ?? "";
   const menuSetting = useMenuSettingStore((s) => s.menuSetting);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return !isLink ? (
     <div>
@@ -48,7 +54,7 @@ const Preview = ({ isLink = false }: { isLink?: boolean }) => {
     </div>
   ) : (
     <div
-      className="max-w-[400px] w-full"
+      className="max-w-[480px] w-full"
       style={{
         scrollbarWidth: "none",
         msOverflowStyle: "none",
@@ -57,14 +63,30 @@ const Preview = ({ isLink = false }: { isLink?: boolean }) => {
         fontFamily: fontFamily ?? "",
       }}
     >
-      <MainImage />
-      <InvitationMessage />
-      <WeddingDay />
-      <CoupleIntro />
-      <ParentsInfo />
-      <Gallery />
-      <AccountInfo />
-      <LocationInfo />
+      <FadeInSection>
+        <MainImage />
+      </FadeInSection>
+      <FadeInSection delay={0.1}>
+        <InvitationMessage />
+      </FadeInSection>
+      {/* <FadeInSection delay={0.1}>
+        <WeddingDay />
+      </FadeInSection> */}
+      <FadeInSection delay={0.1}>
+        <CoupleIntro />
+      </FadeInSection>
+      <FadeInSection delay={0.1}>
+        <ParentsInfo />
+      </FadeInSection>
+      <FadeInSection delay={0.1}>
+        <Gallery />
+      </FadeInSection>
+      <FadeInSection delay={0.1}>
+        <AccountInfo />
+      </FadeInSection>
+      <FadeInSection delay={0.1}>
+        <LocationInfo />
+      </FadeInSection>
     </div>
   );
 };

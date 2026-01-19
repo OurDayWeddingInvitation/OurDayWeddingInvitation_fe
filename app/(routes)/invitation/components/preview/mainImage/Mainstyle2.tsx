@@ -36,6 +36,7 @@ const Mainstyle2 = ({
       !weddingInfo?.weddingMonth ||
       weddingInfo?.weddingDay
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWeddingDayOfWeek("월요일");
     }
 
@@ -43,8 +44,8 @@ const Mainstyle2 = ({
       Date.UTC(
         Number(weddingInfo?.weddingYear),
         Number(weddingInfo?.weddingMonth) - 1,
-        Number(weddingInfo?.weddingDay)
-      )
+        Number(weddingInfo?.weddingDay),
+      ),
     );
 
     // 날짜 유효성 검증

@@ -13,6 +13,7 @@ import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import { useEffect } from "react";
 import Preview from "../../invitation/components/preview/preview";
+import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
 
 export default function LinkView({
   weddingId,
@@ -29,50 +30,43 @@ export default function LinkView({
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
   const setInvitationInfo = useInvitationMessageStore(
-    (s) => s.setInvitationMessage
+    (s) => s.setInvitationMessage,
   );
   const setThemeFont = useThemeFontStore((s) => s.setThemeFont);
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
   const setGalleryInfo = useGalleryStore((s) => s.setGalleryInfo);
   const setGalleryImages = useGalleryStore((s) => s.setGalleryImages);
   const setLoadingScreenStyle = useLoadingScreenStore(
-    (s) => s.setLoadingScreenStyle
+    (s) => s.setLoadingScreenStyle,
   );
 
+  const setMenuSetting = useMenuSettingStore((s) => s.setMenuSetting);
+
   useEffect(() => {
-    if (weddingId) {
-      setWeddingId(weddingId);
-    }
-
-    if (invitationDetail?.sections?.weddingInfo) {
-      setWeddingInfo(invitationDetail?.sections?.weddingInfo);
-    }
-
-    if (invitationDetail?.sections?.main) {
-      setMainStyleKind(invitationDetail?.sections?.main.posterStyle);
-    }
-
-    if (invitationDetail?.sections?.accountInfo) {
-      setAccountInfo(invitationDetail?.sections?.accountInfo);
-    }
-    if (invitationDetail?.sections?.invitationMessage) {
-      setInvitationInfo(invitationDetail?.sections?.invitationMessage);
-    }
-    if (invitationDetail?.sections?.themeFont) {
-      setThemeFont(invitationDetail?.sections?.themeFont);
-    }
-    if (invitationDetail?.sections?.locationInfo) {
-      setLocationInfo(invitationDetail?.sections?.locationInfo);
-    }
-
-    if (invitationDetail?.sections?.gallery) {
-      setGalleryInfo(invitationDetail?.sections?.gallery);
-    }
-
-    if (invitationDetail?.sections?.loadingScreen) {
-      setLoadingScreenStyle(invitationDetail?.sections?.loadingScreen);
-    }
-  }, [invitationDetail]);
+    setWeddingId(weddingId ?? null);
+    setWeddingInfo(invitationDetail?.sections?.weddingInfo ?? null);
+    setMainStyleKind(invitationDetail?.sections?.main.posterStyle ?? null);
+    setAccountInfo(invitationDetail?.sections?.accountInfo ?? null);
+    setInvitationInfo(invitationDetail?.sections?.invitationMessage ?? null);
+    setThemeFont(invitationDetail?.sections?.themeFont ?? null);
+    setLocationInfo(invitationDetail?.sections?.locationInfo ?? null);
+    setGalleryInfo(invitationDetail?.sections?.gallery ?? null);
+    setLoadingScreenStyle(invitationDetail?.sections?.loadingScreen ?? null);
+    setMenuSetting(invitationDetail.sectionSettings ?? null);
+  }, [
+    invitationDetail,
+    setAccountInfo,
+    setGalleryInfo,
+    setInvitationInfo,
+    setLoadingScreenStyle,
+    setLocationInfo,
+    setMainStyleKind,
+    setMenuSetting,
+    setThemeFont,
+    setWeddingId,
+    setWeddingInfo,
+    weddingId,
+  ]);
 
   useEffect(() => {
     // imageType 별로 필요한 값 저장
@@ -82,7 +76,7 @@ export default function LinkView({
         .at(-1);
 
       const galleryImage = imageDetail.filter(
-        (img) => img.imageType === "galleryImage"
+        (img) => img.imageType === "galleryImage",
       );
 
       // 메인 이미지
@@ -95,7 +89,7 @@ export default function LinkView({
         setGalleryImages(galleryImage);
       }
     }
-  }, [imageDetail]);
+  }, [imageDetail, setGalleryImages, setMainImageInfo]);
 
   return (
     <>
