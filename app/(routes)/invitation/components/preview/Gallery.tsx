@@ -18,13 +18,13 @@ const Gallery = () => {
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 9);
   };
-  console.log(imageSizes);
 
   // 이미지 개수(length)가 바뀌면, 보여줄 개수를 다시 9개로 리셋합니다.
   useEffect(() => {
     setVisibleCount(9);
   }, [galleryImages?.length]);
 
+  // 이미지 가로 세로 크기 함수
   const handleImageLoad = (idx: number, src: string) => {
     if (imageSizes[idx]) return;
 
