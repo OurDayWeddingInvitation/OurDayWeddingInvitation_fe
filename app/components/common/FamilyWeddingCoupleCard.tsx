@@ -30,6 +30,8 @@ const FamilyWeddingCoupleCard = ({ type, weddingInfo, childName }: Props) => {
 
   const showMotherRibbon =
     weddingInfo?.groomMotherDeceased || weddingInfo?.brideMotherDeceased;
+  const groomRankName = weddingInfo?.groomRankName ?? "아들";
+  const brideRankName = weddingInfo?.brideRankName ?? "딸";
 
   return (
     <div className="grid grid-cols-[130px_32px_1fr] gap-x-2">
@@ -55,7 +57,9 @@ const FamilyWeddingCoupleCard = ({ type, weddingInfo, childName }: Props) => {
         <span>{motherName}의</span>
       </span>
 
-      <span className="text-center">{isGroom ? "아들" : "딸"}</span>
+      <span className="text-center">
+        {isGroom ? groomRankName : brideRankName}
+      </span>
       <span className="font-bold">{childName}</span>
     </div>
   );
