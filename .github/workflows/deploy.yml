@@ -22,8 +22,18 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             source "$NVM_DIR/nvm.sh"
 
+            nvm install
+            nvm use
+
+            # 버전 확인 로그
+            node -v
+            npm -v
+            which node
+
             git fetch --all
             git reset --hard origin/main
+
+            rm -rf node_modules .next
 
             npm ci
             npm run build
