@@ -29,21 +29,19 @@ const FamilyWeddingInfo = () => {
   );
 
   return (
-    <div>
-      <div className="pt-10">
-        <div className="mx-auto flex flex-col gap-3.5">
-          {isGroomFirst ? (
-            <>
-              {groomBlock}
-              {brideBlock}
-            </>
-          ) : (
-            <>
-              {brideBlock}
-              {groomBlock}
-            </>
-          )}
-        </div>
+    <div className="pt-10">
+      <div className="mx-auto flex flex-col gap-3.5 items-center">
+        {isGroomFirst ? (
+          <>
+            {groomBlock}
+            {brideBlock}
+          </>
+        ) : (
+          <>
+            {brideBlock}
+            {groomBlock}
+          </>
+        )}
       </div>
     </div>
   );
