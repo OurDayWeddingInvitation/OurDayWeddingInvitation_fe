@@ -15,23 +15,21 @@ const ParentsInfo = () => {
 
   // TODO: 이미지 경로 처리 함수로 변경 필요
   const groomParentsImageUrl = parentsImageInfo?.groomParentsImage
-    ? getImagePath(
+    ? `${getImagePath(
         parentsImageInfo?.groomParentsImage?.editedUrl ??
           parentsImageInfo?.groomParentsImage?.originalUrl
-      )
+      )}?v=${new Date(
+        parentsImageInfo?.groomParentsImage?.updatedAt
+      ).getTime()}`
     : "";
   const brideParentsImageUrl = parentsImageInfo?.brideParentsImage
-    ? getImagePath(
+    ? `${getImagePath(
         parentsImageInfo?.brideParentsImage?.editedUrl ??
           parentsImageInfo?.brideParentsImage?.originalUrl
-      )
+      )}?v=${new Date(
+        parentsImageInfo?.brideParentsImage?.updatedAt
+      ).getTime()}`
     : "";
-  const groomImgCacheVer = new Date(
-    parentsImageInfo?.groomParentsImage?.updatedAt
-  ).getTime();
-  const brideImgCacheVer = new Date(
-    parentsImageInfo?.brideParentsImage?.updatedAt
-  ).getTime();
 
   const groomName = weddingInfo?.groomFirstName;
   const brideName = weddingInfo?.brideFirstName;
@@ -44,7 +42,7 @@ const ParentsInfo = () => {
       childName: groomName,
       father: weddingInfo?.groomFatherName,
       mother: weddingInfo?.groomMotherName,
-      imageUrl: `${groomParentsImageUrl}?v=${groomImgCacheVer}`,
+      imageUrl: groomParentsImageUrl,
     },
     {
       key: "bride",
@@ -53,7 +51,7 @@ const ParentsInfo = () => {
       childName: brideName,
       father: weddingInfo?.brideFatherName,
       mother: weddingInfo?.brideMotherName,
-      imageUrl: `${brideParentsImageUrl}?v=${brideImgCacheVer}`,
+      imageUrl: brideParentsImageUrl,
     },
   ];
   const orderedParents = isGroomFirst ? parents : [...parents].reverse();
