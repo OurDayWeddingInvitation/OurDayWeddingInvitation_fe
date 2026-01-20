@@ -95,7 +95,7 @@ const MainImageSection = () => {
           imageType: "mainImage",
           displayOrder: 1,
         }),
-        1500
+        1500,
       );
 
       // store 상태 업데이트
@@ -126,7 +126,7 @@ const MainImageSection = () => {
           mediaId: mainImageInfo.mediaId,
           file: file,
         }),
-        1500
+        1500,
       );
 
       // store 상태 업데이트
@@ -172,7 +172,7 @@ const MainImageSection = () => {
     }
 
     const foundIndex = mainStyleArr.findIndex(
-      (item) => item.title === mainStyleKind
+      (item) => item.title === mainStyleKind,
     );
 
     if (foundIndex !== -1) {
@@ -196,10 +196,11 @@ const MainImageSection = () => {
           previewImage={
             mainImageInfo
               ? getImagePath(
-                  mainImageInfo.editedUrl ?? mainImageInfo.originalUrl
+                  mainImageInfo.editedUrl ?? mainImageInfo.originalUrl,
                 )
               : singlePreview?.previewUrl
           }
+          originalUrl={getImagePath(mainImageInfo?.originalUrl)}
           loading={singlePreview?.isLoading}
           opacity={singlePreview?.isLoading ? 0.5 : 1}
           onImageRemove={handleImageRemove}
