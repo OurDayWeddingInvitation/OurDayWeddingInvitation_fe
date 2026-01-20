@@ -86,7 +86,7 @@ const ParentsInfo = () => {
                 )}
               </div>
 
-              <div className="flex gap-2.5 justify-center items-center py-2.5 text-[12px]">
+              <div className="flex gap-2.5 justify-center items-center py-2.5">
                 <span style={{ color: p.labelColor }}>{p.label}</span>
                 <span>{p.childName}의 부모님</span>
               </div>
