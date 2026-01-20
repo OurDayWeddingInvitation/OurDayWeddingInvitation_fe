@@ -17,15 +17,21 @@ const ParentsInfo = () => {
   const groomParentsImageUrl = parentsImageInfo?.groomParentsImage
     ? getImagePath(
         parentsImageInfo?.groomParentsImage?.editedUrl ??
-          parentsImageInfo?.groomParentsImage?.originalUrl,
+          parentsImageInfo?.groomParentsImage?.originalUrl
       )
     : "";
   const brideParentsImageUrl = parentsImageInfo?.brideParentsImage
     ? getImagePath(
         parentsImageInfo?.brideParentsImage?.editedUrl ??
-          parentsImageInfo?.brideParentsImage?.originalUrl,
+          parentsImageInfo?.brideParentsImage?.originalUrl
       )
     : "";
+  const groomImgCacheVer = new Date(
+    parentsImageInfo?.groomParentsImage?.updatedAt
+  ).getTime();
+  const brideImgCacheVer = new Date(
+    parentsImageInfo?.brideParentsImage?.updatedAt
+  ).getTime();
 
   const groomName = weddingInfo?.groomFirstName;
   const brideName = weddingInfo?.brideFirstName;
@@ -38,7 +44,7 @@ const ParentsInfo = () => {
       childName: groomName,
       father: weddingInfo?.groomFatherName,
       mother: weddingInfo?.groomMotherName,
-      imageUrl: groomParentsImageUrl,
+      imageUrl: `${groomParentsImageUrl}?v=${groomImgCacheVer}`,
     },
     {
       key: "bride",
@@ -47,7 +53,7 @@ const ParentsInfo = () => {
       childName: brideName,
       father: weddingInfo?.brideFatherName,
       mother: weddingInfo?.brideMotherName,
-      imageUrl: brideParentsImageUrl,
+      imageUrl: `${brideParentsImageUrl}?v=${brideImgCacheVer}`,
     },
   ];
   const orderedParents = isGroomFirst ? parents : [...parents].reverse();

@@ -21,13 +21,13 @@ import { useRef } from "react";
 const ShareThumbnailSection = () => {
   const weddingId = useWeddingIdStore((s) => s.weddingId);
   const shareThumbnailInfo = useShareThumbnailStore(
-    (s) => s.shareThumbnailInfo,
+    (s) => s.shareThumbnailInfo
   );
   const updateShareThumbnailInfo = useShareThumbnailStore(
-    (s) => s.updateShareThumbnailInfo,
+    (s) => s.updateShareThumbnailInfo
   );
   const removeShareThumbnail = useShareThumbnailStore(
-    (s) => s.removeShareThumbnail,
+    (s) => s.removeShareThumbnail
   );
 
   const kakaoImgHook = useImagePreview({ maxCount: 1 });
@@ -57,7 +57,7 @@ const ShareThumbnailSection = () => {
   const handleImageUpload = async (
     role: string,
     hook: ReturnType<typeof useImagePreview>,
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -81,7 +81,7 @@ const ShareThumbnailSection = () => {
           imageType: imageType,
           displayOrder: 1,
         }),
-        1500,
+        1500
       );
 
       // store 상태 업데이트
@@ -100,7 +100,7 @@ const ShareThumbnailSection = () => {
   const handleImageModify = async (
     role: string,
     hook: ReturnType<typeof useImagePreview>,
-    blob: Blob,
+    blob: Blob
   ) => {
     const file = blobToFile(blob);
 
@@ -121,7 +121,7 @@ const ShareThumbnailSection = () => {
           mediaId: shareThumbnailInfo?.[imageType]?.mediaId,
           file: file,
         }),
-        1500,
+        1500
       );
 
       // store 상태 업데이트
@@ -139,7 +139,7 @@ const ShareThumbnailSection = () => {
   // 이미지 제거
   const handleImageRemove = async (
     role: string,
-    hook: ReturnType<typeof useImagePreview>,
+    hook: ReturnType<typeof useImagePreview>
   ) => {
     try {
       const imageType =
@@ -178,9 +178,12 @@ const ShareThumbnailSection = () => {
         const shareImageUrl = shareThumbnailInfo?.[imageType]
           ? getImagePath(
               shareThumbnailInfo?.[imageType]?.editedUrl ??
-                shareThumbnailInfo?.[imageType]?.originalUrl,
+                shareThumbnailInfo?.[imageType]?.originalUrl
             )
           : singlePreview?.previewUrl;
+        const cacheVer = new Date(
+          shareThumbnailInfo?.[imageType]?.updatedAt
+        ).getTime();
 
         return (
           <div key={idx}>
@@ -210,7 +213,7 @@ const ShareThumbnailSection = () => {
                 <ImageAddButton
                   previewImage={shareImageUrl}
                   originalUrl={getImagePath(
-                    shareThumbnailInfo?.[imageType]?.originalUrl,
+                    shareThumbnailInfo?.[imageType]?.originalUrl
                   )}
                   loading={singlePreview?.isLoading}
                   opacity={singlePreview?.isLoading ? 0.5 : 1}
@@ -236,7 +239,10 @@ const ShareThumbnailSection = () => {
                   onClick={closeModal}
                 />
                 {/* 미리보기 창 */}
-                <PreviewThumbnail thumbnail={shareImageUrl} kindIdx={idx} />
+                <PreviewThumbnail
+                  thumbnail={`${shareImageUrl}?v=${cacheVer}`}
+                  kindIdx={idx}
+                />
               </div>
             </div>
           </div>
