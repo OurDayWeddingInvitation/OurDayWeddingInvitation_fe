@@ -32,12 +32,12 @@ const ToggleButton = ({ toggle, isVisble, id }) => {
         </button>
         {toggle && (
           <div
-            className={`absolute bg-[#1A1A1A] text-white rounded-lg p-2 text-[12px] transition-opacity duration-600 ${
+            className={`absolute top-full mt-3 -left-4 whitespace-nowrap bg-[#1A1A1A] text-white rounded-lg p-2 text-[12px] transition-opacity duration-600 z-99 ${
               toolVisible ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
           >
             필수 항목은 해제할 수 없어요
-            <div className="absolute -top-2 left-3 w-0 h-0 border-l-8 border-r-8 border-b-[13.856px] border-l-transparent border-r-transparent border-b-[#1A1A1A]"></div>
+            <div className="absolute -top-2 left-7 w-0 h-0 border-l-8 border-r-8 border-b-[13.856px] border-l-transparent border-r-transparent border-b-[#1A1A1A]"></div>
           </div>
         )}
       </div>
