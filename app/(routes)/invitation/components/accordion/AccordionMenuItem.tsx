@@ -21,7 +21,7 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
   };
 
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: menu.id });
+    useSortable({ id: menu.id, disabled: !menu.movable });
   const Component = sectionComponents[menu.id];
   const props = sectionPropsMap[menu.id];
   const style = menu.movable
@@ -34,7 +34,7 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
   return (
     <AccordionItem
       value={`item-${idx}`}
-      className="flex flex-col w-full bg-white p-5 rounded-lg"
+      className="flex flex-col w-full bg-white p-[22px] rounded-lg justify-center"
       ref={setNodeRef}
       key={idx}
       style={style}
@@ -43,7 +43,7 @@ const AccordionMenuItem = ({ idx, menu, isOpen }) => {
         {/* 드래그/메뉴/토글/ */}
         <AccordionTrigger asChild className="group">
           <div className="flex justify-between cursor-pointer items-center">
-            <div className="flex gap-3 cursor-pointer">
+            <div className="flex gap-3 cursor-pointer items-center">
               <div
                 {...attributes}
                 {...listeners}

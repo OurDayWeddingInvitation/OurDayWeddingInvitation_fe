@@ -18,10 +18,15 @@ const Mainstyle3 = ({
   }`;
   const isGroomFirst = weddingInfo?.nameOrderType === "G";
 
+  const imageUrl = mainImageInfo?.editedUrl
+    ? getImagePath(mainImageInfo?.editedUrl)
+    : getImagePath(mainImageInfo?.originalUrl);
+  const cacheVer = new Date(mainImageInfo?.updatedAt).getTime();
+
   return (
-    <div className="text-[#FFFFFF]">
+    <div className="box-border overflow-hiddentext-[#FFFFFF] w-full">
       <div
-        className="text-center text-[14px] relative"
+        className="relative flex flex-col text-center text-[14px] aspect-2/3"
         style={{ fontFamily: "GreatVibes" }}
       >
         {mainImageInfo ? (
@@ -32,7 +37,7 @@ const Mainstyle3 = ({
                 : getImagePath(mainImageInfo.originalUrl)
             }
             alt="메인 이미지"
-            className="h-[760px] object-cover"
+            className="aspect-2/3 object-cover"
           />
         ) : (
           <div className="bg-[#D9D9D9] h-[760px]"></div>
@@ -42,13 +47,23 @@ const Mainstyle3 = ({
           <span>Wedding Day</span>
           <span>{isGroomFirst ? brideName : groomName}</span>
         </div>
-        <div className="absolute left-0 bottom-[73px] text-center w-full px-2.5 z-9">
+
+        {/* 하단 오버레이 텍스트 */}
+        <div className="absolute left-0 bottom-[73px] w-full px-2.5 text-center">
           <div className="text-[36px]">The Beginning of Forever</div>
+
           <p className="text-[11px]" style={{ fontFamily: "Noto Sans KR" }}>
-            <span>IN THE STORY WRITTEN BY TIME AND MEMORY,</span>
-            <span>WE ARE GRATEFUL FOR THE CHAPTERS THAT LED US HERE,</span>
-            <span>AND BEGIN THE NEXT WITH LOVE OF FOREVER.</span>
+            <span className="block">
+              IN THE STORY WRITTEN BY TIME AND MEMORY,
+            </span>
+            <span className="block">
+              WE ARE GRATEFUL FOR THE CHAPTERS THAT LED US HERE,
+            </span>
+            <span className="block">
+              AND BEGIN THE NEXT WITH LOVE OF FOREVER.
+            </span>
           </p>
+
           <span className="text-[20px]">
             {weddingInfo?.weddingYear} . {weddingInfo?.weddingMonth} .{" "}
             {weddingInfo?.weddingDay}

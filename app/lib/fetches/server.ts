@@ -7,20 +7,21 @@ export async function fetchApi({
   endPoint,
   method,
   body,
+  withAuth = true,
 }: {
   endPoint: string;
   method: string;
   body?: object;
+  withAuth?: boolean;
 }) {
   try {
     const apiDomain = process.env.API_DOMAIN;
 
     const token = cookies().get("token")?.value;
 
-    const data: LoginInfo = await decrypt(
-      token,
-      process.env.ENCRYPT_SECRET_KEY!
-    );
+    const data: LoginInfo = withAuth
+      ? await decrypt(token, process.env.ENCRYPT_SECRET_KEY!)
+      : null;
 
     // console.log(data.accessToken); swagger로 토큰 확인 하고싶을때 주석풀고 터미널에 나오는 토큰 사용
 
@@ -28,7 +29,7 @@ export async function fetchApi({
       method,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${data.accessToken}`,
+        Authorization: withAuth ? `Bearer ${data.accessToken}` : undefined,
       },
       body: body ? JSON.stringify(body) : undefined,
       cache: "no-store",

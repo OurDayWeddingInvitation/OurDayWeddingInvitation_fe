@@ -1,11 +1,32 @@
-import React from "react";
+import { getImagePath } from "@/app/lib/utils/functions";
+import { useParentsIntroStore } from "@/app/store/useParentsIntroStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
-import { Heart } from "lucide-react";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
+import { Heart } from "lucide-react";
 
 const ParentsInfo = () => {
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
+  const parentsIntroInfo = useParentsIntroStore((s) => s.parentsIntroInfo);
+  const parentsImageInfo = useParentsIntroStore((s) => s.parentsImageInfo);
+
+  const parentsIntroTitle = parentsIntroInfo?.title ?? "";
+  const parentsIntroInfoMessage = parentsIntroInfo?.message ?? "";
+
+  // TODO: 이미지 경로 처리 함수로 변경 필요
+  const groomParentsImageUrl = parentsImageInfo?.groomParentsImage
+    ? getImagePath(
+        parentsImageInfo?.groomParentsImage?.editedUrl ??
+          parentsImageInfo?.groomParentsImage?.originalUrl
+      )
+    : "";
+  const brideParentsImageUrl = parentsImageInfo?.brideParentsImage
+    ? getImagePath(
+        parentsImageInfo?.brideParentsImage?.editedUrl ??
+          parentsImageInfo?.brideParentsImage?.originalUrl
+      )
+    : "";
+
   const groomName = weddingInfo?.groomFirstName;
   const brideName = weddingInfo?.brideFirstName;
   const isGroomFirst = weddingInfo?.nameOrderType === "G";
@@ -17,6 +38,7 @@ const ParentsInfo = () => {
       childName: groomName,
       father: weddingInfo?.groomFatherName,
       mother: weddingInfo?.groomMotherName,
+      imageUrl: groomParentsImageUrl,
     },
     {
       key: "bride",
@@ -25,6 +47,7 @@ const ParentsInfo = () => {
       childName: brideName,
       father: weddingInfo?.brideFatherName,
       mother: weddingInfo?.brideMotherName,
+      imageUrl: brideParentsImageUrl,
     },
   ];
   const orderedParents = isGroomFirst ? parents : [...parents].reverse();
@@ -40,17 +63,28 @@ const ParentsInfo = () => {
         >
           OUR PARENTS
         </div>
-        <span className="text-[16px]">우리의 부모님</span>
-        <div className="flex flex-col gap-2 items-center py-10">
-          <p>저희의 시작을 사랑으로 응원해주신</p>
-          <p> 양가 부모님을 소개합니다.</p>
+        <span className="text-[16px]">{parentsIntroTitle}</span>
+        <div className="flex flex-col items-center py-10">
+          <p className="whitespace-pre-wrap text-center">
+            {parentsIntroInfoMessage}
+          </p>
         </div>
 
         <div className="flex justify-center gap-2.5">
           {orderedParents.map((p) => (
             <div key={p.key} className="flex flex-col items-center">
-              {/* 이미지 자리 */}
-              <div className="w-[145px] h-[145px] bg-[#D9D9D9] rounded-[10px]" />
+              <div className="w-[145px] h-[145px] rounded-[10px] overflow-hidden">
+                {/* 이미지 */}
+                {p.imageUrl ? (
+                  <img
+                    src={p.imageUrl}
+                    alt="부모님 이미지"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#D9D9D9]" />
+                )}
+              </div>
 
               <div className="flex gap-2.5 justify-center items-center py-2.5 text-[12px]">
                 <span style={{ color: p.labelColor }}>{p.label}</span>

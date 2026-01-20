@@ -15,12 +15,29 @@ const Mainstyle1 = ({
   const [weddingDayOfWeek, setWeddingDayOfWeek] = useState<string>("");
   const [weddingDayOfWeekEng, setWeddingDayOfWeekEng] = useState<string>("");
 
+  const groomName = `${weddingInfo?.groomLastName ?? ""}${
+    weddingInfo?.groomFirstName ?? ""
+  }`;
+  const brideName = `${weddingInfo?.brideLastName ?? ""}${
+    weddingInfo?.brideFirstName ?? ""
+  }`;
+  const orderedNames =
+    weddingInfo?.nameOrderType === "G"
+      ? `${groomName} • ${brideName}`
+      : `${brideName} • ${groomName}`;
+
+  const imageUrl = mainImageInfo?.editedUrl
+    ? getImagePath(mainImageInfo?.editedUrl)
+    : getImagePath(mainImageInfo?.originalUrl);
+  const cacheVer = new Date(mainImageInfo?.updatedAt).getTime();
+
   useEffect(() => {
     if (
       !weddingInfo?.weddingYear ||
       !weddingInfo?.weddingMonth ||
       weddingInfo?.weddingDay
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWeddingDayOfWeek("월요일");
     }
 
@@ -70,23 +87,18 @@ const Mainstyle1 = ({
     weddingInfo?.weddingDay,
   ]);
 
-  const groomName = `${weddingInfo?.groomLastName ?? ""}${
-    weddingInfo?.groomFirstName ?? ""
-  }`;
-  const brideName = `${weddingInfo?.brideLastName ?? ""}${
-    weddingInfo?.brideFirstName ?? ""
-  }`;
-  const orderedNames =
-    weddingInfo?.nameOrderType === "G"
-      ? `${groomName} • ${brideName}`
-      : `${brideName} • ${groomName}`;
-
   return (
     <div
-      className="bg-[#FFFFFF] px-[22px] py-[60px] text-[#5E5852]"
+      className="
+    h-screen box-border overflow-hidden
+    bg-[#FFFFFF] px-[22px] py-[60px]
+    text-[#5E5852]
+    flex flex-col
+  "
       style={{ fontFamily: "NanumMyeongjo" }}
     >
-      <div className="text-center text-[24px] font-extrabold">
+      {/* 상단 날짜 */}
+      <div className="text-center text-[24px] font-extrabold shrink-0">
         <span>
           {weddingInfo?.weddingYear} / {weddingInfo?.weddingMonth} /
           {weddingInfo?.weddingDay}
@@ -94,26 +106,31 @@ const Mainstyle1 = ({
         <div className="text-[14px] font-bold tracking-[2.8px]">
           {weddingDayOfWeekEng}
         </div>
+      </div>
+
+      {/* 이미지 영역 */}
+      <div className="flex-1 min-h-0 overflow-hidden py-[22px] flex items-center justify-center">
         {mainImageInfo ? (
           <img
-            src={
-              mainImageInfo.editedUrl
-                ? getImagePath(mainImageInfo.editedUrl)
-                : getImagePath(mainImageInfo.originalUrl)
-            }
-            alt="메인 이미지2"
-            className="py-[22px] h-[760px] object-cover"
+            src={`${imageUrl}?v=${cacheVer}`}
+            alt="메인 이미지"
+            className="max-w-full max-h-full object-contain"
           />
         ) : (
-          <div className="bg-[#D9D9D9] h-[760px]"></div>
+          <div className="w-full h-full bg-[#D9D9D9]" />
         )}
       </div>
-      <div className="text-center">
+
+      {/* 하단 텍스트 */}
+      <div className="text-center shrink-0">
         <div className="text-[20px] font-extrabold pb-[30px]">
           {orderedNames}
         </div>
         <p>
-          {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월 ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek} ${weddingInfo?.weddingTimePeriod} ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
+          {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월
+        ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek}
+        ${weddingInfo?.weddingTimePeriod}
+        ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
         </p>
         <p>
           {weddingInfo?.weddingHallName}, {weddingInfo?.weddingHallFloor}

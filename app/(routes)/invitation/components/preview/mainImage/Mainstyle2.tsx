@@ -25,12 +25,18 @@ const Mainstyle2 = ({
       ? `${groomName} ♥ ${brideName}`
       : `${brideName} ♥ ${groomName}`;
 
+  const imageUrl = mainImageInfo?.editedUrl
+    ? getImagePath(mainImageInfo?.editedUrl)
+    : getImagePath(mainImageInfo?.originalUrl);
+  const cacheVer = new Date(mainImageInfo?.updatedAt).getTime();
+
   useEffect(() => {
     if (
       !weddingInfo?.weddingYear ||
       !weddingInfo?.weddingMonth ||
       weddingInfo?.weddingDay
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWeddingDayOfWeek("월요일");
     }
 
@@ -38,8 +44,8 @@ const Mainstyle2 = ({
       Date.UTC(
         Number(weddingInfo?.weddingYear),
         Number(weddingInfo?.weddingMonth) - 1,
-        Number(weddingInfo?.weddingDay)
-      )
+        Number(weddingInfo?.weddingDay),
+      ),
     );
 
     // 날짜 유효성 검증
@@ -71,54 +77,61 @@ const Mainstyle2 = ({
 
   return (
     <div
-      className="bg-[#FFFFFF] pt-[46px] text-[#5E5852]"
+      className="
+    h-screen box-border overflow-hidden
+    bg-[#FFFFFF] pt-[46px]
+    text-[#5E5852]
+    flex flex-col
+  "
       style={{ fontFamily: "NanumMyeongjo" }}
     >
       <div className="text-center text-[20px]">
         <span className="font-extrabold">{orderedNames}</span>
         <div className="text-center text-[14px] pt-[30px]">
           <p>
-            {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월 ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek} ${weddingInfo?.weddingTimePeriod} ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
+            {`${weddingInfo?.weddingYear}년 ${weddingInfo?.weddingMonth}월
+          ${weddingInfo?.weddingDay}일 ${weddingDayOfWeek}
+          ${weddingInfo?.weddingTimePeriod}
+          ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
           </p>
           <p>
             {weddingInfo?.weddingHallName}, {weddingInfo?.weddingHallFloor}
           </p>
         </div>
+      </div>
+
+      {/* 이미지 영역 */}
+      <div className="flex-1 min-h-0 overflow-hidden flex items-center justify-center">
         {mainImageInfo ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={
-              mainImageInfo.editedUrl
-                ? getImagePath(mainImageInfo.editedUrl)
-                : getImagePath(mainImageInfo.originalUrl)
-            }
+            src={`${imageUrl}?v=${cacheVer}`}
             alt="메인 이미지"
-            className="h-[760px] object-cover"
+            className="max-w-full max-h-full object-contain"
             style={{
               WebkitMaskImage: `linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(0,0,0,0.25) 10%,
-      rgba(0,0,0,1) 20%,
-      rgba(0,0,0,1) 80%,
-      rgba(0,0,0,0.25) 90%,
-      transparent 100%
-    )`,
+            180deg,
+            transparent 0%,
+            rgba(0,0,0,0.25) 10%,
+            rgba(0,0,0,1) 20%,
+            rgba(0,0,0,1) 80%,
+            rgba(0,0,0,0.25) 90%,
+            transparent 100%
+          )`,
               maskImage: `linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(0,0,0,0.25) 10%,
-      rgba(0,0,0,1) 20%,
-      rgba(0,0,0,1) 80%,
-      rgba(0,0,0,0.25) 90%,
-      transparent 100%
-    )`,
+            180deg,
+            transparent 0%,
+            rgba(0,0,0,0.25) 10%,
+            rgba(0,0,0,1) 20%,
+            rgba(0,0,0,1) 80%,
+            rgba(0,0,0,0.25) 90%,
+            transparent 100%
+          )`,
               WebkitMaskRepeat: "no-repeat",
-              WebkitMaskSize: "cover",
+              WebkitMaskSize: "contain",
             }}
           />
         ) : (
-          <div className="bg-[#D9D9D9] h-[760px]"></div>
+          <div className="w-full h-full bg-[#D9D9D9]" />
         )}
       </div>
     </div>

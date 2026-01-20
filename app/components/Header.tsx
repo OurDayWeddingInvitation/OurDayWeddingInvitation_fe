@@ -10,6 +10,7 @@ import { clientFetchApi } from "../lib/fetches/client";
 import Link from "next/link";
 import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
 import { FadeSpinner } from "./common/Spinner";
+import { useRouter } from "next/navigation";
 
 type Props = {
   showTitle?: boolean;
@@ -22,6 +23,8 @@ export default function Header({
   showButton = false,
   showSaveText = false,
 }: Props) {
+  const router = useRouter();
+
   const loadingState = loadingStore((s) => s.loading);
   const [isEditing, setIsEditing] = useState(false);
   const weddingId = useWeddingIdStore((s) => s.weddingId);
@@ -43,6 +46,16 @@ export default function Header({
     });
 
     setIsEditing(false);
+  };
+
+  const handleSaveButton = async () => {
+    await clientFetchApi({
+      endPoint: `/weddings/apply`,
+      method: "POST",
+      body: {
+        weddingId,
+      },
+    });
   };
 
   return (
@@ -114,13 +127,18 @@ export default function Header({
         {/* 버튼 */}
         {showButton && (
           <div className="flex gap-3">
-            <button className="text-sm w-25 h-9 text-[#FFFFFF] bg-[#CACACA] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
-              임시 저장
-            </button>
-            <button className="text-sm w-25 h-9 text-[#FFFFFF] bg-[#D4C6B7] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
+            <button
+              className="font-medium text-sm w-25 h-9 text-[#FFFFFF] bg-[#D4C6B7] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]"
+              onClick={() => handleSaveButton()}
+            >
               적용 하기
             </button>
-            <button className="text-sm w-25 h-9 text-[#433F3B] border-[#D4C6B7] border rounded-lg cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
+            <button
+              className="font-medium text-sm w-25 h-9 border-[#D4C6B7] border rounded-lg cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]"
+              onClick={() => {
+                router.push(`/link/${weddingId}`);
+              }}
+            >
               링크 보기
             </button>
           </div>

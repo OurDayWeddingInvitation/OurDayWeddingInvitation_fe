@@ -30,24 +30,33 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
   const handleDeleteInvitation = async () => {
     if (!invitation?.weddingId) return;
 
+    const isConfirmed = window.confirm(
+      "청첩장을 삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.",
+    );
+
+    if (!isConfirmed) return;
+
     await clientFetchApi({
       endPoint: `/weddings/${invitation.weddingId}`,
       method: "DELETE",
     });
 
+    alert("삭제가 완료되었습니다.");
     router.refresh();
   };
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex justify-between">
-        <p className="pl-3 text-sm text-[#CACACA] min-h-5">
+      <div className="flex gap-2">
+        <p className="pl-3 text-sm text-[#CACACA] min-h-5 overflow-hidden whitespace-nowrap w-[220px] text-ellipsis">
           {invitation?.weddingTitle ?? ""}
         </p>
+
         {invitation && (
           <Trash2
+            size={18} // 아이콘 크기 적절히 조절
             color="#CACACA"
-            className="cursor-pointer"
+            className="cursor-pointer shrink-0"
             onClick={handleDeleteInvitation}
           />
         )}

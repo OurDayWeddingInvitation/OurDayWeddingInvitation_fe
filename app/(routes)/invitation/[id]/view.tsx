@@ -12,6 +12,7 @@ import { useLoadingScreenStore } from "@/app/store/useLoadingScreenStore";
 import { useLocationInfoStore } from "@/app/store/useLocationInfoStore";
 import { useMainImageStore } from "@/app/store/useMainImageStore";
 import { useParentsIntroStore } from "@/app/store/useParentsIntroStore";
+import { useShareThumbnailStore } from "@/app/store/useShareThumbnailStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
@@ -57,6 +58,9 @@ export default function InvitationView({
   );
   const setCoupleIntroInfo = useCoupleIntroStore((s) => s.setCoupleIntroInfo);
   const setCoupleImageInfo = useCoupleIntroStore((s) => s.setCoupleImageInfo);
+  const setShareThumbnailInfo = useShareThumbnailStore(
+    (s) => s.setShareThumbnailInfo,
+  );
   const setMenuSetting = useMenuSettingStore((s) => s.setMenuSetting);
 
   useEffect(() => {
@@ -99,7 +103,23 @@ export default function InvitationView({
     if (invitationDetail.sectionSettings) {
       setMenuSetting(invitationDetail.sectionSettings);
     }
-  }, [invitationDetail]);
+  }, [
+    invitationDetail,
+    setAccountInfo,
+    setCoupleIntroInfo,
+    setGalleryInfo,
+    setInvitationInfo,
+    setLoadingScreenStyle,
+    setLocationInfo,
+    setMainStyleKind,
+    setMenuSetting,
+    setParentsIntroInfo,
+    setThemeFont,
+    setWeddingId,
+    setWeddingInfo,
+    setWeddingInfoTitle,
+    weddingId,
+  ]);
 
   useEffect(() => {
     // imageType 별로 필요한 값 저장
@@ -122,6 +142,12 @@ export default function InvitationView({
       const brideImage = imageDetail.find(
         (img) => img.imageType === "brideImage",
       );
+      const kakaoImage = imageDetail.find(
+        (img) => img.imageType === "kakaoThumbnailImage",
+      );
+      const linkImage = imageDetail.find(
+        (img) => img.imageType === "linkThumbnailImage",
+      );
 
       // 메인 이미지
       if (mainImage) {
@@ -141,23 +167,40 @@ export default function InvitationView({
         groomImage: groomImage,
         brideImage: brideImage,
       });
+      // 공유 썸네일 이미지
+      setShareThumbnailInfo({
+        kakaoThumbnailImage: kakaoImage,
+        linkThumbnailImage: linkImage,
+      });
     }
   }, [imageDetail]);
 
   return (
     <>
       <Header showButton={true} showSaveText={true} showTitle={true} />
-      <div className="max-w-[1200px] py-27 flex mx-auto items-start gap-[52px] relative">
-        <div className="max-w-[400px] fixed w-full">
+      <div className="max-w-300 pt-20 flex mx-auto gap-8.5 relative h-screen overflow-hidden">
+        <div
+          className="max-w-100 overflow-y-scroll [&::-webkit-scrollbar]:hidden w-full pb-14.5"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
           <Preview />
-          <ul className="py-[26px] text-[#817E7C] text-[14px] list-disc list-inside">
+          <ul className="text-[#817E7C] text-[14px] pt-5 list-disc list-outside pl-5">
             <li>
               미리보기는 단순 참고용으로, 정확한 시안은 적용하기 버튼을 눌러
               저장 후 확인해주세요.
             </li>
           </ul>
         </div>
-        <div className="flex-1 max-w-[736px] absolute right-0 w-full pb-[50px]">
+        <div
+          className="max-w-[736px] w-full pb-14.5 overflow-y-scroll [&::-webkit-scrollbar]:hidden"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
           <ul className="text-[#817E7C] text-[14px] px-4 list-disc list-inside w-full">
             <li>
               <span className="bg-[#FFFFFF] rounded-[5px] p-0.5">⠿</span>

@@ -206,7 +206,11 @@ const ParentsIntroSection = () => {
                 }));
               }}
             />
-            <a href="" className="text-[#CACACA] underline text-[12px]">
+            <a
+              href="https://spangle-produce-63a.notion.site/2ec3207f54ac8072ad4fe760cf8b3182?pvs=143"
+              target="_blank"
+              className="font-extralight text-xs leading-[26px] tracking-[-0.5px] underline text-[#CACACA]"
+            >
               문구 예시 보러가기
             </a>
           </div>

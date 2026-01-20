@@ -4,6 +4,7 @@ import { LoginInfo } from "./app/lib/fetches/user/type";
 import { refreshTokenIfNeeded } from "./app/lib/auth/token";
 
 const withoutMiddleware = [
+  "/link",
   "/favicon.ico",
   "/robots.txt",
   "/sitemap.xml",
