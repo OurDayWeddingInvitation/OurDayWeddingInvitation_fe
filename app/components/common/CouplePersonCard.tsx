@@ -31,9 +31,7 @@ const CouplePersonCard = ({
       </div>
 
       <div className="flex gap-2.5 justify-center items-center py-2.5">
-        <span className="text-[12px]" style={{ color: roleColor }}>
-          {roleLabel}
-        </span>
+        <span style={{ color: roleColor }}>{roleLabel}</span>
         <span>{name}</span>
       </div>
 
