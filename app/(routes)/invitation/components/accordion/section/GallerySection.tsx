@@ -55,7 +55,7 @@ const GallerySection = () => {
 
   // 이미지 업로드
   const handleMultipleImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = e.target.files;
     if (!files) return;
@@ -65,12 +65,12 @@ const GallerySection = () => {
     try {
       // 이미지 용량 리사이징
       const compressedFiles = await Promise.all(
-        fileArray.map(async (file) => getCompressedImage(file)),
+        fileArray.map(async (file) => getCompressedImage(file))
       );
 
       // undefined 필터링
       const validFiles = compressedFiles.filter(
-        (f): f is File => f !== undefined && f !== null,
+        (f): f is File => f !== undefined && f !== null
       );
 
       if (validFiles.length === 0) return;
@@ -85,7 +85,7 @@ const GallerySection = () => {
           files: validFiles,
           imageType: "galleryImage",
         }),
-        1500,
+        1500
       );
 
       // 상태 업데이트
@@ -97,7 +97,7 @@ const GallerySection = () => {
       // 같은 파일 선택 가능
       e.target.value = "";
     } catch (error) {
-      console.error("Error uploading gallery images", error);
+      console.error("Error uploading gallery images");
     }
   };
 
@@ -118,7 +118,7 @@ const GallerySection = () => {
           mediaId,
           file,
         }),
-        1500,
+        1500
       );
 
       // 상태 업데이트
@@ -155,6 +155,15 @@ const GallerySection = () => {
   // 이미지 모두 제거
   const handleAllImageRemove = async () => {
     try {
+      if (!galleryImages || galleryImages.length === 0) {
+        window.alert("등록된 이미지가 없습니다.");
+        return;
+      }
+
+      if (!window.confirm("이미지들을 전체 삭제하시겠습니까?")) {
+        return;
+      }
+
       // 미리보기 모두 제거
       clearPreviewAll();
 
@@ -190,7 +199,6 @@ const GallerySection = () => {
         <div className="flex flex-wrap items-center">
           <div className="w-1/6 min-w-[50px]">제목</div>
           <input
-            ref={fileInputRef}
             type="text"
             value={localGalleryInfo?.title}
             placeholder="제목을 작성 해주세요. (공백포함 15자 이내)"
@@ -212,7 +220,7 @@ const GallerySection = () => {
               최대 50장까지 업로드 할 수 있습니다.
             </p>
             <button
-              className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1"
+              className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1 cursor-pointer"
               onClick={handleAllImageRemove}
             >
               전체 삭제
@@ -254,6 +262,7 @@ const GallerySection = () => {
               <Image src={ImageAddBtnIcon} alt="추가" />
             </label>
             <input
+              ref={fileInputRef}
               id="galleryInput"
               type="file"
               accept="image/*"
