@@ -137,7 +137,11 @@ export default function Header({
             <button
               className="font-medium text-sm w-25 h-9 border-[#D4C6B7] border rounded-lg cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]"
               onClick={() => {
-                router.push(`/link/${weddingId}`);
+                window.open(
+                  `/link/${weddingId}`,
+                  "_blank",
+                  "noopener,noreferrer",
+                );
               }}
             >
               링크 보기
