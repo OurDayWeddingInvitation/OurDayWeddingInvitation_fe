@@ -8,7 +8,7 @@ import TextEditor from "../../../../../components/editor/TextEditor";
 const InvitationMessageSection = () => {
   const invitationInfo = useInvitationMessageStore((s) => s.invitationMessage);
   const updateField = useInvitationMessageStore(
-    (s) => s.updateInvitationMessage
+    (s) => s.updateInvitationMessage,
   );
   const weddingId = useWeddingIdStore((s) => s.weddingId);
 
@@ -27,7 +27,7 @@ const InvitationMessageSection = () => {
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
   const inputStyle =
-    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-2.5";
 
   return (
     <div className={groupStyle}>

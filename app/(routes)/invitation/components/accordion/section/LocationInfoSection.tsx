@@ -10,14 +10,14 @@ import React, { useState, useEffect } from "react";
 
 const LocationInfoSection = ({ isOpen }) => {
   const inputStyle =
-    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-2.5";
   const labelStyle = "w-1/7 min-w-[60px]";
   const [lat, setLat] = useState<number>(0);
   const [lon, setLon] = useState<number>(0);
   const locationInfo = useLocationInfoStore((s) => s.locationInfo);
   const updateField = useLocationInfoStore((s) => s.updateLocationInfoField);
   const [localInfo, setLocalInfo] = useState<LocationInfoSectionType>(
-    () => locationInfo
+    () => locationInfo,
   );
 
   const { weddingId } = useWeddingIdStore();
@@ -49,7 +49,7 @@ const LocationInfoSection = ({ isOpen }) => {
 
   const trafficBlocks = Array.from(
     { length: getTrafficCount(localInfo) },
-    (_, i) => i
+    (_, i) => i,
   );
 
   // 교통수단 삭제 함수
@@ -84,8 +84,8 @@ const LocationInfoSection = ({ isOpen }) => {
     const fetchPosition = async () => {
       const res = await fetch(
         `/api/invitation/geocode?address=${encodeURIComponent(
-          localInfo.address
-        )}`
+          localInfo.address,
+        )}`,
       );
       const data = await res.json();
 
