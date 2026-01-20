@@ -24,7 +24,7 @@ const Mainstyle3 = ({
   const cacheVer = new Date(mainImageInfo?.updatedAt).getTime();
 
   return (
-    <div className="box-border overflow-hiddentext-[#FFFFFF] w-full">
+    <div className="box-border overflow-hidden w-full text-white">
       <div
         className="relative flex flex-col text-center text-[14px] aspect-2/3"
         style={{ fontFamily: "GreatVibes" }}
@@ -65,7 +65,7 @@ const Mainstyle3 = ({
           </p>
 
           <span className="text-[20px]">
-            {weddingInfo?.weddingYear} . {weddingInfo?.weddingMonth} .{" "}
+            {weddingInfo?.weddingYear} . {weddingInfo?.weddingMonth} .
             {weddingInfo?.weddingDay}
           </span>
         </div>

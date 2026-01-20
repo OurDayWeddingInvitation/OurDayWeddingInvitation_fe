@@ -38,11 +38,11 @@ const FamilyWeddingCoupleCard = ({ type, weddingInfo, childName }: Props) => {
       <span className="flex">
         {fatherDeceased && <Image src={Ribbon} alt="고인" width={14} />}
         <span>{fatherName}</span>
-        <span className="mx-1">·</span>
+        {fatherName && motherName && <span className="mx-1">·</span>}
 
         {motherDeceased && <Image src={Ribbon} alt="고인" width={14} />}
 
-        <span>{motherName}의</span>
+        {(fatherName || motherName) && <span>{motherName}의</span>}
       </span>
 
       <span className="text-center">
