@@ -17,13 +17,13 @@ const ParentsInfo = () => {
   const groomParentsImageUrl = parentsImageInfo?.groomParentsImage
     ? getImagePath(
         parentsImageInfo?.groomParentsImage?.editedUrl ??
-          parentsImageInfo?.groomParentsImage?.originalUrl
+          parentsImageInfo?.groomParentsImage?.originalUrl,
       )
     : "";
   const brideParentsImageUrl = parentsImageInfo?.brideParentsImage
     ? getImagePath(
         parentsImageInfo?.brideParentsImage?.editedUrl ??
-          parentsImageInfo?.brideParentsImage?.originalUrl
+          parentsImageInfo?.brideParentsImage?.originalUrl,
       )
     : "";
 
@@ -58,12 +58,12 @@ const ParentsInfo = () => {
     >
       <div className="flex flex-col items-center">
         <div
-          className="tracking-[4px] text-[12px] pb-3"
+          className="tracking-[4px] pb-3"
           style={{ color: themeFont?.accentColor }}
         >
           OUR PARENTS
         </div>
-        <span className="text-[16px]">{parentsIntroTitle}</span>
+        <span>{parentsIntroTitle}</span>
         <div className="flex flex-col items-center py-10">
           <p className="whitespace-pre-wrap text-center">
             {parentsIntroInfoMessage}
