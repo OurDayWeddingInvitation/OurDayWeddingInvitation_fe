@@ -55,7 +55,7 @@ const Gallery = () => {
   return (
     <div className="text-center bg-[#FFFFFF] pb-10">
       <div
-        className="tracking-[4px] text-[12px] pb-3 pt-10"
+        className="tracking-[4px] pb-3 pt-10"
         style={{ color: themeFont?.accentColor }}
       >
         GALLERY

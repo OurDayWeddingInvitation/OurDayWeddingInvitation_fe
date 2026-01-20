@@ -103,7 +103,6 @@ export default function Header({
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleSave();
-                      setIsEditing(false);
                     }
                   }}
                   className="font-medium text-center border-b border-gray-300 focus:outline-none"

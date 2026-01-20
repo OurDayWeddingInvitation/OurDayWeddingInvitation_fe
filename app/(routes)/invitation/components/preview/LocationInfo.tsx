@@ -26,8 +26,8 @@ const LocationInfo = () => {
     const fetchPosition = async () => {
       const res = await fetch(
         `/api/invitation/geocode?address=${encodeURIComponent(
-          locationInfo?.address
-        )}`
+          locationInfo?.address,
+        )}`,
       );
       const data = await res.json();
 
@@ -45,7 +45,7 @@ const LocationInfo = () => {
     <div className="py-10 bg-[#FFFFFF]">
       <div className="text-center">
         <div
-          className="tracking-[4px] text-[12px] pb-3 "
+          className="tracking-[4px] pb-3 "
           style={{ color: themeFont?.accentColor }}
         >
           LOCATION
@@ -61,14 +61,14 @@ const LocationInfo = () => {
       </div>
       <div className="px-4">
         <div className="pb-3 flex flex-col gap-3">
-          <span className="text-[14px] font-bold">내비게이션</span>
+          <span className="font-bold">내비게이션</span>
           <p>버튼을 누르면 앱에서 길안내가 시작됩니다.</p>
         </div>
 
         <div className="flex gap-3 justify-center border-b border-[#E0E0E0] pb-6">
           {navigationBtn.map((item, idx) => (
             <button
-              className="flex bg-[#FFFFFF] rounded-[5px] cursor-pointer px-3 py-1 gap-1  shadow-[2px_4px_4px_rgba(0,0,0,0.1)]"
+              className="flex bg-[#FFFFFF] rounded-[5px] cursor-pointer px-3 py-1 gap-1 shadow-[2px_4px_4px_rgba(0,0,0,0.1)]"
               key={idx}
             >
               <Image src={item.img} alt={item.name} />
@@ -78,7 +78,7 @@ const LocationInfo = () => {
         </div>
 
         <div className="py-3 flex flex-col gap-2">
-          <span className="text-[14px] font-bold">지하철</span>
+          <span className="font-bold">지하철</span>
           <div>
             <p>· 5호선 발산역 3번 출구 방향 1분 이내</p>
             <p>· 9호선 양천향교역 6번 출구 도보 10분 직진</p>
@@ -86,7 +86,7 @@ const LocationInfo = () => {
         </div>
 
         <div className="pb-3 flex flex-col gap-2">
-          <span className="text-[14px] font-bold">버스</span>
+          <span className="font-bold">버스</span>
           <div>
             <p>지선버스 6630, 6632, 6642, 6645, 6648, 6657, 6712</p>
             <p>간선버스 601, 605, 652, 654, 661</p>

@@ -92,13 +92,13 @@ const AccountInfo = () => {
     <div className="bg-[#FFFFFF] py-10">
       <div className="text-center">
         <div
-          className="tracking-[4px] text-[12px] pb-3"
+          className="tracking-[4px] pb-3"
           style={{ color: themeFont?.accentColor }}
         >
           ACCOUNT
         </div>
         <p className="pb-2.5 font-bold">{accountInfo?.title}</p>
-        <p className="text-[14px] leading-loose max-w-[270px] m-auto word-break:keep-all pb-10">
+        <p className="leading-loose max-w-[270px] m-auto word-break:keep-all pb-10">
           {accountInfo?.message}
         </p>
       </div>

@@ -25,13 +25,13 @@ const CoupleIntro = () => {
   const groomImageUrl = coupleImageInfo?.groomImage
     ? getImagePath(
         coupleImageInfo?.groomImage?.editedUrl ??
-          coupleImageInfo?.groomImage?.originalUrl
+          coupleImageInfo?.groomImage?.originalUrl,
       )
     : "";
   const brideImageUrl = coupleImageInfo?.brideImage
     ? getImagePath(
         coupleImageInfo?.brideImage?.editedUrl ??
-          coupleImageInfo?.brideImage?.originalUrl
+          coupleImageInfo?.brideImage?.originalUrl,
       )
     : "";
 
@@ -66,12 +66,12 @@ const CoupleIntro = () => {
     >
       <div className="flex flex-col items-center">
         <div
-          className="tracking-[4px] text-[12px] pb-3"
+          className="tracking-[4px] pb-3"
           style={{ color: themeFont?.accentColor }}
         >
           {isGroomFirst ? "GROOM & BRIDE" : "BRIDE & GROOM"}
         </div>
-        <span className="text-[16px]">{coupleIntroTitle}</span>
+        <span>{coupleIntroTitle}</span>
         <div className="flex pt-10 gap-2.5 justify-center">
           {cards.map((card, idx) => (
             <React.Fragment key={idx}>{card}</React.Fragment>
