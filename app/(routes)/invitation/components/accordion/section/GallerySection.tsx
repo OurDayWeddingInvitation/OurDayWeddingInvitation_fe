@@ -55,7 +55,7 @@ const GallerySection = () => {
 
   // 이미지 업로드
   const handleMultipleImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const files = e.target.files;
     if (!files) return;
@@ -65,12 +65,12 @@ const GallerySection = () => {
     try {
       // 이미지 용량 리사이징
       const compressedFiles = await Promise.all(
-        fileArray.map(async (file) => getCompressedImage(file))
+        fileArray.map(async (file) => getCompressedImage(file)),
       );
 
       // undefined 필터링
       const validFiles = compressedFiles.filter(
-        (f): f is File => f !== undefined && f !== null
+        (f): f is File => f !== undefined && f !== null,
       );
 
       if (validFiles.length === 0) return;
@@ -85,7 +85,7 @@ const GallerySection = () => {
           files: validFiles,
           imageType: "galleryImage",
         }),
-        1500
+        1500,
       );
 
       // 상태 업데이트
@@ -118,7 +118,7 @@ const GallerySection = () => {
           mediaId,
           file,
         }),
-        1500
+        1500,
       );
 
       // 상태 업데이트
@@ -228,6 +228,7 @@ const GallerySection = () => {
                     ? getImagePath(img.editedUrl)
                     : getImagePath(img.originalUrl)
                 }
+                originalUrl={getImagePath(img.originalUrl)}
                 loading={isImageLoading(img.mediaId)}
                 opacity={isImageLoading(img.mediaId) ? 0.5 : 1}
                 id={`server-gallery-${idx}`}
