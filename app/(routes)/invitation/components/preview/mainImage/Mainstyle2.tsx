@@ -95,7 +95,9 @@ const Mainstyle2 = ({
           ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
           </p>
           <p>
-            {weddingInfo?.weddingHallName}, {weddingInfo?.weddingHallFloor}
+            {[weddingInfo?.weddingHallName, weddingInfo?.weddingHallFloor]
+              .filter(Boolean)
+              .join(", ")}
           </p>
         </div>
       </div>
