@@ -127,6 +127,9 @@ export default function Header({
         {/* 버튼 */}
         {showButton && (
           <div className="flex gap-3">
+            <button className="text-sm w-25 h-9 text-[#FFFFFF] bg-[#CACACA] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
+              임시 저장
+            </button>
             <button
               className="font-medium text-sm w-25 h-9 text-[#FFFFFF] bg-[#D4C6B7] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]"
               onClick={() => handleSaveButton()}
