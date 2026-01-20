@@ -1,16 +1,16 @@
 "use client";
 
-import Image from "next/image";
-import SaveTemporaryIcon from "../assets/images/save-temporary.png";
-import { loadingStore } from "../store/useLoadingStore";
 import { Pencil } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useWeddingIdStore } from "../store/useWeddingIdStore";
+import logoImage from "../assets/images/logo.png";
+import SaveTemporaryIcon from "../assets/images/save-temporary.png";
 import { clientFetchApi } from "../lib/fetches/client";
-import Link from "next/link";
+import { loadingStore } from "../store/useLoadingStore";
+import { useWeddingIdStore } from "../store/useWeddingIdStore";
 import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
 import { FadeSpinner } from "./common/Spinner";
-import { useRouter } from "next/navigation";
 
 type Props = {
   showTitle?: boolean;
@@ -63,9 +63,7 @@ export default function Header({
       <div className="max-w-[1200px] flex justify-between items-center m-auto px-2.5 h-full">
         <div className="flex gap-3 items-center">
           {/* 로고 */}
-          <Link href="/dashboard" className="font-black text-3xl">
-            OurDay
-          </Link>
+          <Image src={logoImage} className="w-[7.063rem] h-12.5" alt="로고" />
           {showSaveText && (
             <div className="flex items-center gap-2">
               {loadingState ? (
