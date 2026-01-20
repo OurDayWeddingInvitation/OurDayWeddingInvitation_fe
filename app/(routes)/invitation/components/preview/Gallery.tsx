@@ -65,13 +65,15 @@ const Gallery = () => {
         <div className="grid grid-cols-3 px-4 gap-2">
           {galleryImages?.slice(0, visibleCount).map((image, idx) => {
             const src = getImagePath(image.editedUrl ?? image.originalUrl);
+            const cacheVer = new Date(image.updatedAt).getTime();
+            const imageUrl = `${src}?v=${cacheVer}`;
             const size = imageSizes[src];
 
             return (
               <Item
                 key={idx}
-                original={src}
-                thumbnail={src}
+                original={imageUrl}
+                thumbnail={imageUrl}
                 width={size?.width ?? 1200}
                 height={size?.height ?? 1600}
               >
@@ -82,7 +84,7 @@ const Gallery = () => {
                     className="bg-[#D9D9D9] rounded-[10px] h-[94px] cursor-pointer overflow-hidden"
                   >
                     <img
-                      src={src}
+                      src={imageUrl}
                       className="w-full h-full object-cover"
                       alt=""
                     />

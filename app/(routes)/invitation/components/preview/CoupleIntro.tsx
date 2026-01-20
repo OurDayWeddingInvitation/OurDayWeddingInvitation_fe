@@ -25,15 +25,21 @@ const CoupleIntro = () => {
   const groomImageUrl = coupleImageInfo?.groomImage
     ? getImagePath(
         coupleImageInfo?.groomImage?.editedUrl ??
-          coupleImageInfo?.groomImage?.originalUrl,
+          coupleImageInfo?.groomImage?.originalUrl
       )
     : "";
   const brideImageUrl = coupleImageInfo?.brideImage
     ? getImagePath(
         coupleImageInfo?.brideImage?.editedUrl ??
-          coupleImageInfo?.brideImage?.originalUrl,
+          coupleImageInfo?.brideImage?.originalUrl
       )
     : "";
+  const groomImgCacheVer = new Date(
+    coupleImageInfo?.groomImage?.updatedAt
+  ).getTime();
+  const brideImgCacheVer = new Date(
+    coupleImageInfo?.brideImage?.updatedAt
+  ).getTime();
 
   const groomDescription = coupleIntroInfo?.groomIntro ?? "";
   const brideDescription = coupleIntroInfo?.brideIntro ?? "";
@@ -43,7 +49,7 @@ const CoupleIntro = () => {
       roleLabel="신랑"
       roleColor="#A9BBD2"
       name={groomName}
-      imageUrl={groomImageUrl}
+      imageUrl={`${groomImageUrl}?v=${groomImgCacheVer}`}
       description={groomDescription}
     />
   );
@@ -53,7 +59,7 @@ const CoupleIntro = () => {
       roleLabel="신부"
       roleColor="#E6A5DA"
       name={brideName}
-      imageUrl={brideImageUrl}
+      imageUrl={`${brideImageUrl}?v=${brideImgCacheVer}`}
       description={brideDescription}
     />
   );
