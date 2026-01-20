@@ -22,10 +22,10 @@ const ParentsIntroSection = () => {
   const parentsIntroInfo = useParentsIntroStore((s) => s.parentsIntroInfo);
   const parentsImageInfo = useParentsIntroStore((s) => s.parentsImageInfo);
   const updateParentsIntroInfo = useParentsIntroStore(
-    (s) => s.updateParentsIntroInfo
+    (s) => s.updateParentsIntroInfo,
   );
   const updateParentsImageInfo = useParentsIntroStore(
-    (s) => s.updateParentsImageInfo
+    (s) => s.updateParentsImageInfo,
   );
   const removeParentsImage = useParentsIntroStore((s) => s.removeParentsImage);
 
@@ -39,7 +39,7 @@ const ParentsIntroSection = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const inputStyle =
-    "outline-0 flex-1 border-[#E0E0E0] border rounded-sm text-sm py-1.5 px-1 ";
+    "outline-0 flex-1 border-[#E0E0E0] border rounded-sm text-sm py-1.5 px-2.5 ";
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
@@ -53,7 +53,7 @@ const ParentsIntroSection = () => {
   const handleImageUpload = async (
     role: string,
     hook: ReturnType<typeof useImagePreview>,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -77,7 +77,7 @@ const ParentsIntroSection = () => {
           imageType: imageType,
           displayOrder: 1,
         }),
-        1500
+        1500,
       );
 
       // store 상태 업데이트
@@ -96,7 +96,7 @@ const ParentsIntroSection = () => {
   const handleImageModify = async (
     role: string,
     hook: ReturnType<typeof useImagePreview>,
-    blob: Blob
+    blob: Blob,
   ) => {
     const file = blobToFile(blob);
 
@@ -117,7 +117,7 @@ const ParentsIntroSection = () => {
           mediaId: parentsImageInfo?.[imageType]?.mediaId,
           file: file,
         }),
-        1500
+        1500,
       );
 
       // store 상태 업데이트
@@ -135,7 +135,7 @@ const ParentsIntroSection = () => {
   // 이미지 제거
   const handleImageRemove = async (
     role: string,
-    hook: ReturnType<typeof useImagePreview>
+    hook: ReturnType<typeof useImagePreview>,
   ) => {
     try {
       const imageType =
@@ -227,7 +227,7 @@ const ParentsIntroSection = () => {
             const parentsImageUrl = parentsImageInfo?.[imageType]
               ? getImagePath(
                   parentsImageInfo?.[imageType]?.editedUrl ??
-                    parentsImageInfo?.[imageType]?.originalUrl
+                    parentsImageInfo?.[imageType]?.originalUrl,
                 )
               : singlePreview?.previewUrl;
 

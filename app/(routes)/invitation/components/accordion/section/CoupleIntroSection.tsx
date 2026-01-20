@@ -23,10 +23,10 @@ const CoupleIntroSection = () => {
   const coupleIntroInfo = useCoupleIntroStore((s) => s.coupleIntroInfo);
   const coupleImageInfo = useCoupleIntroStore((s) => s.coupleImageInfo);
   const updateCoupleIntroInfo = useCoupleIntroStore(
-    (s) => s.updateCoupleIntroInfo
+    (s) => s.updateCoupleIntroInfo,
   );
   const updateCoupleImageInfo = useCoupleIntroStore(
-    (s) => s.updateCoupleImageInfo
+    (s) => s.updateCoupleImageInfo,
   );
   const removeCoupleImage = useCoupleIntroStore((s) => s.removeCoupleImage);
 
@@ -42,7 +42,7 @@ const CoupleIntroSection = () => {
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const inputStyle =
-    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-2.5";
 
   const coupleData = [
     { role: "groomIntro", label: "신랑", hook: groomImgHook },
@@ -53,7 +53,7 @@ const CoupleIntroSection = () => {
   const handleImageUpload = async (
     role: string,
     hook: ReturnType<typeof useImagePreview>,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -76,7 +76,7 @@ const CoupleIntroSection = () => {
           imageType: imageType,
           displayOrder: 1,
         }),
-        1500
+        1500,
       );
 
       // store 상태 업데이트
@@ -95,7 +95,7 @@ const CoupleIntroSection = () => {
   const handleImageModify = async (
     role: string,
     hook: ReturnType<typeof useImagePreview>,
-    blob: Blob
+    blob: Blob,
   ) => {
     const file = blobToFile(blob);
 
@@ -115,7 +115,7 @@ const CoupleIntroSection = () => {
           mediaId: coupleImageInfo?.[imageType]?.mediaId,
           file: file,
         }),
-        1500
+        1500,
       );
 
       // store 상태 업데이트
@@ -133,7 +133,7 @@ const CoupleIntroSection = () => {
   // 이미지 제거
   const handleImageRemove = async (
     role: string,
-    hook: ReturnType<typeof useImagePreview>
+    hook: ReturnType<typeof useImagePreview>,
   ) => {
     try {
       const imageType = role === "groomIntro" ? "groomImage" : "brideImage";
@@ -196,7 +196,7 @@ const CoupleIntroSection = () => {
           const coupleImageUrl = coupleImageInfo?.[imageType]
             ? getImagePath(
                 coupleImageInfo?.[imageType]?.editedUrl ??
-                  coupleImageInfo?.[imageType]?.originalUrl
+                  coupleImageInfo?.[imageType]?.originalUrl,
               )
             : singlePreview?.previewUrl;
 

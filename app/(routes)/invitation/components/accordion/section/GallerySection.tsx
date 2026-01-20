@@ -48,7 +48,7 @@ const GallerySection = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const inputStyle =
-    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-2.5";
 
   // 해당 이미지가 로딩중인지 확인
   const isImageLoading = (id: number) => loadingImageId === id;
