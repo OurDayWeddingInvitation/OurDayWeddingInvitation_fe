@@ -41,7 +41,7 @@ export const useGalleryStore = create<GalleryProp>((set) => ({
 
   addGalleryImages: (images) =>
     set((state) => ({
-      galleryImages: [...state.galleryImages, ...images],
+      galleryImages: [...(state.galleryImages ?? []), ...images],
     })),
 
   updateGalleryImage: (partial) =>
