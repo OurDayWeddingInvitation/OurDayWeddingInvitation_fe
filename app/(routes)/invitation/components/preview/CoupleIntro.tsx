@@ -23,23 +23,17 @@ const CoupleIntro = () => {
 
   // TODO: 이미지 경로 처리 함수로 변경 필요
   const groomImageUrl = coupleImageInfo?.groomImage
-    ? getImagePath(
+    ? `${getImagePath(
         coupleImageInfo?.groomImage?.editedUrl ??
           coupleImageInfo?.groomImage?.originalUrl
-      )
+      )}?v=${new Date(coupleImageInfo?.groomImage?.updatedAt).getTime()}`
     : "";
   const brideImageUrl = coupleImageInfo?.brideImage
-    ? getImagePath(
+    ? `${getImagePath(
         coupleImageInfo?.brideImage?.editedUrl ??
           coupleImageInfo?.brideImage?.originalUrl
-      )
+      )}?v=${new Date(coupleImageInfo?.brideImage?.updatedAt).getTime()}`
     : "";
-  const groomImgCacheVer = new Date(
-    coupleImageInfo?.groomImage?.updatedAt
-  ).getTime();
-  const brideImgCacheVer = new Date(
-    coupleImageInfo?.brideImage?.updatedAt
-  ).getTime();
 
   const groomDescription = coupleIntroInfo?.groomIntro ?? "";
   const brideDescription = coupleIntroInfo?.brideIntro ?? "";
@@ -49,7 +43,7 @@ const CoupleIntro = () => {
       roleLabel="신랑"
       roleColor="#A9BBD2"
       name={groomName}
-      imageUrl={`${groomImageUrl}?v=${groomImgCacheVer}`}
+      imageUrl={groomImageUrl}
       description={groomDescription}
     />
   );
@@ -59,7 +53,7 @@ const CoupleIntro = () => {
       roleLabel="신부"
       roleColor="#E6A5DA"
       name={brideName}
-      imageUrl={`${brideImageUrl}?v=${brideImgCacheVer}`}
+      imageUrl={brideImageUrl}
       description={brideDescription}
     />
   );
