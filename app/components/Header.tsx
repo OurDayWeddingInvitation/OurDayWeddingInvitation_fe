@@ -108,9 +108,6 @@ export default function Header({
                     }}
                     className="font-medium text-center border-b border-gray-300 focus:outline-none"
                   />
-                  {/* <div className="absolute bottom-0 right-0 text-[10px] text-gray-400">
-                    ({weddingInfoTitle.length} / 15)
-                  </div> */}
                 </>
               ) : (
                 <>
