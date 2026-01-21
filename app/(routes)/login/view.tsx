@@ -20,7 +20,12 @@ export default function LoginView() {
   };
   return (
     <>
-      <Header showButton={false} showSaveText={false} showTitle={false} />
+      <Header
+        showButton={false}
+        showSaveText={false}
+        showTitle={false}
+        showLogout={false}
+      />
       <div className="flex w-full h-screen items-center justify-center overflow-hidden">
         <div
           onClick={() => {
