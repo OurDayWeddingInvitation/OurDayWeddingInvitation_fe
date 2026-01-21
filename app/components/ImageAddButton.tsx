@@ -16,6 +16,7 @@ interface ImageAddButtonProps {
   loading: boolean;
   opacity: number;
   originalUrl?: string;
+  kind?: string;
   onImageRemove?: () => void;
   onCropConfirm?: OnCropConfirm;
 }
@@ -26,6 +27,7 @@ const ImageAddButton = ({
   loading,
   opacity,
   originalUrl,
+  kind,
   onImageRemove,
   onCropConfirm,
 }: ImageAddButtonProps) => {
@@ -109,6 +111,7 @@ const ImageAddButton = ({
               previewImage={previewImage}
               setCroppedPreview={setCroppedPreview}
               originalUrl={originalUrl}
+              kind={kind}
             />
           )}
           {loading && (
