@@ -13,7 +13,7 @@ interface ColorSelectButtonProps {
   buttonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
-const ColorPicerButtonList = ({
+const ColorPickerButtonList = ({
   colorArr,
   selectedIdx,
   isPickerOpen,
@@ -21,7 +21,7 @@ const ColorPicerButtonList = ({
   setCurrentColor,
   buttonRef,
   onSelect,
-  kind
+  kind,
 }: ColorSelectButtonProps) => (
   <div className="flex flex-1 gap-2.5 items-center flex-wrap">
     {colorArr.map((color, idx) => (
@@ -30,11 +30,18 @@ const ColorPicerButtonList = ({
         className={`w-8 h-8 rounded-full cursor-pointer ${selectedIdx === idx && "border-[#666666] border-2"}`}
         style={{ background: color }}
         ref={buttonRef}
-        onClick={() => onSelect(color, idx, kind)}
+        onClick={(e) => {
+          onSelect(color, idx, kind);
+          e.stopPropagation();
+        }}
       >
         {isPickerOpen && idx === colorArr.length - 1 && (
           <div className="absolute">
-            <SketchPicker color={currentColor} onChange={(c) => setCurrentColor(c.hex)} onChangeComplete={(c) => setCurrentColor(c.hex)} />
+            <SketchPicker
+              color={currentColor}
+              onChange={(c) => setCurrentColor(c.hex)}
+              onChangeComplete={(c) => setCurrentColor(c.hex)}
+            />
           </div>
         )}
       </button>
@@ -42,4 +49,4 @@ const ColorPicerButtonList = ({
   </div>
 );
 
-export default ColorPicerButtonList;
+export default ColorPickerButtonList;
