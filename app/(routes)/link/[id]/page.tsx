@@ -11,13 +11,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   const response: ApiResponseType<InvitationDetail> = await fetchApi({
     endPoint: `/weddings/${params.id}`,
     method: "GET",
-    withAuth: true,
+    withAuth: false,
   });
 
   const mediaResponse: ApiResponseType<ImageDetail> = await fetchApi({
     endPoint: `/weddings/${params.id}/media`,
     method: "GET",
-    withAuth: true,
+    withAuth: false,
   });
 
   return (
