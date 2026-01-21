@@ -216,6 +216,9 @@ const CoupleIntroSection = () => {
                     className="hidden"
                   />
                   <ImageAddButton
+                    originalUrl={getImagePath(
+                      coupleImageInfo?.[imageType]?.originalUrl,
+                    )}
                     previewImage={coupleImageUrl}
                     loading={singlePreview?.isLoading}
                     opacity={singlePreview?.isLoading ? 0.5 : 1}

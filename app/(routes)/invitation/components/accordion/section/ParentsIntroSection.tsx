@@ -247,6 +247,9 @@ const ParentsIntroSection = () => {
                   />
                   <div className={`${idx === 0 && "pb-[38px]"}`}>
                     <ImageAddButton
+                      originalUrl={getImagePath(
+                        parentsImageInfo?.[imageType]?.originalUrl,
+                      )}
                       previewImage={parentsImageUrl}
                       loading={singlePreview?.isLoading}
                       opacity={singlePreview?.isLoading ? 0.5 : 1}
