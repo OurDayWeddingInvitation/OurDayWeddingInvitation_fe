@@ -2,6 +2,7 @@
 
 import { Pencil } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import logoImage from "../assets/images/logo.png";
@@ -63,7 +64,9 @@ export default function Header({
       <div className="max-w-[1200px] flex justify-between items-center m-auto px-2.5 h-full">
         <div className="flex gap-3 items-center">
           {/* 로고 */}
-          <Image src={logoImage} className="w-[7.063rem] h-12.5" alt="로고" />
+          <Link href="/dashboard">
+            <Image src={logoImage} className="w-[7.063rem] h-12.5" alt="로고" />
+          </Link>
           {showSaveText && (
             <div className="flex items-center gap-2">
               {loadingState ? (
@@ -144,7 +147,7 @@ export default function Header({
                 window.open(
                   `/link/${weddingId}`,
                   "_blank",
-                  "noopener,noreferrer",
+                  "noopener,noreferrer"
                 );
               }}
             >
