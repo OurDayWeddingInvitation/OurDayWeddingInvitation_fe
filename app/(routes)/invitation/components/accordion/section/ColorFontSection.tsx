@@ -13,48 +13,63 @@ const ColorFontSection = () => {
   const [pickerPointOpen, setPickerPointOpen] = useState<boolean>(false);
   const pickerRef = useRef<HTMLButtonElement | null>(null);
   const pickerPointRef = useRef<HTMLButtonElement | null>(null);
+  const { weddingId } = useWeddingIdStore();
+  const themeFont = useThemeFontStore((s) => s.themeFont);
+  const updateField = useThemeFontStore((s) => s.updateThemeFontField);
+
+  const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(
+    () => themeFont,
+  );
 
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
   const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
 
-  const { weddingId } = useWeddingIdStore();
-  const themeFont = useThemeFontStore((s) => s.themeFont);
-  const updateField = useThemeFontStore((s) => s.updateThemeFontField);
-
-  const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(() => themeFont);
-
-  const themeColorArr = ["#FFF6FB", "#ECECDE", "#DBE4E9", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
-  const pointColorArr = ["#D28BB3", "#C0C08B", "#7AA3B8", "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)"];
+  const themeColorArr = [
+    "#FFF6FB",
+    "#ECECDE",
+    "#DBE4E9",
+    "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)",
+  ];
+  const pointColorArr = [
+    "#D28BB3",
+    "#C0C08B",
+    "#7AA3B8",
+    "conic-gradient(#ff6363, orange, #efef2b, #52f252, #3333d7, #9f44e2, violet, #f15353)",
+  ];
 
   const pickerState = {
     theme: {
       colorArr: themeColorArr,
       setPickerOpen: setPickerOpen,
-      key: "backgroundColor"
+      key: "backgroundColor",
     },
     point: {
       colorArr: pointColorArr,
       setPickerOpen: setPickerPointOpen,
-      key: "accentColor"
-    }
+      key: "accentColor",
+    },
   };
 
   // 테마, 포인트 색상 변경 했을 때 실행하는 함수
   const clickColorPicker = (item: string, idx: number, kind: string) => {
     const state = pickerState[kind];
 
+    if (idx === themeColorArr.length - 1) {
+      // 커스텀 컬러 버튼 클릭
+      if (kind === "theme") {
+        setPickerOpen(true);
+      } else {
+        setPickerPointOpen(true);
+      }
+      return;
+    }
+
     setLocalInfo((prev) => ({
       ...prev,
-      [state.key]: item
+      [state.key]: item,
     }));
-
-    if (idx === themeColorArr.length - 1) {
-      state.setPickerOpen(true);
-    } else {
-      state.setPickerOpen(false);
-    }
   };
 
   // 컬러 선택 버튼 index 반환 함수
@@ -71,7 +86,10 @@ const ColorFontSection = () => {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
         setPickerOpen(false);
       }
-      if (pickerPointRef.current && !pickerPointRef.current.contains(e.target as Node)) {
+      if (
+        pickerPointRef.current &&
+        !pickerPointRef.current.contains(e.target as Node)
+      ) {
         setPickerPointOpen(false);
       }
     };
@@ -84,7 +102,7 @@ const ColorFontSection = () => {
     storeState: themeFont,
     updateStoreField: updateField,
     sectionId: "themeFont",
-    weddingId: weddingId
+    weddingId: weddingId,
   });
 
   useEffect(() => {
@@ -110,7 +128,7 @@ const ColorFontSection = () => {
                 onClick={() => {
                   setLocalInfo((prev) => ({
                     ...prev,
-                    fontName: item.key
+                    fontName: item.key,
                   }));
                 }}
               />
@@ -138,7 +156,7 @@ const ColorFontSection = () => {
                   onClick={() => {
                     setLocalInfo((prev) => ({
                       ...prev,
-                      fontSize: item.size
+                      fontSize: item.size,
                     }));
                   }}
                 />
@@ -156,14 +174,17 @@ const ColorFontSection = () => {
             <ColorPickerButtonList
               buttonRef={pickerRef}
               colorArr={themeColorArr}
-              selectedIdx={getColorIndex(themeColorArr, localInfo?.backgroundColor)}
+              selectedIdx={getColorIndex(
+                themeColorArr,
+                localInfo?.backgroundColor,
+              )}
               isPickerOpen={pickerOpen}
               setPickerOpen={setPickerOpen}
               currentColor={localInfo?.backgroundColor}
               setCurrentColor={(color) =>
                 setLocalInfo((prev) => ({
                   ...prev,
-                  backgroundColor: color
+                  backgroundColor: color,
                 }))
               }
               onSelect={clickColorPicker}
@@ -187,7 +208,7 @@ const ColorFontSection = () => {
               setCurrentColor={(color) =>
                 setLocalInfo((prev) => ({
                   ...prev,
-                  accentColor: color
+                  accentColor: color,
                 }))
               }
               onSelect={clickColorPicker}
@@ -208,13 +229,15 @@ const ColorFontSection = () => {
                 onChange={(checked: boolean) =>
                   setLocalInfo((prev) => ({
                     ...prev,
-                    zoomPreventYn: checked
+                    zoomPreventYn: checked,
                   }))
                 }
               />
               <p className="font-medium">청첩장 확대 방지</p>
             </div>
-            <p className="text-[#CACACA] text-[12px] font-light">사진 확대가 부담스러우신 분은 선택해보세요.</p>
+            <p className="text-[#CACACA] text-[12px] font-light">
+              사진 확대가 부담스러우신 분은 선택해보세요.
+            </p>
           </div>
         </div>
       </div>
