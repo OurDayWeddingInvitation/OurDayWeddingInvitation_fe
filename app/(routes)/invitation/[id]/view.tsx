@@ -169,7 +169,12 @@ export default function InvitationView({
 
   return (
     <>
-      <Header showButton={true} showSaveText={true} showTitle={true} />
+      <Header
+        showButton={true}
+        showSaveText={true}
+        showTitle={true}
+        showLogout={false}
+      />
       <div className="max-w-300 pt-20 flex mx-auto gap-8.5 relative h-screen overflow-hidden">
         <div
           className="max-w-100 overflow-y-scroll [&::-webkit-scrollbar]:hidden w-full pb-14.5"

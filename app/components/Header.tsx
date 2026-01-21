@@ -17,12 +17,14 @@ type Props = {
   showTitle?: boolean;
   showButton?: boolean;
   showSaveText?: boolean;
+  showLogout?: boolean;
 };
 
 export default function Header({
   showTitle = false,
   showButton = false,
   showSaveText = false,
+  showLogout = false,
 }: Props) {
   const router = useRouter();
 
@@ -57,6 +59,15 @@ export default function Header({
         weddingId,
       },
     });
+  };
+
+  const handleLogout = async () => {
+    await clientFetchApi({
+      endPoint: `/auth/logout`,
+      method: "POST",
+    });
+
+    router.push("/login");
   };
 
   return (
@@ -154,6 +165,15 @@ export default function Header({
               링크 보기
             </button>
           </div>
+        )}
+
+        {showLogout && (
+          <button
+            className="text-sm font-medium text-black font-[Escoredream] cursor-pointer"
+            onClick={handleLogout}
+          >
+            로그아웃
+          </button>
         )}
       </div>
     </header>

@@ -9,7 +9,7 @@ export default function DashboardView({
 }) {
   return (
     <>
-      <Header />
+      <Header showLogout={true} />
       <div className="flex flex-row max-w-[1200px] mx-auto h-dvh justify-center items-center pt-17.5 select-none gap-4">
         {invitations.map((e) => (
           <Card key={e.weddingId} invitation={e} />
