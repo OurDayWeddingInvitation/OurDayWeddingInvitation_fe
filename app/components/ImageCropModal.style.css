@@ -14,3 +14,32 @@
   background-repeat: repeat;
   background-size: 3%;
 }
+.ReactCrop {
+  /* height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center; */
+}
+
+/* 이미지 로드 전 크기 방지 */
+/* .ReactCrop__child-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+.ReactCrop,
+.ReactCrop__child-wrapper {
+  height: 100%;
+}
+
+.ReactCrop__child-wrapper {
+  align-items: stretch !important;
+}
+
+.ReactCrop img {
+  display: block;
+  height: 100%;
+}
