@@ -1,16 +1,16 @@
 "use client";
 
-import Image from "next/image";
-import SaveTemporaryIcon from "../assets/images/save-temporary.png";
-import { loadingStore } from "../store/useLoadingStore";
 import { Pencil } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useWeddingIdStore } from "../store/useWeddingIdStore";
+import logoImage from "../assets/images/logo.png";
+import SaveTemporaryIcon from "../assets/images/save-temporary.png";
 import { clientFetchApi } from "../lib/fetches/client";
-import Link from "next/link";
+import { loadingStore } from "../store/useLoadingStore";
+import { useWeddingIdStore } from "../store/useWeddingIdStore";
 import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
 import { FadeSpinner } from "./common/Spinner";
-import { useRouter } from "next/navigation";
 
 type Props = {
   showTitle?: boolean;
@@ -63,9 +63,7 @@ export default function Header({
       <div className="max-w-[1200px] flex justify-between items-center m-auto px-2.5 h-full">
         <div className="flex gap-3 items-center">
           {/* 로고 */}
-          <Link href="/dashboard" className="font-black text-3xl">
-            OurDay
-          </Link>
+          <Image src={logoImage} className="w-[7.063rem] h-12.5" alt="로고" />
           {showSaveText && (
             <div className="flex items-center gap-2">
               {loadingState ? (
@@ -127,6 +125,9 @@ export default function Header({
         {/* 버튼 */}
         {showButton && (
           <div className="flex gap-3">
+            <button className="text-sm w-25 h-9 text-[#FFFFFF] bg-[#CACACA] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
+              임시 저장
+            </button>
             <button
               className="font-medium text-sm w-25 h-9 text-[#FFFFFF] bg-[#D4C6B7] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]"
               onClick={() => handleSaveButton()}
@@ -136,7 +137,11 @@ export default function Header({
             <button
               className="font-medium text-sm w-25 h-9 border-[#D4C6B7] border rounded-lg cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]"
               onClick={() => {
-                router.push(`/link/${weddingId}`);
+                window.open(
+                  `/link/${weddingId}`,
+                  "_blank",
+                  "noopener,noreferrer",
+                );
               }}
             >
               링크 보기

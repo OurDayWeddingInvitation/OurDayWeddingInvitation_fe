@@ -23,16 +23,16 @@ const CoupleIntro = () => {
 
   // TODO: 이미지 경로 처리 함수로 변경 필요
   const groomImageUrl = coupleImageInfo?.groomImage
-    ? getImagePath(
+    ? `${getImagePath(
         coupleImageInfo?.groomImage?.editedUrl ??
           coupleImageInfo?.groomImage?.originalUrl
-      )
+      )}?v=${new Date(coupleImageInfo?.groomImage?.updatedAt).getTime()}`
     : "";
   const brideImageUrl = coupleImageInfo?.brideImage
-    ? getImagePath(
+    ? `${getImagePath(
         coupleImageInfo?.brideImage?.editedUrl ??
           coupleImageInfo?.brideImage?.originalUrl
-      )
+      )}?v=${new Date(coupleImageInfo?.brideImage?.updatedAt).getTime()}`
     : "";
 
   const groomDescription = coupleIntroInfo?.groomIntro ?? "";
@@ -66,12 +66,12 @@ const CoupleIntro = () => {
     >
       <div className="flex flex-col items-center">
         <div
-          className="tracking-[4px] text-[12px] pb-3"
+          className="tracking-[4px] pb-3"
           style={{ color: themeFont?.accentColor }}
         >
           {isGroomFirst ? "GROOM & BRIDE" : "BRIDE & GROOM"}
         </div>
-        <span className="text-[16px]">{coupleIntroTitle}</span>
+        <span>{coupleIntroTitle}</span>
         <div className="flex pt-10 gap-2.5 justify-center">
           {cards.map((card, idx) => (
             <React.Fragment key={idx}>{card}</React.Fragment>

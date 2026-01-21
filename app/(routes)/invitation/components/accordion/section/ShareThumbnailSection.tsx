@@ -181,6 +181,9 @@ const ShareThumbnailSection = () => {
                 shareThumbnailInfo?.[imageType]?.originalUrl
             )
           : singlePreview?.previewUrl;
+        const cacheVer = new Date(
+          shareThumbnailInfo?.[imageType]?.updatedAt
+        ).getTime();
 
         return (
           <div key={idx}>
@@ -209,6 +212,9 @@ const ShareThumbnailSection = () => {
                 />
                 <ImageAddButton
                   previewImage={shareImageUrl}
+                  originalUrl={getImagePath(
+                    shareThumbnailInfo?.[imageType]?.originalUrl
+                  )}
                   loading={singlePreview?.isLoading}
                   opacity={singlePreview?.isLoading ? 0.5 : 1}
                   onImageRemove={() => handleImageRemove(data.role, hook)}
@@ -233,7 +239,10 @@ const ShareThumbnailSection = () => {
                   onClick={closeModal}
                 />
                 {/* 미리보기 창 */}
-                <PreviewThumbnail thumbnail={shareImageUrl} kindIdx={idx} />
+                <PreviewThumbnail
+                  thumbnail={`${shareImageUrl}?v=${cacheVer}`}
+                  kindIdx={idx}
+                />
               </div>
             </div>
           </div>

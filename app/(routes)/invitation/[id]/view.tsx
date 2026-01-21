@@ -34,32 +34,32 @@ export default function InvitationView({
 }) {
   const setWeddingId = useWeddingIdStore((s) => s.setWeddingId);
   const setWeddingInfoTitle = useWeddingTitleStore(
-    (s) => s.setWeddingInfoTitle,
+    (s) => s.setWeddingInfoTitle
   );
   const setWeddingInfo = useWeddingInfoStore((s) => s.setWeddingInfo);
   const setMainImageInfo = useMainImageStore((s) => s.setMainImageInfo);
   const setMainStyleKind = useMainImageStore((s) => s.setMainStyleKind);
   const setAccountInfo = useAccountInfoStoreTest((s) => s.setAccountInfo);
   const setInvitationInfo = useInvitationMessageStore(
-    (s) => s.setInvitationMessage,
+    (s) => s.setInvitationMessage
   );
   const setThemeFont = useThemeFontStore((s) => s.setThemeFont);
   const setLocationInfo = useLocationInfoStore((s) => s.setLocationInfo);
   const setGalleryInfo = useGalleryStore((s) => s.setGalleryInfo);
   const setGalleryImages = useGalleryStore((s) => s.setGalleryImages);
   const setLoadingScreenStyle = useLoadingScreenStore(
-    (s) => s.setLoadingScreenStyle,
+    (s) => s.setLoadingScreenStyle
   );
   const setParentsIntroInfo = useParentsIntroStore(
-    (s) => s.setParentsIntroInfo,
+    (s) => s.setParentsIntroInfo
   );
   const setParentsImageInfo = useParentsIntroStore(
-    (s) => s.setParentsImageInfo,
+    (s) => s.setParentsImageInfo
   );
   const setCoupleIntroInfo = useCoupleIntroStore((s) => s.setCoupleIntroInfo);
   const setCoupleImageInfo = useCoupleIntroStore((s) => s.setCoupleImageInfo);
   const setShareThumbnailInfo = useShareThumbnailStore(
-    (s) => s.setShareThumbnailInfo,
+    (s) => s.setShareThumbnailInfo
   );
   const setMenuSetting = useMenuSettingStore((s) => s.setMenuSetting);
 
@@ -122,57 +122,49 @@ export default function InvitationView({
   ]);
 
   useEffect(() => {
-    // imageType 별로 필요한 값 저장
-    if (imageDetail?.length > 0) {
-      const mainImage = imageDetail
-        .filter((img) => img.imageType === "mainImage")
-        .at(-1);
-      const galleryImage = imageDetail.filter(
-        (img) => img.imageType === "galleryImage",
-      );
-      const groomParentsImage = imageDetail.find(
-        (img) => img.imageType === "groomParentsImage",
-      );
-      const brideParentsImage = imageDetail.find(
-        (img) => img.imageType === "brideParentsImage",
-      );
-      const groomImage = imageDetail.find(
-        (img) => img.imageType === "groomImage",
-      );
-      const brideImage = imageDetail.find(
-        (img) => img.imageType === "brideImage",
-      );
-      const kakaoImage = imageDetail.find(
-        (img) => img.imageType === "kakaoThumbnailImage",
-      );
-      const linkImage = imageDetail.find(
-        (img) => img.imageType === "linkThumbnailImage",
-      );
+    const imageList = imageDetail ?? [];
 
-      // 메인 이미지
-      if (mainImage) {
-        setMainImageInfo(mainImage);
-      }
-      // 갤러리 이미지
-      if (galleryImage) {
-        setGalleryImages(galleryImage);
-      }
-      // 부모님 이미지
-      setParentsImageInfo({
-        groomParentsImage: groomParentsImage,
-        brideParentsImage: brideParentsImage,
-      });
-      // 신랑 신부 이미지
-      setCoupleImageInfo({
-        groomImage: groomImage,
-        brideImage: brideImage,
-      });
-      // 공유 썸네일 이미지
-      setShareThumbnailInfo({
-        kakaoThumbnailImage: kakaoImage,
-        linkThumbnailImage: linkImage,
-      });
-    }
+    // imageType 별로 필요한 값 저장
+    const mainImage = imageList
+      .filter((img) => img.imageType === "mainImage")
+      .at(-1);
+    const galleryImage = imageList.filter(
+      (img) => img.imageType === "galleryImage"
+    );
+    const groomParentsImage = imageList.find(
+      (img) => img.imageType === "groomParentsImage"
+    );
+    const brideParentsImage = imageList.find(
+      (img) => img.imageType === "brideParentsImage"
+    );
+    const groomImage = imageList.find((img) => img.imageType === "groomImage");
+    const brideImage = imageList.find((img) => img.imageType === "brideImage");
+    const kakaoImage = imageList.find(
+      (img) => img.imageType === "kakaoThumbnailImage"
+    );
+    const linkImage = imageList.find(
+      (img) => img.imageType === "linkThumbnailImage"
+    );
+
+    // 메인 이미지
+    setMainImageInfo(mainImage);
+    // 갤러리 이미지
+    setGalleryImages(galleryImage);
+    // 부모님 이미지
+    setParentsImageInfo({
+      groomParentsImage: groomParentsImage,
+      brideParentsImage: brideParentsImage,
+    });
+    // 신랑 신부 이미지
+    setCoupleImageInfo({
+      groomImage: groomImage,
+      brideImage: brideImage,
+    });
+    // 공유 썸네일 이미지
+    setShareThumbnailInfo({
+      kakaoThumbnailImage: kakaoImage,
+      linkThumbnailImage: linkImage,
+    });
   }, [imageDetail]);
 
   return (

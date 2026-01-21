@@ -20,7 +20,7 @@ const MainImage = () => {
       {mainStyleKind === "1" && <Mainstyle1 weddingInfo={weddingInfo} />}
       {mainStyleKind === "2" && <Mainstyle2 weddingInfo={weddingInfo} />}
       {mainStyleKind === "3" && <Mainstyle3 weddingInfo={weddingInfo} />}
-      {/* {!mainStyleKind && mainImageInfo && (
+      {!mainStyleKind && mainImageInfo && (
         <img
           src={
             mainImageInfo.editedUrl
@@ -33,7 +33,7 @@ const MainImage = () => {
       )}
       {!mainImageInfo && !mainStyleKind && (
         <div className="bg-[#D9D9D9] h-[760px]"></div>
-      )} */}
+      )}
     </div>
   );
 };

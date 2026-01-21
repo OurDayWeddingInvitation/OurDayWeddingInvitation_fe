@@ -10,6 +10,7 @@ const ImageCropModal = ({
   setOpenCrop,
   onCropConfirm,
   previewImage,
+  originalUrl,
   setCroppedPreview,
 }) => {
   const [crop, setCrop] = useState<Crop>();
@@ -58,7 +59,7 @@ const ImageCropModal = ({
             ruleOfThirds
           >
             <img
-              src={previewImage}
+              src={originalUrl}
               className="max-h-full max-w-full w-full object-contain"
               ref={imgRef}
               crossOrigin="anonymous"

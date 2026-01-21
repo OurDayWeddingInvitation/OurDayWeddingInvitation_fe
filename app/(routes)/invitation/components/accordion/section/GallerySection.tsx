@@ -48,7 +48,7 @@ const GallerySection = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const inputStyle =
-    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-1";
+    "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-2.5";
 
   // 해당 이미지가 로딩중인지 확인
   const isImageLoading = (id: number) => loadingImageId === id;
@@ -97,7 +97,7 @@ const GallerySection = () => {
       // 같은 파일 선택 가능
       e.target.value = "";
     } catch (error) {
-      console.error("Error uploading gallery images", error);
+      console.error("Error uploading gallery images");
     }
   };
 
@@ -155,6 +155,15 @@ const GallerySection = () => {
   // 이미지 모두 제거
   const handleAllImageRemove = async () => {
     try {
+      if (!galleryImages || galleryImages.length === 0) {
+        window.alert("등록된 이미지가 없습니다.");
+        return;
+      }
+
+      if (!window.confirm("이미지들을 전체 삭제하시겠습니까?")) {
+        return;
+      }
+
       // 미리보기 모두 제거
       clearPreviewAll();
 
@@ -190,7 +199,6 @@ const GallerySection = () => {
         <div className="flex flex-wrap items-center">
           <div className="w-1/6 min-w-[50px]">제목</div>
           <input
-            ref={fileInputRef}
             type="text"
             value={localGalleryInfo?.title}
             placeholder="제목을 작성 해주세요. (공백포함 15자 이내)"
@@ -212,7 +220,7 @@ const GallerySection = () => {
               최대 50장까지 업로드 할 수 있습니다.
             </p>
             <button
-              className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1"
+              className="border-[#D4C6B7] border rounded-sm text-[10px] px-2 py-1 cursor-pointer"
               onClick={handleAllImageRemove}
             >
               전체 삭제
@@ -228,6 +236,7 @@ const GallerySection = () => {
                     ? getImagePath(img.editedUrl)
                     : getImagePath(img.originalUrl)
                 }
+                originalUrl={getImagePath(img.originalUrl)}
                 loading={isImageLoading(img.mediaId)}
                 opacity={isImageLoading(img.mediaId) ? 0.5 : 1}
                 id={`server-gallery-${idx}`}
@@ -253,6 +262,7 @@ const GallerySection = () => {
               <Image src={ImageAddBtnIcon} alt="추가" />
             </label>
             <input
+              ref={fileInputRef}
               id="galleryInput"
               type="file"
               accept="image/*"

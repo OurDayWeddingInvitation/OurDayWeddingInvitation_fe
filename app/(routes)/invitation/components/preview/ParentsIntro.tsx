@@ -15,16 +15,20 @@ const ParentsInfo = () => {
 
   // TODO: 이미지 경로 처리 함수로 변경 필요
   const groomParentsImageUrl = parentsImageInfo?.groomParentsImage
-    ? getImagePath(
+    ? `${getImagePath(
         parentsImageInfo?.groomParentsImage?.editedUrl ??
           parentsImageInfo?.groomParentsImage?.originalUrl
-      )
+      )}?v=${new Date(
+        parentsImageInfo?.groomParentsImage?.updatedAt
+      ).getTime()}`
     : "";
   const brideParentsImageUrl = parentsImageInfo?.brideParentsImage
-    ? getImagePath(
+    ? `${getImagePath(
         parentsImageInfo?.brideParentsImage?.editedUrl ??
           parentsImageInfo?.brideParentsImage?.originalUrl
-      )
+      )}?v=${new Date(
+        parentsImageInfo?.brideParentsImage?.updatedAt
+      ).getTime()}`
     : "";
 
   const groomName = weddingInfo?.groomFirstName;
@@ -58,12 +62,12 @@ const ParentsInfo = () => {
     >
       <div className="flex flex-col items-center">
         <div
-          className="tracking-[4px] text-[12px] pb-3"
+          className="tracking-[4px] pb-3"
           style={{ color: themeFont?.accentColor }}
         >
           OUR PARENTS
         </div>
-        <span className="text-[16px]">{parentsIntroTitle}</span>
+        <span>{parentsIntroTitle}</span>
         <div className="flex flex-col items-center py-10">
           <p className="whitespace-pre-wrap text-center">
             {parentsIntroInfoMessage}
@@ -86,7 +90,7 @@ const ParentsInfo = () => {
                 )}
               </div>
 
-              <div className="flex gap-2.5 justify-center items-center py-2.5 text-[12px]">
+              <div className="flex gap-2.5 justify-center items-center py-2.5">
                 <span style={{ color: p.labelColor }}>{p.label}</span>
                 <span>{p.childName}의 부모님</span>
               </div>

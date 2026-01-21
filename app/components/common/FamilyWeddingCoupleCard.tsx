@@ -1,5 +1,5 @@
 import React from "react";
-import Ribbon from "@/app/assets/icons/ribbon.svg";
+import BlackRibbon from "@/app/assets/icons/black-ribbon.svg";
 import Image from "next/image";
 import { WeddingInfoSectionType } from "@/app/lib/fetches/invitation/type";
 
@@ -36,13 +36,13 @@ const FamilyWeddingCoupleCard = ({ type, weddingInfo, childName }: Props) => {
   return (
     <div className="grid grid-cols-[auto_32px_1fr] gap-x-2 whitespace-nowrap">
       <span className="flex">
-        {fatherDeceased && <Image src={Ribbon} alt="고인" width={14} />}
+        {fatherDeceased && <Image src={BlackRibbon} alt="고인" width={14} />}
         <span>{fatherName}</span>
-        <span className="mx-1">·</span>
+        {fatherName && motherName && <span className="mx-1">·</span>}
 
-        {motherDeceased && <Image src={Ribbon} alt="고인" width={14} />}
+        {motherDeceased && <Image src={BlackRibbon} alt="고인" width={14} />}
 
-        <span>{motherName}의</span>
+        {(fatherName || motherName) && <span>{motherName}의</span>}
       </span>
 
       <span className="text-center">
