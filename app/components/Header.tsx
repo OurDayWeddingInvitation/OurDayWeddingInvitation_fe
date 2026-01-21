@@ -93,18 +93,25 @@ export default function Header({
           <div className="absolute left-[50%] transform -translate-x-1/2 flex justify-center">
             <div className="relative inline-block">
               {isEditing ? (
-                <input
-                  autoFocus
-                  value={weddingInfoTitle}
-                  onChange={(e) => setWeddingTitle(e.target.value)}
-                  onBlur={handleSave}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleSave();
-                    }
-                  }}
-                  className="font-medium text-center border-b border-gray-300 focus:outline-none"
-                />
+                <>
+                  <input
+                    autoFocus
+                    value={weddingInfoTitle}
+                    onChange={(e) => setWeddingTitle(e.target.value)}
+                    onBlur={handleSave}
+                    size={40}
+                    maxLength={20}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleSave();
+                      }
+                    }}
+                    className="font-medium text-center border-b border-gray-300 focus:outline-none"
+                  />
+                  {/* <div className="absolute bottom-0 right-0 text-[10px] text-gray-400">
+                    ({weddingInfoTitle.length} / 15)
+                  </div> */}
+                </>
               ) : (
                 <>
                   {weddingInfoTitle && (
