@@ -206,6 +206,7 @@ const MainImageSection = () => {
           onImageRemove={handleImageRemove}
           id="openImg"
           onCropConfirm={(blob) => handleImageModify(blob)}
+          kind="main"
         />
       </div>
 

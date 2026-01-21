@@ -12,6 +12,7 @@ const ImageCropModal = ({
   previewImage,
   originalUrl,
   setCroppedPreview,
+  kind,
 }) => {
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
@@ -49,34 +50,45 @@ const ImageCropModal = ({
           />
         </div>
         <div className="crop-bg flex flex-1 overflow-hidden justify-center">
-          <div className="w-[80%]">
+          <div className="w-[80%] flex justify-center">
             <ReactCrop
               crop={crop}
               onChange={(_, percentCrop) => setCrop(percentCrop)}
               onComplete={(c) => {
                 setCompletedCrop(c);
               }}
-              aspect={89 / 179}
+              aspect={kind === "main" ? 89 / 179 : undefined}
               ruleOfThirds
             >
               <img
                 src={originalUrl}
-                className="max-h-full max-w-full w-full h-full block object-cover"
+                className="block object-cover"
                 ref={imgRef}
                 crossOrigin="anonymous"
                 onLoad={(e) => {
                   if (crop?.width && crop?.height) return;
 
                   const rect = e.currentTarget.getBoundingClientRect();
-                  const cropWidth = rect.height * 0.5;
-                  const cropHeight = rect.height;
+                  if (kind === "main") {
+                    const cropHeight = rect.height;
+                    const cropWidth = cropHeight * (89 / 179);
+
+                    setCrop({
+                      unit: "px",
+                      width: cropWidth,
+                      height: cropHeight,
+                      x: Math.round((rect.width - cropWidth) / 2),
+                      y: 0,
+                    });
+                    return;
+                  }
 
                   setCrop({
                     unit: "px",
-                    width: cropWidth,
-                    height: cropHeight,
-                    x: Math.round((rect.width - cropWidth) / 2),
-                    y: Math.round((rect.height - cropHeight) / 2),
+                    width: rect.width * 0.8,
+                    height: rect.height * 0.8,
+                    x: rect.width * 0.1,
+                    y: rect.height * 0.1,
                   });
                 }}
               />
