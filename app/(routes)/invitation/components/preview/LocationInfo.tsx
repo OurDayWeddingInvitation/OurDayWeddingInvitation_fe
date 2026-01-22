@@ -45,7 +45,7 @@ const LocationInfo = () => {
     <div className="py-10 bg-[#FFFFFF]">
       <div className="text-center">
         <div
-          className="tracking-[4px] pb-3 "
+          className="tracking-[4px] pb-3"
           style={{ color: themeFont?.accentColor }}
         >
           LOCATION
@@ -59,7 +59,7 @@ const LocationInfo = () => {
           <KakaoMap lat={lat} lon={lon} isOpen={true} />
         </div>
       </div>
-      <div className="px-4">
+      <div className="px-3">
         <div className="pb-3 flex flex-col gap-3">
           <span className="font-bold">내비게이션</span>
           <p>버튼을 누르면 앱에서 길안내가 시작됩니다.</p>
