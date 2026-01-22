@@ -39,6 +39,7 @@ const Preview = ({ isLink = false }: { isLink?: boolean }) => {
     } else {
       meta.setAttribute("content", "width=device-width, initial-scale=1");
     }
+    console.log(meta);
   }, [zoomPrevent]);
 
   return !isLink ? (
