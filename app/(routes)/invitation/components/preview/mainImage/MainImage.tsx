@@ -28,7 +28,7 @@ const MainImage = () => {
               : getImagePath(mainImageInfo.originalUrl)
           }
           alt="메인 이미지"
-          className="w-full h-[760px]"
+          className="w-full h-[760px] object-cover"
         />
       )}
       {!mainImageInfo && !mainStyleKind && (
