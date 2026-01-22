@@ -103,7 +103,7 @@ const Mainstyle2 = ({
       </div>
 
       {/* 이미지 영역 */}
-      <div className="flex-1 min-h-0 overflow-hidden flex items-center justify-center">
+      <div className="min-h-0 overflow-hidden flex items-center justify-center">
         {mainImageInfo ? (
           <img
             src={`${imageUrl}?v=${cacheVer}`}
