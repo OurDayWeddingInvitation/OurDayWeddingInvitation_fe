@@ -20,6 +20,7 @@ const ColorFontSection = () => {
   const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(
     () => themeFont,
   );
+  console.log(localInfo);
 
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
@@ -224,6 +225,7 @@ const ColorFontSection = () => {
           <div className="flex flex-col">
             <div className={contentStyle}>
               <CheckBox
+                key={String(localInfo?.zoomPreventYn)}
                 id={"disableZoom"}
                 defaultChecked={localInfo?.zoomPreventYn ?? true}
                 onChange={(checked: boolean) =>
