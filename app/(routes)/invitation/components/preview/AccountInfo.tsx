@@ -133,7 +133,9 @@ const AccountInfo = () => {
                       <p>{`${acc.bank ?? ""} ${acc.number ?? ""}`}</p>
                       <span
                         className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
-                        onClick={() => handleCopy(acc.number ?? "")}
+                        onClick={() => {
+                          handleCopy(`${acc.bank ?? ""} ${acc.number ?? ""}`);
+                        }}
                       >
                         <Copy color="#CACACA" size={16} />
                       </span>
