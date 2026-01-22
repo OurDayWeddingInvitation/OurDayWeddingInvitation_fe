@@ -20,7 +20,6 @@ const ColorFontSection = () => {
   const [localInfo, setLocalInfo] = useState<ThemeFontSectionType>(
     () => themeFont,
   );
-  console.log(localInfo);
 
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
