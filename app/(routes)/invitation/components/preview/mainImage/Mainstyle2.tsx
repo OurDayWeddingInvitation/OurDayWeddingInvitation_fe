@@ -22,9 +22,8 @@ const Mainstyle2 = ({
   }`;
   const orderedNames =
     weddingInfo?.nameOrderType === "G"
-      ? `${groomName} ♥ ${brideName}`
-      : `${brideName} ♥ ${groomName}`;
-
+      ? [groomName, brideName].filter(Boolean).join(" ♥ ")
+      : [brideName, groomName].filter(Boolean).join(" ♥ ");
   const imageUrl = mainImageInfo?.editedUrl
     ? getImagePath(mainImageInfo?.editedUrl)
     : getImagePath(mainImageInfo?.originalUrl);

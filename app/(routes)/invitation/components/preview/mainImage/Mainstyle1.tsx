@@ -23,8 +23,8 @@ const Mainstyle1 = ({
   }`;
   const orderedNames =
     weddingInfo?.nameOrderType === "G"
-      ? `${groomName} • ${brideName}`
-      : `${brideName} • ${groomName}`;
+      ? [groomName, brideName].filter(Boolean).join(" • ")
+      : [brideName, groomName].filter(Boolean).join(" • ");
 
   const imageUrl = mainImageInfo?.editedUrl
     ? getImagePath(mainImageInfo?.editedUrl)
@@ -89,12 +89,7 @@ const Mainstyle1 = ({
 
   return (
     <div
-      className="
-    h-screen box-border overflow-hidden
-    bg-[#FFFFFF] px-[22px] py-[60px]
-    text-[#5E5852]
-    flex flex-col
-  "
+      className="h-screen box-border overflow-hidden bg-[#FFFFFF] px-[22px] py-[60px] text-[#5E5852] flex flex-col"
       style={{ fontFamily: "NanumMyeongjo" }}
     >
       {/* 상단 날짜 */}
@@ -133,7 +128,9 @@ const Mainstyle1 = ({
         ${weddingInfo?.weddingHour}시 ${weddingInfo?.weddingMinute}분`}
         </p>
         <p>
-          {weddingInfo?.weddingHallName}, {weddingInfo?.weddingHallFloor}
+          {[weddingInfo?.weddingHallName, weddingInfo?.weddingHallFloor]
+            .filter(Boolean)
+            .join(", ")}
         </p>
       </div>
     </div>
