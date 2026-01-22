@@ -63,13 +63,13 @@ export const invitationMenu: InvitationMenuItem[] = [
     toggle: false,
     isVisible: true,
   },
-  {
-    id: "flipbook",
-    label: "플립북 이미지",
-    movable: true,
-    toggle: false,
-    isVisible: true,
-  },
+  // {
+  //   id: "flipbook",
+  //   label: "플립북 이미지",
+  //   movable: true,
+  //   toggle: false,
+  //   isVisible: true,
+  // },
   {
     id: "accountInfo",
     label: "계좌번호",
