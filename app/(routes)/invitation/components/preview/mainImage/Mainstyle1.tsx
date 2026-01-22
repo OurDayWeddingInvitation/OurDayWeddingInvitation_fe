@@ -45,8 +45,8 @@ const Mainstyle1 = ({
       Date.UTC(
         Number(weddingInfo?.weddingYear),
         Number(weddingInfo?.weddingMonth) - 1,
-        Number(weddingInfo?.weddingDay)
-      )
+        Number(weddingInfo?.weddingDay),
+      ),
     );
 
     // 날짜 유효성 검증
@@ -109,7 +109,7 @@ const Mainstyle1 = ({
       </div>
 
       {/* 이미지 영역 */}
-      <div className="flex-1 min-h-0 overflow-hidden py-[22px] flex items-center justify-center">
+      <div className="overflow-hidden py-[22px] flex items-center justify-center">
         {mainImageInfo ? (
           <img
             src={`${imageUrl}?v=${cacheVer}`}
