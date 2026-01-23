@@ -1,5 +1,5 @@
 export interface Invitation {
-  weddingId: number;
+  weddingId: string;
   weddingTitle: string;
   mainImageUrl: string;
 }
