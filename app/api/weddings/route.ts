@@ -12,7 +12,8 @@ export async function GET(req: NextRequest) {
     const response = await fetch(`${apiDomain}/weddings`, {
       method: "GET",
       headers: {
-        ...req.headers,
+        "Content-Type": "application/json",
+        Authorization: req.headers.get("authorization") ?? "",
       },
       cache: "no-store",
     });
