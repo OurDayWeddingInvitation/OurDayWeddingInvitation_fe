@@ -8,8 +8,19 @@ import { useState } from "react";
 import logoImage from "../assets/images/logo.png";
 import SaveTemporaryIcon from "../assets/images/save-temporary.png";
 import { clientFetchApi } from "../lib/fetches/client";
+import { useAccountInfoStoreTest } from "../store/useAccountInfoStoreTest";
+import { useCoupleIntroStore } from "../store/useCoupleIntroStore";
+import { useGalleryStore } from "../store/useGalleryStore";
+import { useInvitationMessageStore } from "../store/useInvitationMessageStore";
+import { useLoadingScreenStore } from "../store/useLoadingScreenStore";
 import { loadingStore } from "../store/useLoadingStore";
+import { useLocationInfoStore } from "../store/useLocationInfoStore";
+import { useMainImageStore } from "../store/useMainImageStore";
+import { useMenuSettingStore } from "../store/useMenuSettingInfoStore";
+import { useParentsIntroStore } from "../store/useParentsIntroStore";
+import { useThemeFontStore } from "../store/useThemeFontStore";
 import { useWeddingIdStore } from "../store/useWeddingIdStore";
+import { useWeddingInfoStore } from "../store/useWeddingInfoStore";
 import { useWeddingTitleStore } from "../store/useWeddingTitleStore";
 import { FadeSpinner } from "./common/Spinner";
 
@@ -29,6 +40,7 @@ export default function Header({
   const router = useRouter();
 
   const loadingState = loadingStore((s) => s.loading);
+  const loadingStateUpdate = loadingStore((s) => s.updateLoading);
   const [isEditing, setIsEditing] = useState(false);
   const weddingId = useWeddingIdStore((s) => s.weddingId);
   const weddingInfoTitle = useWeddingTitleStore((s) => s.weddingInfoTitle);
@@ -68,6 +80,55 @@ export default function Header({
     });
 
     router.push("/login");
+  };
+
+  const handleTempSave = async () => {
+    if (loadingState) return;
+
+    try {
+      loadingStateUpdate(true);
+
+      const mainStyleKind = useMainImageStore.getState().mainStyleKind;
+      const weddingInfo = useWeddingInfoStore.getState().weddingInfo;
+      const invitationInfo =
+        useInvitationMessageStore.getState().invitationMessage;
+      const coupleIntroInfo = useCoupleIntroStore.getState().coupleIntroInfo;
+      const parentsIntroInfo = useParentsIntroStore.getState().parentsIntroInfo;
+      const accountInfo = useAccountInfoStoreTest.getState().accountInfo;
+      const locationInfo = useLocationInfoStore.getState().locationInfo;
+      const themeFont = useThemeFontStore.getState().themeFont;
+      const loadingScreen = useLoadingScreenStore.getState().loadingScreenStyle;
+      const galleryInfo = useGalleryStore.getState().galleryInfo;
+      const menuSettingInfo = useMenuSettingStore.getState().menuSetting;
+
+      const requestBody = {
+        sections: {
+          main: { posterStyle: mainStyleKind },
+          weddingInfo: weddingInfo,
+          invitationMessage: invitationInfo,
+          coupleIntro: coupleIntroInfo,
+          parentsIntro: parentsIntroInfo,
+          accountInfo: accountInfo,
+          locationInfo: locationInfo,
+          themeFont: themeFont,
+          loadingScreen: loadingScreen,
+          gallery: galleryInfo,
+          menuSetting: menuSettingInfo,
+        },
+      };
+
+      await clientFetchApi({
+        endPoint: `/weddings/${weddingId}`,
+        method: "PUT",
+        body: requestBody,
+      });
+
+      setTimeout(() => {
+        loadingStateUpdate(false);
+      }, 1000);
+    } catch (error) {
+      console.error("임시 저장 중 오류 발생");
+    }
   };
 
   return (
@@ -143,7 +204,10 @@ export default function Header({
         {/* 버튼 */}
         {showButton && (
           <div className="flex gap-3">
-            <button className="text-sm w-25 h-9 text-[#FFFFFF] bg-[#CACACA] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]">
+            <button
+              className="text-sm w-25 h-9 text-[#FFFFFF] bg-[#CACACA] rounded-lg  cursor-pointer shadow-[2px_4px_6px_rgba(0,0,0,0.08)]"
+              onClick={handleTempSave}
+            >
               임시 저장
             </button>
             <button
