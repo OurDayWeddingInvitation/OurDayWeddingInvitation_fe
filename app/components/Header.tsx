@@ -45,17 +45,6 @@ export default function Header({
   const weddingId = useWeddingIdStore((s) => s.weddingId);
   const weddingInfoTitle = useWeddingTitleStore((s) => s.weddingInfoTitle);
   const setWeddingTitle = useWeddingTitleStore((s) => s.setWeddingInfoTitle);
-  const mainStyleKind = useMainImageStore.getState().mainStyleKind;
-  const weddingInfo = useWeddingInfoStore.getState().weddingInfo;
-  const invitationInfo = useInvitationMessageStore.getState().invitationMessage;
-  const coupleIntroInfo = useCoupleIntroStore.getState().coupleIntroInfo;
-  const parentsIntroInfo = useParentsIntroStore.getState().parentsIntroInfo;
-  const accountInfo = useAccountInfoStoreTest.getState().accountInfo;
-  const locationInfo = useLocationInfoStore.getState().locationInfo;
-  const themeFont = useThemeFontStore.getState().themeFont;
-  const loadingScreen = useLoadingScreenStore.getState().loadingScreenStyle;
-  const galleryInfo = useGalleryStore.getState().galleryInfo;
-  const menuSettingInfo = useMenuSettingStore.getState().menuSetting;
 
   const handleSave = async () => {
     if (!weddingInfoTitle.trim()) {
@@ -99,9 +88,22 @@ export default function Header({
     try {
       loadingStateUpdate(true);
 
+      const mainStyleKind = useMainImageStore.getState().mainStyleKind;
+      const weddingInfo = useWeddingInfoStore.getState().weddingInfo;
+      const invitationInfo =
+        useInvitationMessageStore.getState().invitationMessage;
+      const coupleIntroInfo = useCoupleIntroStore.getState().coupleIntroInfo;
+      const parentsIntroInfo = useParentsIntroStore.getState().parentsIntroInfo;
+      const accountInfo = useAccountInfoStoreTest.getState().accountInfo;
+      const locationInfo = useLocationInfoStore.getState().locationInfo;
+      const themeFont = useThemeFontStore.getState().themeFont;
+      const loadingScreen = useLoadingScreenStore.getState().loadingScreenStyle;
+      const galleryInfo = useGalleryStore.getState().galleryInfo;
+      const menuSettingInfo = useMenuSettingStore.getState().menuSetting;
+
       const requestBody = {
         sections: {
-          main: mainStyleKind,
+          main: { posterStyle: mainStyleKind },
           weddingInfo: weddingInfo,
           invitationMessage: invitationInfo,
           coupleIntro: coupleIntroInfo,
@@ -110,7 +112,7 @@ export default function Header({
           locationInfo: locationInfo,
           themeFont: themeFont,
           loadingScreen: loadingScreen,
-          galleryInfo: galleryInfo,
+          gallery: galleryInfo,
           menuSetting: menuSettingInfo,
         },
       };
@@ -126,8 +128,6 @@ export default function Header({
       }, 1000);
     } catch (error) {
       console.error("임시 저장 중 오류 발생");
-    } finally {
-      loadingStateUpdate(false);
     }
   };
 
