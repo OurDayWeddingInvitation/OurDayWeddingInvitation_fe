@@ -35,7 +35,7 @@ const TextEditor = ({ message, onUpdateMessage }: Props) => {
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm max-w-none p-4 min-h-75 h-full focus:outline-none text-black bg-[#eee]",
+          "prose prose-sm max-w-none p-4 min-h-75 h-full focus:outline-none text-black bg-[rgba(238,238,238,0.3)]",
       },
     },
     content: message,

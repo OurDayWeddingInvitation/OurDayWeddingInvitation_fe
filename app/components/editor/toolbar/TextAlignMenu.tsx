@@ -33,7 +33,7 @@ const TextAlignMenu = ({ editor }: { editor: Editor }) => {
     <div className="relative" ref={alignRef}>
       <button
         onClick={() => setShowAlign((prev) => !prev)}
-        className="flex items-center gap-1 p-2 rounded hover:bg-gray-100"
+        className="flex items-center gap-1 p-2 rounded hover:bg-gray-200"
         title="글자 정렬 선택"
       >
         <CurrentIcon className="w-4 h-4 text-gray-700" />
