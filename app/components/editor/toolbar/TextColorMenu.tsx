@@ -32,7 +32,7 @@ const TextColorMenu = ({ editor }: { editor: Editor }) => {
       {/* 컬러 미리보기 버튼 */}
       <button
         onClick={() => setShowPalette((prev) => !prev)}
-        className="flex items-center gap-1 p-2 rounded hover:bg-gray-100"
+        className="flex items-center gap-1 p-2 rounded hover:bg-gray-200"
         title="글자 색상 선택"
       >
         {/* 색상 미리보기 */}

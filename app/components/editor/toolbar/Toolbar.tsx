@@ -43,7 +43,7 @@ const Toolbar = ({ editor }: Props) => {
   if (!editor) return null;
 
   return (
-    <div className="sticky top-0 z-10 flex flex-wrap gap-1 p-2 bg-[#eee] rounded-t-sm border-b border-[#E0E0E0]">
+    <div className="sticky top-0 z-10 flex flex-wrap gap-1 p-2 bg-[rgba(238,238,238,0.3)] rounded-t-sm border-b border-[#E0E0E0]">
       {TOOLBAR_CONFIG.map((group, index) => (
         <ToolbarGroup key={`${group}-${index}`}>
           {group.type === "button" &&
