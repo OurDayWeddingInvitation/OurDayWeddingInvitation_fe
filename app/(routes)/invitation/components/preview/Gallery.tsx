@@ -14,6 +14,7 @@ const Gallery = () => {
   const [imageSizes, setImageSizes] = useState<
     Record<string, { width: number; height: number }>
   >({});
+  const zoomPrevent = themeFont?.zoomPreventYn;
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 9);
@@ -61,7 +62,17 @@ const Gallery = () => {
         GALLERY
       </div>
       <p className="pb-[45px]">{galleryInfo?.title}</p>
-      <PhotoSwipeGallery>
+      <PhotoSwipeGallery
+        key={zoomPrevent ? "zoom-off" : "zoom-on"}
+        options={{
+          zoom: !zoomPrevent,
+          wheelToZoom: !zoomPrevent,
+          doubleTapAction: zoomPrevent ? false : "zoom",
+          initialZoomLevel: zoomPrevent ? "fit" : 0,
+          secondaryZoomLevel: zoomPrevent ? "fit" : 0,
+          maxZoomLevel: zoomPrevent ? "fit" : 0,
+        }}
+      >
         <div className="grid grid-cols-3 px-4 gap-2">
           {galleryImages?.slice(0, visibleCount).map((image, idx) => {
             const src = getImagePath(image.editedUrl ?? image.originalUrl);

@@ -9,7 +9,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 
-export default function Card({ invitation }: { invitation?: Invitation }) {
+export default function Card({
+  invitation,
+  handleDelete,
+}: {
+  invitation?: Invitation;
+  handleDelete?: () => void;
+}) {
   const router = useRouter();
   const setWeddingTitle = useWeddingTitleStore((s) => s.setWeddingInfoTitle);
 
@@ -22,27 +28,8 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
         endPoint: "/weddings",
         method: "POST",
       });
-      router.refresh();
       router.push(`/invitation/${res.data.weddingId}`);
     }
-  };
-
-  const handleDeleteInvitation = async () => {
-    if (!invitation?.weddingId) return;
-
-    const isConfirmed = window.confirm(
-      "청첩장을 삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.",
-    );
-
-    if (!isConfirmed) return;
-
-    await clientFetchApi({
-      endPoint: `/weddings/${invitation.weddingId}`,
-      method: "DELETE",
-    });
-
-    alert("삭제가 완료되었습니다.");
-    router.refresh();
   };
 
   return (
@@ -57,7 +44,7 @@ export default function Card({ invitation }: { invitation?: Invitation }) {
             size={18} // 아이콘 크기 적절히 조절
             color="#CACACA"
             className="cursor-pointer shrink-0"
-            onClick={handleDeleteInvitation}
+            onClick={handleDelete}
           />
         )}
       </div>

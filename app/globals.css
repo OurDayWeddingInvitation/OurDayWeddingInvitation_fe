@@ -12,10 +12,6 @@ body {
   --background: #ffffff;
   --foreground: #171717;
 }
-html[data-zoom-prevent="true"],
-body[data-zoom-prevent="true"] {
-  touch-action: pan-x pan-y;
-}
 
 @theme inline {
   --color-background: var(--background);
