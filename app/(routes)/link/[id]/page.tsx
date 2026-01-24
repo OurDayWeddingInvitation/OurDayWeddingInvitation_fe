@@ -13,7 +13,7 @@ type Props = {
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export async function generateMetadata({ params, searchParams }: Props) {
+export async function generateMetadata({ params }: Props) {
   const weddingRes: ApiResponseType<InvitationDetail> = await fetchApi({
     endPoint: `/weddings/${params.id}`,
     method: "GET",
@@ -54,12 +54,11 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const title = `${groomName} ❤️ ${brideName}, 결혼합니다!`;
   const description = `${dateText} ${timeText} ${placeText}`;
 
-  // 카카오 공유인지 일반 링크 공유인지 분기
-  const isKakao = searchParams.via === "kakao";
-  const imageType = isKakao ? "kakaoThumbnailImage" : "linkThumbnailImage";
-
-  const thumbnail = mediaRes?.data?.find((img) => img.imageType === imageType);
-  const imageUrl = thumbnail?.editedUrl ?? thumbnail?.originalUrl ?? "";
+  const linkThumbnailImage = mediaRes?.data?.find(
+    (img) => img.imageType === "linkThumbnailImage"
+  );
+  const imageUrl =
+    linkThumbnailImage?.editedUrl ?? linkThumbnailImage?.originalUrl ?? "";
 
   return {
     title,
