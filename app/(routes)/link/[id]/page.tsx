@@ -3,6 +3,7 @@ import { ImageDetail } from "@/app/lib/fetches/media/type";
 import { fetchApi } from "@/app/lib/fetches/server";
 import { ApiResponseType } from "@/app/lib/fetches/type";
 import { formatDateWithDay, formatTime } from "@/app/lib/utils/date-format";
+import { getImagePath } from "@/app/lib/utils/functions";
 import LinkView from "./view";
 
 type Props = {
@@ -67,7 +68,14 @@ export async function generateMetadata({ params }: Props) {
       title,
       description,
       images: imageUrl
-        ? [{ url: imageUrl, width: 800, height: 400, alt: "청첩장 썸네일" }]
+        ? [
+            {
+              url: getImagePath(imageUrl),
+              width: 800,
+              height: 400,
+              alt: "청첩장 썸네일",
+            },
+          ]
         : [],
     },
   };
