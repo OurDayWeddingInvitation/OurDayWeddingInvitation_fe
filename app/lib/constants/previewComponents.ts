@@ -8,7 +8,14 @@ import ParentsInfo from "@/app/(routes)/invitation/components/preview/ParentsInt
 import Gallery from "@/app/(routes)/invitation/components/preview/Gallery";
 import AccountInfo from "@/app/(routes)/invitation/components/preview/AccountInfo";
 
-export const previewComponents: Record<string, React.FC> = {
+export type PreviewComponentProps = {
+  isLink: boolean;
+};
+
+export const previewComponents: Record<
+  string,
+  React.ComponentType<PreviewComponentProps>
+> = {
   main: MainImage,
   invitationMessage: InvitationMessage,
   weddingInfo: null,

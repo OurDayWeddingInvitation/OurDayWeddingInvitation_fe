@@ -11,6 +11,8 @@ export async function clientFetchApi({
   try {
     const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
 
+    console.log(`${apiDomain}${endPoint}`);
+
     const response = await fetch(`${apiDomain}${endPoint}`, {
       method,
       headers: {

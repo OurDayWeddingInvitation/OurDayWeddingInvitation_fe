@@ -17,13 +17,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     endPoint: `/weddings/${params.id}/media/edit`,
     method: "GET",
   });
-  console.log("zzzzzzzzzzzzzzzzzzz");
 
   return (
-    <InvitationView
-      weddingId={params.id}
-      invitationDetail={response?.data}
-      imageDetail={mediaResponse?.data}
-    />
+    <InvitationView weddingId={params.id} imageDetail={mediaResponse?.data} />
   );
 }

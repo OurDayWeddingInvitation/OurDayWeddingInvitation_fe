@@ -4,8 +4,9 @@ import { useCoupleIntroStore } from "@/app/store/useCoupleIntroStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import React from "react";
+import { FadeInSection } from "../FadeInSection";
 
-const CoupleIntro = () => {
+const CoupleIntro = ({ isLink }: { isLink: boolean }) => {
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
   const coupleIntroInfo = useCoupleIntroStore((s) => s.coupleIntroInfo);
@@ -25,13 +26,13 @@ const CoupleIntro = () => {
   const groomImageUrl = coupleImageInfo?.groomImage
     ? `${getImagePath(
         coupleImageInfo?.groomImage?.editedUrl ??
-          coupleImageInfo?.groomImage?.originalUrl
+          coupleImageInfo?.groomImage?.originalUrl,
       )}?v=${new Date(coupleImageInfo?.groomImage?.updatedAt).getTime()}`
     : "";
   const brideImageUrl = coupleImageInfo?.brideImage
     ? `${getImagePath(
         coupleImageInfo?.brideImage?.editedUrl ??
-          coupleImageInfo?.brideImage?.originalUrl
+          coupleImageInfo?.brideImage?.originalUrl,
       )}?v=${new Date(coupleImageInfo?.brideImage?.updatedAt).getTime()}`
     : "";
 
@@ -65,18 +66,24 @@ const CoupleIntro = () => {
       style={{ backgroundColor: themeFont?.backgroundColor ?? "" }}
     >
       <div className="flex flex-col items-center">
-        <div
-          className="tracking-[4px] pb-3"
-          style={{ color: themeFont?.accentColor }}
-        >
-          {isGroomFirst ? "GROOM & BRIDE" : "BRIDE & GROOM"}
-        </div>
-        <span>{coupleIntroTitle}</span>
-        <div className="flex pt-10 gap-2.5 justify-center">
-          {cards.map((card, idx) => (
-            <React.Fragment key={idx}>{card}</React.Fragment>
-          ))}
-        </div>
+        <FadeInSection enabled={isLink}>
+          <div
+            className="tracking-[4px] pb-3"
+            style={{ color: themeFont?.accentColor }}
+          >
+            {isGroomFirst ? "GROOM & BRIDE" : "BRIDE & GROOM"}
+          </div>
+        </FadeInSection>
+        <FadeInSection enabled={isLink}>
+          <span>{coupleIntroTitle}</span>
+        </FadeInSection>
+        <FadeInSection enabled={isLink}>
+          <div className="flex pt-10 gap-2.5 justify-center">
+            {cards.map((card, idx) => (
+              <React.Fragment key={idx}>{card}</React.Fragment>
+            ))}
+          </div>
+        </FadeInSection>
       </div>
     </div>
   );
