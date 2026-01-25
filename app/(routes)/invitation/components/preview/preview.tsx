@@ -56,7 +56,7 @@ const Preview = ({ isLink = false }: { isLink?: boolean }) => {
                 .map((item) => {
                   const Component = previewComponents[item.sectionKey];
                   if (!Component) return null;
-                  return <Component key={item.sectionKey} />;
+                  return <Component key={item.sectionKey} isLink={false} />;
                 })}
             </div>
           </div>
@@ -79,11 +79,7 @@ const Preview = ({ isLink = false }: { isLink?: boolean }) => {
             .map((item) => {
               const Component = previewComponents[item.sectionKey];
               if (!Component) return null;
-              return (
-                <FadeInSection key={item.sectionKey}>
-                  <Component />
-                </FadeInSection>
-              );
+              return <Component key={item.sectionKey} isLink={isLink} />;
             })}
         </div>
       )}

@@ -3,8 +3,9 @@ import { useParentsIntroStore } from "@/app/store/useParentsIntroStore";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import { Heart } from "lucide-react";
+import { FadeInSection } from "../FadeInSection";
 
-const ParentsInfo = () => {
+const ParentsInfo = ({ isLink }: { isLink: boolean }) => {
   const themeFont = useThemeFontStore((s) => s.themeFont);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
   const parentsIntroInfo = useParentsIntroStore((s) => s.parentsIntroInfo);
@@ -17,17 +18,17 @@ const ParentsInfo = () => {
   const groomParentsImageUrl = parentsImageInfo?.groomParentsImage
     ? `${getImagePath(
         parentsImageInfo?.groomParentsImage?.editedUrl ??
-          parentsImageInfo?.groomParentsImage?.originalUrl
+          parentsImageInfo?.groomParentsImage?.originalUrl,
       )}?v=${new Date(
-        parentsImageInfo?.groomParentsImage?.updatedAt
+        parentsImageInfo?.groomParentsImage?.updatedAt,
       ).getTime()}`
     : "";
   const brideParentsImageUrl = parentsImageInfo?.brideParentsImage
     ? `${getImagePath(
         parentsImageInfo?.brideParentsImage?.editedUrl ??
-          parentsImageInfo?.brideParentsImage?.originalUrl
+          parentsImageInfo?.brideParentsImage?.originalUrl,
       )}?v=${new Date(
-        parentsImageInfo?.brideParentsImage?.updatedAt
+        parentsImageInfo?.brideParentsImage?.updatedAt,
       ).getTime()}`
     : "";
 
@@ -61,48 +62,55 @@ const ParentsInfo = () => {
       style={{ backgroundColor: themeFont?.backgroundColor ?? "" }}
     >
       <div className="flex flex-col items-center">
-        <div
-          className="tracking-[4px] pb-3"
-          style={{ color: themeFont?.accentColor }}
-        >
-          OUR PARENTS
-        </div>
-        <span>{parentsIntroTitle}</span>
-        <div className="flex flex-col items-center py-10">
-          <p className="whitespace-pre-wrap text-center">
-            {parentsIntroInfoMessage}
-          </p>
-        </div>
+        <FadeInSection enabled={isLink}>
+          <div
+            className="tracking-[4px] pb-3"
+            style={{ color: themeFont?.accentColor }}
+          >
+            OUR PARENTS
+          </div>
+        </FadeInSection>
+        <FadeInSection enabled={isLink}>
+          <span>{parentsIntroTitle}</span>
+        </FadeInSection>
+        <FadeInSection enabled={isLink}>
+          <div className="flex flex-col items-center py-10">
+            <p className="whitespace-pre-wrap text-center">
+              {parentsIntroInfoMessage}
+            </p>
+          </div>
+        </FadeInSection>
+        <FadeInSection enabled={isLink}>
+          <div className="flex justify-center gap-2.5">
+            {orderedParents.map((p) => (
+              <div key={p.key} className="flex flex-col items-center">
+                <div className="w-[145px] h-[145px] rounded-[10px] overflow-hidden">
+                  {/* 이미지 */}
+                  {p.imageUrl ? (
+                    <img
+                      src={p.imageUrl}
+                      alt="부모님 이미지"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-[#D9D9D9]" />
+                  )}
+                </div>
 
-        <div className="flex justify-center gap-2.5">
-          {orderedParents.map((p) => (
-            <div key={p.key} className="flex flex-col items-center">
-              <div className="w-[145px] h-[145px] rounded-[10px] overflow-hidden">
-                {/* 이미지 */}
-                {p.imageUrl ? (
-                  <img
-                    src={p.imageUrl}
-                    alt="부모님 이미지"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-[#D9D9D9]" />
-                )}
+                <div className="flex gap-2.5 justify-center items-center py-2.5">
+                  <span style={{ color: p.labelColor }}>{p.label}</span>
+                  <span>{p.childName}의 부모님</span>
+                </div>
+
+                <p className="py-5 flex items-center gap-1">
+                  <span>{p.father}</span>
+                  <Heart color="#E58989" fill="#E58989" size={18} />
+                  <span>{p.mother}</span>
+                </p>
               </div>
-
-              <div className="flex gap-2.5 justify-center items-center py-2.5">
-                <span style={{ color: p.labelColor }}>{p.label}</span>
-                <span>{p.childName}의 부모님</span>
-              </div>
-
-              <p className="py-5 flex items-center gap-1">
-                <span>{p.father}</span>
-                <Heart color="#E58989" fill="#E58989" size={18} />
-                <span>{p.mother}</span>
-              </p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </FadeInSection>
       </div>
     </div>
   );

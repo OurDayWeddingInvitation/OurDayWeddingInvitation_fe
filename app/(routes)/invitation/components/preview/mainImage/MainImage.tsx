@@ -5,8 +5,9 @@ import Mainstyle1 from "./Mainstyle1";
 import Mainstyle2 from "./Mainstyle2";
 import Mainstyle3 from "./Mainstyle3";
 import { useEffect } from "react";
+import { FadeInSection } from "../../FadeInSection";
 
-const MainImage = () => {
+const MainImage = ({ isLink }: { isLink: boolean }) => {
   const mainImageInfo = useMainImageStore((s) => s.mainImageInfo);
   const mainStyleKind = useMainImageStore((s) => s.mainStyleKind);
   const weddingInfo = useWeddingInfoStore((s) => s.weddingInfo);
@@ -16,25 +17,27 @@ const MainImage = () => {
   });
 
   return (
-    <div className="w-full">
-      {mainStyleKind === "1" && <Mainstyle1 weddingInfo={weddingInfo} />}
-      {mainStyleKind === "2" && <Mainstyle2 weddingInfo={weddingInfo} />}
-      {mainStyleKind === "3" && <Mainstyle3 weddingInfo={weddingInfo} />}
-      {!mainStyleKind && mainImageInfo && (
-        <img
-          src={
-            mainImageInfo.editedUrl
-              ? getImagePath(mainImageInfo.editedUrl)
-              : getImagePath(mainImageInfo.originalUrl)
-          }
-          alt="메인 이미지"
-          className="w-full h-[760px] object-cover"
-        />
-      )}
-      {!mainImageInfo && !mainStyleKind && (
-        <div className="bg-[#D9D9D9] h-[760px]"></div>
-      )}
-    </div>
+    <FadeInSection enabled={isLink}>
+      <div className="w-full">
+        {mainStyleKind === "1" && <Mainstyle1 weddingInfo={weddingInfo} />}
+        {mainStyleKind === "2" && <Mainstyle2 weddingInfo={weddingInfo} />}
+        {mainStyleKind === "3" && <Mainstyle3 weddingInfo={weddingInfo} />}
+        {!mainStyleKind && mainImageInfo && (
+          <img
+            src={
+              mainImageInfo.editedUrl
+                ? getImagePath(mainImageInfo.editedUrl)
+                : getImagePath(mainImageInfo.originalUrl)
+            }
+            alt="메인 이미지"
+            className="w-full h-[760px] object-cover"
+          />
+        )}
+        {!mainImageInfo && !mainStyleKind && (
+          <div className="bg-[#D9D9D9] h-[760px]"></div>
+        )}
+      </div>
+    </FadeInSection>
   );
 };
 

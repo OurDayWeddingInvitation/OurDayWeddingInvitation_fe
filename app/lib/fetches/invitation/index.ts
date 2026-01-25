@@ -1,5 +1,5 @@
 import { clientFetchApi } from "../client";
-import { Invitation } from "./type";
+import { Invitation, InvitationDetail } from "./type";
 
 export const getInvitations = async () => {
   const data: Invitation[] =
@@ -11,4 +11,18 @@ export const getInvitations = async () => {
     )?.data ?? [];
 
   return data as Invitation[];
+};
+
+export const getInvitationsDetail = async (weddingId: string) => {
+  const data: InvitationDetail =
+    (
+      await clientFetchApi({
+        endPoint: `/invitation/${weddingId}`,
+        method: "GET",
+      })
+    )?.data ?? [];
+
+  console.log(data);
+
+  return data as InvitationDetail;
 };
