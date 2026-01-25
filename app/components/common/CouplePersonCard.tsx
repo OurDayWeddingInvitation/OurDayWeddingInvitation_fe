@@ -36,7 +36,7 @@ const CouplePersonCard = ({
       </div>
 
       <div
-        className="max-w-[130px] py-5 text-center"
+        className="max-w-[130px] py-5 text-center break-keep wrap-break-word"
         dangerouslySetInnerHTML={{ __html: description }}
       ></div>
     </div>
