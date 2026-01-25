@@ -10,7 +10,7 @@ const WeddingDay = () => {
 
   const selectedYear = Number(weddingInfo?.weddingYear ?? today.getFullYear());
   const selectedMonth = Number(
-    weddingInfo?.weddingMonth ?? today.getMonth() + 1,
+    weddingInfo?.weddingMonth ?? today.getMonth() + 1
   );
   const selectedDay = Number(weddingInfo?.weddingDay ?? today.getDate());
 
@@ -18,8 +18,8 @@ const WeddingDay = () => {
     Date.UTC(
       Number(weddingInfo?.weddingYear ?? today.getFullYear()),
       Number(weddingInfo?.weddingMonth ?? today.getMonth() + 1) - 1,
-      Number(weddingInfo?.weddingDay ?? today.getDate()),
-    ),
+      Number(weddingInfo?.weddingDay ?? today.getDate())
+    )
   );
   const days: Array<string> = [
     "일요일",
@@ -36,7 +36,7 @@ const WeddingDay = () => {
     const firstDayOfWeek = new Date(
       selectedYear,
       selectedMonth - 1,
-      1,
+      1
     ).getDay(); // 0~6
     const lastDate = new Date(selectedYear, selectedMonth, 0).getDate(); // 말일
 
@@ -70,11 +70,11 @@ const WeddingDay = () => {
                 className="flex h-6 items-center justify-center rounded-full"
                 style={{
                   color:
-                    index % 7 === 0
+                    index % 7 === 0 && selectedDay !== day
                       ? "#AF0D0D"
                       : selectedDay === day
-                        ? "white"
-                        : "#433F3B",
+                      ? "#FFFFFF"
+                      : "#433F3B",
                   backgroundColor:
                     selectedDay === day ? themeFont?.accentColor : null,
                 }}
@@ -83,7 +83,7 @@ const WeddingDay = () => {
               </div>
             ) : (
               <div key={index} />
-            ),
+            )
           )}
         </div>
       </div>
