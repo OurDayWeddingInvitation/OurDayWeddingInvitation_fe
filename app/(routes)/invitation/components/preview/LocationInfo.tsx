@@ -34,19 +34,16 @@ const LocationInfo = ({ isLink }: { isLink: boolean }) => {
   };
 
   const openTmap = () => {
-    const address = locationInfo?.address;
-    if (!address) return;
-
-    const scheme = `tmap://`;
-    const store = /iPhone|iPad|iPod/i.test(navigator.userAgent)
-      ? "https://apps.apple.com/kr/app/id431589174"
-      : "https://play.google.com/store/apps/details?id=com.skt.tmap.ku";
-
-    window.location.href = scheme;
-
-    setTimeout(() => {
-      window.location.href = store;
-    }, 800);
+    // const address = locationInfo?.address;
+    // if (!address) return;
+    // const scheme = `tmap://`;
+    // const store = /iPhone|iPad|iPod/i.test(navigator.userAgent)
+    //   ? "https://apps.apple.com/kr/app/id431589174"
+    //   : "https://play.google.com/store/apps/details?id=com.skt.tmap.ku";
+    // window.location.href = scheme;
+    // setTimeout(() => {
+    //   window.location.href = store;
+    // }, 800);
   };
 
   const navigationBtn = [
