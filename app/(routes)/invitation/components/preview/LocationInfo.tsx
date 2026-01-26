@@ -42,6 +42,16 @@ const LocationInfo = ({ isLink }: { isLink: boolean }) => {
     fetchPosition();
   }, [locationInfo?.address, lat, lon]);
 
+  const transports = Array.from({ length: 5 }, (_, i) => {
+    const idx = i + 1;
+    return {
+      title:
+        locationInfo?.[`transport${idx}Title` as keyof typeof locationInfo],
+      message:
+        locationInfo?.[`transport${idx}Message` as keyof typeof locationInfo],
+    };
+  }).filter((t) => t.title || t.message);
+
   return (
     <div className="py-10 bg-[#FFFFFF]">
       <div className="text-center">
@@ -85,24 +95,16 @@ const LocationInfo = ({ isLink }: { isLink: boolean }) => {
             ))}
           </div>
         </FadeInSection>
-        <FadeInSection enabled={isLink}>
-          <div className="py-3 flex flex-col gap-2">
-            <span className="font-bold">지하철</span>
-            <div>
-              <p>· 5호선 발산역 3번 출구 방향 1분 이내</p>
-              <p>· 9호선 양천향교역 6번 출구 도보 10분 직진</p>
+        {transports.map((t, idx) => (
+          <FadeInSection enabled={isLink} key={idx}>
+            <div className="py-3 flex flex-col gap-2">
+              {t.title && <span className="font-bold">{t.title}</span>}
+              {t.message && (
+                <div dangerouslySetInnerHTML={{ __html: t.message }} />
+              )}
             </div>
-          </div>
-        </FadeInSection>
-        <FadeInSection enabled={isLink}>
-          <div className="pb-3 flex flex-col gap-2">
-            <span className="font-bold">버스</span>
-            <div>
-              <p>지선버스 6630, 6632, 6642, 6645, 6648, 6657, 6712</p>
-              <p>간선버스 601, 605, 652, 654, 661</p>
-            </div>
-          </div>
-        </FadeInSection>
+          </FadeInSection>
+        ))}
       </div>
     </div>
   );
