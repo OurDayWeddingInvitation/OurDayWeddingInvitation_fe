@@ -14,11 +14,49 @@ const LocationInfo = ({ isLink }: { isLink: boolean }) => {
   const locationInfo = useLocationInfoStore((s) => s.locationInfo);
   const [lat, setLat] = useState<number>(0);
   const [lon, setLon] = useState<number>(0);
+  const openNaverMap = () => {
+    const address = locationInfo?.address;
+    if (!address) return;
+
+    const url = `https://map.naver.com/v5/search/${encodeURIComponent(
+      address,
+    )}`;
+    window.open(url);
+  };
+
+  const openKakaoMap = () => {
+    const address = locationInfo?.address;
+    if (!address) return;
+
+    const url = `https://map.kakao.com/?q=${encodeURIComponent(address)}`;
+
+    window.open(url);
+  };
+
+  const openTmap = () => {
+    const address = locationInfo?.address;
+    if (!address) return;
+
+    const url = `https://www.tmap.co.kr/search?keyword=${encodeURIComponent(address)}`;
+    window.open(url);
+  };
 
   const navigationBtn = [
-    { img: NaverMap, name: "네이버지도" },
-    { img: Tmap, name: "티맵" },
-    { img: KakaoIconMap, name: "카카오맵" },
+    {
+      img: NaverMap,
+      name: "네이버지도",
+      onClick: openNaverMap,
+    },
+    {
+      img: Tmap,
+      name: "티맵",
+      onClick: openTmap,
+    },
+    {
+      img: KakaoIconMap,
+      name: "카카오맵",
+      onClick: openKakaoMap,
+    },
   ];
 
   useEffect(() => {
@@ -86,6 +124,7 @@ const LocationInfo = ({ isLink }: { isLink: boolean }) => {
           <div className="flex gap-3 justify-center border-b border-[#E0E0E0] pb-6">
             {navigationBtn.map((item, idx) => (
               <button
+                onClick={item.onClick}
                 className="flex bg-[#FFFFFF] rounded-[5px] cursor-pointer px-3 py-1 gap-1 shadow-[2px_4px_4px_rgba(0,0,0,0.1)]"
                 key={idx}
               >
