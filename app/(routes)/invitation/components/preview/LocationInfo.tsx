@@ -40,7 +40,7 @@ const LocationInfo = ({ isLink }: { isLink: boolean }) => {
     };
 
     fetchPosition();
-  }, [locationInfo?.address]);
+  }, [locationInfo?.address, lat, lon]);
 
   return (
     <div className="py-10 bg-[#FFFFFF]">
@@ -62,7 +62,7 @@ const LocationInfo = ({ isLink }: { isLink: boolean }) => {
         </FadeInSection>
         <FadeInSection enabled={isLink}>
           <div className="pb-5">
-            <KakaoMap lat={lat} lon={lon} isOpen={true} />
+            <KakaoMap lat={lat} lon={lon} isOpen={true} key={`${lat}-${lon}`} />
           </div>
         </FadeInSection>
       </div>

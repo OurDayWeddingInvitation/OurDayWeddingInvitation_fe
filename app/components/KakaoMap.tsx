@@ -1,5 +1,6 @@
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
+import { useWeddingIdStore } from "../store/useWeddingIdStore";
 
 export default function KakaoMap({
   lat,
@@ -14,6 +15,7 @@ export default function KakaoMap({
   const mapInstance = useRef(null);
   const markerInstance = useRef(null);
   const [isReady, setIsReady] = useState(false);
+  const weddingId = useWeddingIdStore((s) => s.weddingId);
 
   // SDK 상태를 강제로 체크하는 로직
   useEffect(() => {
@@ -60,7 +62,7 @@ export default function KakaoMap({
     }, 100);
 
     return () => clearTimeout(timeoutId);
-  }, [isReady, isOpen, lat, lon]);
+  }, [isReady, isOpen, lat, lon, weddingId]);
 
   return (
     <>
@@ -77,7 +79,7 @@ export default function KakaoMap({
         style={{
           width: "100%",
           height: "359px",
-          display: isOpen ? "block" : "none",
+          // display: isOpen ? "block" : "none",
         }}
       />
     </>
