@@ -37,20 +37,18 @@ const LocationInfo = ({ isLink }: { isLink: boolean }) => {
     const address = locationInfo?.address;
     if (!address) return;
 
-    const encodedAddr = encodeURIComponent(address);
+    const scheme = `tmap://`;
+    const store = /iPhone|iPad|iPod/i.test(navigator.userAgent)
+      ? "https://apps.apple.com/kr/app/id431589174"
+      : "https://play.google.com/store/apps/details?id=com.skt.tmap.ku";
 
-    const appUrl = `tmap://search?name=${encodedAddr}`;
+    window.location.href = scheme;
 
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      window.location.href = appUrl;
-
-      setTimeout(() => {
-        window.open(`https://www.tmap.co.kr/`, "_blank");
-      }, 2000);
-    } else {
-      window.open(`https://www.tmap.co.kr/`, "_blank");
-    }
+    setTimeout(() => {
+      window.location.href = store;
+    }, 800);
   };
+
   const navigationBtn = [
     {
       img: NaverMap,
