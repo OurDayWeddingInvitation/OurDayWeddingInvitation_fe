@@ -31,11 +31,7 @@ const Mainstyle3 = ({
       >
         {mainImageInfo ? (
           <img
-            src={
-              mainImageInfo.editedUrl
-                ? getImagePath(mainImageInfo.editedUrl)
-                : getImagePath(mainImageInfo.originalUrl)
-            }
+            src={`${imageUrl}?v=${cacheVer}`}
             alt="메인 이미지"
             className="aspect-2/3 object-cover"
           />
