@@ -18,17 +18,17 @@ const ParentsInfo = ({ isLink }: { isLink: boolean }) => {
   const groomParentsImageUrl = parentsImageInfo?.groomParentsImage
     ? `${getImagePath(
         parentsImageInfo?.groomParentsImage?.editedUrl ??
-          parentsImageInfo?.groomParentsImage?.originalUrl,
+          parentsImageInfo?.groomParentsImage?.originalUrl
       )}?v=${new Date(
-        parentsImageInfo?.groomParentsImage?.updatedAt,
+        parentsImageInfo?.groomParentsImage?.updatedAt
       ).getTime()}`
     : "";
   const brideParentsImageUrl = parentsImageInfo?.brideParentsImage
     ? `${getImagePath(
         parentsImageInfo?.brideParentsImage?.editedUrl ??
-          parentsImageInfo?.brideParentsImage?.originalUrl,
+          parentsImageInfo?.brideParentsImage?.originalUrl
       )}?v=${new Date(
-        parentsImageInfo?.brideParentsImage?.updatedAt,
+        parentsImageInfo?.brideParentsImage?.updatedAt
       ).getTime()}`
     : "";
 
@@ -74,7 +74,7 @@ const ParentsInfo = ({ isLink }: { isLink: boolean }) => {
           <span>{parentsIntroTitle}</span>
         </FadeInSection>
         <FadeInSection enabled={isLink}>
-          <div className="flex flex-col items-center py-10">
+          <div className="flex flex-col items-center py-10 px-4">
             <p className="whitespace-pre-wrap text-center">
               {parentsIntroInfoMessage}
             </p>
