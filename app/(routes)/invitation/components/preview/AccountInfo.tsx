@@ -112,63 +112,62 @@ const AccountInfo = ({ isLink }: { isLink: boolean }) => {
       <FadeInSection enabled={isLink}>
         <div className="flex flex-col gap-2 px-5">
           <Accordion type="multiple" className="flex flex-col gap-2">
-            {orderedAccountInfo.map((group, idx) => (
-              <AccordionItem
-                key={idx}
-                value={group.key}
-                className="bg-[#FFFFFF] border rounded-[10px] py-3 px-5"
-                style={{ borderColor: group.borderColor }}
-              >
-                <AccordionTrigger className="cursor-pointer flex justify-between w-full group">
-                  <div
-                    className="font-bold"
-                    style={{ color: group.titleColor }}
-                  >
-                    {group.title}
-                  </div>
-                  <ChevronDown
-                    className="transition-transform duration-300 group-data-[state=open]:-rotate-180"
-                    color={group.chevronColor}
-                  />
-                </AccordionTrigger>
+            {orderedAccountInfo.map((group, idx) => {
+              const filteredAccounts = group.accounts.filter(
+                (acc) => acc.holder || acc.bank || acc.number
+              );
 
-                <AccordionContent className="py-4 flex flex-col gap-2">
-                  {group.accounts
-                    .filter(
-                      (acc) =>
-                        acc.label === "신랑님" ||
-                        acc.label === "신부님" ||
-                        acc.holder ||
-                        acc.bank ||
-                        acc.number
-                    )
-                    .map((acc, idx, filteredArr) => (
-                      <React.Fragment key={idx}>
-                        <div className="flex gap-1">
-                          <h3>{acc.label}</h3>
-                          <span>{acc.holder}</span>
-                        </div>
+              return (
+                <AccordionItem
+                  key={idx}
+                  value={group.key}
+                  className="bg-[#FFFFFF] border rounded-[10px] py-3 px-5"
+                  style={{ borderColor: group.borderColor }}
+                >
+                  <AccordionTrigger className="cursor-pointer flex justify-between w-full group">
+                    <div
+                      className="font-bold"
+                      style={{ color: group.titleColor }}
+                    >
+                      {group.title}
+                    </div>
+                    <ChevronDown
+                      className="transition-transform duration-300 group-data-[state=open]:-rotate-180"
+                      color={group.chevronColor}
+                    />
+                  </AccordionTrigger>
 
-                        <div className="flex justify-between items-center">
-                          <p>{`${acc.bank ?? ""} ${acc.number ?? ""}`}</p>
-                          <span
-                            className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
-                            onClick={() => {
-                              handleCopy(
-                                `${acc.bank ?? ""} ${acc.number ?? ""}`
-                              );
-                            }}
-                          >
-                            <Copy color="#CACACA" size={16} />
-                          </span>
-                        </div>
+                  {filteredAccounts.length > 0 && (
+                    <AccordionContent className="py-4 flex flex-col gap-2">
+                      {filteredAccounts.map((acc, idx) => (
+                        <React.Fragment key={idx}>
+                          <div className="flex gap-1">
+                            <h3>{acc.label}</h3>
+                            <span>{acc.holder}</span>
+                          </div>
 
-                        {idx !== filteredArr.length - 1 && <Divider />}
-                      </React.Fragment>
-                    ))}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
+                          <div className="flex justify-between items-center">
+                            <p>{`${acc.bank ?? ""} ${acc.number ?? ""}`}</p>
+                            <span
+                              className="p-2 rounded-full shadow-[2px_4px_4px_rgba(0,0,0,0.1)] cursor-pointer"
+                              onClick={() => {
+                                handleCopy(
+                                  `${acc.bank ?? ""} ${acc.number ?? ""}`
+                                );
+                              }}
+                            >
+                              <Copy color="#CACACA" size={16} />
+                            </span>
+                          </div>
+
+                          {idx !== filteredAccounts.length - 1 && <Divider />}
+                        </React.Fragment>
+                      ))}
+                    </AccordionContent>
+                  )}
+                </AccordionItem>
+              );
+            })}
           </Accordion>
         </div>
       </FadeInSection>
