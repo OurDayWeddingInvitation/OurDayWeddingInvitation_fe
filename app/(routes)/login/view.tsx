@@ -10,9 +10,7 @@ export default function LoginView() {
     // const clientApiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
 
     const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-    const path = baseUrl.includes("localhost")
-      ? "/api/auth/naver/callback"
-      : "/auth/naver/callback";
+    const path = "/api/auth/naver/callback";
 
     const redirectUri = encodeURIComponent(
       // `${clientApiDomain}/auth/naver/callback`,
@@ -36,8 +34,7 @@ export default function LoginView() {
       <div className="flex w-full h-screen items-center justify-center overflow-hidden">
         <div
           onClick={() => {
-            getNaverLoginUrl();
-            // window.location.href = getNaverLoginUrl();
+            window.location.href = getNaverLoginUrl();
           }}
           className="flex items-center justify-center w-60 h-[52px] bg-[#03C75A] rounded-[5px] cursor-pointer gap-2"
         >
