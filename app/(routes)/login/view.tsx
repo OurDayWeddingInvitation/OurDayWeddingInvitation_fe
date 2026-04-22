@@ -7,13 +7,19 @@ import Image from "next/image";
 export default function LoginView() {
   const getNaverLoginUrl = () => {
     const clientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
-    const clientApiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
+    // const clientApiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
+
+    const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+    const path = baseUrl.includes("localhost")
+      ? "/api/auth/naver/callback"
+      : "/auth/naver/callback";
 
     const redirectUri = encodeURIComponent(
-      `${clientApiDomain}/auth/naver/callback`
+      // `${clientApiDomain}/auth/naver/callback`,
+      `${baseUrl}${path}`,
     );
 
-    console.log(redirectUri);
+    console.log(decodeURIComponent(redirectUri));
     const state = crypto.randomUUID();
 
     return `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
