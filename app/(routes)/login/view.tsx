@@ -19,6 +19,7 @@ export default function LoginView() {
       `${baseUrl}${path}`,
     );
 
+    console.log("baseUrl:", baseUrl);
     console.log(decodeURIComponent(redirectUri));
     const state = crypto.randomUUID();
 
@@ -35,7 +36,8 @@ export default function LoginView() {
       <div className="flex w-full h-screen items-center justify-center overflow-hidden">
         <div
           onClick={() => {
-            window.location.href = getNaverLoginUrl();
+            getNaverLoginUrl();
+            // window.location.href = getNaverLoginUrl();
           }}
           className="flex items-center justify-center w-60 h-[52px] bg-[#03C75A] rounded-[5px] cursor-pointer gap-2"
         >
