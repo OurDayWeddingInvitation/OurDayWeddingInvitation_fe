@@ -9,16 +9,10 @@ export default function LoginView() {
     const clientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
     const clientApiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
 
-    const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-    const path = "/api/auth/naver/callback";
-
     const redirectUri = encodeURIComponent(
-      baseUrl.includes("localhost")
-        ? `${baseUrl}${path}`
-        : `${clientApiDomain}/auth/naver/callback`,
+      `${clientApiDomain}/auth/naver/callback`,
     );
 
-    console.log("baseUrl:", baseUrl);
     console.log(decodeURIComponent(redirectUri));
     const state = crypto.randomUUID();
 
