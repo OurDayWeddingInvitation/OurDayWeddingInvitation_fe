@@ -19,7 +19,7 @@ import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import Form from "../components/form/Form";
-import Preview from "../components/preview/preview";
+import Preview from "../components/preview/Preview";
 import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
 import { useWeddingTitleStore } from "@/app/store/useWeddingTitleStore";
 import { getInvitationsDetail } from "@/app/lib/fetches/invitation";
@@ -71,7 +71,6 @@ export default function InvitationView({
   const setMenuSetting = useMenuSettingStore((s) => s.setMenuSetting);
 
   useEffect(() => {
-    console.log("????");
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchInvitations();
   }, [fetchInvitations]);
@@ -189,7 +188,7 @@ export default function InvitationView({
         showLogout={false}
       />
       {invitationDetail && (
-        <div className="max-w-300 pt-20 flex mx-auto gap-8.5 relative h-screen overflow-hidden">
+        <div className="max-w-300 pt-20 flex mx-auto gap-8.5 relative h-screen overflow-hidden px-2">
           <div
             className="max-w-100 overflow-y-scroll [&::-webkit-scrollbar]:hidden w-full pb-14.5"
             style={{
@@ -206,7 +205,7 @@ export default function InvitationView({
             </ul>
           </div>
           <div
-            className="max-w-[736px] w-full pb-14.5 overflow-y-scroll [&::-webkit-scrollbar]:hidden"
+            className="max-w-[736px] w-full pb-14.5 overflow-y-scroll [&::-webkit-scrollbar]:hidden rounded-lg"
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",

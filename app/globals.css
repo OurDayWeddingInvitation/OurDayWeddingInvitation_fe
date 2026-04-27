@@ -6,6 +6,22 @@
 html,
 body {
   font-family: "Escoredream", sans-serif;
+
+  /* 스크롤바 css 설정 */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #d1d1d6;
+    border-radius: 10px;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+  }
 }
 
 :root {

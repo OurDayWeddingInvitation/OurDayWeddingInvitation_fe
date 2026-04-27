@@ -18,7 +18,7 @@ const SelectBox = ({
 
   const inputStyle =
     "outline-0 flex-1 border-[#E0E0E0] border placeholder:text-center rounded-sm text-sm py-1.5 px-2.5";
-  const selectStyle = `${inputStyle} relative flex justify-around cursor-pointer`;
+  const selectStyle = `${inputStyle} relative flex justify-between cursor-pointer`;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -46,10 +46,8 @@ const SelectBox = ({
 
       {open && (
         <ul
-          className="absolute top-full left-0 w-full bg-[#FFFFFF] rounded mt-1 border-[#E0E0E0] border scrollbar-hide z-50  overflow-scroll [&::-webkit-scrollbar]:hidden"
+          className="absolute top-full left-0 w-full bg-[#FFFFFF] rounded mt-1 border-[#E0E0E0] border z-50  overflow-y-scroll custom-scrollbar"
           style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
             height: 160,
           }}
         >
@@ -59,7 +57,7 @@ const SelectBox = ({
             return (
               <li
                 key={idx}
-                className="px-3 py-2 hover:bg-[#D4C6B7] hover:text-[#FFFFFF] cursor-pointer flex items-center gap-1"
+                className="px-2 py-2 hover:bg-[#D4C6B7] hover:text-[#FFFFFF] cursor-pointer flex items-center gap-1 text-sm "
                 value={selectValue}
                 onClick={() => {
                   onChange(selectValue);
@@ -67,7 +65,7 @@ const SelectBox = ({
                 }}
               >
                 <Check
-                  size={16}
+                  size={14}
                   className={
                     initialValue === selectValue ? "opacity-100" : "opacity-0"
                   }

@@ -13,8 +13,6 @@ export default function DashboardView() {
   const fetchInvitations = useCallback(async () => {
     const data = await getInvitations();
 
-    console.log(data);
-
     setResponse(data);
   }, []);
 

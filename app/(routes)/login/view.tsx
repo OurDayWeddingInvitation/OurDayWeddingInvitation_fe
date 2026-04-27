@@ -13,7 +13,6 @@ export default function LoginView() {
       `${clientApiDomain}/auth/naver/callback`,
     );
 
-    console.log(decodeURIComponent(redirectUri));
     const state = crypto.randomUUID();
 
     return `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
@@ -27,15 +26,20 @@ export default function LoginView() {
         showLogout={false}
       />
       <div className="flex w-full h-screen items-center justify-center overflow-hidden">
-        <div
+        <button
           onClick={() => {
             window.location.href = getNaverLoginUrl();
           }}
           className="flex items-center justify-center w-60 h-[52px] bg-[#03C75A] rounded-[5px] cursor-pointer gap-2"
         >
-          <Image src={NaverIcon} alt="naver" width={36} height={36} />
+          <Image
+            src={NaverIcon}
+            alt="naver login button"
+            width={36}
+            height={36}
+          />
           <p className="font-bold text-base text-white">네이버 로그인</p>
-        </div>
+        </button>
       </div>
     </>
   );

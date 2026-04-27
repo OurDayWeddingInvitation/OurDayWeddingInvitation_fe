@@ -22,7 +22,5 @@ export const getInvitationsDetail = async (weddingId: string) => {
       })
     )?.data ?? [];
 
-  console.log(data);
-
   return data as InvitationDetail;
 };

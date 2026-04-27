@@ -17,7 +17,7 @@ const InvitationMessage = ({ isLink }: { isLink: boolean }) => {
       <div className="flex flex-col items-center px-5 py-10">
         <FadeInSection enabled={isLink}>
           <p
-            className="leading-[100%] tracking-[0.375rem] pb-2.5"
+            className="] tracking-[0.375rem] pb-3"
             style={{
               fontSize: themeFont?.fontSize ?? 14,
               fontFamily: fontFamily ?? "",
@@ -29,7 +29,7 @@ const InvitationMessage = ({ isLink }: { isLink: boolean }) => {
         </FadeInSection>
         <FadeInSection enabled={isLink}>
           <p
-            className="font-bold text-base leading-[100%] pb-10 text-center"
+            className="font-bold text-base pb-10 text-center"
             style={{
               fontSize: themeFont?.fontSize ?? 14,
               fontFamily: fontFamily ?? "",

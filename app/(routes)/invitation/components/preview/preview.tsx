@@ -4,7 +4,6 @@ import { fontList, previewComponents } from "@/app/lib/constants";
 import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
 
-import { FadeInSection } from "../FadeInSection";
 import { useEffect } from "react";
 import { useLoadingScreenStore } from "@/app/store/useLoadingScreenStore";
 import IntroLoader1 from "./introLoader/IntroLoader1";
@@ -39,8 +38,7 @@ const Preview = ({ isLink = false }: { isLink?: boolean }) => {
       </Head>
       {!isLink ? (
         <div>
-          <div className="relative h-[720px] overflow-scroll [&::-webkit-scrollbar]:hidden z-99">
-            {/* <Image src={Mockup} alt="미리보기목업" className="absolute left-0 top-0 w-full overflow-hidden border" /> */}
+          <div className="relative h-[720px] overflow-scroll [&::-webkit-scrollbar]:hidden z-99 rounded-lg">
             <div
               style={{
                 scrollbarWidth: "none",

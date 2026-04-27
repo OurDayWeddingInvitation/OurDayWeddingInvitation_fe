@@ -24,7 +24,7 @@ const ColorFontSection = () => {
   const fieldGroup = "flex flex-col gap-2.5 w-full";
   const fieldStyle = "flex flex-wrap items-center";
   const labelStyle = "w-1/6 min-w-[50px]";
-  const contentStyle = "flex flex-1 gap-2.5 items-center flex-wrap";
+  const contentStyle = "flex flex-1 gap-2.5 items-center";
 
   const themeColorArr = [
     "#FFF6FB",

@@ -12,7 +12,7 @@ import { useThemeFontStore } from "@/app/store/useThemeFontStore";
 import { useWeddingIdStore } from "@/app/store/useWeddingIdStore";
 import { useWeddingInfoStore } from "@/app/store/useWeddingInfoStore";
 import { useEffect } from "react";
-import Preview from "../../invitation/components/preview/preview";
+import Preview from "../../invitation/components/preview/Preview";
 import { useMenuSettingStore } from "@/app/store/useMenuSettingInfoStore";
 
 export default function LinkView({
